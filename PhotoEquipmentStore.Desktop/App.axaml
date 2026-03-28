@@ -12,4 +12,12 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+             
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="Roboto">
+                avares://YourApp/Assets/Fonts/#Roboto
+            </FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
