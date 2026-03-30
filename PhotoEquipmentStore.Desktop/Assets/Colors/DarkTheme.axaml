@@ -1,18 +1,18 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Name="primary" Color="#4E6EF5"/>
-    <SolidColorBrush x:Name="accent" Color="#F5A623"/>
-    <SolidColorBrush x:Name="success" Color="#2ECC71"/>
-    <SolidColorBrush x:Name="warning" Color="#F39C12"/>
-    <SolidColorBrush x:Name="error" Color="#E74C3C"/>
-    <SolidColorBrush x:Name="info" Color="#3498DB"/>
+    <SolidColorBrush x:Key="primary" Color="#4E6EF5"/>
+    <SolidColorBrush x:Key="accent" Color="#F5A623"/>
+    <SolidColorBrush x:Key="success" Color="#2ECC71"/>
+    <SolidColorBrush x:Key="warning" Color="#F39C12"/>
+    <SolidColorBrush x:Key="error" Color="#E74C3C"/>
+    <SolidColorBrush x:Key="info" Color="#3498DB"/>
     
-    <SolidColorBrush x:Name="main_background" Color="#0D0F14"/>
-    <SolidColorBrush x:Name="secondary_background" Color="#151820"/>
-    <SolidColorBrush x:Name="surface" Color="#1E2130"/>
-    <SolidColorBrush x:Name="raised" Color="#262A3E"/>
-    <SolidColorBrush x:Name="main_text" Color="#E8ECF5"/>
-    <SolidColorBrush x:Name="secondary_text" Color="#8B94B3"/>
-    <SolidColorBrush x:Name="muted_text" Color="#545B7A"/>
-    <SolidColorBrush x:Name="border" Color="#2E3450"/>
+    <SolidColorBrush x:Key="main_background" Color="#0D0F14"/>
+    <SolidColorBrush x:Key="secondary_background" Color="#151820"/>
+    <SolidColorBrush x:Key="surface" Color="#1E2130"/>
+    <SolidColorBrush x:Key="raised" Color="#262A3E"/>
+    <SolidColorBrush x:Key="main_text" Color="#E8ECF5"/>
+    <SolidColorBrush x:Key="secondary_text" Color="#8B94B3"/>
+    <SolidColorBrush x:Key="muted_text" Color="#545B7A"/>
+    <SolidColorBrush x:Key="border" Color="#2E3450"/>
 </ResourceDictionary>
