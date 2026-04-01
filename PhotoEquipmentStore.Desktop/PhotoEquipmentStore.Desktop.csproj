@@ -33,6 +33,5 @@
 
     <ItemGroup>
       <Folder Include="Assets\Icons\" />
-      <Folder Include="Assets\Style\" />
     </ItemGroup>
 </Project>

@@ -3,7 +3,6 @@
              x:Class="PhotoEquipmentStore.App"
              xmlns:local="using:PhotoEquipmentStore"
              RequestedThemeVariant="Light">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator/>
@@ -11,11 +10,16 @@
   
     <Application.Styles>
         <FluentTheme />
+
+        <StyleInclude Source="Assets/Style/TextStyle.axaml"/>
     </Application.Styles>
              
     <Application.Resources>
-        <FontFamily x:Key="Inter">
-            avares://YourApp/Assets/Fonts/#Inter
-        </FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                 <ResourceInclude Source="Assets/Colors/LightTheme.axaml"/>
+                 <ResourceInclude Source="Assets/Fonts/Fonts.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
