@@ -1,0 +1,339 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+    <Border >
+      <StackPanel Orientation="Horizontal" Background="{DynamicResource main_background}">
+        <StackPanel Spacing="20">
+          <Button Content="Primary" Margin="20"/>
+          <Button Content="Disabled" IsEnabled="False" Margin="20"/>
+        </StackPanel>
+        <StackPanel Spacing="20">
+          <Button Classes="Secondary" Content="Secondary" Margin="20"/>
+          <Button Classes="Secondary" Content="Secondary" Margin="20" IsEnabled="False"/>
+        </StackPanel>
+        <StackPanel Spacing="20">
+          <Button Classes="Ghost" Content="Ghost" Margin="20"/>
+          <Button Classes="Ghost" Content="Ghost" Margin="20" IsEnabled="False"/>
+        </StackPanel>
+        <StackPanel Spacing="20">
+          <Button Classes="Destructive" Content="Destructive" Margin="20"/>
+          <Button Classes="Destructive" Content="Destructive" Margin="20" IsEnabled="False"/>
+        </StackPanel>
+        <StackPanel Spacing="20">
+          <Button Classes="Icon" Margin="20">
+            <Button.Content>
+              <Path Data="{StaticResource Settings}"/>
+            </Button.Content>
+          </Button>
+          <Button Classes="Icon" Margin="20" IsEnabled="False">
+            <Button.Content>
+              <Path Data="{StaticResource Settings}"/>
+            </Button.Content>
+          </Button>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <Styles> <!-- Корневой контейнер для всех стилей -->
+
+  <Style Selector="Button"> <!-- Стиль применяется ко всем кнопкам (Button) -->
+    <Setter Property="FontFamily" Value="{DynamicResource Geologica}"/>
+    <!-- Базовые визуальные свойства кнопки -->
+    <Setter Property="Background" Value="{DynamicResource primary}" /> <!-- Фон кнопки -->
+    <Setter Property="Foreground" Value="{DynamicResource white}" /> <!-- Цвет текста -->
+    <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" /> <!-- Цвет рамки -->
+    <Setter Property="BorderThickness" Value="1" /> <!-- Толщина рамки -->
+    <Setter Property="CornerRadius" Value="8" /> <!-- Скругление углов -->
+    <Setter Property="Padding" Value="16 8" /> <!-- Внутренние отступы -->
+    <Setter Property="HorizontalAlignment" Value="Center" /> <!-- Выравнивание по горизонтали -->
+    <Setter Property="VerticalAlignment" Value="Center" /> <!-- Выравнивание по вертикали -->
+
+    <!-- Трансформация (например, масштаб при нажатии) -->
+    <Setter Property="RenderTransform" Value="none" /> <!-- По умолчанию без трансформации -->
+
+    <!-- Анимации -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <!-- Анимация изменения RenderTransform (например scale при нажатии) -->
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+      </Transitions>
+    </Setter>
+
+    <!-- Шаблон кнопки (как она визуально строится) -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Контейнер, который отображает содержимое кнопки -->
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}" 
+                          BorderThickness="{TemplateBinding BorderThickness}" 
+                          CornerRadius="{TemplateBinding CornerRadius}" 
+                          Content="{TemplateBinding Content}" 
+                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                          Padding="{TemplateBinding Padding}" 
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+    <!--  Background - Наследует фон кнопки -->
+    <!--  BorderBrush - Наследует рамку -->
+    <!--  BorderThickness - Толщину рамки -->
+    <!--  CornerRadius - Скругление -->
+    <!--  Content - (текст/иконка) -->
+    <!--  ContentTemplate - Шаблон контента -->
+    <!--  Padding - Отступы -->
+    <!--  HorizontalContentAlignment - Горизонтальное выравнивание -->
+    <!--  VerticalContentAlignment - Вертикальное выравнивание --> 
+    
+    <!-- Вложенный стиль для ContentPresenter внутри шаблона -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" /> <!-- Поддержка горячих клавиш (Alt + буква) -->
+    </Style>
+
+    <!-- Состояние: курсор наведен -->
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource primary}" /> <!-- Фон при наведении -->
+      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" /> <!-- Рамка -->
+      <Setter Property="Foreground" Value="{DynamicResource white}" /> <!-- Текст -->
+      <Setter Property="Opacity" Value="0.9"/> <!-- Прозрачность -->
+    </Style>
+
+    <!-- Состояние: кнопка нажата -->
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="scale(0.98)" /> <!-- Лёгкое уменьшение (эффект нажатия) -->
+    </Style>
+
+    <!-- Визуальные изменения при нажатии -->
+    <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource primary}" /> <!-- Фон при наведении -->
+      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" /> <!-- Рамка -->
+      <Setter Property="Foreground" Value="{DynamicResource white}" /> <!-- Текст -->
+      <Setter Property="Opacity" Value="0.9"/> <!-- Прозрачность -->
+    </Style>
+
+    <!-- Состояние: кнопка отключена -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource primary}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource white}"/>
+      <Setter Property="Opacity" Value="0.5"/> <!-- Прозрачность -->
+    </Style>
+
+    <!-- Дополнительный стиль для кнопок с классом "accent" -->
+    <Style Selector="^.Secondary">
+
+      <!-- Обычное состояние secondary-кнопки -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource secondary_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+      </Style>
+
+      <!-- Наведение -->
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+      </Style>
+
+      <!-- Нажатие -->
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+      </Style>
+
+      <!-- Отключено -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.5"/>
+      </Style>
+    </Style>
+    <Style Selector="^.Ghost">
+      <!-- Обычное состояние ghost-кнопки -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource secondary_text}"/>
+        <Setter Property="Opacity" Value="0.9"/>
+      </Style>
+
+      <!-- Наведение -->
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+      </Style>
+
+      <!-- Нажатие -->
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+      </Style>
+
+      <!-- Отключено -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="Opacity" Value="0.5"/>
+      </Style>
+    </Style>
+    
+    <Style Selector="^.Destructive">
+      <!-- Обычное состояние Destructive-кнопки -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+      </Style>
+
+      <!-- Наведение -->
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.9"/>
+      </Style>
+
+      <!-- Нажатие -->
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.9"/>
+      </Style>
+
+      <!-- Отключено -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.5"/>
+      </Style>
+    </Style>
+    
+    <Style Selector="^.Destructive">
+      <!-- Обычное состояние Destructive-кнопки -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+      </Style>
+
+      <!-- Наведение -->
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.9"/>
+      </Style>
+
+      <!-- Нажатие -->
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.9"/>
+      </Style>
+
+      <!-- Отключено -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource error_backgraund}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource error}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.5"/>
+      </Style>
+    </Style>
+    <!-- Дополнительный стиль для кнопок с классом "accent" -->
+    <Style Selector="^.Icon">
+
+      <!-- Обычное состояние icon-кнопки -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Background" Value="{DynamicResource secondary_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Style Selector="^ Path">
+          <Setter Property="Width" Value="20"/>
+          <Setter Property="Height" Value="20"/>
+          <Setter Property="Stroke" Value="{DynamicResource main_text}"/>
+          <Setter Property="StrokeThickness" Value="2"/>
+          <Setter Property="Stretch" Value="Uniform"/>
+        </Style>
+      </Style>
+      
+      <Style Selector="^ Path">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="Stretch" Value="Uniform"/>
+      </Style>
+
+      <!-- Наведение -->
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Style Selector="^ Path">
+          <Setter Property="Width" Value="20"/>
+          <Setter Property="Height" Value="20"/>
+          <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
+          <Setter Property="StrokeThickness" Value="2"/>
+          <Setter Property="Stretch" Value="Uniform"/>
+        </Style>
+      </Style>
+      
+      <!-- Нажатие  -->
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Style Selector="^ Path">
+          <Setter Property="Width" Value="20"/>
+          <Setter Property="Height" Value="20"/>
+          <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
+          <Setter Property="StrokeThickness" Value="2"/>
+          <Setter Property="Stretch" Value="Uniform"/>
+        </Style>
+      </Style>
+
+      <!-- Отключено -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.5"/>
+        <Style Selector="^ Path">
+          <Setter Property="Width" Value="20"/>
+          <Setter Property="Height" Value="20"/>
+          <Setter Property="Stroke" Value="{DynamicResource muted_text}"/>
+          <Setter Property="StrokeThickness" Value="2"/>
+          <Setter Property="Stretch" Value="Uniform"/>
+        </Style>
+      </Style>
+    </Style>
+    </Style>
+  </Styles>
+</Styles>

@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <Border Padding="20">
+        <Border Padding="20" Background="{DynamicResource main_background}">
             <StackPanel Spacing="15">
                 <TextBlock Classes="H1">H1 Профессиональная система управленения</TextBlock>
                 <TextBlock Classes="H2">H2 Профессиональная система управленения</TextBlock>

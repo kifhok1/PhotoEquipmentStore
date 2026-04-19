@@ -18,6 +18,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // SvgBuilder.Configure();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 

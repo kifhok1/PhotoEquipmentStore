@@ -15,9 +15,4 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Classes="H1"
-               Text="{Binding Greeting}" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Center"/>
-
 </Window>

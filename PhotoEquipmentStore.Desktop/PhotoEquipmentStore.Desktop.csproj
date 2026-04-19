@@ -30,8 +30,4 @@
     <ItemGroup>
       <ProjectReference Include="..\PhotoEquipmentStore.Application\PhotoEquipmentStore.Application.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Assets\Icons\" />
-    </ItemGroup>
 </Project>
