@@ -274,8 +274,8 @@
         <Style Selector="^ Path">
           <Setter Property="Width" Value="20"/>
           <Setter Property="Height" Value="20"/>
-          <Setter Property="Stroke" Value="{DynamicResource main_text}"/>
-          <Setter Property="StrokeThickness" Value="2"/>
+          <Setter Property="Fill" Value="{DynamicResource secondary_text}"/>
+          <Setter Property="StrokeThickness" Value="0"/>
           <Setter Property="Stretch" Value="Uniform"/>
         </Style>
       </Style>
@@ -283,8 +283,8 @@
       <Style Selector="^ Path">
         <Setter Property="Width" Value="20"/>
         <Setter Property="Height" Value="20"/>
-        <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
-        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="Fill" Value="{DynamicResource secondary_text}"/>
+        <Setter Property="StrokeThickness" Value="0"/>
         <Setter Property="Stretch" Value="Uniform"/>
       </Style>
 
