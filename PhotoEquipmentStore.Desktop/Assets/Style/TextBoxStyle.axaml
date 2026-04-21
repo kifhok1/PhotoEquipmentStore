@@ -1,6 +1,7 @@
 <!-- Корневой контейнер стилей Avalonia -->
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
     <!-- Превью в дизайнере -->
     <Design.PreviewWith>
@@ -11,6 +12,13 @@
               <StackPanel Spacing="15">
                 <TextBox VerticalAlignment="Center" Watermark="123">123</TextBox>
                 <TextBox VerticalAlignment="Center" Watermark="123"></TextBox>
+                <TextBox VerticalAlignment="Center" Watermark="123"><DataValidationErrors.Error>
+                  <system:Exception>
+                    <x:Arguments>
+                      <x:String>123</x:String>
+                    </x:Arguments>
+                  </system:Exception>
+                </DataValidationErrors.Error></TextBox>
               </StackPanel>
               <StackPanel Spacing="15">
                 <TextBox VerticalAlignment="Center" Watermark="123" IsEnabled="False">123</TextBox>
@@ -29,6 +37,7 @@
         <Setter Property="Foreground" Value="{DynamicResource main_text}" /> <!-- Цвет текста -->
         <Setter Property="FontFamily" Value="{DynamicResource Geologica}"/> <!-- Шрифт текта -->
         <Setter Property="Background" Value="{DynamicResource secondary_background}" /> <!-- Фон -->
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="CaretBrush" Value="{DynamicResource primary}" /> <!-- Цвет курсора -->
         <Setter Property="BorderBrush" Value="{DynamicResource border}" /> <!-- Цвет границы -->
         <Setter Property="SelectionBrush" Value="{DynamicResource secondary_text}" /> <!-- Цвет выделения -->
@@ -227,15 +236,17 @@
                     </Style>
                 </ToggleButton.Styles>
                 <Panel>
-                    <PathIcon Data="{StaticResource Eye}"
-                              Height="14" Width="14"
-                              Foreground="{DynamicResource main_text}"
-                              Background="Transparent"
+                    <Path Data="{StaticResource Eye}"
+                              Margin="0 -5 0 0"
+                              Stroke="{DynamicResource main_text}"
+                              Fill="Transparent"
+                              StrokeThickness="2"
                               IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
-                    <PathIcon Data="{StaticResource EyeClose}"
-                              Height="14" Width="14"
-                              Foreground="{DynamicResource main_text}"
-                              Background="Transparent"
+                    <Path Data="{StaticResource EyeClose}"
+                              Margin="0 -5 0 0"
+                              Fill="Transparent"
+                              StrokeThickness="2"
+                              Stroke="{DynamicResource main_text}"
                               IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
                 </Panel>
             </ToggleButton>

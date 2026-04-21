@@ -274,8 +274,9 @@
         <Style Selector="^ Path">
           <Setter Property="Width" Value="20"/>
           <Setter Property="Height" Value="20"/>
-          <Setter Property="Fill" Value="{DynamicResource secondary_text}"/>
-          <Setter Property="StrokeThickness" Value="0"/>
+          <Setter Property="Margin" Value="1 0 -1 0 "/>
+          <Setter Property="Stroke" Value="{DynamicResource main_text}"/>
+          <Setter Property="StrokeThickness" Value="2"/>
           <Setter Property="Stretch" Value="Uniform"/>
         </Style>
       </Style>
@@ -283,8 +284,9 @@
       <Style Selector="^ Path">
         <Setter Property="Width" Value="20"/>
         <Setter Property="Height" Value="20"/>
-        <Setter Property="Fill" Value="{DynamicResource secondary_text}"/>
-        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="Margin" Value="1 0 -1 0 "/>
+        <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
+        <Setter Property="StrokeThickness" Value="2"/>
         <Setter Property="Stretch" Value="Uniform"/>
       </Style>
 
@@ -297,6 +299,7 @@
         <Style Selector="^ Path">
           <Setter Property="Width" Value="20"/>
           <Setter Property="Height" Value="20"/>
+          <Setter Property="Margin" Value="1 0 -1 0 "/>
           <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
           <Setter Property="StrokeThickness" Value="2"/>
           <Setter Property="Stretch" Value="Uniform"/>
@@ -312,6 +315,7 @@
         <Style Selector="^ Path">
           <Setter Property="Width" Value="20"/>
           <Setter Property="Height" Value="20"/>
+          <Setter Property="Margin" Value="1 0 -1 0 "/>
           <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
           <Setter Property="StrokeThickness" Value="2"/>
           <Setter Property="Stretch" Value="Uniform"/>
@@ -328,6 +332,7 @@
         <Style Selector="^ Path">
           <Setter Property="Width" Value="20"/>
           <Setter Property="Height" Value="20"/>
+          <Setter Property="Margin" Value="1 0 -1 0 "/>
           <Setter Property="Stroke" Value="{DynamicResource muted_text}"/>
           <Setter Property="StrokeThickness" Value="2"/>
           <Setter Property="Stretch" Value="Uniform"/>
