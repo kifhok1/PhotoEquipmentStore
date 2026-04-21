@@ -10,8 +10,9 @@
   
     <Application.Styles>
         <FluentTheme />
-
         <StyleInclude Source="Assets/Style/TextStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ComboBoxStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ComboBoxItemsStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ButtonStyle.axaml"/>
     </Application.Styles>
              

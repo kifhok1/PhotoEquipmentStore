@@ -236,18 +236,22 @@
                     </Style>
                 </ToggleButton.Styles>
                 <Panel>
-                    <Path Data="{StaticResource Eye}"
-                              Margin="0 -5 0 0"
-                              Stroke="{DynamicResource main_text}"
-                              Fill="Transparent"
-                              StrokeThickness="2"
-                              IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
+                  <Viewbox Width="18" Height="18">
+                  <Path Data="{StaticResource Eye}"
+                        Margin="0 0 3 6"
+                        Stroke="{DynamicResource main_text}"
+                        Fill="Transparent"
+                        StrokeThickness="2"
+                        IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
+                  </Viewbox>
+                  <Viewbox Width="18" Height="18">
                     <Path Data="{StaticResource EyeClose}"
-                              Margin="0 -5 0 0"
-                              Fill="Transparent"
-                              StrokeThickness="2"
-                              Stroke="{DynamicResource main_text}"
-                              IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
+                          Margin="0 0 3 6"
+                          Fill="Transparent"
+                          StrokeThickness="2"
+                          Stroke="{DynamicResource main_text}"
+                          IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
+                  </Viewbox>
                 </Panel>
             </ToggleButton>
         </Template>
