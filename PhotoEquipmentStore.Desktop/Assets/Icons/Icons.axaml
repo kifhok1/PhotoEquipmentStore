@@ -38,4 +38,8 @@
     <StreamGeometry x:Key="Check">
         M20 6 9 17l-5-5
     </StreamGeometry>
+    
+    <StreamGeometry x:Key="Сross">
+        M18 6 6 18 M6 6 18 18
+    </StreamGeometry>
 </ResourceDictionary>
