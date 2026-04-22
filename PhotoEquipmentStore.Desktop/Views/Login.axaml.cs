@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace PhotoEquipmentStore.Views;
 
-public partial class MainWindow : Window
+public partial class Login : Window
 {
-    public MainWindow()
+    public Login()
     {
         InitializeComponent();
     }
