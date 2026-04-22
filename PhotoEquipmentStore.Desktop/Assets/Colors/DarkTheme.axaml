@@ -18,4 +18,9 @@
     <SolidColorBrush x:Key="border" Color="#2E3450"/>
     
     <SolidColorBrush x:Key="white" Color="#FFFFFF"/>
+    
+    <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%" x:Key="line">
+        <GradientStop Color="#4E6EF5" Offset="0.0"/>
+        <GradientStop Color="#F5A623" Offset="1.0"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
