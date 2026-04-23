@@ -14,10 +14,55 @@
     </Design.DataContext>
     <Border >
         <Grid ColumnDefinitions="* *">
-            <StackPanel Grid.Column="0" Background="{DynamicResource secondary_background}">
-                
-                
-            </StackPanel>
+            <Border Grid.Column="0" 
+                    Background="{DynamicResource secondary_background}">
+                <Image Source="../Assets/login-background-dark.jpg" Stretch="UniformToFill"
+                       Opacity="0.15"/>
+            </Border>
+            <Border Grid.Column="0"
+                    Padding="48">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Border CornerRadius="10"
+                                BorderBrush="{DynamicResource primary}"
+                                BorderThickness="3"
+                                Height="45"
+                                Width="45"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ClipToBounds="True">
+                            <Path Classes="Logo"/>
+                        </Border>
+                        <TextBlock Classes="H1" Foreground="{DynamicResource main_text}"
+                                   FontSize="30"  
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center">
+                            Магазин фототехники
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Classes="H1" 
+                               FontSize="36"
+                               Margin="0 48 0 0" 
+                               Foreground="{DynamicResource main_text}">
+                        Профессиональная
+                    </TextBlock>
+                    <TextBlock Classes="H1" 
+                               FontSize="36"
+                               Margin="0 0 0 0" 
+                               Foreground="{DynamicResource primary}">
+                        система управления
+                    </TextBlock>
+                    <TextBlock Classes="H3" 
+                               Margin="0 24 0 0" 
+                               FontWeight="Regular"
+                               Foreground="{DynamicResource secondary_text}"
+                               TextWrapping="Wrap">
+                        Передовая платформа управления инвентарём, <LineBreak/>
+                        продажами и клиентами, разработанная <LineBreak/>
+                        специально для магазинов фототехники.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
             <Panel Grid.Column="1" Background="{DynamicResource main_background}">
                 <StackPanel Margin="0 10 10 0"
                             HorizontalAlignment="Right"

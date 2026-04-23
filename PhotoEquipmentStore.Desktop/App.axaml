@@ -11,16 +11,18 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="Assets/Style/TextStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/TextBoxStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ComboBoxStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ComboBoxItemsStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ButtonStyle.axaml"/>
+        <StyleInclude Source="Assets/Icons/Logo.axaml"/>
     </Application.Styles>
              
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                 <ResourceInclude Source="Assets/Colors/LightTheme.axaml"/>
-                 <!-- <ResourceInclude Source="Assets/Colors/DarkTheme.axaml"/> -->
+                 <!-- <ResourceInclude Source="Assets/Colors/LightTheme.axaml"/> -->
+                 <ResourceInclude Source="Assets/Colors/DarkTheme.axaml"/>
                  <ResourceInclude Source="Assets/Fonts/Fonts.axaml"/>
                  <ResourceInclude Source="Assets/Icons/Icons.axaml"/>
             </ResourceDictionary.MergedDictionaries>

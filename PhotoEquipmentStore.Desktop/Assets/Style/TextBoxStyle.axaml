@@ -12,13 +12,15 @@
               <StackPanel Spacing="15">
                 <TextBox VerticalAlignment="Center" Watermark="123">123</TextBox>
                 <TextBox VerticalAlignment="Center" Watermark="123"></TextBox>
-                <TextBox VerticalAlignment="Center" Watermark="123"><DataValidationErrors.Error>
+                <TextBox VerticalAlignment="Center" Watermark="123">
+                  <DataValidationErrors.Error>
                   <system:Exception>
                     <x:Arguments>
                       <x:String>123</x:String>
                     </x:Arguments>
                   </system:Exception>
-                </DataValidationErrors.Error></TextBox>
+                </DataValidationErrors.Error>
+                </TextBox>
               </StackPanel>
               <StackPanel Spacing="15">
                 <TextBox VerticalAlignment="Center" Watermark="123" IsEnabled="False">123</TextBox>
