@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PhotoEquipmentStore.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="1280" Height="800"
+        x:Class="PhotoEquipmentStore.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="PhotoEquipmentStore">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <!-- ContentControl для отображения текущего представления -->
+    <ContentControl Content="{Binding CurrentViewModel}" />
+</Window>

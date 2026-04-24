@@ -21,12 +21,10 @@ public partial class App : Application
         // SvgBuilder.Configure();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
-            desktop.MainWindow = new Login
+            desktop.MainWindow = new MainWindow
             {
-                DataContext = new LoginViewModel(),
+                DataContext = new MainViewModel(),
             };
         }
 

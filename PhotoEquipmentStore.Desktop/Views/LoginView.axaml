@@ -1,13 +1,13 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:PhotoEquipmentStore.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Width="1280" Height="800"
-        x:Class="PhotoEquipmentStore.Views.Login"
-        x:DataType="vm:LoginViewModel"
-        Title="PhotoEquipmentStore">
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:PhotoEquipmentStore.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1280" d:DesignHeight="800"
+             x:Class="PhotoEquipmentStore.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
 
     <Design.DataContext>
         <vm:LoginViewModel/>
@@ -74,7 +74,9 @@
                             <Path Data="{DynamicResource Settings}"/>
                         </Button.Content>
                     </Button>
-                    <Button Padding="12" Classes="Destructive">
+                    <Button Padding="12" 
+                            Classes="Destructive"
+                            Command="{Binding CloseCommand}">
                         <Button.Content>
                             <Path Data="{DynamicResource Сross}"
                                   Width="10"
@@ -113,7 +115,8 @@
                                     <TextBox Watermark="qwerty12345" PasswordChar="*" Classes="revealPasswordButton"/>
                                 </StackPanel>
                                 <Button HorizontalAlignment="Stretch" 
-                                        Content="Войти"/>
+                                        Content="Войти"
+                                        Command="{Binding LoginCommand}"/>
                             </StackPanel>
                         </Border>
                     </Panel>
@@ -121,4 +124,4 @@
             </Panel>
         </Grid>
     </Border>
-</Window>
+</UserControl>
