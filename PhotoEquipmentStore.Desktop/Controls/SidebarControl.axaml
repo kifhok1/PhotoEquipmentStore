@@ -1,0 +1,142 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:PhotoEquipmentStore.Models"
+             mc:Ignorable="d" d:DesignWidth="240" d:DesignHeight="800"
+             x:Class="PhotoEquipmentStore.Controls.SidebarControl"
+             x:Name="This">
+    <Border Background="{DynamicResource secondary_background}"
+            BorderBrush="{DynamicResource border}"
+            BorderThickness="0 0 1 0">
+        <DockPanel>
+            <!-- Логотип -->
+            <Border DockPanel.Dock="Top"
+                    Padding="0 0 0 10"
+                    Margin="0"
+                    BorderThickness="0 0 0 1"
+                    BorderBrush="{DynamicResource border}">
+                <StackPanel  
+                            Height="45" 
+                            Orientation="Horizontal"
+                            Spacing="6"
+                            Margin="14 16 0 0">
+                    <Border CornerRadius="10"
+                            BorderBrush="{DynamicResource primary}"
+                            BorderThickness="2.5"
+                            Height="40"
+                            Width="40">
+                        <Viewbox Height="38"
+                                 Width="38"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 ClipToBounds="True">
+                            <Path Classes="Logo"/>
+                        </Viewbox>
+                    </Border>
+                    <TextBlock Classes="H3" Foreground="{DynamicResource main_text}" 
+                               FontSize="18" FontWeight="SemiBold"
+                               HorizontalAlignment="Center" 
+                               TextWrapping="Wrap">
+                        Магазин<LineBreak/>фототехники
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+            
+            <!-- Пользователь (прижат к низу) -->
+            <Border DockPanel.Dock="Bottom"
+                    Padding="16"
+                    BorderThickness=" 0 1 0 0"
+                    BorderBrush="{DynamicResource border}">
+                <Panel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Border Width="32" Height="32"
+                                CornerRadius="16"
+                                BorderBrush="{DynamicResource border}"
+                                BorderThickness="1.2"
+                                ClipToBounds="True">
+                            <Border.Background>
+                                <ImageBrush Source="{Binding #This.Userinfo.UserImage}"
+                                            Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
+
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding #This.Userinfo.UserName}"
+                                       Classes="Caption"
+                                       FontWeight="SemiBold"
+                                       FontSize="14"
+                                       Foreground="{DynamicResource main_text}"/>
+                            <TextBlock Text="{Binding #This.Userinfo.UserRole}"
+                                       Classes="Caption"
+                                       FontSize="10"
+                                       Foreground="{DynamicResource muted_text}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Classes="Ghost"
+                            Width="16"
+                            Height="16"
+                            Padding="0"
+                            Margin="0 0 10 0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding #This.LogoutCommand}">
+                        <Button.Content>
+                            <Path Width="12" 
+                                  Height="12" 
+                                  StrokeThickness="1.2"
+                                  Data="{DynamicResource Logout}"/>
+                        </Button.Content>
+                    </Button>
+                </Panel>
+            </Border>
+            
+            <!-- Меню -->
+            <ListBox Classes="SidebarMenu"
+                     ItemsSource="{Binding #This.MenuItems}"
+                     SelectedItem="{Binding #This.SelectedMenuItem}"
+                     Margin="0, 5 0 0">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="models:NavigationMenuItem">
+                            <!-- Кнопка пункта меню -->
+                            <Button Classes="SidebarMenuItem"
+                                    Command="{Binding NavigateCommand}">
+                                <Panel>
+                                    <Border Background="{DynamicResource primary}"
+                                            CornerRadius="6"
+                                            Opacity="0.2"
+                                            IsVisible="{Binding IsSelected}"/>
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="8" Margin=" 0 6 8 6">
+                                        
+                                        <Border CornerRadius="0,3,3,0"
+                                                Background="{DynamicResource primary}"
+                                                IsVisible="{Binding IsSelected}"
+                                                Height="24"
+                                                Width="3"
+                                                Margin="0 0 0 0"/>
+                                        
+                                        <Border CornerRadius="0,3,3,0"
+                                                Background="Transparent"
+                                                IsVisible="{Binding !IsSelected}"
+                                                Height="24"
+                                                Width="3"
+                                                Margin="0 0 0 0"/>
+                                        
+                                        <Path x:Name="Icon"
+                                              Data="{Binding Icon}"/>
+
+                                        <TextBlock x:Name="Text"
+                                                   Text="{Binding Title}"
+                                                   FontSize="16"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Panel>
+                            </Button>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </Border>
+</UserControl>
