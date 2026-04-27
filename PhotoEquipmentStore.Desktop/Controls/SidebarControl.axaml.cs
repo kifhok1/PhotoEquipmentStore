@@ -70,11 +70,27 @@ public partial class SidebarControl : UserControl
         {
             MenuItems =
             [
-                new NavigationMenuItem( "Главная", "Settings", true),
-                new NavigationMenuItem( "Главная", "Settings"),
-                new NavigationMenuItem( "Главная", "Settings"),
-                new NavigationMenuItem( "Главная", "Settings"),
-                new NavigationMenuItem( "Главная", "Settings")
+                new NavigationMenuItem( "Бекап", "DataBaseBackup", true),
+                new NavigationMenuItem( "Импорт данных", "DataBaseImport"),
+                new NavigationMenuItem( "Экспорт данных", "DataBaseExport"),
+                new NavigationMenuItem( "База данных", "DataBase"),
+                new NavigationMenuItem( "Пользователи", "Users"),
+                new NavigationMenuItem( "Пользователь", "User"),
+                new NavigationMenuItem( "Добавить пользователя", "UserAdd"),
+                new NavigationMenuItem( "Роли", "Role"),
+                new NavigationMenuItem( "Категории", "Category"),
+                new NavigationMenuItem( "Производители", "Manufacturers"),
+                new NavigationMenuItem( "Поставщики", "Suppliers"),
+                new NavigationMenuItem( "Статусы заказа", "Statuses"),
+                new NavigationMenuItem( "Клиенты", "Clients"),
+                new NavigationMenuItem( "Клиент", "Client"),
+                new NavigationMenuItem( "Добавить клиента", "ClientAdd"),
+                new NavigationMenuItem( "Товары", "Product"),
+                new NavigationMenuItem( "Добавить товар", "ProductAdd"),
+                new NavigationMenuItem( "Справочники", "Reference"),
+                new NavigationMenuItem( "Отчёты", "Records"),
+                new NavigationMenuItem( "Оформить заказ", "AddOrder"),
+                new NavigationMenuItem( "Заказы", "Order"),
             ];
 
             Userinfo = new UserInfo("Иван Макаров",
