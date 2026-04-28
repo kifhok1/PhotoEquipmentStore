@@ -2,11 +2,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PhotoEquipmentStore.Views.AdminView">
+             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
+             xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+             x:Class="PhotoEquipmentStore.Views.AdminView"
+             x:DataType="vm:AdminViewModel">
+    <Design.DataContext>
+        <vm:AdminViewModel/>
+    </Design.DataContext>
     <Border>
-        <Panel>
-            <TextBlock Text="Admin View" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Panel>
+        <Grid ColumnDefinitions="250,*">
+            <!-- Боковое меню -->
+            <controls:SidebarControl
+                Grid.Column="0"
+                SelectedMenuItem="{Binding SelectedNavigationMenuItem, Mode=TwoWay}"
+                MenuItems="{Binding NavigationMenuItems}"
+                LogoutCommand="{Binding LogoutCommand}"
+                Username="{Binding CurrentUser}"/>
+        
+            <!-- Контент страницы -->
+            <ContentControl
+                Grid.Column="1"
+                Content="{Binding CurrentViewModel}"/>
+        </Grid>
     </Border>
 </UserControl>

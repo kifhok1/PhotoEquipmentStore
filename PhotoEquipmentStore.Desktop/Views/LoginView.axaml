@@ -7,8 +7,6 @@
              d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.LoginView"
              x:DataType="vm:LoginViewModel">
-
-
     <Design.DataContext>
         <vm:LoginViewModel/>
     </Design.DataContext>

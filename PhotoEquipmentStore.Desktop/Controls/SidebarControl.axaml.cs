@@ -12,21 +12,22 @@ public partial class SidebarControl : UserControl
 {
     
     // Коллекция пунктов меню
-    private static readonly StyledProperty<ObservableCollection<NavigationMenuItem>> MenuItemsProperty =
+    public static readonly StyledProperty<ObservableCollection<NavigationMenuItem>> MenuItemsProperty =
         AvaloniaProperty.Register<SidebarControl, ObservableCollection<NavigationMenuItem>>(
             nameof(MenuItems));
 
     // Выбранный пункт
-    private static readonly StyledProperty<NavigationMenuItem> SelectedMenuItemProperty =
+    public static readonly StyledProperty<NavigationMenuItem> SelectedMenuItemProperty =
         AvaloniaProperty.Register<SidebarControl, NavigationMenuItem>(
             nameof(SelectedMenuItem));
+    
     // Имя пользователя
-    private static readonly StyledProperty<UserInfo> UsernameProperty =
+    public static readonly StyledProperty<UserInfo> UsernameProperty =
         AvaloniaProperty.Register<SidebarControl, UserInfo>(
-            nameof(Userinfo));
+            nameof(Username));
     
     // Команда выхода
-    private static readonly StyledProperty<ReactiveCommand<Unit, Unit>> LogoutCommandProperty =
+    public static readonly StyledProperty<ReactiveCommand<Unit, Unit>> LogoutCommandProperty =
         AvaloniaProperty.Register<SidebarControl, ReactiveCommand<Unit, Unit>>(
             nameof(LogoutCommand));
     
@@ -40,17 +41,15 @@ public partial class SidebarControl : UserControl
     {
         get => GetValue(SelectedMenuItemProperty);
         set
-        {   
-            foreach (NavigationMenuItem item in MenuItems)
+        {
+            if (MenuItems != null)
             {
-                item.IsSelected = false;
+                SetValue(SelectedMenuItemProperty, value);
             }
-            value?.IsSelected = true;
-            SetValue(SelectedMenuItemProperty, value);
         }
     }
 
-    public UserInfo Userinfo
+    public UserInfo Username
     {
         get => GetValue(UsernameProperty);
         set => SetValue(UsernameProperty, value);
@@ -70,7 +69,7 @@ public partial class SidebarControl : UserControl
         {
             MenuItems =
             [
-                new NavigationMenuItem( "Бекап", "DataBaseBackup", true),
+                new NavigationMenuItem( "Бекап", "DataBaseBackup"),
                 new NavigationMenuItem( "Импорт данных", "DataBaseImport"),
                 new NavigationMenuItem( "Экспорт данных", "DataBaseExport"),
                 new NavigationMenuItem( "База данных", "DataBase"),
@@ -93,19 +92,16 @@ public partial class SidebarControl : UserControl
                 new NavigationMenuItem( "Заказы", "Order"),
             ];
 
-            Userinfo = new UserInfo("Иван Макаров",
+            Username = new UserInfo("Иван Макаров",
                 "Админстратор",
                 new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
             
             LogoutCommand = ReactiveCommand.Create(() => { });
         }
         
-        foreach (NavigationMenuItem item in MenuItems)
+        if (MenuItems != null)
         {
-            if (item.IsSelected)
-            {
-                SelectedMenuItem = item;
-            }
+            SelectedMenuItem = MenuItems[0];
         }
     }
 }

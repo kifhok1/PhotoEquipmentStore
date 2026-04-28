@@ -11,7 +11,6 @@ public class NavigationMenuItem : ReactiveObject
 {
     private string title;
     private StreamGeometry icon;
-    private bool isSelected;
     private ReactiveCommand<Unit, Unit> navigateCommand { get; init; } = null!;
     
     public string Title
@@ -29,24 +28,16 @@ public class NavigationMenuItem : ReactiveObject
         get { return navigateCommand; }
     }
 
-    public bool IsSelected
-    {
-        get { return isSelected; }
-        set { this.RaiseAndSetIfChanged(ref isSelected, value); }
-    }
-
-    public NavigationMenuItem(string title, string icon,  ReactiveCommand<Unit, Unit> navigateCommand, bool isSelected = false)
+    public NavigationMenuItem(string title, string icon,  ReactiveCommand<Unit, Unit> navigateCommand)
     {
         this.title = title;
         this.icon = IconProvider.Get(icon);
         this.navigateCommand = navigateCommand;
-        this.isSelected = isSelected;
     }
     
-    public NavigationMenuItem(string title, string icon, bool isSelected = false)
+    public NavigationMenuItem(string title, string icon)
     {
         this.title = title;
         this.icon = IconProvider.Get(icon);
-        this.isSelected = isSelected;
     }
 }

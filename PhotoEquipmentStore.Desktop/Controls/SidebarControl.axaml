@@ -16,8 +16,7 @@
                     Margin="0"
                     BorderThickness="0 0 0 1"
                     BorderBrush="{DynamicResource border}">
-                <StackPanel  
-                            Height="45" 
+                <StackPanel Height="45" 
                             Orientation="Horizontal"
                             Spacing="6"
                             Margin="14 16 0 0">
@@ -56,19 +55,19 @@
                                 BorderThickness="1.2"
                                 ClipToBounds="True">
                             <Border.Background>
-                                <ImageBrush Source="{Binding #This.Userinfo.UserImage}"
+                                <ImageBrush Source="{Binding #This.Username.UserImage}"
                                             Stretch="UniformToFill"/>
                             </Border.Background>
                         </Border>
 
 
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{Binding #This.Userinfo.UserName}"
+                            <TextBlock Text="{Binding #This.Username.UserName}"
                                        Classes="Caption"
                                        FontWeight="SemiBold"
                                        FontSize="14"
                                        Foreground="{DynamicResource main_text}"/>
-                            <TextBlock Text="{Binding #This.Userinfo.UserRole}"
+                            <TextBlock Text="{Binding #This.Username.UserRole}"
                                        Classes="Caption"
                                        FontSize="10"
                                        Foreground="{DynamicResource muted_text}"/>
@@ -94,7 +93,7 @@
             <!-- Меню -->
             <ListBox Classes="SidebarMenu"
                      ItemsSource="{Binding #This.MenuItems}"
-                     SelectedItem="{Binding #This.SelectedMenuItem}"
+                     SelectedItem="{Binding #This.SelectedMenuItem, Mode=TwoWay}"
                      Margin="0, 5 0 0">
 
                 <ListBox.ItemTemplate>
@@ -106,20 +105,20 @@
                                     <Border Background="{DynamicResource primary}"
                                             CornerRadius="6"
                                             Opacity="0.2"
-                                            IsVisible="{Binding IsSelected}"/>
+                                            IsVisible="{Binding $parent[ListBoxItem].IsSelected}"/>
                                     <StackPanel Orientation="Horizontal"
                                                 Spacing="8" Margin=" 0 6 8 6">
                                         
                                         <Border CornerRadius="0,3,3,0"
                                                 Background="{DynamicResource primary}"
-                                                IsVisible="{Binding IsSelected}"
+                                                IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                                 Height="24"
                                                 Width="3"
                                                 Margin="0 0 0 0"/>
                                         
                                         <Border CornerRadius="0,3,3,0"
                                                 Background="Transparent"
-                                                IsVisible="{Binding !IsSelected}"
+                                                IsVisible="{Binding !$parent[ListBoxItem].IsSelected}"
                                                 Height="24"
                                                 Width="3"
                                                 Margin="0 0 0 0"/>

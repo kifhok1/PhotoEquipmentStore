@@ -7,7 +7,7 @@ namespace PhotoEquipmentStore.ViewModels;
 
 public partial class LoginViewModel : ViewModelBase
 {
-    private readonly MainViewModel _mainViewModel;
+    private readonly MainViewModel mainViewModel;
     public Interaction<Unit, Unit> Close { get; } = new Interaction<Unit, Unit>();
      
     public ReactiveCommand<Unit, Unit> CloseCommand { get; set; }
@@ -15,13 +15,12 @@ public partial class LoginViewModel : ViewModelBase
     
     public LoginViewModel(MainViewModel mainViewModel)
     {
-        _mainViewModel = mainViewModel;
+        this.mainViewModel = mainViewModel;
         //Команда авторизации
         LoginCommand = ReactiveCommand.Create(Login);
         
         // Команда для закрытия окна авторизации
         CloseCommand = ReactiveCommand.CreateFromTask(async () => await Close.Handle(Unit.Default));
-
     }
     
     // Конструктор для дизайнера
@@ -35,7 +34,7 @@ public partial class LoginViewModel : ViewModelBase
     private void Login()
     {
         // Здесь логика входа
-        // После успешной авторизации переходим в Dashboard
-        _mainViewModel.GoToAdminCommand.Execute().Subscribe();
+        // После успешной авторизации переходим на форму админимтратора
+        mainViewModel.GoToAdminCommand.Execute().Subscribe();
     }
 }
