@@ -35,6 +35,6 @@ public partial class LoginViewModel : ViewModelBase
     {
         // Здесь логика входа
         // После успешной авторизации переходим на форму в зависимости от роли пользователя
-        mainViewModel.GoToManagerCommand.Execute().Subscribe();
+        mainViewModel.GoToSellerCommand.Execute().Subscribe();
     }
 }
