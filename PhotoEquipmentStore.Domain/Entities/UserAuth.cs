@@ -1,5 +1,3 @@
-using Avalonia.Media.Imaging;
-
 namespace PhotoEquipmentStore.Domain.Entities;
 
 public class UserAuth
@@ -8,7 +6,7 @@ public class UserAuth
     private string name;
     private string login;
     private string heshPassword;
-    private Bitmap userImage;
+    private byte[]? userImage;
     private int roleId;
     private string roleName;
     private int timeOfLogout;
@@ -17,7 +15,7 @@ public class UserAuth
     public string Name { get => name; set => name = value; }
     public string Login { get => login; set => login = value; }
     public string HeshPassword { get => heshPassword; set => heshPassword = value; }
-    public Bitmap UserImage { get => userImage; set => userImage = value; }
+    public byte[]? UserImage { get => userImage; set => userImage = value; }
     public int RoleId { get => roleId; set => roleId = value; }
     public string RoleName { get => roleName; set => roleName = value; }
     public int TimeOfLogout { get => timeOfLogout; set => timeOfLogout = value; }
@@ -26,7 +24,7 @@ public class UserAuth
         string name,
         string login,
         string heshPassword,
-        Bitmap userImage,
+        byte[]? userImage,
         int roleId,
         string roleName,
         int timeOfLogout)
