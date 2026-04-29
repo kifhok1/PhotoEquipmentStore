@@ -168,8 +168,8 @@
     <!-- Ghost -->
     <Style Selector="^.Ghost">
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource secondary_text}"/>
         <Setter Property="Opacity" Value="0.9"/>
       </Style>
@@ -186,8 +186,8 @@
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
       </Style>
 
@@ -196,8 +196,8 @@
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
       </Style>
 
@@ -206,8 +206,8 @@
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
         <Setter Property="Opacity" Value="0.5"/>
       </Style>

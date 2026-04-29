@@ -31,4 +31,23 @@
     <ItemGroup>
       <ProjectReference Include="..\PhotoEquipmentStore.Application\PhotoEquipmentStore.Application.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Pages\Admin\DataBaseView.axaml.cs">
+        <DependentUpon>DataBaseView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Admin\ReferenceView.axaml.cs">
+        <DependentUpon>ReferenceView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Admin\UserAddView.axaml.cs">
+        <DependentUpon>UserAddView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Admin\UsersView.axaml.cs">
+        <DependentUpon>UsersView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

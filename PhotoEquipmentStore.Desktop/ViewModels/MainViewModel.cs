@@ -27,6 +27,8 @@ public class MainViewModel : ViewModelBase
         
         GoToLoginCommand = ReactiveCommand.Create(GoToLogin);
         GoToAdminCommand = ReactiveCommand.Create(GoToAdmin);
+        GoToManagerCommand = ReactiveCommand.Create(GoToManager);
+        GoToSellerCommand = ReactiveCommand.Create(GoToSeller);
     }
     
     private void GoToLogin()

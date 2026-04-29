@@ -175,4 +175,11 @@
     <StreamGeometry x:Key="Order">
         M16 10a4 4 0 0 1-8 0 M3.103 6.034h17.794 M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z
     </StreamGeometry>
+    
+    <StreamGeometry x:Key="Dashboard">
+        M 4 3 h 5 a 1 1 0 0 1 1 1 v 7 a 1 1 0 0 1 -1 1 h -5 a 1 1 0 0 1 -1 -1 v -7 a 1 1 0 0 1 1 -1 Z 
+        M 15 3 h 5 a 1 1 0 0 1 1 1 v 3 a 1 1 0 0 1 -1 1 h -5 a 1 1 0 0 1 -1 -1 v -3 a 1 1 0 0 1 1 -1 Z 
+        M 15 12 h 5 a 1 1 0 0 1 1 1 v 7 a 1 1 0 0 1 -1 1 h -5 a 1 1 0 0 1 -1 -1 v -7 a 1 1 0 0 1 1 -1 Z 
+        M 4 16 h 5 a 1 1 0 0 1 1 1 v 3 a 1 1 0 0 1 -1 1 h -5 a 1 1 0 0 1 -1 -1 v -3 a 1 1 0 0 1 1 -1 Z
+    </StreamGeometry>
 </ResourceDictionary>

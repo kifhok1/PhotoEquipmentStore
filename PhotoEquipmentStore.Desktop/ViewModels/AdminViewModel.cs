@@ -52,8 +52,8 @@ public class AdminViewModel : ViewModelBase
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
-            new NavigationMenuItem("Создание пользователя", "UserAdd", navigateCommand:goToAddUserCommand),
-            new NavigationMenuItem("Пользователи", "Users", navigateCommand:goToUsersCommand),
+            new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
+            new NavigationMenuItem("Пользователи", "Users", goToUsersCommand),
             new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand),
             new NavigationMenuItem("Справочники", "Reference", goToReferenceCommand),
         };
@@ -71,15 +71,17 @@ public class AdminViewModel : ViewModelBase
         // Инициализация для дизайна (без MainViewModel)
         LogoutCommand = ReactiveCommand.Create(() => { }); // Пустая команда для дизайна
         
-        // Создаем пустые команды для дизайнера
-        var goToAddUserCommand = ReactiveCommand.Create(() => { });
+        ReactiveCommand<Unit, Unit> goToAddUserCommand = ReactiveCommand.Create(GoToAddUser);
+        ReactiveCommand<Unit, Unit> goToUsersCommand = ReactiveCommand.Create(GoToUsers);
+        ReactiveCommand<Unit, Unit> goToDataBaseCommand = ReactiveCommand.Create(GoToDataBase);
+        ReactiveCommand<Unit, Unit> goToReferenceCommand = ReactiveCommand.Create(GoToReference);
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
             new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
-            new NavigationMenuItem("Пользователи", "Users", goToAddUserCommand),
-            new NavigationMenuItem("Работа с базой данных", "DataBase", goToAddUserCommand),
-            new NavigationMenuItem("Справочники", "Reference", goToAddUserCommand),
+            new NavigationMenuItem("Пользователи", "Users", goToUsersCommand),
+            new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand),
+            new NavigationMenuItem("Справочники", "Reference", goToReferenceCommand),
         };
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
