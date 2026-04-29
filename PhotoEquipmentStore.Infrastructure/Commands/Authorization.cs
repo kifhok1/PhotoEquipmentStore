@@ -1,11 +1,12 @@
 using MySql.Data.MySqlClient;
+using PhotoEquipmentStore.Application.Interfaces;
 using PhotoEquipmentStore.Infrastructure.Сonnection;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Infrastructure.Helpers;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
-public static class Authorization
+public class Authorization : IUserRepository
 {
     private static readonly string connString = ConnectionSettingsParser.Load().ToString();
 
@@ -14,7 +15,7 @@ public static class Authorization
         return new MySqlConnection(connString);
     }
 
-    public static UserAuth? GetUser(string login)
+    private static UserAuth? GetUser(string login)
     {
         using var conn = GetConnection();
         conn.Open();
@@ -50,4 +51,6 @@ public static class Authorization
             timeOfLogout:  3
         );
     }
+
+    public UserAuth? GetByLogin(string login) => Authorization.GetUser(login);
 }
