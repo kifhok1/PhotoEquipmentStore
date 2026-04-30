@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhotoEquipmentStore.Domain\PhotoEquipmentStore.Domain.csproj" />
-    <ProjectReference Include="..\PhotoEquipmentStore.Application\PhotoEquipmentStore.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -11,6 +10,12 @@
 
   <ItemGroup>
     <Folder Include="Scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Сonnection\connectionSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <PropertyGroup>

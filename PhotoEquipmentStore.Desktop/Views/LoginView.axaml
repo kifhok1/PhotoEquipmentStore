@@ -106,11 +106,11 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical" Spacing="8">
                                     <TextBlock Classes="Caption">Логин</TextBlock>
-                                    <TextBox Watermark="userlogin123"/>
+                                    <TextBox Watermark="userlogin123" Text="{Binding LoginText}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical" Spacing="8" Margin="0 -16 0 0">
                                     <TextBlock Classes="Caption">Пароль</TextBlock>
-                                    <TextBox Watermark="qwerty12345" PasswordChar="*" Classes="revealPasswordButton"/>
+                                    <TextBox Watermark="qwerty12345" PasswordChar="*" Classes="revealPasswordButton" Text="{Binding PasswordText}"/>
                                 </StackPanel>
                                 <Button HorizontalAlignment="Stretch" 
                                         Content="Войти"

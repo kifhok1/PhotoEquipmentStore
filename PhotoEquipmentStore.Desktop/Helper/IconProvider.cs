@@ -9,7 +9,7 @@ public static class IconProvider
 {
     public static StreamGeometry Get(string key)
     {
-        if (Application.Current!.Resources.TryGetResource(key, ThemeVariant.Default, out var resource)
+        if (Avalonia.Application.Current!.Resources.TryGetResource(key, ThemeVariant.Default, out var resource)
             && resource is StreamGeometry geometry)
         {
             return geometry;

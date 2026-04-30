@@ -4,7 +4,7 @@ namespace PhotoEquipmentStore.Infrastructure.Сonnection;
 
 public static class ConnectionSettingsEditor
 {
-    private static readonly string DefaultPath = Directory.GetCurrentDirectory() + "connectionSettings.json";
+    private static readonly string DefaultPath = Directory.GetCurrentDirectory() + "/Сonnection/connectionSettings.json";
 
     private static readonly JsonSerializerOptions WriteOptions = new()
     {
