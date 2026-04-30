@@ -2,7 +2,10 @@
 using ReactiveUI;
 using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia.Media.Imaging;
 using PhotoEquipmentStore.Application.Services;
+using PhotoEquipmentStore.Helper;
+using PhotoEquipmentStore.Models;
 
 namespace PhotoEquipmentStore.ViewModels;
 
@@ -59,6 +62,11 @@ public partial class LoginViewModel : ViewModelBase
             return;
         }
 
+        string name = result.User.Name;
+        string role = result.User.RoleName;
+        Bitmap userImage = BitmapHelper.FromBytes(result.User.UserImage);
+        UserInfo userInfo = new UserInfo(name, role, userImage);
+        mainViewModel.CurrentUser = userInfo;  
         switch (result.User!.RoleId)
         {
             case 1:

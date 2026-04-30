@@ -1,5 +1,6 @@
 using ReactiveUI;
 using System.Reactive;
+using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Views;
 
 namespace PhotoEquipmentStore.ViewModels;
@@ -7,6 +8,13 @@ namespace PhotoEquipmentStore.ViewModels;
 public class MainViewModel : ViewModelBase
 {
     private ViewModelBase _currentViewModel;
+    private UserInfo userInfo;
+
+    public UserInfo CurrentUser
+    {
+        get => this.userInfo;
+        set => this.RaiseAndSetIfChanged(ref this.userInfo, value);
+    }
     
     public ViewModelBase CurrentViewModel
     {
@@ -38,16 +46,16 @@ public class MainViewModel : ViewModelBase
     
     private void GoToAdmin()
     {
-        CurrentViewModel = new AdminViewModel(this);
+        CurrentViewModel = new AdminViewModel(this, userInfo);
     }
     
     private void GoToSeller()
     {
-        CurrentViewModel = new SellerViewModel(this);
+        CurrentViewModel = new SellerViewModel(this, userInfo);
     }
     
     private void GoToManager()
     {
-        CurrentViewModel = new ManagerViewModel(this);
+        CurrentViewModel = new ManagerViewModel(this, userInfo);
     }
 }

@@ -40,7 +40,7 @@ public class SellerViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _currentUser, value);
     }
     
-    public SellerViewModel(MainViewModel mainViewModel)
+    public SellerViewModel(MainViewModel mainViewModel, UserInfo userInfo)
     {
         _mainViewModel = mainViewModel;
         LogoutCommand = ReactiveCommand.Create(Logout);
@@ -62,8 +62,7 @@ public class SellerViewModel : ViewModelBase
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
         _currentViewModel = new UserAddViewModel();
-        _currentUser = new UserInfo("Ианов Иван", "Админ",
-            new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
+        _currentUser = userInfo;
     }
     
      // Конструктор для дизайнера

@@ -44,15 +44,15 @@
             
             <!-- Пользователь (прижат к низу) -->
             <Border DockPanel.Dock="Bottom"
-                    Padding="16"
+                    Padding="10 16 8 16"
                     BorderThickness=" 0 1 0 0"
                     BorderBrush="{DynamicResource border}">
                 <Panel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Border Width="32" Height="32"
-                                CornerRadius="16"
+                        <Border Width="40" Height="40"
+                                CornerRadius="20"
                                 BorderBrush="{DynamicResource border}"
-                                BorderThickness="1.2"
+                                BorderThickness="1.7"
                                 ClipToBounds="True">
                             <Border.Background>
                                 <ImageBrush Source="{Binding #This.Username.UserImage}"
@@ -65,7 +65,9 @@
                             <TextBlock Text="{Binding #This.Username.UserName}"
                                        Classes="Caption"
                                        FontWeight="SemiBold"
-                                       FontSize="14"
+                                       FontSize="13"
+                                       Width="140"
+                                       TextWrapping="Wrap"
                                        Foreground="{DynamicResource main_text}"/>
                             <TextBlock Text="{Binding #This.Username.UserRole}"
                                        Classes="Caption"
@@ -81,9 +83,9 @@
                             HorizontalAlignment="Right"
                             Command="{Binding #This.LogoutCommand}">
                         <Button.Content>
-                            <Path Width="12" 
-                                  Height="12" 
-                                  StrokeThickness="1.2"
+                            <Path Width="16" 
+                                  Height="14" 
+                                  StrokeThickness="1.5"
                                   Data="{DynamicResource Logout}"/>
                         </Button.Content>
                     </Button>
