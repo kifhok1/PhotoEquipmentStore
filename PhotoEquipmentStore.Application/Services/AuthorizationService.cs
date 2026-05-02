@@ -10,7 +10,6 @@ public class AuthorizationService
     {
         if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
         {
-            Console.WriteLine("Заполните все поля.");
             return AuthResultDto.Failure("Заполните все поля.");
         }
             
@@ -19,14 +18,12 @@ public class AuthorizationService
 
         if (user is null)
         {
-            Console.WriteLine("Пользователь не найден.");
             return AuthResultDto.Failure("Пользователь не найден.");
         }
 
 
         if (!PasswordHasher.Verify(password, user.HeshPassword))
-        { 
-            Console.WriteLine("Неверный пароль."); 
+        {
             return AuthResultDto.Failure("Неверный пароль.");
         }
 
