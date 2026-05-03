@@ -67,14 +67,16 @@
                             VerticalAlignment="Top"
                             Spacing="10"
                             Orientation="Horizontal">
-                    <Button Padding="8" Classes="Secondary">
+                    <Button Padding="8" Classes="Secondary"
+                            ToolTip.Tip="Открыть настройки">
                         <Button.Content>
                             <Path Data="{DynamicResource Settings}"/>
                         </Button.Content>
                     </Button>
                     <Button Padding="12" 
                             Classes="Destructive"
-                            Command="{Binding CloseCommand}">
+                            Command="{Binding CloseCommand}"
+                            ToolTip.Tip="Выйти">
                         <Button.Content>
                             <Path Data="{DynamicResource Сross}"
                                   Width="10"

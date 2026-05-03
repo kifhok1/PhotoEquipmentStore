@@ -17,6 +17,7 @@
         <StyleInclude Source="Assets/Style/ButtonStyle.axaml"/>
         <StyleInclude Source="Assets/Icons/Logo.axaml"/>
         <StyleInclude Source="Assets/Style/SidebarStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ToolTipStyle.axaml"/>
     </Application.Styles>
              
     <Application.Resources>
