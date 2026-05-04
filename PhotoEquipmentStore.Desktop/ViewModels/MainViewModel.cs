@@ -10,6 +10,13 @@ public class MainViewModel : ViewModelBase
     private ViewModelBase _currentViewModel;
     private UserInfo userInfo;
 
+    private bool isBlocked;
+    public bool IsBlocked
+    {
+        get => isBlocked;
+        set => this.RaiseAndSetIfChanged(ref isBlocked, value);
+    }
+
     public UserInfo CurrentUser
     {
         get => this.userInfo;

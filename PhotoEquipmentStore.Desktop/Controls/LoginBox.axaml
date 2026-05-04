@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
+             x:Class="PhotoEquipmentStore.Controls.LoginBox"
+             x:Name="This"
+             Background="{DynamicResource main_background}">
+    <Border Background="{DynamicResource raised}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            CornerRadius="16"
+            Width="400"
+            ClipToBounds="True">
+        <Panel>
+            <Border Height="3" 
+                    Width="600"
+                    CornerRadius="16"
+                    Background="{DynamicResource line}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"/>
+                <Border Padding="32">
+        <StackPanel Spacing="32">
+            <StackPanel Orientation="Vertical" Spacing="8">
+                <TextBlock Classes="H2" >Добро пожаловать</TextBlock>
+                <TextBlock Classes="Body" Foreground="{DynamicResource secondary_text}">
+                    Введите данные для входа в систему.
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Spacing="8">
+                <TextBlock Classes="Caption">Логин</TextBlock>
+                <TextBox Watermark="userlogin123" Text="{Binding #This.LoginText, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Spacing="8" Margin="0 -16 0 0">
+                <TextBlock Classes="Caption">Пароль</TextBlock>
+                <TextBox Watermark="qwerty12345" PasswordChar="*" Classes="revealPasswordButton" Text="{Binding #This.PasswordText, Mode=TwoWay}"/>
+            </StackPanel>
+            <Button HorizontalAlignment="Stretch" 
+                    Content="Войти"
+                    Command="{Binding #This.LoginCommand}"/>
+        </StackPanel>
+    </Border>
+        </Panel>
+    </Border>
+</UserControl>

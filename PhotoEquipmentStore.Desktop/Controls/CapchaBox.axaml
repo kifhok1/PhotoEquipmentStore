@@ -1,0 +1,109 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
+             x:Class="PhotoEquipmentStore.Controls.CapchaBox"
+             x:Name="This"
+             Background="{DynamicResource main_background}">
+    <Border HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            CornerRadius="16"
+            Width="400"
+            ClipToBounds="True">
+        <StackPanel>
+            <Panel>
+                <Border Padding="24 24 24 16" Background="{DynamicResource surface}">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Panel>
+                            <Border Height="40" Width="40"
+                                    Background="{DynamicResource primary}"
+                                    Opacity="0.25" CornerRadius="10"/>
+                            <Path Stroke="{DynamicResource primary}"
+                                  StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                  Margin="-3 -2 0 0"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Data="{DynamicResource ShieldCheck}"/>
+                        </Panel>
+                        <StackPanel Orientation="Vertical" Spacing="4">
+                            <TextBlock Classes="Body">Подтверждение безопасности</TextBlock>
+                            <TextBlock Classes="Body" Foreground="{DynamicResource secondary_text}">
+                                Совершена неудачная попытка входа
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Height="3" Width="600" CornerRadius="16"
+                        Background="{DynamicResource line}"
+                        HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            </Panel>
+
+            <Border Padding="24 12 24 12" Background="{DynamicResource raised}">
+                <StackPanel Spacing="12">
+
+                    <Border BorderBrush="{DynamicResource error_border}"
+                            BorderThickness="1"
+                            Background="{DynamicResource error_backgraund}"
+                            CornerRadius="8"
+                            Height="40"
+                            Padding="16 12 16 12">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <Viewbox ClipToBounds="False" Height="16" Width="16">
+                                <Path Stroke="{DynamicResource error}"
+                                      StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                      Margin="-3 -2 0 0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Data="{DynamicResource Info}"/>
+                            </Viewbox>
+                            <TextBlock Classes="Body" Foreground="{DynamicResource error}"
+                                       FontSize="13" TextWrapping="Wrap" Text="{Binding #This.ErrorMessage}">
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Foreground="{DynamicResource secondary_text}"
+                               TextWrapping="Wrap" Margin="0 0 0 -10">
+                        Введите символы с картинки
+                    </TextBlock>
+                    
+                    <Border Height="60"
+                            Background="{DynamicResource main_background}"
+                            CornerRadius="10"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource border}"
+                            ClipToBounds="True">
+                        <controls:CaptchaRenderer x:Name="CaptchaRenderer"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch" ClipToBounds="True"/>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" Spacing="4" Margin="0 10 0 0">
+                        <TextBox x:Name="InputBox"
+                                 Width="314"
+                                 FontSize="16"
+                                 MaxLength="10"
+                                 VerticalContentAlignment="Center"/>
+                        <Button Classes="Secondary" Padding="8" Height="34" Width="34"
+                                Click="RefreshButton_Click"
+                                ToolTip.Tip="Обновить капчу">
+                            <Viewbox ClipToBounds="False" Height="14" Width="14">
+                                <Path Data="{DynamicResource Refresh}" Margin="-1 0 0 0"/>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Padding="24 18 24 10" Background="{DynamicResource surface}">
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Command="{Binding #This.ConfirmCommand}">
+                    Подтвердить и продолжить
+                </Button>
+            </Border>
+            <ProgressBar Foreground="{DynamicResource error}"
+                         Background="{DynamicResource surface}"
+                         Minimum="0" Maximum="10000" Value="{Binding #This.CooldownProgress}"/>
+        </StackPanel>
+    </Border>
+</UserControl>

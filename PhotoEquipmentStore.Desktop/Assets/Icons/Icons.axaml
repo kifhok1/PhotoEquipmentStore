@@ -190,4 +190,12 @@
     <StreamGeometry x:Key="ShieldAlert">
         M12 2.28a1.17 1.17 0 0 0-.76.28C9.5 4.08 7 5.28 5 5.28a1 1 0 0 0-1 1V13c0 5 3.5 7.5 7.67 8.94a1 1 0 0 0 .67.01C16.5 20.5 20 18 20 13V6.28a1 1 0 0 0-1-1c-2 0-4.49-1.19-6.24-2.72a1.17 1.17 0 0 0-.76-.28ZM12 8v4m0 4h.01
     </StreamGeometry>
+    
+    <StreamGeometry x:Key="ShieldCheck">
+        M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z M9 12 l2 2 l4-4
+    </StreamGeometry>
+    
+    <StreamGeometry x:Key="Refresh">
+        M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8 M3 3v5h5 M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16 M16 16h5v5
+    </StreamGeometry>
 </ResourceDictionary>

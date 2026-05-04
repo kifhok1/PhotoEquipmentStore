@@ -6,7 +6,8 @@
              mc:Ignorable="d"
              d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.LoginView"
-             x:DataType="vm:LoginViewModel">
+             x:DataType="vm:LoginViewModel"
+             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls">
     <Design.DataContext>
         <vm:LoginViewModel/>
     </Design.DataContext>
@@ -62,6 +63,20 @@
                 </StackPanel>
             </Border>
             <Panel Grid.Column="1" Background="{DynamicResource main_background}">
+                <controls:LoginBox
+                    IsVisible="{Binding !CapchaVisible}"
+                    LoginCommand="{Binding LoginCommand}"
+                    LoginText="{Binding LoginText}"
+                    PasswordText="{Binding PasswordText}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <controls:CapchaBox
+                    IsVisible="{Binding CapchaVisible}"
+                    ErrorMessage="{Binding ErrorMessage}"
+                    ErrorVisible="{Binding ErrorVisible}"
+                    WindowBlocked="{Binding WindowBlocked}"
+                    ShowCapchaBlock="{Binding CapchaVisible}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                
                 <StackPanel Margin="0 10 10 0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
@@ -85,60 +100,6 @@
                         </Button.Content>
                     </Button>
                 </StackPanel>
-                <Border Background="{DynamicResource raised}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        CornerRadius="16"
-                        Width="400"
-                        ClipToBounds="True">
-                    <Panel>
-                        <Border Height="3" 
-                                Width="600"
-                                CornerRadius="16"
-                                Background="{DynamicResource line}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"/>
-                        <Border Padding="32">
-                            <StackPanel Spacing="32">
-                                <StackPanel Orientation="Vertical" Spacing="8">
-                                    <TextBlock Classes="H2" >Добро пожаловать</TextBlock>
-                                    <TextBlock Classes="Body" Foreground="{DynamicResource secondary_text}">
-                                        Введите данные для входа в систему.
-                                    </TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Spacing="8">
-                                    <TextBlock Classes="Caption">Логин</TextBlock>
-                                    <TextBox Watermark="userlogin123" Text="{Binding LoginText}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Spacing="8" Margin="0 -16 0 0">
-                                    <TextBlock Classes="Caption">Пароль</TextBlock>
-                                    <TextBox Watermark="qwerty12345" PasswordChar="*" Classes="revealPasswordButton" Text="{Binding PasswordText}"/>
-                                </StackPanel>
-                                <Border BorderBrush="{DynamicResource error}" BorderThickness="1" CornerRadius="8"
-                                        Background="{DynamicResource error_backgraund}" IsVisible="{Binding ErrorVisible}">
-                                        <StackPanel Orientation="Horizontal"
-                                                    Margin="16 8"
-                                                    Spacing="10">
-                                            <Path Stroke="{DynamicResource error}"
-                                                  StrokeThickness="2"
-                                                  StrokeJoin="Round"
-                                                  StrokeLineCap="Round"
-                                                  Data="{DynamicResource Info}"
-                                                  Margin="0 -2 0 0"/>
-                                            <TextBlock Foreground="{DynamicResource error}" 
-                                                       Text="{Binding ErrorMessage}"
-                                                       Classes="Body" VerticalAlignment="Center"
-                                                       FontSize="14.8"
-                                                       TextWrapping="Wrap"/>
-                                        </StackPanel>
-                                </Border>
-                                <Button HorizontalAlignment="Stretch" 
-                                        Content="Войти"
-                                        Command="{Binding LoginCommand}"/>
-                            </StackPanel>
-                        </Border>
-                    </Panel>
-                </Border>
             </Panel>
         </Grid>
     </Border>

@@ -7,7 +7,8 @@
         Width="1280" Height="800"
         x:Class="PhotoEquipmentStore.Views.MainWindow"
         x:DataType="vm:MainViewModel"
-        Title="PhotoEquipmentStore">
+        Title="PhotoEquipmentStore"
+        IsEnabled="{Binding !IsBlocked}">
 
     <Design.DataContext>
         <vm:MainViewModel/>

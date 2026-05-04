@@ -17,6 +17,7 @@ public partial class LoginViewModel : ViewModelBase
     private string password;
     private string errorMessage;
     private bool errorVisible;
+    private bool capchaVisible = false;
     
     public Interaction<Unit, Unit> Close { get; } = new Interaction<Unit, Unit>();
      
@@ -45,6 +46,18 @@ public partial class LoginViewModel : ViewModelBase
     {
         get => errorVisible;
         set => this.RaiseAndSetIfChanged(ref errorVisible, value);
+    }
+
+    public bool CapchaVisible
+    {
+        get => capchaVisible;
+        set => this.RaiseAndSetIfChanged(ref capchaVisible, value);
+    }
+
+    public bool WindowBlocked
+    {
+        get => mainViewModel.IsBlocked;
+        set => mainViewModel.IsBlocked = value;
     }
     
     public LoginViewModel(MainViewModel mainViewModel)
@@ -78,6 +91,7 @@ public partial class LoginViewModel : ViewModelBase
         {
             ErrorVisible = true;
             ErrorMessage = result.ErrorMessage;
+            CapchaVisible = true;
             return;
         }
 
@@ -99,4 +113,6 @@ public partial class LoginViewModel : ViewModelBase
                 break;
         }
     }
+    
+    
 }
