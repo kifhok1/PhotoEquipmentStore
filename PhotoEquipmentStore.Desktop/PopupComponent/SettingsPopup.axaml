@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:PhotoEquipmentStore.Models"
+             mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+             x:Class="PhotoEquipmentStore.PopupComponent.SettingsPopup"
+             x:Name="This">
+    <Panel Classes="Popup">
+        <!-- Рамка -->
+        <Border Background="{DynamicResource overlay}"/>
+        <!-- Контент -->
+        <Border  Width="500" 
+                Background="{DynamicResource main_background}"
+                CornerRadius="20" ClipToBounds="True"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel>
+                    <Panel>
+                            <Border Padding="24 24 24 16" Background="{DynamicResource surface}">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <Panel>
+                                        <Border Height="40" Width="40"
+                                                Background="{DynamicResource primary}"
+                                                Opacity="0.25" CornerRadius="10"/>
+                                        <Path Stroke="{DynamicResource primary}"
+                                              StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                              Margin="-3 -2 0 0"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Data="{DynamicResource Settings}"/>
+                                    </Panel>
+                                    <StackPanel Orientation="Vertical" Spacing="4">
+                                        <TextBlock Classes="Body">
+                                            Настройка приложения
+                                        </TextBlock>
+                                        <TextBlock Classes="Body" Foreground="{DynamicResource secondary_text}">
+                                            Системные параметры и подключение к базе данных
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Height="3" Width="750" CornerRadius="16"
+                                    Background="{DynamicResource line}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        </Panel>
+                    <Border Padding="24 12 24 12" Background="{DynamicResource elevated}">
+                        <StackPanel Spacing="20">
+                            <Grid RowDefinitions="* * * * * Auto" ColumnDefinitions="* 210" RowSpacing="12">
+                                <TextBlock Grid.Column="0" Grid.Row="0" Classes="Body" VerticalAlignment="Center">Хост</TextBlock>
+                                <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" 
+                                         Text="{Binding #This.Host}"/>
+                            
+                                <TextBlock Grid.Column="0" Grid.Row="1" Classes="Body" VerticalAlignment="Center">Пользователь</TextBlock>
+                                <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding #This.User}"/>
+                            
+                                <TextBlock Grid.Column="0" Grid.Row="2"  Classes="Body" VerticalAlignment="Center">Пароль</TextBlock>
+                                <TextBox Grid.Column="1" Grid.Row="2"  VerticalAlignment="Center" Text="{Binding #This.Password}"/>
+                            
+                                <TextBlock Grid.Column="0" Grid.Row="3" Classes="Body" VerticalAlignment="Center">База данных</TextBlock>
+                                <TextBox Grid.Column="1" Grid.Row="3"  VerticalAlignment="Center" Text="{Binding #This.Database}"/>
+                                
+                                <StackPanel Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Orientation="Horizontal" Spacing="6">
+                                    <Ellipse Fill="{DynamicResource success}"
+                                             Height="6"
+                                             Width="6"
+                                             VerticalAlignment="Center" IsVisible="{Binding #This.ConnectionError}"/> 
+                                    <Ellipse Fill="{DynamicResource error}"
+                                             Height="6"
+                                             Width="6"
+                                             VerticalAlignment="Center" IsVisible="{Binding !#This.ConnectionError}"/>
+                                    <TextBlock Classes="Body" Foreground="{DynamicResource main_text}"
+                                               TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding #This.ConnectionMessage}"/>
+                                </StackPanel>
+                                <Button Grid.Column="1" Grid.Row="4" Width="210" Command="{Binding #This.TestConnectionCommand}">
+                                    Проверить подключение
+                                </Button>
+                                
+                                <TextBlock Grid.Row="5" Grid.Column="0" Classes="Body" VerticalAlignment="Center">Тема</TextBlock>
+                                <ComboBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Width="210"
+                                          ItemsSource="{Binding #This.Theme}" 
+                                          SelectedItem="{Binding #This.ThemeSelected}"
+                                          DisplayMemberBinding="{ReflectionBinding Theme}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Padding="24 14 24 14" Background="{DynamicResource surface}">
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                        Orientation="Horizontal" Spacing="12">
+                                <Button Classes="Secondary" Command="{Binding #This.CloseCommand}">
+                                    Выйти
+                                </Button>
+                                <Button Command="{Binding #This.SaveAndCloseCommand}">
+                                    Сохранить
+                                </Button>
+                            </StackPanel>
+                    </Border>
+                </StackPanel>
+        </Border>
+    </Panel>
+</UserControl>

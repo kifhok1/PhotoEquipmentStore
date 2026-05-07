@@ -3,7 +3,6 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Styling;
 
 namespace PhotoEquipmentStore.Controls;
 
@@ -135,7 +134,7 @@ public class CaptchaRenderer : Control
         var charColors = BuildCharColors();
 
         // ── Диагональная штриховка фона ───────────────────────────────────
-        var stripeColor = GetColor("main_text", Color.FromArgb(20, 250, 250, 250));
+        var stripeColor = GetColor("primary", Color.FromArgb(20, 250, 250, 250));
         var stripePen = new Pen(new SolidColorBrush(stripeColor, 0.1), 6);
         double step = 14;
         for (double x = -(h + step); x < w + h + step; x += step)

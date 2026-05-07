@@ -39,7 +39,7 @@
                         HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </Panel>
 
-            <Border Padding="24 12 24 12" Background="{DynamicResource raised}">
+            <Border Padding="24 12 24 12" Background="{DynamicResource elevated}">
                 <StackPanel Spacing="12">
 
                     <Border BorderBrush="{DynamicResource error_border}"

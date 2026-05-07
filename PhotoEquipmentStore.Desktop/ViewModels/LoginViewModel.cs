@@ -1,12 +1,14 @@
 ﻿using System;
+using System.IO;
 using ReactiveUI;
 using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Media.Imaging;
+using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
-using ReactiveUI.Validation.Helpers;
+using PhotoEquipmentStore.SettingsUI;
 
 namespace PhotoEquipmentStore.ViewModels;
 
@@ -18,11 +20,17 @@ public partial class LoginViewModel : ViewModelBase
     private string errorMessage;
     private bool errorVisible;
     private bool capchaVisible = false;
+    private bool settingsVisible = false;
+    private Bitmap imageLoginForm;
+    private bool errorConnection = false;
     
     public Interaction<Unit, Unit> Close { get; } = new Interaction<Unit, Unit>();
      
     public ReactiveCommand<Unit, Unit> CloseCommand { get; set; }
     public ReactiveCommand<Unit, Unit> LoginCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> ShowSettingsCommand { get; }
+    public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
 
     public string LoginText
     {
@@ -54,10 +62,28 @@ public partial class LoginViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref capchaVisible, value);
     }
 
+    public bool SettingsVisible
+    {
+        get => settingsVisible;
+        set => this.RaiseAndSetIfChanged(ref settingsVisible, value);
+    }
+
     public bool WindowBlocked
     {
         get => mainViewModel.IsBlocked;
         set => mainViewModel.IsBlocked = value;
+    }
+
+    public Bitmap ImageLoginForm
+    {
+        get => imageLoginForm;
+        set => this.RaiseAndSetIfChanged(ref imageLoginForm, value);
+    }
+
+    public bool ErrorConnection
+    {
+        get => errorConnection;
+        set => this.RaiseAndSetIfChanged(ref errorConnection, value);
     }
     
     public LoginViewModel(MainViewModel mainViewModel)
@@ -69,6 +95,16 @@ public partial class LoginViewModel : ViewModelBase
         
         // Команда для закрытия окна авторизации
         CloseCommand = ReactiveCommand.CreateFromTask(async () => await Close.Handle(Unit.Default));
+        
+        ShowSettingsCommand = ReactiveCommand.Create(ShowSettings);
+        CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
+        
+        var basePath = AppContext.BaseDirectory;
+        if (SettingsUIFileParser.GetTheme() == "Тёмная")
+            ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-dark.jpg"));
+        else
+            ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-light.png"));
+
     }
     
     // Конструктор для дизайнера
@@ -79,6 +115,16 @@ public partial class LoginViewModel : ViewModelBase
         ErrorMessage = "Неверный логин или пароль";
         // Инициализируем команду закрытия для дизайнера (без MainViewModel)
         CloseCommand = ReactiveCommand.CreateFromTask(async () => await Close.Handle(Unit.Default));
+        
+        ShowSettingsCommand = ReactiveCommand.Create(ShowSettings);
+        CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
+
+        var basePath = AppContext.BaseDirectory;
+        if (SettingsUIFileParser.GetTheme() == "Тёмная")
+            ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-dark.jpg"));
+        else
+            ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-light.png"));
+
     }
     
     private void Login()
@@ -89,10 +135,18 @@ public partial class LoginViewModel : ViewModelBase
 
         if (!result.IsSuccess)
         {
-            ErrorVisible = true;
-            ErrorMessage = result.ErrorMessage;
-            CapchaVisible = true;
-            return;
+            if (result.ErrorMessage == "Ошибка подключения")
+            {
+                ErrorConnection = true;
+                return;
+            }
+            else
+            {
+                ErrorVisible = true;
+                ErrorMessage = result.ErrorMessage;
+                CapchaVisible = true;
+                return;
+            }
         }
 
         string name = result.User.Name;
@@ -113,6 +167,14 @@ public partial class LoginViewModel : ViewModelBase
                 break;
         }
     }
-    
-    
+
+    private void ShowSettings()
+    {
+        SettingsVisible = true;
+    }
+
+    private void CloseSettings()
+    {
+        SettingsVisible = false;
+    }
 }

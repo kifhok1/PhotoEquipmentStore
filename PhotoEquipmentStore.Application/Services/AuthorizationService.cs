@@ -12,21 +12,27 @@ public class AuthorizationService
         {
             return AuthResultDto.Failure("Заполните все поля.");
         }
-            
 
-        var user = Authorization.GetUser(login);
-
-        if (user is null)
+        try
         {
-            return AuthResultDto.Failure("Пользователь не найден.");
+            var user = Authorization.GetUser(login);
+
+            if (user is null)
+            {
+                return AuthResultDto.Failure("Пользователь не найден.");
+            }
+
+
+            if (!PasswordHasher.Verify(password, user.HeshPassword))
+            {
+                return AuthResultDto.Failure("Неверный пароль.");
+            }
+
+            return AuthResultDto.Success(user);
         }
-
-
-        if (!PasswordHasher.Verify(password, user.HeshPassword))
+        catch (Exception ex)
         {
-            return AuthResultDto.Failure("Неверный пароль.");
+            return AuthResultDto.Failure("Ошибка подключения");
         }
-
-        return AuthResultDto.Success(user);
     }
 }

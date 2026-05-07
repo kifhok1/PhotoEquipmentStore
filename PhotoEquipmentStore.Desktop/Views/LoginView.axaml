@@ -7,15 +7,17 @@
              d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.LoginView"
              x:DataType="vm:LoginViewModel"
-             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls">
+             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
+             xmlns:popup="clr-namespace:PhotoEquipmentStore.PopupComponent">
     <Design.DataContext>
         <vm:LoginViewModel/>
     </Design.DataContext>
-    <Border >
-        <Grid ColumnDefinitions="640 *">
+    <Border>
+        <Panel>
+            <Grid ColumnDefinitions="640 *">
             <Border Grid.Column="0" 
                     Background="{DynamicResource secondary_background}">
-                <Image Source="../Assets/login-background-dark.jpg" Stretch="UniformToFill"
+                <Image Source="{Binding ImageLoginForm}" Stretch="UniformToFill"
                        Opacity="0.15"/>
             </Border>
             <Border Grid.Column="0"
@@ -68,7 +70,8 @@
                     LoginCommand="{Binding LoginCommand}"
                     LoginText="{Binding LoginText}"
                     PasswordText="{Binding PasswordText}"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Error="{Binding ErrorConnection}"/>
                 <controls:CapchaBox
                     IsVisible="{Binding CapchaVisible}"
                     ErrorMessage="{Binding ErrorMessage}"
@@ -83,7 +86,8 @@
                             Spacing="10"
                             Orientation="Horizontal">
                     <Button Padding="8" Classes="Secondary"
-                            ToolTip.Tip="Открыть настройки">
+                            ToolTip.Tip="Открыть настройки"
+                            Command="{Binding ShowSettingsCommand}">
                         <Button.Content>
                             <Path Data="{DynamicResource Settings}"/>
                         </Button.Content>
@@ -102,5 +106,9 @@
                 </StackPanel>
             </Panel>
         </Grid>
+        <popup:SettingsPopup IsVisible="{Binding SettingsVisible}"
+                             CloseCommand="{Binding CloseSettingsCommand}"
+                             ImageLoginForm="{Binding ImageLoginForm, Mode=TwoWay}"/>
+        </Panel>
     </Border>
 </UserControl>

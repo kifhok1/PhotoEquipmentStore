@@ -22,6 +22,10 @@ public partial class LoginBox : UserControl
         AvaloniaProperty.Register<SidebarControl, ReactiveCommand<Unit, Unit>>(
             nameof(LoginCommand));
     
+    public static readonly StyledProperty<bool> ErrorProperty =
+        AvaloniaProperty.Register<SidebarControl, bool>(
+            nameof(Error));
+    
     public string LoginText
     {
         get => GetValue(LoginTextProperty);
@@ -38,6 +42,12 @@ public partial class LoginBox : UserControl
     {
         get => GetValue(LoginCommandProperty);
         set => SetValue(LoginCommandProperty, value);
+    }
+
+    public bool Error
+    {
+        get => GetValue(ErrorProperty);
+        set => SetValue(ErrorProperty, value);
     }
     
     public LoginBox()

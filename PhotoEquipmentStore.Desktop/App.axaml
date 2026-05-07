@@ -18,15 +18,15 @@
         <StyleInclude Source="Assets/Icons/Logo.axaml"/>
         <StyleInclude Source="Assets/Style/SidebarStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ToolTipStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/PopupBorderStyle.axaml"/>
     </Application.Styles>
              
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                 <!-- <ResourceInclude Source="Assets/Colors/LightTheme.axaml"/> -->
-                 <ResourceInclude Source="Assets/Colors/DarkTheme.axaml"/>
-                 <ResourceInclude Source="Assets/Fonts/Fonts.axaml"/>
-                 <ResourceInclude Source="Assets/Icons/Icons.axaml"/>
+                <ResourceInclude Source="Assets/Colors/Colors.axaml"/>
+                <ResourceInclude Source="Assets/Fonts/Fonts.axaml"/>
+                <ResourceInclude Source="Assets/Icons/Icons.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

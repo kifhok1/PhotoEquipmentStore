@@ -4,6 +4,7 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using PhotoEquipmentStore.SettingsUI;
 using PhotoEquipmentStore.ViewModels;
 using PhotoEquipmentStore.Views;
 
@@ -14,6 +15,7 @@ public partial class App : Avalonia.Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        ThemeService.Toggle(SettingsUIFileParser.GetTheme() == "Тёмная");
     }
 
     public override void OnFrameworkInitializationCompleted()
