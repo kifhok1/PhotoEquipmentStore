@@ -2,8 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="PhotoEquipmentStore.App"
              xmlns:local="using:PhotoEquipmentStore"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Light">
 
     <Application.DataTemplates>
         <local:ViewLocator/>
@@ -11,5 +10,24 @@
   
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="Assets/Style/TextStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/TextBoxStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ComboBoxStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ComboBoxItemsStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ButtonStyle.axaml"/>
+        <StyleInclude Source="Assets/Icons/Logo.axaml"/>
+        <StyleInclude Source="Assets/Style/SidebarStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ToolTipStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/PopupBorderStyle.axaml"/>
     </Application.Styles>
+             
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="Assets/Colors/Colors.axaml"/>
+                <ResourceInclude Source="Assets/Fonts/Fonts.axaml"/>
+                <ResourceInclude Source="Assets/Icons/Icons.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

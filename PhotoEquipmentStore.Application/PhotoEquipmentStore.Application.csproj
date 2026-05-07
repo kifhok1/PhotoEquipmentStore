@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhotoEquipmentStore.Domain\PhotoEquipmentStore.Domain.csproj" />
+    <ProjectReference Include="..\PhotoEquipmentStore.Infrastructure\PhotoEquipmentStore.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

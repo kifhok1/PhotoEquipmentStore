@@ -9,7 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**" />
+        <AvaloniaResource Include="Assets\**"/>
+        <None Update="Assets/login-background-light.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets/login-background-dark.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -23,11 +29,38 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.3.0.6" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-        <PackageReference Include="ReactiveUI" Version="23.1.8" />
+        <PackageReference Include="ReactiveUI" Version="20.4.1" />
+        <PackageReference Include="ReactiveUI.Validation" Version="4.1.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PhotoEquipmentStore.Application\PhotoEquipmentStore.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Pages\Admin\DataBaseView.axaml.cs">
+        <DependentUpon>DataBaseView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Admin\ReferenceView.axaml.cs">
+        <DependentUpon>ReferenceView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Admin\UserAddView.axaml.cs">
+        <DependentUpon>UserAddView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Admin\UsersView.axaml.cs">
+        <DependentUpon>UsersView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="SettingsUI\settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

@@ -1,0 +1,97 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+        <!-- LISTBOX -->
+        <Style Selector="ListBox.SidebarMenu">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <!-- Убираем стандартный ListBoxItem -->
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="4 6"/>
+            <Setter Property="Background" Value="Transparent"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter
+                        x:Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Padding="{TemplateBinding Padding}"/>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    
+        <!-- BUTTON BASE -->
+        <Style Selector="Button.SidebarMenuItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="Bg"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          Margin="0"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <!-- ICON BASE -->
+        <Style Selector="Path#Icon">
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="StrokeThickness" Value="1.6"/>
+            <Setter Property="Stroke" Value="{DynamicResource secondary_text}"/>
+            <Setter Property="Fill" Value="Transparent"/>
+        </Style>
+
+        <!-- TEXT BASE -->
+        <Style Selector="TextBlock#Text">
+            <Setter Property="Foreground" Value="{DynamicResource secondary_text}"/>
+        </Style>
+
+        <!-- HOVER -->
+        <Style Selector="ListBoxItem:pointerover Button.SidebarMenuItem /template/ Border#Bg">
+            <Setter Property="Background" Value="{DynamicResource surface}"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    
+        <Style Selector="ListBoxItem:pointerover Path#Icon">
+            <Setter Property="Stroke" Value="{DynamicResource main_text}"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:pointerover TextBlock#Text">
+            <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
+        </Style>
+
+        <!-- SELECTED -->
+        <Style Selector="ListBoxItem:selected Button.SidebarMenuItem /template/ Border#Bg">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    
+        <Style Selector="ListBoxItem:selected Path#Icon">
+            <Setter Property="Stroke" Value="{DynamicResource primary}"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected TextBlock#Text">
+            <Setter Property="Foreground" Value="{DynamicResource primary}"/>
+        </Style>
+
+
+</Styles>

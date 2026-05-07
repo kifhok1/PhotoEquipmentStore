@@ -2,12 +2,20 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhotoEquipmentStore.Domain\PhotoEquipmentStore.Domain.csproj" />
-    <ProjectReference Include="..\PhotoEquipmentStore.Application\PhotoEquipmentStore.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageReference Include="MySql.Data" Version="9.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Сonnection\connectionSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <PropertyGroup>

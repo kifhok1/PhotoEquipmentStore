@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="main_background" Color="#EAEFF9"/>
+            <SolidColorBrush x:Key="secondary_background" Color="#DCE4F4"/>
+            <SolidColorBrush x:Key="surface" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="elevated" Color="#F3F6FF"/>
+            <SolidColorBrush x:Key="border" Color="#D2DAEC"/>
+            <SolidColorBrush x:Key="overlay" Color="#7A0F1530"/>
+    
+            <SolidColorBrush x:Key="main_text" Color="#1A1F36"/>
+            <SolidColorBrush x:Key="secondary_text" Color="#4A5073"/>
+            <SolidColorBrush x:Key="muted_text" Color="#9BA3BF"/>
+    
+            <SolidColorBrush x:Key="white" Color="#FFFFFF"/>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="main_background" Color="#090B10"/>
+            <SolidColorBrush x:Key="secondary_background" Color="#10131E"/>
+            <SolidColorBrush x:Key="surface" Color="#181C2D"/>
+            <SolidColorBrush x:Key="elevated" Color="#212744"/>
+            <SolidColorBrush x:Key="border" Color="#293054"/>
+            <SolidColorBrush x:Key="overlay" Color="#B8000000"/>
+    
+            <SolidColorBrush x:Key="main_text" Color="#E8ECF5"/>
+            <SolidColorBrush x:Key="secondary_text" Color="#8B94B3"/>
+            <SolidColorBrush x:Key="muted_text" Color="#545B7A"/>
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+    
+    <SolidColorBrush x:Key="primary" Color="#4E6EF5"/>
+    <SolidColorBrush x:Key="accent" Color="#F5A623"/>
+    <SolidColorBrush x:Key="success" Color="#2ECC71"/>
+    <SolidColorBrush x:Key="warning" Color="#F39C12"/>
+    <SolidColorBrush x:Key="error" Color="#E74C3C"/>
+    <SolidColorBrush x:Key="error_backgraund" Color="#E74C3C" Opacity="0.1"/>
+    <SolidColorBrush x:Key="error_border" Color="#E74C3C" Opacity="0.2"/>
+
+    
+    
+    <SolidColorBrush x:Key="white" Color="#FFFFFF"/>
+    
+    <LinearGradientBrush StartPoint="0%, 0%" EndPoint="100%, 0%" x:Key="line">
+        <GradientStop Color="#4E6EF5" Offset="0.175"/>
+        <GradientStop Color="#F5A623" Offset="0.5"/>
+        <GradientStop Color="#4E6EF5" Offset="0.825"/>
+    </LinearGradientBrush>
+</ResourceDictionary>
