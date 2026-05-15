@@ -13,8 +13,6 @@
             <SolidColorBrush x:Key="main_text" Color="#1A1F36"/>
             <SolidColorBrush x:Key="secondary_text" Color="#4A5073"/>
             <SolidColorBrush x:Key="muted_text" Color="#9BA3BF"/>
-    
-            <SolidColorBrush x:Key="white" Color="#FFFFFF"/>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -37,10 +35,9 @@
     <SolidColorBrush x:Key="success" Color="#2ECC71"/>
     <SolidColorBrush x:Key="warning" Color="#F39C12"/>
     <SolidColorBrush x:Key="error" Color="#E74C3C"/>
+    <SolidColorBrush x:Key="info" Color="#3498DB"/>
     <SolidColorBrush x:Key="error_backgraund" Color="#E74C3C" Opacity="0.1"/>
     <SolidColorBrush x:Key="error_border" Color="#E74C3C" Opacity="0.2"/>
-
-    
     
     <SolidColorBrush x:Key="white" Color="#FFFFFF"/>
     
