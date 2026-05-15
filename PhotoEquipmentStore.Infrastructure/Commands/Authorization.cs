@@ -18,18 +18,16 @@ public class Authorization
     {
         using var conn = GetConnection();
         conn.Open();
-
-        const string query = @"SELECT w.ID_Worker, 
-                                      w.Fio, 
-                                      w.PhoneNumber, 
-                                      w.Login, 
-                                      w.Password, 
-                                      w.Image, 
-                                      r.ID_Rule, 
-                                      r.Rule 
-                               FROM workers AS w
-                               INNER JOIN rule AS r ON r.ID_Rule = w.rule
-                               WHERE w.Login = @login;";
+        const string query = @"SELECT u.id, 
+                                      u.full_name, 
+                                      u.login, 
+                                      u.password_hash, 
+                                      u.image, 
+                                      r.id, 
+                                      r.name 
+                               FROM users AS u
+                               INNER JOIN roles AS r ON r.id = u.role_id
+                               WHERE u.login = @login and u.is_deleted != 1;";
 
         using var cmd = new MySqlCommand(query, conn);
         cmd.Parameters.AddWithValue("@login", login);
@@ -40,13 +38,13 @@ public class Authorization
             return null;
 
         return new UserAuth(
-            id:            reader.GetInt32("ID_Worker"),
-            name:          reader.GetString("Fio"),
-            login:         reader.GetString("Login"),
-            heshPassword:  reader.GetString("Password"),
-            userImage:     BlobReader.ToBytes(reader, "Image"),
-            roleId:        reader.GetInt32("ID_Rule"),
-            roleName:      reader.GetString("Rule"),
+            id:            reader.GetInt32("id"),
+            name:          reader.GetString("full_name"),
+            login:         reader.GetString("login"),
+            heshPassword:  reader.GetString("password_hash"),
+            userImage:     BlobReader.ToBytes(reader, "image"),
+            roleId:        reader.GetInt32("id"),
+            roleName:      reader.GetString("name"),
             timeOfLogout:  3
         );
     }
