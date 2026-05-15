@@ -50,7 +50,7 @@
             </Border>
             <StackPanel Orientation="Vertical" Spacing="8">
                 <TextBlock Classes="Caption">Логин</TextBlock>
-                <TextBox Watermark="userlogin123" Text="{Binding #This.LoginText, Mode=TwoWay}" />
+                <TextBox Watermark="userlogin123" Text="{Binding #This.LoginText, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Spacing="8" Margin="0 -16 0 0">
                 <TextBlock Classes="Caption">Пароль</TextBlock>

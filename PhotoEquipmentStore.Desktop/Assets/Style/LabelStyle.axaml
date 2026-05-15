@@ -1,0 +1,24 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource main_background}">
+            <Label Classes="ShowFile">
+                Название файла.csv
+            </Label>
+        </Border>
+    </Design.PreviewWith>
+    
+    <Style Selector="Label">
+        <Setter Property="FontFamily" Value="Geologica"/>
+    </Style>
+
+    <Style Selector="Label.ShowFile">
+        <Setter Property="Foreground" Value="{DynamicResource secondary_text}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
+        <Setter Property="Background" Value="{DynamicResource main_background}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="12 6"/>
+    </Style>
+</Styles>
