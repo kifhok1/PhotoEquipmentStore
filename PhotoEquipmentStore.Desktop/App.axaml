@@ -19,6 +19,11 @@
         <StyleInclude Source="Assets/Style/SidebarStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ToolTipStyle.axaml"/>
         <StyleInclude Source="Assets/Style/PopupBorderStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/LabelStyle.axaml"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="Assets/Style/DataGridStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/ScrollBarStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/RadioButtonStyle.axaml"/>
     </Application.Styles>
              
     <Application.Resources>
