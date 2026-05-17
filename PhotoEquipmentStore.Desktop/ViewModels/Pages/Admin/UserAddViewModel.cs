@@ -1,4 +1,4 @@
-namespace PhotoEquipmentStore.ViewModels.Pages;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
 
 public class UserAddViewModel : ViewModelBase
 {
