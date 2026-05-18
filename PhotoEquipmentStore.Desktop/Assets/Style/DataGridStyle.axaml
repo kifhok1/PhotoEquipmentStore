@@ -64,6 +64,7 @@
     <!-- Граница внутри шаблона заголовка строки -->
     <Style Selector="DataGridRowHeader /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="4 0"/>
     </Style>
 
     <!-- Скрываем столбец заголовка строки полностью -->
@@ -87,6 +88,7 @@
     <!-- Фон строки в обычном состоянии -->
     <Style Selector="DataGridRow /template/ Rectangle#BackgroundRectangle">
         <Setter Property="Fill" Value="{DynamicResource surface}"/>
+        <Setter Property="Margin" Value="4 0"/>
     </Style>
 
     <!-- Фон строки при наведении курсора -->
@@ -143,5 +145,39 @@
     <!-- Убираем границы внутри шаблона ячейки -->
     <Style Selector="DataGridCell /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+        
+    <Style Selector="DataGridColumnHeader">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <!-- без колонки для иконки сортировки -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Основной контент (текст) -->
+                            <ContentPresenter Grid.Column="0"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                            <!-- Кнопка-разделитель (для ресайза) - оставляем по необходимости -->
+                            <Thumb x:Name="PART_RightHeaderGripper"
+                                   Grid.Column="0"
+                                   HorizontalAlignment="Right"
+                                   Width="2"
+                                   Background="{DynamicResource border}"
+                                   Cursor="SizeWestEast" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
     </Style>
 </Styles>
