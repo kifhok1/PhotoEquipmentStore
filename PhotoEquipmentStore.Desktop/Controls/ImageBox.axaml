@@ -74,6 +74,7 @@
 
             <TextBlock Text="Перетащите фото или нажмите для выбора"
                        TextAlignment="Center"
+                       HorizontalAlignment="Center"
                        TextWrapping="Wrap"
                        FontWeight="SemiBold"
                        FontSize="15"
