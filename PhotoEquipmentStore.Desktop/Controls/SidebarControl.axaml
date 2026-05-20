@@ -52,12 +52,31 @@
                         <Border Width="40" Height="40"
                                 CornerRadius="20"
                                 BorderBrush="{DynamicResource border}"
-                                BorderThickness="1.7"
+                                BorderThickness="2"
                                 ClipToBounds="True">
-                            <Border.Background>
-                                <ImageBrush Source="{Binding #This.Username.UserImage}"
-                                            Stretch="UniformToFill"/>
-                            </Border.Background>
+                            <Border ClipToBounds="True"
+                                    Width="36"
+                                    Height="36"
+                                    CornerRadius="20">
+                                <Panel ClipToBounds="True">
+                                    <Viewbox HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             Height="20"
+                                             Width="20"
+                                             ClipToBounds="False"
+                                             Margin="0 0 4 4">
+                                        <Path Data="{DynamicResource User}"
+                                              StrokeThickness="1.8"
+                                              Stroke="{DynamicResource secondary_text}"
+                                              StrokeJoin="Round"
+                                              StrokeLineCap="Round"/>
+                                    </Viewbox>
+                                    <Image Source="{Binding #This.Username.UserImage}"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch"
+                                           Stretch="UniformToFill"/>
+                                </Panel>
+                            </Border>
                         </Border>
 
 
@@ -81,6 +100,7 @@
                             Padding="0"
                             Margin="0 0 10 0"
                             HorizontalAlignment="Right"
+                            ToolTip.Tip="Выйти"
                             Command="{Binding #This.LogoutCommand}">
                         <Button.Content>
                             <Path Width="16" 
