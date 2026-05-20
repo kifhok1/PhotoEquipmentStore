@@ -1,0 +1,146 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
+             x:Class="PhotoEquipmentStore.Views.Pages.Seller.OrderItemsView"
+             xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Seller"
+             x:DataType="vm:OrderItemsViewModel">
+    
+    <Design.DataContext>
+        <vm:OrderItemsViewModel/>
+    </Design.DataContext>
+    <Border Background="{DynamicResource main_background}" Padding="20">
+                    <Grid RowSpacing="15" RowDefinitions="Auto * Auto">
+                        <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
+                                Padding="10" Background="{DynamicResource surface}"
+                                CornerRadius="10">
+                            <Grid ColumnDefinitions="* Auto">
+                                    <TextBlock Grid.Column="0" Classes="Body" VerticalAlignment="Center">
+                                        Номер заказа: 213232132412314
+                                    </TextBlock>
+                                    <ComboBox Grid.Column="1" PlaceholderText="Статус заказа" Width="200"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
+                                            CornerRadius="10"
+                                            BorderThickness="1"
+                                            ClipToBounds="True">
+                                <Border ClipToBounds="True"
+                                        CornerRadius="10"
+                                        BorderThickness="0"
+                                        Background="{DynamicResource secondary_background}"
+                                        BorderBrush="{DynamicResource border}">
+                                    <Grid RowDefinitions="* Auto" RowSpacing="10">
+                                        <DataGrid IsReadOnly="True"
+                                                  AutoGenerateColumns="False"
+                                                  ItemsSource="{Binding OrderItems}"
+                                                  CanUserSortColumns="False"
+                                                  BorderBrush="{DynamicResource border}"
+                                                  BorderThickness="0 0 0 1">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Header="Фото" Width="Auto" >
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Border BorderBrush="{DynamicResource border}"
+                                                                    BorderThickness="2"
+                                                                    Width="45"
+                                                                    Height="45"
+                                                                    CornerRadius="12"
+                                                                    Background="{DynamicResource secondary_background}"
+                                                                    Margin="10 0 0 0">
+                                                                <Border ClipToBounds="True"
+                                                                        Width="42"
+                                                                        Height="42"
+                                                                        CornerRadius="12">
+                                                                    <Panel ClipToBounds="True">
+                                                                        <Viewbox HorizontalAlignment="Center"
+                                                                                VerticalAlignment="Center"
+                                                                                Height="20"
+                                                                                Width="20"
+                                                                                ClipToBounds="False"
+                                                                                Margin="0 0 4 4">
+                                                                            <Path Data="{DynamicResource NoImage}"
+                                                                                    StrokeThickness="1.8"
+                                                                                    Stroke="{DynamicResource secondary_text}"
+                                                                                    StrokeJoin="Round"
+                                                                                    StrokeLineCap="Round"/>
+                                                                        </Viewbox>
+                                                                    
+                                                                        <Image Source="{Binding ProductImage}" HorizontalAlignment="Stretch"
+                                                                               VerticalAlignment="Stretch"
+                                                                               Stretch="UniformToFill"/>
+                                                                    </Panel>
+                                                                </Border>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Header="Название техники"
+                                                        Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ProductName}"
+                                                       TextWrapping="Wrap"
+                                                       VerticalAlignment="Center"
+                                                       Margin="12 0 0 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTextColumn
+                                    Header="Цена"
+                                    Foreground="{DynamicResource accent}"
+                                    Binding="{Binding Price}"
+                                    Width="Auto"/>
+                                <DataGridTextColumn
+                                    Header="Скидка"
+                                    Foreground="{DynamicResource secondary_text}"
+                                    Binding="{Binding Discount}"
+                                    Width="Auto"/>
+                                <DataGridTextColumn
+                                    Header="Кол-во на складе"
+                                    Foreground="{DynamicResource secondary_text}"
+                                    Binding="{Binding Quantity}"
+                                    Width="Auto"/>
+                        </DataGrid.Columns>
+                        </DataGrid>
+                                        <Panel Grid.Row="1"
+                        
+                        
+                                               Margin="10 0  10 8">
+                                            <TextBlock  Classes="Body"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Text="{Binding CountOrderItems}">
+                                            </TextBlock>
+                                        </Panel>
+                                    </Grid>
+                                </Border>
+                        </Border>
+                        <Border Grid.Row="2" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
+                                Padding="10 3" Background="{DynamicResource surface}"
+                                CornerRadius="6">
+                            <Grid ColumnDefinitions="Auto Auto *" ColumnSpacing="30"
+                                  RowDefinitions="Auto Auto Auto" Margin="0 0 30 0">
+                                <StackPanel Grid.Row="0" Grid.Column="2"
+                                            Grid.RowSpan="2" HorizontalAlignment="Right"
+                                            Spacing="10">
+                                    <TextBlock Text="{Binding OrderTotalShow}"/>
+                                    <TextBlock Text="{Binding OrderTotalDiscountShow}"/>
+                                    <TextBlock Text="{Binding OrderClientDiscountShow}"/>
+                                    <TextBlock Classes="H2" Text="{Binding OrderTotalAndShow}"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding ClientNameShow}"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Order.ClientPhoneNumber}"/>
+                                <TextBlock Grid.Column="0"  Grid.Row="2" Text="{Binding UserNameShow}"/>
+                                <TextBlock Grid.Column="1"  Grid.Row="2" Text="{Binding OrderDateShow}"/>
+                                <Button Grid.Row="2" Grid.Column="2" Content="Выйти"
+                                        Classes="Secondary"  Width="100" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+    </Border>
+</UserControl>
