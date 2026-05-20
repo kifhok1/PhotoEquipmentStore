@@ -1,19 +1,20 @@
 using System;
+using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Models;
 
-public class ClientShow : IPaginationShow
+public class ClientShow
 {
-    private int id;
+    private int orderId;
     private string name;
     private string phoneNumber;
     private string totalPurchases;
     private int countOrders;
 
-    public int Id
+    public int OrderId
     {
-        get => id; 
-        set => id = value;
+        get => orderId; 
+        set => orderId = value;
     }
 
     public string Name
@@ -30,14 +31,34 @@ public class ClientShow : IPaginationShow
 
     public string TotalPurchases
     {
-        get => totalPurchases + " ₽";
+        get => totalPurchases;
         set => totalPurchases = value;
     }
 
-    public string CountOrders
+    public int CountOrders
     {
-        get => countOrders + " шт.";
-        set => countOrders = Convert.ToInt32(value);
+        get => countOrders;
+        set => countOrders = value;
+    }
+    
+    public string TotalPurchasesShow
+    {
+        get => TotalPurchases + " ₽";
+    }
+    
+    public string CountOrdersShow
+    {
+        get => CountOrders + " шт.";
+    }
+
+    public string PhoneNumberShow
+    {
+        get => MaskClientsData.MaskPhoneNumber(PhoneNumber);
+    }
+
+    public string NameShow
+    {
+        get => MaskClientsData.MaskFullName(Name);
     }
 
     public ClientShow(
@@ -47,10 +68,10 @@ public class ClientShow : IPaginationShow
         string totalPurchases,
         int countOrders)
     {
-        Id = id;
+        OrderId = id;
         Name = name;
         PhoneNumber = phoneNumber;
         TotalPurchases = totalPurchases;
-        CountOrders = countOrders.ToString();
+        CountOrders = countOrders;
     }
 }

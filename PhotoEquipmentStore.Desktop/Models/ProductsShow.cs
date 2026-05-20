@@ -2,11 +2,11 @@ using Avalonia.Media.Imaging;
 
 namespace PhotoEquipmentStore.Models;
 
-public class ProductsShow : IPaginationShow
+public class ProductsShow
 {
     private int id;
     private string name;
-    // private string description;
+    private string description;
     private int price;
     private int discount;
     private int quantity;
@@ -82,6 +82,12 @@ public class ProductsShow : IPaginationShow
         get => image;
         set => image = value;
     }
+
+    public string Description
+    {
+        get => description;
+        set => description = value;
+    }
     
     public bool IsVisibleImage
     {
@@ -100,6 +106,7 @@ public class ProductsShow : IPaginationShow
         string manufacturerName,
         int supplierId,
         string supplierName,
+        string description,
         Bitmap image)
     {
         Id = id;
@@ -113,6 +120,7 @@ public class ProductsShow : IPaginationShow
         ManufacturerName = manufacturerName;
         SupplierId = supplierId;
         SupplierName = supplierName;
+        Description = description;
         Image = image;
     }
     
@@ -127,7 +135,8 @@ public class ProductsShow : IPaginationShow
         int manufacturerId, 
         string manufacturerName,
         int supplierId,
-        string supplierName)
+        string supplierName,
+        string description)
     {
         Id = id;
         Name = name;
@@ -140,5 +149,6 @@ public class ProductsShow : IPaginationShow
         ManufacturerName = manufacturerName;
         SupplierId = supplierId;
         SupplierName = supplierName;
+        Description = description;
     }
 }

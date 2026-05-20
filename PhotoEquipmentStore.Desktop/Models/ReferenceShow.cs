@@ -5,6 +5,7 @@ public class ReferenceShow
     private int id;
     private string title;
     private int count;
+    private bool isDeleted;
 
     public int Id
     {
@@ -17,19 +18,32 @@ public class ReferenceShow
         set { title = value; }
     }
     
-    public string Count
+    public int Count
+    {
+        get => count;
+        set => count = value;
+    }
+    
+    public string CountShow
     {
         get => count.ToString() + "шт.";
-        set => count = int.Parse(value);
+    }
+
+    public bool IsDeleted
+    {
+        get { return isDeleted; }
+        set { isDeleted = value; }
     }
 
     public ReferenceShow(
         int id,
         string title,
-        int count)
+        int count,
+        bool isDelete)
     {
         Id = id;
         Title = title;
-        Count = count.ToString();
+        Count = count;
+        IsDeleted = isDelete;
     }
 }
