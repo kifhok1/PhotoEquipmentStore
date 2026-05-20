@@ -4,8 +4,6 @@ using System.Linq;
 using System.Reactive;
 using Avalonia.Media.Imaging;
 using PhotoEquipmentStore.Models;
-using PhotoEquipmentStore.ViewModels.Pages;
-using PhotoEquipmentStore.ViewModels.Pages.Manager;
 using PhotoEquipmentStore.ViewModels.Pages.Seller;
 using ReactiveUI;
 
@@ -46,10 +44,10 @@ public class SellerViewModel : ViewModelBase
         LogoutCommand = ReactiveCommand.Create(Logout);
         
         // Инициализация команд навигации
-        ReactiveCommand<Unit, Unit> goToClientCommand = ReactiveCommand.Create(GoToReports);
-        ReactiveCommand<Unit, Unit> goToClientAddCommand = ReactiveCommand.Create(GoToDashboard);
-        ReactiveCommand<Unit, Unit> goToOrderCommand = ReactiveCommand.Create(GoToProducts);
-        ReactiveCommand<Unit, Unit> goToOrderAddCommand = ReactiveCommand.Create(GoToProductAdd);
+        ReactiveCommand<Unit, Unit> goToClientCommand = ReactiveCommand.Create(GoToClients);
+        ReactiveCommand<Unit, Unit> goToClientAddCommand = ReactiveCommand.Create(GoToAddClients);
+        ReactiveCommand<Unit, Unit> goToOrderCommand = ReactiveCommand.Create(GoToOrders);
+        ReactiveCommand<Unit, Unit> goToOrderAddCommand = ReactiveCommand.Create(GoToAddOrder);
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
@@ -61,7 +59,7 @@ public class SellerViewModel : ViewModelBase
         };
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
+        _currentViewModel = new ClientsViewModel();
         _currentUser = userInfo;
     }
     
@@ -73,10 +71,10 @@ public class SellerViewModel : ViewModelBase
         LogoutCommand = ReactiveCommand.Create(() => { }); // Пустая команда для дизайна
         
         // Создаем пустые команды для дизайнера
-        ReactiveCommand<Unit, Unit> goToClientCommand = ReactiveCommand.Create(GoToReports);
-        ReactiveCommand<Unit, Unit> goToClientAddCommand = ReactiveCommand.Create(GoToDashboard);
-        ReactiveCommand<Unit, Unit> goToOrderCommand = ReactiveCommand.Create(GoToProducts);
-        ReactiveCommand<Unit, Unit> goToOrderAddCommand = ReactiveCommand.Create(GoToProductAdd);
+        ReactiveCommand<Unit, Unit> goToClientCommand = ReactiveCommand.Create(GoToClients);
+        ReactiveCommand<Unit, Unit> goToClientAddCommand = ReactiveCommand.Create(GoToAddClients);
+        ReactiveCommand<Unit, Unit> goToOrderCommand = ReactiveCommand.Create(GoToOrders);
+        ReactiveCommand<Unit, Unit> goToOrderAddCommand = ReactiveCommand.Create(GoToAddOrder);
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
@@ -89,7 +87,7 @@ public class SellerViewModel : ViewModelBase
 
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
+        _currentViewModel = new ClientsViewModel();
         _currentUser = new UserInfo("Ианов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
@@ -100,27 +98,32 @@ public class SellerViewModel : ViewModelBase
         _mainViewModel.GoToLoginCommand.Execute().Subscribe();
     }
 
-    private void GoToDashboard()
+    private void GoToClients()
     {
         CurrentViewModel = new ClientsViewModel();
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Клиенты");
     }
 
-    private void GoToReports()
+    private void GoToAddClients()
     {
         CurrentViewModel = new ClientAddViewModel();
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Добавление клиента");
     }
 
-    private void GoToProducts()
+    private void GoToOrders()
     {
-        CurrentViewModel = new OrdersViewModel();
+        CurrentViewModel = new OrdersViewModel(GoToOrderItems);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Заказы");
     }
 
-    private void GoToProductAdd()
+    private void GoToAddOrder()
     {
         CurrentViewModel = new OrderAddViewModel();
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Создание заказа");
+    }
+    
+    private void GoToOrderItems(OrderShow order)
+    {
+        CurrentViewModel = new OrderItemsViewModel(order);
     }
 }

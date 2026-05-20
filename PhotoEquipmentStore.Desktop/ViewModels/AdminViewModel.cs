@@ -4,9 +4,8 @@ using System.Linq;
 using ReactiveUI;
 using System.Reactive;
 using Avalonia.Media.Imaging;
-using Avalonia.Metadata;
 using PhotoEquipmentStore.Models;
-using PhotoEquipmentStore.ViewModels.Pages;
+using PhotoEquipmentStore.ViewModels.Pages.Admin;
 
 namespace PhotoEquipmentStore.ViewModels;
 
@@ -49,6 +48,8 @@ public class AdminViewModel : ViewModelBase
         ReactiveCommand<Unit, Unit> goToUsersCommand = ReactiveCommand.Create(GoToUsers);
         ReactiveCommand<Unit, Unit> goToDataBaseCommand = ReactiveCommand.Create(GoToDataBase);
         ReactiveCommand<Unit, Unit> goToReferenceCommand = ReactiveCommand.Create(GoToReference);
+        ReactiveCommand<Unit, Unit> goToReferenceAddCommand = ReactiveCommand.Create(GoToAddReference);
+        ReactiveCommand<Unit, Unit> goToReferenceEditCommand = ReactiveCommand.Create(GoToEditReference);
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
@@ -103,7 +104,7 @@ public class AdminViewModel : ViewModelBase
 
     private void GoToUsers()
     {
-        CurrentViewModel = new UsersViewModel();
+        CurrentViewModel = new UsersViewModel(this);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Пользователи");
     }
 
@@ -115,8 +116,20 @@ public class AdminViewModel : ViewModelBase
 
     private void GoToReference()
     {
-        CurrentViewModel = new ReferenceViewModel();
+        
+        ReactiveCommand<Unit, Unit> goToAddReferenceCommand = ReactiveCommand.Create(GoToAddReference);
+        ReactiveCommand<Unit, Unit> goToEditReferenceCommand = ReactiveCommand.Create(GoToEditReference);
+        CurrentViewModel = new ReferenceViewModel(goToAddReferenceCommand, goToEditReferenceCommand);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Справочники");
     }
-
+    
+    private void GoToAddReference()
+    {
+        CurrentViewModel = new ReferenceAddViewModel(this);
+    }
+    
+    private void GoToEditReference()
+    {
+        CurrentViewModel = new ReferenceAddViewModel(this);
+    }
 }
