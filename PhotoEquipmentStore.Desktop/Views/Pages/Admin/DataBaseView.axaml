@@ -2,11 +2,267 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PhotoEquipmentStore.Views.Pages.DataBaseView">
+             mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
+             x:Class="PhotoEquipmentStore.Views.Pages.Admin.DataBaseView">
     <Border Background="{DynamicResource main_background}">
-        <TextBlock Classes="H1" 
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center">Форма базы данных</TextBlock>
+        <Grid ColumnDefinitions="* *" RowDefinitions="* *" 
+              RowSpacing="12" ColumnSpacing="18">
+            <Border Grid.Column="0" Grid.Row="0"
+                    Margin="24 24 0 0"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="2" CornerRadius="20"
+                    Background="{DynamicResource surface}">
+                <StackPanel>
+                    <Border Height="75"
+                            BorderBrush="{DynamicResource border}"
+                            BorderThickness="0 0 0 2"
+                            Padding="16 0"
+                            ClipToBounds="True">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="12" VerticalAlignment="Center">
+                            <Panel>
+                                <Border Height="40" Width="40"
+                                        Background="{DynamicResource primary}"
+                                        Opacity="0.25" CornerRadius="10"/>
+                                <Path Stroke="{DynamicResource primary}"
+                                      StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                      Margin="-3 -2 0 0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Data="{DynamicResource DataBaseImport}"/>
+                            </Panel>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock>
+                                    Импорт данных
+                                </TextBlock>
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    Загрузка записей в выбранную таблицу из svg файла
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Padding="16 24 16 24">
+                        <StackPanel Spacing="48">
+                            <StackPanel Spacing="2">
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    ТАБЛИЦА
+                                </TextBlock>
+                                <ComboBox PlaceholderText="Выберите таблицу" HorizontalAlignment="Stretch" Height="40"/>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                        ФАЙЛ
+                                    </TextBlock>
+                                    <Label Classes="ShowFile" Width="314" Height="40" VerticalContentAlignment="Center">
+                                        Файл.scv
+                                    </Label>
+                                </StackPanel>
+                                <Button Classes="Secondary" Height="40" VerticalAlignment="Bottom">
+                                    Выбрать файл
+                                </Button>
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" Margin="0 6 0 0">
+                                Импортировать файл
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="0"
+                    Margin="0 24 24 0"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="2" CornerRadius="20"
+                    Background="{DynamicResource surface}">
+                <StackPanel>
+                    <Border Height="75"
+                            BorderBrush="{DynamicResource border}"
+                            BorderThickness="0 0 0 2"
+                            Padding="16 0"
+                            ClipToBounds="True">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="12" VerticalAlignment="Center">
+                            <Panel>
+                                <Border Height="40" Width="40"
+                                        Background="{DynamicResource success}"
+                                        Opacity="0.25" CornerRadius="10"/>
+                                <Path Stroke="{DynamicResource success}"
+                                      StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                      Margin="-3 -2 0 0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Data="{DynamicResource DataBaseExport}"/>
+                            </Panel>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock>
+                                    Экспорт данных
+                                </TextBlock>
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    Загрузка записей из выбранной таблицы
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Padding="16 24 16 24">
+                        <StackPanel Spacing="48">
+                            <StackPanel Spacing="2">
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    ТАБЛИЦА
+                                </TextBlock>
+                                <ComboBox PlaceholderText="Выберите таблицу" HorizontalAlignment="Stretch" Height="40"/>
+                            </StackPanel>
+                            
+                            
+                            <StackPanel Spacing="4">
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    ФОРМАТ ДАННЫХ
+                                </TextBlock>
+                                <ComboBox PlaceholderText="Выберите формат данных" HorizontalAlignment="Stretch" Height="40"/>
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" Margin="0 6 0 0"
+                                    Background="{DynamicResource success}">
+                                Экспортировать файл
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="0" Grid.Row="1"
+                    Margin="24 0 0 24"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="2" CornerRadius="20"
+                    Background="{DynamicResource surface}">
+                <StackPanel>
+                    <Border Height="75"
+                            BorderBrush="{DynamicResource border}"
+                            BorderThickness="0 0 0 2"
+                            Padding="16 0"
+                            ClipToBounds="True">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="12" VerticalAlignment="Center">
+                            <Panel>
+                                <Border Height="40" Width="40"
+                                        Background="{DynamicResource warning}"
+                                        Opacity="0.25" CornerRadius="10"/>
+                                <Path Stroke="{DynamicResource warning}"
+                                      StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                      Margin="-3 -2 0 0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Data="{DynamicResource DataBaseBackup}"/>
+                            </Panel>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock>
+                                    Востановление структуры базы данных
+                                </TextBlock>
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    Загрузка файла резервной копии
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Padding="16 24 16 24">
+                        <StackPanel Spacing="48">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                        ФАЙЛ
+                                    </TextBlock>
+                                    <Label Classes="ShowFile" Width="314" Height="40" VerticalContentAlignment="Center">
+                                        Файл.scv
+                                    </Label>
+                                </StackPanel>
+                                <Button Classes="Secondary" Height="40" VerticalAlignment="Bottom">
+                                    Выбрать файл
+                                </Button>
+                            </StackPanel>
+                            <Border BorderBrush="{DynamicResource error_border}"
+                                    BorderThickness="1"
+                                    Background="{DynamicResource error_backgraund}"
+                                    CornerRadius="8"
+                                    Margin="0 -6 0 -6"
+                                    Padding="16 12 16 12">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Viewbox ClipToBounds="False" Height="16" Width="16">
+                                        <Path Stroke="{DynamicResource error}"
+                                              StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                              Margin="-3 -2 0 0"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Data="{DynamicResource Info}"/>
+                                    </Viewbox>
+                                    <TextBlock Classes="Body" Foreground="{DynamicResource error}"
+                                               FontSize="13" TextWrapping="Wrap">
+                                        Восстановление перезапишет текущую структуру и данные <LineBreak/>
+                                        базы. Все изменения после момента создания копии будут <LineBreak/> 
+                                        потеряны.
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                            <Button HorizontalAlignment="Right" Margin="0 0 0 0"
+                                    Background="{DynamicResource warning}">
+                                Востановить структуру базы данных
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="1"
+                    Margin="0 0 24 24"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="2" CornerRadius="20"
+                    Background="{DynamicResource surface}">
+                <StackPanel>
+                    <Border Height="75"
+                            BorderBrush="{DynamicResource border}"
+                            BorderThickness="0 0 0 2"
+                            Padding="16 0"
+                            ClipToBounds="True">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="12" VerticalAlignment="Center">
+                            <Panel>
+                                <Border Height="40" Width="40"
+                                        Background="{DynamicResource info}"
+                                        Opacity="0.25" CornerRadius="10"/>
+                                <Path Stroke="{DynamicResource info}"
+                                      StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
+                                      Margin="-3 -2 0 0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Data="{DynamicResource DataBaseImport}"/>
+                            </Panel>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock>
+                                    Создать резервную копию
+                                </TextBlock>
+                                <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                    Создать копию базы данных
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Padding="16 24 16 24">
+                        <StackPanel Spacing="48">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock FontSize="12" Foreground="{DynamicResource secondary_text}">
+                                        ПУТЬ
+                                    </TextBlock>
+                                    <Label Classes="ShowFile" Width="314" Height="40" VerticalContentAlignment="Center">
+                                        /Путь сохранения/
+                                    </Label>
+                                </StackPanel>
+                                <Button Classes="Secondary" Height="40" VerticalAlignment="Bottom">
+                                    Выбрать путь
+                                </Button>
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" Margin="0 112 0 0"
+                                    Background="{DynamicResource info}">
+                                Создать резервную копию базы данных
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Border>
 </UserControl>
