@@ -3,18 +3,12 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Controls;
 
 public class CaptchaRenderer : Control
 {
-    private Color GetColor(string key, Color fallback)
-    {
-        if (this.TryFindResource(key, out var res) && res is SolidColorBrush brush)
-            return brush.Color;
-        return fallback;
-    }
-    
     private Color[] BuildCharColors() =>
     [
         Color.FromRgb(255, 180,  30),   // оранжевый
@@ -134,7 +128,7 @@ public class CaptchaRenderer : Control
         var charColors = BuildCharColors();
 
         // ── Диагональная штриховка фона ───────────────────────────────────
-        var stripeColor = GetColor("primary", Color.FromArgb(20, 250, 250, 250));
+        var stripeColor = ColorProvider.GetColor("primary", Color.FromArgb(20, 250, 250, 250));
         var stripePen = new Pen(new SolidColorBrush(stripeColor, 0.1), 6);
         double step = 14;
         for (double x = -(h + step); x < w + h + step; x += step)
