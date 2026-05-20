@@ -13,13 +13,14 @@
 
         <!-- #This работает здесь — вне DataTemplate -->
         <Button Classes="Secondary"
-                Command="{Binding #This.PreviousCommand}">
-            <Path Data="{DynamicResource ArrowLeft}"
-                  Stroke="{Binding $parent[Button].Foreground}"
-                  StrokeThickness="1.5"
-                  StrokeLineCap="Round"
-                  Width="12" Height="14"
-                  Stretch="Uniform"/>
+                Command="{Binding #This.PreviousCommand}"
+                Padding="13 11 9 11">
+            <Viewbox Height="12" Width="12" ClipToBounds="False">
+                <Path Data="{DynamicResource ArrowLeft}"
+                      StrokeThickness="2"
+                      StrokeLineCap="Round"
+                      Stretch="Uniform"/>
+            </Viewbox>
         </Button>
 
         <ItemsControl ItemsSource="{Binding #This.PageButtons}">
@@ -60,13 +61,14 @@
         </ItemsControl>
 
         <Button Classes="Secondary"
-                Command="{Binding #This.NextCommand}">
-            <Path Data="{DynamicResource ArrowRight}"
-                  Stroke="{Binding $parent[Button].Foreground}"
-                  StrokeThickness="1.5"
-                  StrokeLineCap="Round"
-                  Width="12" Height="14"
-                  Stretch="Uniform"/>
+                Command="{Binding #This.NextCommand}"
+                Padding="13 11 9 11">
+            <Viewbox Height="12" Width="12" ClipToBounds="False">
+                <Path Data="{DynamicResource ArrowRight}"
+                      StrokeThickness="2"
+                      StrokeLineCap="Round"
+                      Stretch="Uniform"/>
+            </Viewbox>
         </Button>
 
     </StackPanel>

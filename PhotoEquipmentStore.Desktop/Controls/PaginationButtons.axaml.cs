@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -69,6 +70,8 @@ public partial class PaginationButtons : UserControl
     public ReactiveCommand<Unit, Unit> PreviousCommand { get; }
     public ReactiveCommand<Unit, Unit> NextCommand     { get; }
     public ReactiveCommand<int,  Unit> GoToPageCommand { get; }
+    
+    private IDisposable? _collectionChangedSubscription;
 
     public PaginationButtons()
     {
@@ -92,6 +95,25 @@ public partial class PaginationButtons : UserControl
                 this.GetObservable(PageSizeProperty).Select(_ => Unit.Default),
                 this.GetObservable(CurrentPageProperty).Select(_ => Unit.Default))
             .Subscribe(_ => Refresh());
+        
+        this.GetObservable(ItemsProperty).Subscribe(OnItemsChanged);
+    }
+    
+    private void OnItemsChanged(IList? newItems)
+    {
+        // Отписываемся от старой коллекции
+        _collectionChangedSubscription?.Dispose();
+        
+        if (newItems is INotifyCollectionChanged observable)
+        {
+            _collectionChangedSubscription = 
+                Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                        handler => observable.CollectionChanged += handler,
+                        handler => observable.CollectionChanged -= handler)
+                    .Subscribe(_ => Refresh());
+        }
+        
+        Refresh(); // Обновить страницы при смене коллекции
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -108,6 +130,11 @@ public partial class PaginationButtons : UserControl
 
     private void Refresh()
     {
+        var totalPages = ComputeTotalPages();
+        var clampedPage = Math.Clamp(CurrentPage, 1, Math.Max(1, totalPages));
+        if (clampedPage != CurrentPage)
+            CurrentPage = clampedPage;
+        
         CurrentPageItems = Items
             .Cast<object>()
             .Skip((CurrentPage - 1) * PageSize)
