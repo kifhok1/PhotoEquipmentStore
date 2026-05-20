@@ -1,0 +1,256 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  
+  <!--
+    ========================================================================
+    PREVIEW
+    ========================================================================
+  -->
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <StackPanel Orientation="Horizontal"
+                  Spacing="20">
+        <!-- Horizontal -->
+        <StackPanel Spacing="20">
+          <ScrollBar Orientation="Horizontal"
+                     Width="120"
+                     AllowAutoHide="False" />
+
+          <ScrollBar Orientation="Horizontal"
+                     Width="120"
+                     AllowAutoHide="False"
+                     IsEnabled="False" />
+
+          <ScrollBar Orientation="Horizontal"
+                     Width="120"
+                     AllowAutoHide="True" />
+        </StackPanel>
+
+        <!-- Vertical -->
+        <ScrollBar Orientation="Vertical"
+                   Height="120"
+                   AllowAutoHide="False" />
+
+        <ScrollBar Orientation="Vertical"
+                   Height="120"
+                   AllowAutoHide="False"
+                   IsEnabled="False" />
+
+        <ScrollBar Orientation="Vertical"
+                   Height="120"
+                   AllowAutoHide="True" />
+
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <!--
+    ========================================================================
+    SCROLLBAR STYLE
+    ========================================================================
+  -->
+  <Style Selector="ScrollBar">
+
+    <!-- Базовые свойства -->
+    <Setter Property="MinWidth" Value="{DynamicResource ScrollBarSize}" />
+
+    <Setter Property="MinHeight" Value="{DynamicResource ScrollBarSize}" />
+
+    <Setter Property="Background" Value="{DynamicResource ScrollBarBackground}" />
+
+    <Setter Property="Foreground" Value="{DynamicResource ScrollBarForeground}" />
+
+    <Setter Property="BorderBrush" Value="{DynamicResource ScrollBarBorderBrush}" />
+
+    <!--
+      ======================================================================
+      КНОПКИ ВСЕГДА СКРЫТЫ
+      ======================================================================
+    -->
+    <Style Selector="^ /template/ RepeatButton">
+      <Setter Property="Opacity" Value="0" />
+
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <!--
+      ======================================================================
+      TRACK ВСЕГДА СКРЫТ
+      ======================================================================
+    -->
+    <Style Selector="^ /template/ Rectangle#TrackRect">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!--
+      ======================================================================
+      ПРИ EXPANDED НИЧЕГО НЕ МЕНЯЕТСЯ
+      ======================================================================
+      ScrollBar остаётся в свернутом состоянии
+    -->
+    <Style Selector="^[IsExpanded=true]">
+
+      <Style Selector="^ /template/ RepeatButton">
+        <Setter Property="Opacity" Value="0" />
+      </Style>
+
+      <Style Selector="^ /template/ Rectangle#TrackRect">
+        <Setter Property="Opacity" Value="0" />
+      </Style>
+
+      <Style Selector="^ /template/ Thumb">
+        <Setter Property="RenderTransform" Value="{x:Null}" />
+      </Style>
+    </Style>
+
+    <!--
+      ======================================================================
+      VERTICAL
+      ======================================================================
+    -->
+    <Style Selector="^:vertical">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Grid x:Name="Root">
+            <Border x:Name="VerticalRoot"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}">
+
+              <Grid RowDefinitions="Auto,*,Auto">
+
+                <!-- Track -->
+                <Rectangle x:Name="TrackRect"
+                           Fill="{DynamicResource ScrollBarTrackFill}"
+                           Stroke="{DynamicResource ScrollBarTrackStroke}"
+                           StrokeThickness="{DynamicResource ScrollBarTrackBorderThemeThickness}"
+                           Opacity="0"
+                           Grid.RowSpan="3" />
+
+                <!-- Верхняя кнопка -->
+                <RepeatButton Name="PART_LineUpButton"
+                              Grid.Row="0"
+                              Opacity="0"
+                              Focusable="False"
+                              MinWidth="{DynamicResource ScrollBarSize}"
+                              Height="{DynamicResource ScrollBarSize}" />
+
+                <!-- Track -->
+                <Track Grid.Row="1"
+                       Minimum="{TemplateBinding Minimum}"
+                       Maximum="{TemplateBinding Maximum}"
+                       Value="{TemplateBinding Value, Mode=TwoWay}"
+                       ViewportSize="{TemplateBinding ViewportSize}"
+                       Orientation="{TemplateBinding Orientation}"
+                       IsDirectionReversed="True">
+
+                  <!-- PageUp -->
+                  <Track.DecreaseButton>
+                    <RepeatButton Opacity="0"
+                                  Focusable="False" />
+                  </Track.DecreaseButton>
+
+                  <!-- PageDown -->
+                  <Track.IncreaseButton>
+                    <RepeatButton Opacity="0"
+                                  Focusable="False" />
+                  </Track.IncreaseButton>
+
+                  <!-- Thumb -->
+                  <Thumb Width="{DynamicResource ScrollBarSize}"
+                         MinHeight="{DynamicResource ScrollBarSize}"
+                         Background="{DynamicResource ScrollBarThumbBackgroundColor}"
+                         RenderTransform="{DynamicResource VerticalSmallScrollThumbScaleTransform}"
+                         RenderTransformOrigin="100%,50%" />
+                </Track>
+
+                <!-- Нижняя кнопка -->
+                <RepeatButton Name="PART_LineDownButton"
+                              Grid.Row="2"
+                              Opacity="0"
+                              Focusable="False"
+                              MinWidth="{DynamicResource ScrollBarSize}"
+                              Height="{DynamicResource ScrollBarSize}" />
+              </Grid>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+
+    <!--
+      ======================================================================
+      HORIZONTAL
+      ======================================================================
+    -->
+    <Style Selector="^:horizontal">
+
+      <Setter Property="Template">
+        <ControlTemplate>
+
+          <Grid x:Name="Root">
+
+            <Border x:Name="HorizontalRoot"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}">
+
+              <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <!-- Track -->
+                <Rectangle x:Name="TrackRect"
+                           Fill="{DynamicResource ScrollBarTrackFill}"
+                           Stroke="{DynamicResource ScrollBarTrackStroke}"
+                           StrokeThickness="{DynamicResource ScrollBarTrackBorderThemeThickness}"
+                           Opacity="0"
+                           Grid.ColumnSpan="3" />
+
+                <!-- Левая кнопка -->
+                <RepeatButton Name="PART_LineUpButton"
+                              Grid.Column="0"
+                              Opacity="0"
+                              Focusable="False"
+                              MinHeight="{DynamicResource ScrollBarSize}"
+                              Width="{DynamicResource ScrollBarSize}" />
+
+                <!-- Track -->
+                <Track Grid.Column="1"
+                       Minimum="{TemplateBinding Minimum}"
+                       Maximum="{TemplateBinding Maximum}"
+                       Value="{TemplateBinding Value, Mode=TwoWay}"
+                       ViewportSize="{TemplateBinding ViewportSize}"
+                       Orientation="{TemplateBinding Orientation}">
+
+                  <!-- PageLeft -->
+                  <Track.DecreaseButton>
+                    <RepeatButton Opacity="0"
+                                  Focusable="False" />
+                  </Track.DecreaseButton>
+
+                  <!-- PageRight -->
+                  <Track.IncreaseButton>
+                    <RepeatButton Opacity="0"
+                                  Focusable="False" />
+                  </Track.IncreaseButton>
+
+                  <!-- Thumb -->
+                  <Thumb Height="{DynamicResource ScrollBarSize}"
+                         MinWidth="{DynamicResource ScrollBarSize}"
+                         Background="{DynamicResource ScrollBarThumbBackgroundColor}"
+                         RenderTransform="{DynamicResource HorizontalSmallScrollThumbScaleTransform}"
+                         RenderTransformOrigin="50%,100%" />
+                </Track>
+
+                <!-- Правая кнопка -->
+                <RepeatButton Name="PART_LineDownButton"
+                              Grid.Column="2"
+                              Opacity="0"
+                              Focusable="False"
+                              MinHeight="{DynamicResource ScrollBarSize}"
+                              Width="{DynamicResource ScrollBarSize}" />
+              </Grid>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+  </Style>
+</Styles>

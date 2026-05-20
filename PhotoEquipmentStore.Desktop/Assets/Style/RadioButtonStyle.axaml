@@ -1,0 +1,90 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+      <Border Padding="20" Background="{DynamicResource main_background}">
+        <Border BorderBrush="{DynamicResource border}"
+                BorderThickness="1.5"
+                CornerRadius="6"
+                Background="{DynamicResource secondary_background}">
+          <StackPanel Spacing="10" 
+                      Orientation="Horizontal">
+            <RadioButton Content="Роли" Classes="SelectPage" IsChecked="True"/>
+            <RadioButton Content="Поставщики" Classes="SelectPage"/>
+            <RadioButton Content="Производители" Classes="SelectPage"/>
+            <RadioButton Content="Категории" Classes="SelectPage"/>
+            <RadioButton Content="Статусы заказов" Classes="SelectPage"/>
+          </StackPanel>
+        </Border>
+      </Border>
+    </Design.PreviewWith>
+    
+    <Style Selector="RadioButton.SelectPage">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource secondary_text}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Padding" Value="18 10" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="RadioButton">
+          <Border
+              Name="RootBorder"
+              Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="{TemplateBinding CornerRadius}">
+            <Grid ColumnDefinitions="*">
+              <TextBlock
+                Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Text="{TemplateBinding Content}"
+                Foreground="{TemplateBinding Foreground}" 
+                />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+      
+      <!--  PointerOver State  -->
+      <Style Selector="^:pointerover /template/ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource main_text}" />
+      </Style>
+
+      <Style Selector="^:pointerover /template/ Border#RootBorder">
+        <Setter Property="Background" Value="{DynamicResource secondary_background}" />
+      </Style>
+
+
+      <!--  Pressed State  -->
+      <Style Selector="^:pressed /template/ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource main_text}" />
+      </Style>
+
+      <Style Selector="^:pressed /template/ Border#RootBorder">
+        <Setter Property="Background" Value="{DynamicResource secondary_background}" />
+      </Style>
+
+
+      <!--  Disabled State  -->
+      <Style Selector="^:disabled /template/ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource muted_text}" />
+      </Style>
+
+      <Style Selector="^:disabled /template/ Border#RootBorder">
+        <Setter Property="Background" Value="{DynamicResource secondary_background}" />
+      </Style>
+
+
+      <!--  Checked State  -->
+      <Style Selector="^:checked /template/ Border#RootBorder">
+        <Setter Property="Background" Value="{DynamicResource primary}"/>
+      </Style>
+      <Style Selector="^:checked /template/ TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource white}"/>
+      </Style>
+    </Style>
+</Styles>

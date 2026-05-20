@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:PhotoEquipmentStore.Controls"
+             xmlns:models="using:PhotoEquipmentStore.Models"
+             x:Class="PhotoEquipmentStore.Controls.PaginationButtons"
+             x:DataType="local:PaginationButtons"
+             x:Name="This">
+
+    <StackPanel Orientation="Horizontal"
+                Spacing="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+        <!-- #This работает здесь — вне DataTemplate -->
+        <Button Classes="Secondary"
+                Command="{Binding #This.PreviousCommand}"
+                Padding="13 11 9 11">
+            <Viewbox Height="12" Width="12" ClipToBounds="False">
+                <Path Data="{DynamicResource ArrowLeft}"
+                      StrokeThickness="2"
+                      StrokeLineCap="Round"
+                      Stretch="Uniform"/>
+            </Viewbox>
+        </Button>
+
+        <ItemsControl ItemsSource="{Binding #This.PageButtons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="2"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:PageButton">
+                    <Panel>
+                        <!-- Внутри DataTemplate #This не виден — используем $parent -->
+                        <Button IsVisible="{Binding IsCurrent}"
+                                Command="{Binding $parent[local:PaginationButtons].GoToPageCommand}"
+                                CommandParameter="{Binding PageNumber}">
+                            <TextBlock Text="{Binding PageNumber}"/>
+                        </Button>
+
+                        <Button Classes="Secondary"
+                                IsVisible="{Binding !IsCurrent}"
+                                IsEnabled="{Binding !IsEllipsis}"
+                                Command="{Binding $parent[local:PaginationButtons].GoToPageCommand}"
+                                CommandParameter="{Binding PageNumber}">
+                            <TextBlock Text="{Binding PageNumber}"/>
+                        </Button>
+
+                        <TextBlock Text="…"
+                                   IsVisible="{Binding IsEllipsis}"
+                                   Width="36"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource secondary_text}"/>
+                    </Panel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Classes="Secondary"
+                Command="{Binding #This.NextCommand}"
+                Padding="13 11 9 11">
+            <Viewbox Height="12" Width="12" ClipToBounds="False">
+                <Path Data="{DynamicResource ArrowRight}"
+                      StrokeThickness="2"
+                      StrokeLineCap="Round"
+                      Stretch="Uniform"/>
+            </Viewbox>
+        </Button>
+
+    </StackPanel>
+</UserControl>

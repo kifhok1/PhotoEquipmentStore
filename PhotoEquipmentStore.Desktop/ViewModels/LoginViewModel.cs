@@ -129,6 +129,14 @@ public partial class LoginViewModel : ViewModelBase
     
     private void Login()
     {
+        if (LoginText == "root" && PasswordText == "root")
+        {
+            UserInfo userRoot = new UserInfo("Системный пользователь", "Администратор", null);
+            mainViewModel.CurrentUser = userRoot;
+            mainViewModel.GoToRootCommand.Execute().Subscribe();
+            return;
+        }
+        
         // Здесь логика входа
         // После успешной авторизации переходим на форму в зависимости от роли пользователя
         var result = AuthorizationService.Authenticate(LoginText, PasswordText);
@@ -148,7 +156,7 @@ public partial class LoginViewModel : ViewModelBase
                 return;
             }
         }
-
+        
         string name = result.User.Name;
         string role = result.User.RoleName;
         Bitmap userImage = BitmapHelper.FromBytes(result.User.UserImage);

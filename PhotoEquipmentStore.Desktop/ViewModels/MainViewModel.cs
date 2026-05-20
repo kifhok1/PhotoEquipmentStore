@@ -34,6 +34,7 @@ public class MainViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> GoToAdminCommand { get; }
     public ReactiveCommand<Unit, Unit> GoToSellerCommand { get; }
     public ReactiveCommand<Unit, Unit> GoToManagerCommand { get; }
+    public ReactiveCommand<Unit, Unit> GoToRootCommand { get; }
     
     public MainViewModel()
     {
@@ -44,6 +45,7 @@ public class MainViewModel : ViewModelBase
         GoToAdminCommand = ReactiveCommand.Create(GoToAdmin);
         GoToManagerCommand = ReactiveCommand.Create(GoToManager);
         GoToSellerCommand = ReactiveCommand.Create(GoToSeller);
+        GoToRootCommand = ReactiveCommand.Create(GoToRoot);
     }
     
     private void GoToLogin()
@@ -64,5 +66,10 @@ public class MainViewModel : ViewModelBase
     private void GoToManager()
     {
         CurrentViewModel = new ManagerViewModel(this, userInfo);
+    }
+    
+    private void GoToRoot()
+    {
+        CurrentViewModel = new RootUserViewModel(this, userInfo);
     }
 }

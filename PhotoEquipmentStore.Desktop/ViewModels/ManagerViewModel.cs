@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reactive;
 using Avalonia.Media.Imaging;
 using PhotoEquipmentStore.Models;
-using PhotoEquipmentStore.ViewModels.Pages;
 using PhotoEquipmentStore.ViewModels.Pages.Manager;
 using ReactiveUI;
 
@@ -47,21 +46,18 @@ public class ManagerViewModel : ViewModelBase
         
         // Инициализация команд навигации
         ReactiveCommand<Unit, Unit> goToReportsCommand = ReactiveCommand.Create(GoToReports);
-        ReactiveCommand<Unit, Unit> goToDashboardCommand = ReactiveCommand.Create(GoToDashboard);
         ReactiveCommand<Unit, Unit> goToProductsCommand = ReactiveCommand.Create(GoToProducts);
         ReactiveCommand<Unit, Unit> goToProductAddCommand = ReactiveCommand.Create(GoToProductAdd);
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
-            
-            new NavigationMenuItem("Отчёты", "Dashboard",  goToDashboardCommand),
             new NavigationMenuItem("Формирование отчёта", "Records",  goToReportsCommand),
             new NavigationMenuItem("Товары", "Product", goToProductsCommand),
             new NavigationMenuItem("Создание товара", "ProductAdd", goToProductAddCommand),
         };
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
+        _currentViewModel = new ReportsViewModel();
         _currentUser = userInfo;
     }
     
@@ -74,21 +70,18 @@ public class ManagerViewModel : ViewModelBase
         
         // Создаем пустые команды для дизайнера
         ReactiveCommand<Unit, Unit> goToReportsCommand = ReactiveCommand.Create(GoToReports);
-        ReactiveCommand<Unit, Unit> goToDashboardCommand = ReactiveCommand.Create(GoToDashboard);
         ReactiveCommand<Unit, Unit> goToProductsCommand = ReactiveCommand.Create(GoToProducts);
         ReactiveCommand<Unit, Unit> goToProductAddCommand = ReactiveCommand.Create(GoToProductAdd);
         
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
-            
-            new NavigationMenuItem("Отчёты", "Dashboard",  goToDashboardCommand),
             new NavigationMenuItem("Формирование отчёта", "Records",  goToReportsCommand),
             new NavigationMenuItem("Товары", "Product", goToProductsCommand),
             new NavigationMenuItem("Создание товара", "ProductAdd", goToProductAddCommand),
         };
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
+        _currentViewModel = new ReportsViewModel();
         _currentUser = new UserInfo("Ианов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
@@ -97,12 +90,6 @@ public class ManagerViewModel : ViewModelBase
     private void Logout()
     {
         _mainViewModel.GoToLoginCommand.Execute().Subscribe();
-    }
-
-    private void GoToDashboard()
-    {
-        CurrentViewModel = new DashboardViewModel();
-        SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Отчёты");
     }
 
     private void GoToReports()
