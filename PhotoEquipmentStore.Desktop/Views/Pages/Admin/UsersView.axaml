@@ -2,11 +2,131 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="PhotoEquipmentStore.Views.Pages.UsersView">
-    <Border Background="{DynamicResource main_background}">
-        <TextBlock Classes="H1" 
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center">Форма пользователей</TextBlock>
-    </Border>
+             mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
+             xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Admin"
+             x:Class="PhotoEquipmentStore.Views.Pages.Admin.UsersView"
+             x:DataType="vm:UsersViewModel">
+    
+    <Design.DataContext>
+        <vm:UsersViewModel/>
+    </Design.DataContext>
+    
+    <Border Background="{DynamicResource main_background}" Padding="20">
+                        <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
+                                            CornerRadius="10"
+                                            BorderThickness="1"
+                                            ClipToBounds="True">
+                                <Border ClipToBounds="True"
+                                        CornerRadius="10"
+                                        BorderThickness="0"
+                                        Background="{DynamicResource secondary_background}"
+                                        BorderBrush="{DynamicResource border}">
+                                    <Grid RowDefinitions="* Auto" RowSpacing="10">
+                                        <DataGrid IsReadOnly="True"
+                                                  AutoGenerateColumns="False"
+                                                  ItemsSource="{Binding Users}"
+                                                  CanUserSortColumns="False"
+                                                  BorderBrush="{DynamicResource border}"
+                                                  BorderThickness="0 0 0 1">
+                                            <DataGrid.Columns>
+                                                
+                                                <DataGridTemplateColumn Header="Фото" Width="Auto">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Border BorderBrush="{DynamicResource border}"
+                                                                    BorderThickness="2"
+                                                                    Width="45"
+                                                                    Height="45"
+                                                                    CornerRadius="12"
+                                                                    Margin="10 0 0 0"
+                                                                    Background="{DynamicResource secondary_background}">
+                                                                <Border ClipToBounds="True"
+                                                                        Width="42"
+                                                                        Height="42"
+                                                                        CornerRadius="12">
+                                                                    <Panel ClipToBounds="True">
+                                                                        <Viewbox HorizontalAlignment="Center"
+                                                                                IsVisible="{Binding !IsVisibleImage}"
+                                                                                VerticalAlignment="Center"
+                                                                                Height="20"
+                                                                                Width="20"
+                                                                                ClipToBounds="False"
+                                                                                Margin="0 0 4 4">
+                                                                            <Path Data="{DynamicResource NoImage}"
+                                                                                    StrokeThickness="1.8"
+                                                                                    Stroke="{DynamicResource secondary_text}"
+                                                                                    StrokeJoin="Round"
+                                                                                    StrokeLineCap="Round"/>
+                                                                        </Viewbox>
+                                                                    
+                                                                        <Image Source="{Binding Image}" HorizontalAlignment="Stretch"
+                                                                               VerticalAlignment="Stretch"
+                                                                               Stretch="UniformToFill"/>
+                                                                    </Panel>
+                                                                </Border>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                
+                                                <DataGridTextColumn
+                                                    Header="ФИО пользователя"
+                                                    Binding="{Binding Name}"
+                                                    Width="*"/>
+                                                <DataGridTextColumn
+                                                    Header="Номер телефона пользователя"
+                                                    Binding="{Binding PhoneNumber}"
+                                                    Foreground="{DynamicResource secondary_text}"
+                                                    Width="Auto"/>
+                                                <DataGridTextColumn
+                                                    Header="Логин пользователя"
+                                                    Binding="{Binding Login}"
+                                                    Width="Auto"/>
+                                                <DataGridTextColumn
+                                                    Header="Роль пользователя"
+                                                    Binding="{Binding Role}"
+                                                    Foreground="{DynamicResource accent}"
+                                                    Width="Auto"/>
+                                                
+                                                <DataGridTemplateColumn Header="Действия">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal" Spacing="18"
+                                                                        Margin=" 18 0 18 0">
+                                                                <Button Classes="Ghost"
+                                                                        ToolTip.Tip="Редактировать"
+                                                                        Padding="0" ClipToBounds="False">
+                                                                    <Viewbox Width="14"
+                                                                             Height="14"
+                                                                             ClipToBounds="False">
+                                                                        <Path Data="{DynamicResource Edit}"/>
+                                                                    </Viewbox>
+                                                                </Button>
+                                                                <Button Classes="Ghost"
+                                                                        ToolTip.Tip="Удалить"
+                                                                        Padding="0">
+                                                                    <Viewbox Width="14"
+                                                                             Height="14"
+                                                                             ClipToBounds="False">
+                                                                        <Path Data="{DynamicResource Delete}"/>
+                                                                    </Viewbox>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <Panel Grid.Row="1"
+                                               Margin="10 0  10 8">
+                                            <TextBlock  Classes="Body"
+                                                        HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                        Text="{Binding UsersCount}"/>
+                                        </Panel>
+                                    </Grid>
+                                </Border>
+                        </Border>
+                </Border>
 </UserControl>
