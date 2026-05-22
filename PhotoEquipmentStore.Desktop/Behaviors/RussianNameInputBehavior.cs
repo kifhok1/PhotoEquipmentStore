@@ -4,13 +4,16 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
-public class RussianNameInputBehavior: Behavior<TextBox>
+public class RussianNameInputBehavior : Behavior<TextBox>
 {
     private static readonly Regex RussianOrSpace =
         new(@"^[а-яёА-ЯЁ ]+$", RegexOptions.Compiled);
+
+    private const string ErrorText = "Только русские буквы";
 
     protected override void OnAttached()
     {
@@ -29,30 +32,32 @@ public class RussianNameInputBehavior: Behavior<TextBox>
     {
         if (string.IsNullOrEmpty(e.Text)) return;
 
-        // Только русские буквы и пробел
         if (!RussianOrSpace.IsMatch(e.Text))
         {
             e.Handled = true;
+            InputValidation.SetInputError(AssociatedObject!, ErrorText);
             return;
         }
 
         var tb = AssociatedObject!;
         var current = tb.Text ?? "";
 
-        // Запрет двойного пробела
         if (e.Text == " " && (string.IsNullOrEmpty(current) || current.EndsWith(" ")))
         {
             e.Handled = true;
+            InputValidation.SetInputError(tb, ErrorText);
             return;
         }
 
-        // Не более 3 слов
         var future = current.Insert(Math.Clamp(tb.CaretIndex, 0, current.Length), e.Text);
-        var wordCount = future.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
-        if (wordCount > 3)
+        if (future.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries).Length > 3)
         {
             e.Handled = true;
+            InputValidation.SetInputError(tb, "Не более трёх слов");
+            return;
         }
-    }
 
+        // Символ допустимый — сбрасываем ошибку
+        InputValidation.SetInputError(tb, string.Empty);
+    }
 }

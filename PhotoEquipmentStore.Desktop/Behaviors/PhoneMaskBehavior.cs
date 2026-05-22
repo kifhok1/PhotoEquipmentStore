@@ -5,28 +5,31 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
 public class PhoneMaskBehavior : Behavior<TextBox>
 {
+    private const string ErrorText = "Только цифры";
+
     protected override void OnAttached()
     {
         base.OnAttached();
         var tb = AssociatedObject!;
         tb.AddHandler(InputElement.TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
-        tb.KeyDown    += OnKeyDown;
-        tb.GotFocus   += OnGotFocus;
-        tb.LostFocus  += OnLostFocus;
+        tb.KeyDown   += OnKeyDown;
+        tb.GotFocus  += OnGotFocus;
+        tb.LostFocus += OnLostFocus;
     }
 
     protected override void OnDetaching()
     {
         var tb = AssociatedObject!;
         tb.RemoveHandler(InputElement.TextInputEvent, OnTextInput);
-        tb.KeyDown    -= OnKeyDown;
-        tb.GotFocus   -= OnGotFocus;
-        tb.LostFocus  -= OnLostFocus;
+        tb.KeyDown   -= OnKeyDown;
+        tb.GotFocus  -= OnGotFocus;
+        tb.LostFocus -= OnLostFocus;
         base.OnDetaching();
     }
 
@@ -42,18 +45,28 @@ public class PhoneMaskBehavior : Behavior<TextBox>
 
     private void OnLostFocus(object? sender, RoutedEventArgs e)
     {
-        if (AssociatedObject?.Text == "+7(")
-            AssociatedObject.Text = string.Empty;
+        var tb = AssociatedObject!;
+        if (tb.Text == "+7(")
+            tb.Text = string.Empty;
+        InputValidation.SetInputError(tb, string.Empty);
     }
 
     private void OnTextInput(object? sender, TextInputEventArgs e)
     {
         e.Handled = true;
         var tb = AssociatedObject!;
+        var input = e.Text ?? "";
 
-        // Принимаем только цифры (поддерживаем вставку нескольких)
-        var incoming = new string((e.Text ?? "").Where(char.IsDigit).ToArray());
-        if (incoming.Length == 0) return;
+        var incoming = new string(input.Where(char.IsDigit).ToArray());
+
+        // Попытка ввести не цифру
+        if (string.IsNullOrEmpty(incoming) && input.Length > 0)
+        {
+            InputValidation.SetInputError(tb, ErrorText);
+            return;
+        }
+
+        InputValidation.SetInputError(tb, string.Empty);
 
         var raw = tb.Text ?? "";
         if (!raw.StartsWith("+7(")) raw = "+7(";
@@ -71,6 +84,8 @@ public class PhoneMaskBehavior : Behavior<TextBox>
         e.Handled = true;
 
         var tb = AssociatedObject!;
+        InputValidation.SetInputError(tb, string.Empty);
+
         var digits = ExtractDigits(tb.Text ?? "");
         if (digits.Length == 0) return;
 
@@ -79,13 +94,11 @@ public class PhoneMaskBehavior : Behavior<TextBox>
         tb.CaretIndex = tb.Text?.Length ?? 0;
     }
 
-    // Вырезаем цифры после "+7(" префикса
     private static string ExtractDigits(string text) =>
         text.Length <= 3
             ? string.Empty
             : new string(text[3..].Where(char.IsDigit).ToArray());
 
-    // Собираем маску +7(XXX) XXX-XX-XX
     private static string FormatPhone(string digits)
     {
         var sb = new StringBuilder("+7(");
