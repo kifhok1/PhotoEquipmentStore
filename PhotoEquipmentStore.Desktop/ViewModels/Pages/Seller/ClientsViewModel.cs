@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Reactive;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
 using ReactiveUI;
@@ -7,33 +9,43 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class ClientsViewModel : ViewModelBase
 {
-    public ObservableCollection<ClientShow> Clients
-    {
-        get;
-        private set;
-    } = new();
-    
-    private string countClients;
-    private ObservableCollection<ClientShow> currentClients = new();
+    public ObservableCollection<ClientShow> Clients { get; } = new();
+
+    private ObservableCollection<ClientShow> _currentClients = new();
     public ObservableCollection<ClientShow> CurrentClients
     {
-        get => currentClients;
-        set => this.RaiseAndSetIfChanged(ref currentClients, value);
+        get => _currentClients;
+        set => this.RaiseAndSetIfChanged(ref _currentClients, value);
     }
 
+    private string _countClients = string.Empty;
     public string CountClients
     {
-        get => countClients;
-        set => this.RaiseAndSetIfChanged(ref countClients, value);
+        get => _countClients;
+        set => this.RaiseAndSetIfChanged(ref _countClients, value);
     }
 
-    public ClientsViewModel()
+    public ReactiveCommand<ClientShow, Unit> EditCommand   { get; }
+    public ReactiveCommand<ClientShow, Unit> DeleteCommand { get; }
+
+    public ClientsViewModel(Action<ClientShow>? goToEdit = null)
     {
-        var clientsDb= ClientsService.GetClients();
-        foreach (var client in clientsDb)
+        EditCommand = ReactiveCommand.Create<ClientShow>(
+            item => goToEdit?.Invoke(item));
+
+        DeleteCommand = ReactiveCommand.Create<ClientShow>(item =>
         {
-            Clients.Add(new ClientShow(client.Id, client.Name, client.PhoneNumber, client.TotalPurchases.ToString(), client.CountOrders));
-        }
-        CountClients = $"Количесто записей на форме: {Clients.Count}";
+            // TODO: вызов сервиса удаления
+            Clients.Remove(item);
+            CurrentClients.Remove(item);
+            CountClients = $"Количество записей на форме: {Clients.Count}";
+        });
+
+        var clientsDb = ClientsService.GetClients();
+        foreach (var client in clientsDb)
+            Clients.Add(new ClientShow(client.Id, client.Name,
+                client.PhoneNumber, client.TotalPurchases.ToString(), client.CountOrders));
+
+        CountClients = $"Количество записей на форме: {Clients.Count}";
     }
 }

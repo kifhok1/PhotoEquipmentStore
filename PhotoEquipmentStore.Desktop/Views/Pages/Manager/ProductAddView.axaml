@@ -2,155 +2,242 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Manager"
+             xmlns:models="clr-namespace:PhotoEquipmentStore.Models"
+             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
+             xmlns:behaviors="clr-namespace:PhotoEquipmentStore.Behaviors"
+             xmlns:helpers="clr-namespace:PhotoEquipmentStore.Helper"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Manager.ProductAddView"
-             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls">
-    <Border Padding="10"
-            Background="{DynamicResource main_background}" >
-        <Grid ColumnDefinitions="* Auto" 
+             x:DataType="viewModels:ProductAddViewModel">
+
+    <Design.DataContext>
+        <viewModels:ProductAddViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBox.invalid">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Padding="10" Background="{DynamicResource main_background}">
+        <Grid ColumnDefinitions="* Auto"
               RowDefinitions="Auto Auto Auto"
               ColumnSpacing="15"
               VerticalAlignment="Center">
-                <Border Grid.Column="0" Grid.Row="0"
-                        Background="{DynamicResource surface}"
-                        CornerRadius="10"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1"
-                        Padding="15 15 15 15">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Основная информация
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Foreground="{DynamicResource secondary_text}" Margin="0 2 0 20">
-                            Введите основные данные нового оборудования.
-                        </TextBlock>
-                        <Grid RowDefinitions="Auto Auto Auto" RowSpacing="20"
-                              ColumnDefinitions="* *" ColumnSpacing="10">
-                            <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Название
-                                </TextBlock>
-                                <TextBox Watermark="Sony FE 50mm f/1.8" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Категория
-                                </TextBlock>
-                                <ComboBox PlaceholderText="Выберите категорию"
-                                          HorizontalContentAlignment="Stretch">
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Производитель
-                                </TextBlock>
-                                <ComboBox PlaceholderText="Выберите производителя"
-                                          HorizontalContentAlignment="Stretch">
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Поставщик
-                                </TextBlock>
-                                <ComboBox PlaceholderText="Выберите поставщика"
-                                          HorizontalContentAlignment="Stretch">
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Описание товара
-                                </TextBlock>
-                                <TextBox TextWrapping="Wrap" Height="170" Watermark="У товара есть..."/>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
-                        Background="{DynamicResource surface}"
-                        CornerRadius="10"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1"
-                        Padding="15 15 15 15"
-                        Margin="0 20 0 0">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Цена товара и его количество на складе
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Foreground="{DynamicResource secondary_text}"
-                                   Margin="0 2 0 20">
-                            Введите информацию о начальной стоимсоти товара, его скидке и количестве на складе
-                        </TextBlock>
-                        <Grid ColumnDefinitions="* * *" ColumnSpacing="10">
-                            <StackPanel Grid.Column="0" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Цена
-                                </TextBlock>
-                                <TextBox Watermark="Цена товара" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Количество
-                                </TextBlock>
-                                <TextBox Watermark="Количество на складе" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Скидка
-                                </TextBlock>
-                                <TextBox Watermark="Скидка товара" />
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </Border>
-        
-                <Border Grid.Column="1" Grid.Row="0" 
-                        Background="{DynamicResource surface}" 
-                        CornerRadius="10"
-                        Padding="14 15 14 15"
-                        Width="330"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Изображение товара
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Margin="0 5 0 20"
-                                   Foreground="{DynamicResource secondary_text}" 
-                                   TextWrapping="Wrap">
-                            Фото для отображения товара в системе
-                        </TextBlock>
-                        <controls:ImageBox/>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="1" Grid.Row="2" Background="{DynamicResource surface}" 
-                        CornerRadius="10"
-                        Padding="14 15 14 15"
-                        Width="330"
-                        Margin="0 30 0 0"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1">
-                    <StackPanel Spacing="10">
-                        <Button HorizontalAlignment="Stretch">
-                            Сохранить
-                        </Button>
-                        <Button HorizontalAlignment="Stretch"
-                                Classes="Secondary">
-                            Сбросить
-                        </Button>
-                    </StackPanel>
-                </Border>
+
+            <!-- ── Основная информация ───────────────────────────────────── -->
+            <Border Grid.Column="0" Grid.Row="0"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="15">
+                <StackPanel>
+                    <TextBlock Classes="H3">Основная информация</TextBlock>
+                    <TextBlock Classes="Body"
+                               Foreground="{DynamicResource secondary_text}"
+                               Margin="0 2 0 20">
+                        Введите основные данные нового оборудования.
+                    </TextBlock>
+
+                    <Grid RowDefinitions="Auto Auto Auto" RowSpacing="12"
+                          ColumnDefinitions="* *" ColumnSpacing="10">
+
+                        <!-- Название -->
+                        <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2">
+                            <TextBlock Classes="Body">Название</TextBlock>
+                            <TextBox x:Name="NameBox"
+                                     Watermark="Sony FE 50mm f/1.8"
+                                     Text="{Binding Name}"
+                                     Classes.invalid="{Binding #NameBox.(helpers:InputValidation.InputError),
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:ProductNameInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #NameBox.(helpers:InputValidation.InputError),
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #NameBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+
+                        <!-- Категория -->
+                        <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2">
+                            <TextBlock Classes="Body">Категория</TextBlock>
+                            <ComboBox PlaceholderText="Выберите категорию"
+                                      HorizontalContentAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Categories}"
+                                      SelectedItem="{Binding SelectedCategory}"
+                                      DisplayMemberBinding="{Binding Title}"/>
+                        </StackPanel>
+
+                        <!-- Производитель -->
+                        <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2">
+                            <TextBlock Classes="Body">Производитель</TextBlock>
+                            <ComboBox PlaceholderText="Выберите производителя"
+                                      HorizontalContentAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Manufacturers}"
+                                      SelectedItem="{Binding SelectedManufacturer}"
+                                      DisplayMemberBinding="{Binding Title}"/>
+                        </StackPanel>
+
+                        <!-- Поставщик -->
+                        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2">
+                            <TextBlock Classes="Body">Поставщик</TextBlock>
+                            <ComboBox PlaceholderText="Выберите поставщика"
+                                      HorizontalContentAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Suppliers}"
+                                      SelectedItem="{Binding SelectedSupplier}"
+                                      DisplayMemberBinding="{Binding Title}"/>
+                        </StackPanel>
+
+                        <!-- Описание -->
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Spacing="2">
+                            <TextBlock Classes="Body">Описание товара</TextBlock>
+                            <TextBox TextWrapping="Wrap"
+                                     Height="170"
+                                     Watermark="У товара есть..."
+                                     Text="{Binding Description}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Цена, количество, скидка ──────────────────────────────── -->
+            <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="15"
+                    Margin="0 20 0 0">
+                <StackPanel>
+                    <TextBlock Classes="H3">Цена товара и его количество на складе</TextBlock>
+                    <TextBlock Classes="Body"
+                               Foreground="{DynamicResource secondary_text}"
+                               Margin="0 2 0 20">
+                        Введите информацию о начальной стоимости товара, его скидке и количестве на складе
+                    </TextBlock>
+
+                    <Grid ColumnDefinitions="* * *" ColumnSpacing="10">
+
+                        <!-- Цена -->
+                        <StackPanel Grid.Column="0" Spacing="2">
+                            <TextBlock Classes="Body">Цена</TextBlock>
+                            <TextBox x:Name="PriceBox"
+                                     Watermark="Цена товара"
+                                     Text="{Binding Price}"
+                                     Classes.invalid="{Binding #PriceBox.(helpers:InputValidation.InputError),
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:NumericInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #PriceBox.(helpers:InputValidation.InputError),
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #PriceBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+
+                        <!-- Количество -->
+                        <StackPanel Grid.Column="1" Spacing="2">
+                            <TextBlock Classes="Body">Количество</TextBlock>
+                            <TextBox x:Name="QtyBox"
+                                     Watermark="Количество на складе"
+                                     Text="{Binding Quantity}"
+                                     Classes.invalid="{Binding #QtyBox.(helpers:InputValidation.InputError),
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:NumericInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #QtyBox.(helpers:InputValidation.InputError),
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #QtyBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+
+                        <!-- Скидка -->
+                        <StackPanel Grid.Column="2" Spacing="2">
+                            <TextBlock Classes="Body">Скидка</TextBlock>
+                            <TextBox x:Name="DiscountBox"
+                                     Watermark="Скидка товара"
+                                     Text="{Binding Discount}"
+                                     Classes.invalid="{Binding #DiscountBox.(helpers:InputValidation.InputError),
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:NumericInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #DiscountBox.(helpers:InputValidation.InputError),
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #DiscountBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Изображение ─────────────────────────────────────────── -->
+            <Border Grid.Column="1" Grid.Row="0"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="14 15"
+                    Width="330">
+                <StackPanel>
+                    <TextBlock Classes="H3">Изображение товара</TextBlock>
+                    <TextBlock Classes="Body"
+                               Margin="0 5 0 20"
+                               Foreground="{DynamicResource secondary_text}"
+                               TextWrapping="Wrap">
+                        Фото для отображения товара в системе
+                    </TextBlock>
+                    <controls:ImageBox ImageSource="{Binding ProductImage, Mode=TwoWay}"
+                                       HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Кнопки ──────────────────────────────────────────────── -->
+            <Border Grid.Column="1" Grid.Row="2"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="14 15"
+                    Width="330"
+                    Margin="0 30 0 0">
+                <StackPanel Spacing="10">
+                    <Button HorizontalAlignment="Stretch"
+                            Command="{Binding SaveCommand}">
+                        Сохранить
+                    </Button>
+                    <Button HorizontalAlignment="Stretch"
+                            Classes="Secondary"
+                            Command="{Binding ResetCommand}">
+                        Сбросить
+                    </Button>
+                </StackPanel>
+            </Border>
+
         </Grid>
     </Border>
 </UserControl>

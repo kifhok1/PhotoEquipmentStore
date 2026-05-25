@@ -2,58 +2,123 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Seller"
+             xmlns:behaviors="clr-namespace:PhotoEquipmentStore.Behaviors"
+             xmlns:helpers="clr-namespace:PhotoEquipmentStore.Helper"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
-             x:Class="PhotoEquipmentStore.Views.Pages.Seller.ClientAddView">
-    <Border Padding="10"
-            Background="{DynamicResource main_background}" >
+             x:Class="PhotoEquipmentStore.Views.Pages.Seller.ClientAddView"
+             x:DataType="viewModels:ClientAddViewModel">
+
+    <Design.DataContext>
+        <viewModels:ClientAddViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBox.invalid">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Padding="10" Background="{DynamicResource main_background}">
         <StackPanel Spacing="10"
                     Width="500"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center">
-                <Border Background="{DynamicResource surface}"
-                        CornerRadius="10"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1"
-                        Padding="15 15 15 15">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Основная информация
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Foreground="{DynamicResource secondary_text}" Margin="0 2 0 20">
-                            Введите основные данные нового клиента
-                        </TextBlock>
-                        <StackPanel Spacing="20">
-                            <StackPanel Spacing="2">
-                                <TextBlock Classes="Body">
-                                    ФИО
-                                </TextBlock>
-                                <TextBox Watermark="Иванов Иван Иванович" />
-                            </StackPanel>
-                            <StackPanel Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Номер телефона
-                                </TextBlock>
-                               <TextBox Watermark="+7(999) 999-99-99"/>
-                            </StackPanel>
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <!-- ── Основная информация ── -->
+            <Border Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="15">
+                <StackPanel>
+                    <TextBlock Classes="H3">Основная информация</TextBlock>
+                    <TextBlock Classes="Body"
+                               Foreground="{DynamicResource secondary_text}"
+                               Margin="0 2 0 20">
+                        Введите основные данные нового клиента
+                    </TextBlock>
+
+                    <StackPanel Spacing="12">
+
+                        <!-- ФИО -->
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="Body">ФИО</TextBlock>
+                            <TextBox x:Name="FullNameBox"
+                                     Watermark="Иванов Иван Иванович"
+                                     Text="{Binding FullName}"
+                                     Classes.invalid="{Binding #FullNameBox.(helpers:InputValidation.InputError),
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:RussianNameInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <!-- Ошибка от поведения (недопустимый символ) -->
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #FullNameBox.(helpers:InputValidation.InputError),
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #FullNameBox.(helpers:InputValidation.InputError)}"/>
+                            <!-- Ошибка формата от ВМ (минимум 2 слова) -->
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding FullNameError,
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding FullNameError}"/>
                         </StackPanel>
+
+                        <!-- Телефон -->
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="Body">Номер телефона</TextBlock>
+                            <TextBox x:Name="PhoneBox"
+                                     Watermark="+7(999) 999-99-99"
+                                     Text="{Binding PhoneNumber}"
+                                     Classes.invalid="{Binding #PhoneBox.(helpers:InputValidation.InputError),
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:PhoneMaskBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #PhoneBox.(helpers:InputValidation.InputError),
+                                           Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #PhoneBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+
                     </StackPanel>
-                </Border>
-                <Border Background="{DynamicResource surface}" 
-                        CornerRadius="10"
-                        Padding="14 15 14 15"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1">
-                    <StackPanel Spacing="10">
-                        <Button HorizontalAlignment="Stretch">
-                            Сохранить
-                        </Button>
-                        <Button HorizontalAlignment="Stretch"
-                                Classes="Secondary">
-                            Сбросить
-                        </Button>
-                    </StackPanel>
-                </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Кнопки ── -->
+            <Border Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="14 15">
+                <StackPanel Spacing="10">
+                    <Button HorizontalAlignment="Stretch"
+                            Command="{Binding SaveCommand}">
+                        Сохранить
+                    </Button>
+                    <Button HorizontalAlignment="Stretch"
+                            Classes="Secondary"
+                            Command="{Binding ResetCommand}">
+                        Сбросить
+                    </Button>
+                </StackPanel>
+            </Border>
+
         </StackPanel>
     </Border>
 </UserControl>

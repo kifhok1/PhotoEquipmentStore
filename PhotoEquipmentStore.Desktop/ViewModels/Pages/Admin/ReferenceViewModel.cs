@@ -10,100 +10,150 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
 
 public partial class ReferenceViewModel : ViewModelBase
 {
-    private bool isSelectedRole = true;
-    private bool isSelectedSupplier = false;
-    private bool isSelectedManufacture = false;
-    private bool isSelectedCategory = false;
-    private bool isSelectedStatusOrder = false;
+    // ── Tab-переключатели ────────────────────────────────────────────────────
+    private bool _isSelectedRole        = true;
+    private bool _isSelectedSupplier    = false;
+    private bool _isSelectedManufacture = false;
+    private bool _isSelectedCategory    = false;
+    private bool _isSelectedStatusOrder = false;
+    private bool _isCreateDeleteVisible = false;
+    private ReferenceType _selectedReferenceType = ReferenceType.Role;
 
     public bool IsSelectedRole
     {
-        get => isSelectedRole;
+        get => _isSelectedRole;
         set
         {
-            this.RaiseAndSetIfChanged(ref isSelectedRole, value);
+            this.RaiseAndSetIfChanged(ref _isSelectedRole, value);
+            if (!value) return;
             LoadReferences(ReferenceService.GetRoles());
+            _selectedReferenceType = ReferenceType.Role;
+            IsCreateDeleteVisible  = false;
         }
     }
 
     public bool IsSelectedSupplier
     {
-        get => isSelectedSupplier;
+        get => _isSelectedSupplier;
         set
         {
-            this.RaiseAndSetIfChanged(ref isSelectedSupplier, value);
+            this.RaiseAndSetIfChanged(ref _isSelectedSupplier, value);
+            if (!value) return;
             LoadReferences(ReferenceService.GetSuppliers());
+            _selectedReferenceType = ReferenceType.Suppliers;
+            IsCreateDeleteVisible  = true;
         }
     }
 
     public bool IsSelectedManufacture
     {
-        get => isSelectedManufacture;
+        get => _isSelectedManufacture;
         set
         {
-            this.RaiseAndSetIfChanged(ref isSelectedManufacture, value); 
+            this.RaiseAndSetIfChanged(ref _isSelectedManufacture, value);
+            if (!value) return;
             LoadReferences(ReferenceService.GetManufacturers());
+            _selectedReferenceType = ReferenceType.Manufacturers;
+            IsCreateDeleteVisible  = true;
         }
     }
 
     public bool IsSelectedCategory
     {
-        get => isSelectedCategory;
+        get => _isSelectedCategory;
         set
         {
-            this.RaiseAndSetIfChanged(ref isSelectedCategory, value);
+            this.RaiseAndSetIfChanged(ref _isSelectedCategory, value);
+            if (!value) return;
             LoadReferences(ReferenceService.GetCategories());
+            _selectedReferenceType = ReferenceType.Category;
+            IsCreateDeleteVisible  = true;
         }
     }
 
     public bool IsSelectedStatusOrder
     {
-        get => isSelectedStatusOrder;
+        get => _isSelectedStatusOrder;
         set
         {
-            this.RaiseAndSetIfChanged(ref isSelectedStatusOrder, value);
+            this.RaiseAndSetIfChanged(ref _isSelectedStatusOrder, value);
+            if (!value) return;
             LoadReferences(ReferenceService.GetOrderStatuses());
+            _selectedReferenceType = ReferenceType.OrderStatuses;
+            IsCreateDeleteVisible  = false;
         }
     }
-    
+
+    public bool IsCreateDeleteVisible
+    {
+        get => _isCreateDeleteVisible;
+        set => this.RaiseAndSetIfChanged(ref _isCreateDeleteVisible, value);
+    }
+
+    // ── Данные таблицы ───────────────────────────────────────────────────────
+    private ObservableCollection<ReferenceShow> _currentReferences = new();
+    private string _countReferences = string.Empty;
+
+    public ObservableCollection<ReferenceShow> CurrentReferences
+    {
+        get => _currentReferences;
+        private set => this.RaiseAndSetIfChanged(ref _currentReferences, value);
+    }
+
+    public string CountReferences
+    {
+        get => _countReferences;
+        private set => this.RaiseAndSetIfChanged(ref _countReferences, value);
+    }
+
     private void LoadReferences(ObservableCollection<Reference> items)
     {
         CurrentReferences.Clear();
         foreach (var item in items)
             CurrentReferences.Add(new ReferenceShow(item.Id, item.Name, item.Count, item.IsDeleted));
-        CountReferences = $"Колчество записей на форме: {CurrentReferences.Count}";
-    }
-    
-    private ObservableCollection<ReferenceShow> currentReferences = new();
-    private string countReferences = string.Empty;
-
-    public ObservableCollection<ReferenceShow> CurrentReferences
-    {
-        get => currentReferences;
-        private set => this.RaiseAndSetIfChanged(ref currentReferences, value);
+        CountReferences = $"Количество записей на форме: {CurrentReferences.Count}";
     }
 
-    public string CountReferences
-    {
-        get => countReferences;
-        private set => this.RaiseAndSetIfChanged(ref countReferences, value);
-    }
+    // ── Команды ──────────────────────────────────────────────────────────────
 
-    public ReactiveCommand<Unit, Unit> AddReferenceCommand { get; private set; }
-    public ReactiveCommand<Unit, Unit> EditReferenceCommand { get; private set; }
-    
-    public ReferenceViewModel(ReactiveCommand<Unit, Unit>  goToAddReferenceCommand, 
-        ReactiveCommand<Unit, Unit> goToEditReferenceCommand)
+    /// Создать — вызывается кнопкой «Создать» в шапке
+    public ReactiveCommand<Unit, Unit> AddReferenceCommand { get; }
+
+    /// Редактировать — принимает строку таблицы (CommandParameter)
+    public ReactiveCommand<ReferenceShow, Unit> EditReferenceCommand { get; }
+
+    /// Удалить — принимает строку таблицы (CommandParameter)
+    public ReactiveCommand<ReferenceShow, Unit> DeleteCommand { get; }
+
+    public ReferenceViewModel(
+        Action<ReferenceType>           goToAdd,
+        Action<ReferenceType, ReferenceShow> goToEdit)
     {
-        AddReferenceCommand = goToAddReferenceCommand;
-        EditReferenceCommand = goToEditReferenceCommand;
+        // Команда «Создать» передаёт текущий тип справочника
+        AddReferenceCommand = ReactiveCommand.Create(
+            () => goToAdd(_selectedReferenceType));
+
+        // Команда «Редактировать» передаёт тип + выбранный элемент
+        EditReferenceCommand = ReactiveCommand.Create<ReferenceShow>(
+            item => goToEdit(_selectedReferenceType, item));
+
+        // Команда «Удалить»
+        DeleteCommand = ReactiveCommand.Create<ReferenceShow>(item =>
+        {
+            // TODO: вызов сервиса удаления
+            CurrentReferences.Remove(item);
+            CountReferences = $"Количество записей на форме: {CurrentReferences.Count}";
+        });
+
         LoadReferences(ReferenceService.GetRoles());
     }
-    
-    
-    
+
+    // Конструктор для дизайнера
     public ReferenceViewModel()
     {
+        AddReferenceCommand  = ReactiveCommand.Create(() => { });
+        EditReferenceCommand = ReactiveCommand.Create<ReferenceShow>(_ => { });
+        DeleteCommand        = ReactiveCommand.Create<ReferenceShow>(_ => { });
         LoadReferences(ReferenceService.GetRoles());
     }
 }

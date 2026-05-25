@@ -42,51 +42,47 @@ public class AdminViewModel : ViewModelBase
     {
         _mainViewModel = mainViewModel;
         LogoutCommand = ReactiveCommand.Create(Logout);
-        
-        // Инициализация команд навигации
-        ReactiveCommand<Unit, Unit> goToAddUserCommand = ReactiveCommand.Create(GoToAddUser);
-        ReactiveCommand<Unit, Unit> goToUsersCommand = ReactiveCommand.Create(GoToUsers);
-        ReactiveCommand<Unit, Unit> goToDataBaseCommand = ReactiveCommand.Create(GoToDataBase);
+
+        ReactiveCommand<Unit, Unit> goToAddUserCommand   = ReactiveCommand.Create(GoToAddUser);
+        ReactiveCommand<Unit, Unit> goToUsersCommand     = ReactiveCommand.Create(GoToUsers);
+        ReactiveCommand<Unit, Unit> goToDataBaseCommand  = ReactiveCommand.Create(GoToDataBase);
         ReactiveCommand<Unit, Unit> goToReferenceCommand = ReactiveCommand.Create(GoToReference);
-        ReactiveCommand<Unit, Unit> goToReferenceAddCommand = ReactiveCommand.Create(GoToAddReference);
-        ReactiveCommand<Unit, Unit> goToReferenceEditCommand = ReactiveCommand.Create(GoToEditReference);
-        
+        // ← goToReferenceAddCommand и goToReferenceEditCommand убраны
+
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
-            new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
-            new NavigationMenuItem("Пользователи", "Users", goToUsersCommand),
-            new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand),
-            new NavigationMenuItem("Справочники", "Reference", goToReferenceCommand),
+            new NavigationMenuItem("Создание пользователя", "UserAdd",              goToAddUserCommand),
+            new NavigationMenuItem("Пользователи",          "Users",                goToUsersCommand),
+            new NavigationMenuItem("Работа с базой данных", "DataBase",             goToDataBaseCommand),
+            new NavigationMenuItem("Справочники",           "Reference",            goToReferenceCommand),
         };
-        
+
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
-        _currentUser = userInfo;
+        _currentViewModel           = new UserAddViewModel();
+        _currentUser                = userInfo;
     }
-    
-     // Конструктор для дизайнера
+
     [Obsolete("Design-time only")]
     public AdminViewModel()
     {
-        // Инициализация для дизайна (без MainViewModel)
-        LogoutCommand = ReactiveCommand.Create(() => { }); // Пустая команда для дизайна
-        
-        ReactiveCommand<Unit, Unit> goToAddUserCommand = ReactiveCommand.Create(GoToAddUser);
-        ReactiveCommand<Unit, Unit> goToUsersCommand = ReactiveCommand.Create(GoToUsers);
-        ReactiveCommand<Unit, Unit> goToDataBaseCommand = ReactiveCommand.Create(GoToDataBase);
+        LogoutCommand = ReactiveCommand.Create(() => { });
+
+        ReactiveCommand<Unit, Unit> goToAddUserCommand   = ReactiveCommand.Create(GoToAddUser);
+        ReactiveCommand<Unit, Unit> goToUsersCommand     = ReactiveCommand.Create(GoToUsers);
+        ReactiveCommand<Unit, Unit> goToDataBaseCommand  = ReactiveCommand.Create(GoToDataBase);
         ReactiveCommand<Unit, Unit> goToReferenceCommand = ReactiveCommand.Create(GoToReference);
-        
+
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
-            new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
-            new NavigationMenuItem("Пользователи", "Users", goToUsersCommand),
-            new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand),
-            new NavigationMenuItem("Справочники", "Reference", goToReferenceCommand),
+            new NavigationMenuItem("Создание пользователя", "UserAdd",   goToAddUserCommand),
+            new NavigationMenuItem("Пользователи",          "Users",     goToUsersCommand),
+            new NavigationMenuItem("Работа с базой данных", "DataBase",  goToDataBaseCommand),
+            new NavigationMenuItem("Справочники",           "Reference", goToReferenceCommand),
         };
-        
+
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
-        _currentUser = new UserInfo("Ианов Иван", "Админ",
+        _currentViewModel = new UserAddViewModel(GoToUsers);
+        _currentUser                = new UserInfo("Иванов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
     
@@ -98,14 +94,19 @@ public class AdminViewModel : ViewModelBase
 
     private void GoToAddUser()
     {
-        CurrentViewModel = new UserAddViewModel();
+        CurrentViewModel = new UserAddViewModel(GoToUsers);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Создание пользователя");
     }
 
     private void GoToUsers()
     {
-        CurrentViewModel = new UsersViewModel(this);
+        CurrentViewModel = new UsersViewModel(GoToEditUser);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Пользователи");
+    }
+
+    private void GoToEditUser(UserShow item)
+    {
+        CurrentViewModel = new UserAddViewModel(GoToUsers, item);
     }
 
     private void GoToDataBase()
@@ -116,20 +117,22 @@ public class AdminViewModel : ViewModelBase
 
     private void GoToReference()
     {
-        
-        ReactiveCommand<Unit, Unit> goToAddReferenceCommand = ReactiveCommand.Create(GoToAddReference);
-        ReactiveCommand<Unit, Unit> goToEditReferenceCommand = ReactiveCommand.Create(GoToEditReference);
-        CurrentViewModel = new ReferenceViewModel(goToAddReferenceCommand, goToEditReferenceCommand);
+        CurrentViewModel = new ReferenceViewModel(GoToAddReference, GoToEditReference);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Справочники");
     }
-    
-    private void GoToAddReference()
+
+    private void GoToAddReference(ReferenceType type)
     {
-        CurrentViewModel = new ReferenceAddViewModel(this);
+        CurrentViewModel = new ReferenceAddViewModel(
+            goBack: GoToReference,
+            type:   type);
     }
-    
-    private void GoToEditReference()
+
+    private void GoToEditReference(ReferenceType type, ReferenceShow item)
     {
-        CurrentViewModel = new ReferenceAddViewModel(this);
+        CurrentViewModel = new ReferenceAddViewModel(
+            goBack:   GoToReference,
+            type:     type,
+            editItem: item);
     }
 }

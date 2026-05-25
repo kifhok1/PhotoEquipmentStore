@@ -100,14 +100,18 @@ public class ManagerViewModel : ViewModelBase
 
     private void GoToProducts()
     {
-        CurrentViewModel = new ProductsViewModel();
+        CurrentViewModel = new ProductsViewModel(GoToEditProduct);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Товары");
     }
 
     private void GoToProductAdd()
     {
-        CurrentViewModel = new ProductAddViewModel();
+        CurrentViewModel = new ProductAddViewModel(goBack: GoToProducts);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Создание товара");
     }
-    
+
+    private void GoToEditProduct(ProductsShow item)
+    {
+        CurrentViewModel = new ProductAddViewModel(goBack: GoToProducts, editItem: item);
+    }
 }

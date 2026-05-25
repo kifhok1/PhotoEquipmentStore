@@ -110,7 +110,7 @@
                                                                 <Button Classes="Ghost"
                                                                         ToolTip.Tip="Информация о заказе"
                                                                         Padding="0" ClipToBounds="False"
-                                                                        Command="{Binding $parent[DataGrid].DataContext.ViewOrderItemsCommand}"
+                                                                        Command="{Binding $parent[DataGrid].((vm:OrdersViewModel)DataContext).ViewOrderItemsCommand}"
                                                                         CommandParameter="{Binding}">
                                                                     <Viewbox Width="14"
                                                                              Height="14"

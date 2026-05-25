@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        MinWidth="1280" MinHeight="800"
+        MaxWidth="1680" MaxHeight="1050"
         Width="1280" Height="800"
         x:Class="PhotoEquipmentStore.Views.MainWindow"
         x:DataType="vm:MainViewModel"

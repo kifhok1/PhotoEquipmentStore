@@ -5,7 +5,8 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Admin"
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.UsersView"
-             x:DataType="vm:UsersViewModel">
+             x:DataType="vm:UsersViewModel"
+             xmlns:models="using:PhotoEquipmentStore.Models">
     
     <Design.DataContext>
         <vm:UsersViewModel/>
@@ -90,32 +91,33 @@
                                                 
                                                 <DataGridTemplateColumn Header="Действия">
                                                     <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Horizontal" Spacing="18"
-                                                                        Margin=" 18 0 18 0">
+                                                        <DataTemplate x:DataType="models:UserShow">
+                                                            <StackPanel Orientation="Horizontal" Spacing="18" Margin="18 0">
+
                                                                 <Button Classes="Ghost"
                                                                         ToolTip.Tip="Редактировать"
-                                                                        Padding="0" ClipToBounds="False">
-                                                                    <Viewbox Width="14"
-                                                                             Height="14"
-                                                                             ClipToBounds="False">
+                                                                        Padding="0" ClipToBounds="False"
+                                                                        Command="{Binding $parent[UserControl].((vm:UsersViewModel)DataContext).EditCommand}"
+                                                                        CommandParameter="{Binding}">
+                                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                                         <Path Data="{DynamicResource Edit}"/>
                                                                     </Viewbox>
                                                                 </Button>
+
                                                                 <Button Classes="Ghost"
                                                                         ToolTip.Tip="Удалить"
-                                                                        Padding="0">
-                                                                    <Viewbox Width="14"
-                                                                             Height="14"
-                                                                             ClipToBounds="False">
+                                                                        Padding="0" ClipToBounds="False"
+                                                                        Command="{Binding $parent[UserControl].((vm:UsersViewModel)DataContext).DeleteCommand}"
+                                                                        CommandParameter="{Binding}">
+                                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                                         <Path Data="{DynamicResource Delete}"/>
                                                                     </Viewbox>
                                                                 </Button>
+
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                                
                                             </DataGrid.Columns>
                                         </DataGrid>
                                         <Panel Grid.Row="1"

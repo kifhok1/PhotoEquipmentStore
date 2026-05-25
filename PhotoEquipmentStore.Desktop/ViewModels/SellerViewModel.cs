@@ -59,7 +59,7 @@ public class SellerViewModel : ViewModelBase
         };
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new ClientsViewModel();
+        _currentViewModel = new ClientsViewModel(GoToEditClient); 
         _currentUser = userInfo;
     }
     
@@ -100,14 +100,19 @@ public class SellerViewModel : ViewModelBase
 
     private void GoToClients()
     {
-        CurrentViewModel = new ClientsViewModel();
+        CurrentViewModel = new ClientsViewModel(GoToEditClient);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Клиенты");
     }
 
     private void GoToAddClients()
     {
-        CurrentViewModel = new ClientAddViewModel();
+        CurrentViewModel = new ClientAddViewModel(goBack: GoToClients);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Добавление клиента");
+    }
+
+    private void GoToEditClient(ClientShow item)
+    {
+        CurrentViewModel = new ClientAddViewModel(goBack: GoToClients, editItem: item);
     }
 
     private void GoToOrders()

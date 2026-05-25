@@ -7,8 +7,8 @@
              xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Manager"
              x:DataType="vm:ProductsViewModel"
              xmlns:controls="using:PhotoEquipmentStore.Controls"
-             xmlns:conv="using:PhotoEquipmentStore.Converters">
-    
+             xmlns:conv="using:PhotoEquipmentStore.Converters"
+             xmlns:models="using:PhotoEquipmentStore.Models">
     <Design.DataContext>
         <vm:ProductsViewModel/>
     </Design.DataContext>
@@ -155,27 +155,29 @@
                                     Width="Auto"/>
                                 <DataGridTemplateColumn Header="Действия" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="18"
-                                                        Margin=" 12 0 20 0">
+                                        <DataTemplate x:DataType="models:ProductsShow">
+                                            <StackPanel Orientation="Horizontal" Spacing="18" Margin="12 0 20 0">
+
                                                 <Button Classes="Ghost"
                                                         ToolTip.Tip="Редактировать"
-                                                        Padding="0" ClipToBounds="False">
-                                                    <Viewbox Width="14"
-                                                             Height="14"
-                                                             ClipToBounds="False">
+                                                        Padding="0" ClipToBounds="False"
+                                                        Command="{Binding $parent[UserControl].((vm:ProductsViewModel)DataContext).EditCommand}"
+                                                        CommandParameter="{Binding}">
+                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                         <Path Data="{DynamicResource Edit}"/>
                                                     </Viewbox>
                                                 </Button>
+
                                                 <Button Classes="Ghost"
                                                         ToolTip.Tip="Удалить"
-                                                        Padding="0">
-                                                    <Viewbox Width="14"
-                                                             Height="14"
-                                                             ClipToBounds="False">
+                                                        Padding="0" ClipToBounds="False"
+                                                        Command="{Binding $parent[UserControl].((vm:ProductsViewModel)DataContext).DeleteCommand}"
+                                                        CommandParameter="{Binding}">
+                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                         <Path Data="{DynamicResource Delete}"/>
                                                     </Viewbox>
                                                 </Button>
+
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
