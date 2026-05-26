@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
 using ReactiveUI;
@@ -19,6 +20,24 @@ public class ClientsViewModel : ViewModelBase
     {
         get => _currentClients;
         set => this.RaiseAndSetIfChanged(ref _currentClients, value);
+    }
+
+    private ClientShow? _selectedClient;
+    public ClientShow? SelectedClient
+    {
+        get => _selectedClient;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedClient, value);
+
+            if (value is null || value.IsRevealed) return;
+
+            value.IsRevealed = true;
+
+            Observable.Timer(TimeSpan.FromSeconds(15))
+                      .ObserveOn(RxApp.MainThreadScheduler)
+                      .Subscribe(_ => value.IsRevealed = false);
+        }
     }
 
     private string _countClients = string.Empty;
@@ -39,9 +58,9 @@ public class ClientsViewModel : ViewModelBase
         }
     }
 
-    public ReactiveCommand<ClientShow, Unit> EditCommand { get; }
+    public ReactiveCommand<ClientShow, Unit> EditCommand   { get; }
     public ReactiveCommand<ClientShow, Unit> DeleteCommand { get; }
-    public ReactiveCommand<Unit, Unit> ResetSearchCommand { get; }
+    public ReactiveCommand<Unit, Unit> ResetSearchCommand  { get; }
 
     public ClientsViewModel(Action<ClientShow>? goToEdit = null)
     {
@@ -61,8 +80,12 @@ public class ClientsViewModel : ViewModelBase
         var clientsDb = ClientsService.GetClients();
         foreach (var client in clientsDb)
         {
-            var show = new ClientShow(client.Id, client.Name,
-                client.PhoneNumber, client.TotalPurchases.ToString(), client.CountOrders);
+            var show = new ClientShow(
+                client.Id,
+                client.Name,
+                client.PhoneNumber,
+                client.TotalPurchases.ToString(),
+                client.CountOrders);
 
             _allClients.Add(show);
             Clients.Add(show);
@@ -75,7 +98,9 @@ public class ClientsViewModel : ViewModelBase
     {
         var result = string.IsNullOrWhiteSpace(query)
             ? _allClients
-            : _allClients.Where(c => c.NameShow.ToLower().Contains(query.Trim().ToLower())).ToList();
+            : _allClients
+                .Where(c => c.Name.ToLower().Contains(query.Trim().ToLower()))
+                .ToList();
 
         Clients.Clear();
         foreach (var c in result) Clients.Add(c);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
 using ReactiveUI;
@@ -19,6 +20,24 @@ public class OrdersViewModel : ViewModelBase
     {
         get => _currentOrders;
         set => this.RaiseAndSetIfChanged(ref _currentOrders, value);
+    }
+
+    private OrderShow? _selectedOrder;
+    public OrderShow? SelectedOrder
+    {
+        get => _selectedOrder;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedOrder, value);
+
+            if (value is null || value.IsRevealed) return;
+
+            value.IsRevealed = true;
+
+            Observable.Timer(TimeSpan.FromSeconds(15))
+                      .ObserveOn(RxApp.MainThreadScheduler)
+                      .Subscribe(_ => value.IsRevealed = false);
+        }
     }
 
     private string _countOrders = string.Empty;
@@ -40,7 +59,7 @@ public class OrdersViewModel : ViewModelBase
     }
 
     public ReactiveCommand<OrderShow, Unit> ViewOrderItemsCommand { get; }
-    public ReactiveCommand<Unit, Unit> ResetSearchCommand { get; }
+    public ReactiveCommand<Unit, Unit> ResetSearchCommand         { get; }
 
     public OrdersViewModel(Action<OrderShow> onViewOrderItems)
     {
@@ -62,7 +81,8 @@ public class OrdersViewModel : ViewModelBase
         var ordersDB = OrderService.GetOrders();
         foreach (var order in ordersDB)
         {
-            var show = new OrderShow(order.OrderId, order.ClientId, order.ClientName,
+            var show = new OrderShow(
+                order.OrderId, order.ClientId, order.ClientName,
                 order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
                 order.StatusId, order.StatusName, order.OrderDate, order.TotalSum);
 

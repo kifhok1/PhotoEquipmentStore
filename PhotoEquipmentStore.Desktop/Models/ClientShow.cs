@@ -1,77 +1,80 @@
-using System;
 using PhotoEquipmentStore.Helper;
+using ReactiveUI;
 
 namespace PhotoEquipmentStore.Models;
 
-public class ClientShow
+public class ClientShow : ReactiveObject
 {
-    private int orderId;
-    private string name;
-    private string phoneNumber;
-    private string totalPurchases;
-    private int countOrders;
+    private int _orderId;
+    private string _name;
+    private string _phoneNumber;
+    private string _totalPurchases;
+    private int _countOrders;
+    private bool _isRevealed;
 
     public int OrderId
     {
-        get => orderId; 
-        set => orderId = value;
+        get => _orderId;
+        set => this.RaiseAndSetIfChanged(ref _orderId, value);
     }
 
     public string Name
     {
-        get => name;
-        set => name = value;
+        get => _name;
+        set => this.RaiseAndSetIfChanged(ref _name, value);
     }
 
     public string PhoneNumber
     {
-        get => phoneNumber;
-        set => phoneNumber = value;
+        get => _phoneNumber;
+        set => this.RaiseAndSetIfChanged(ref _phoneNumber, value);
     }
 
     public string TotalPurchases
     {
-        get => totalPurchases;
-        set => totalPurchases = value;
+        get => _totalPurchases;
+        set => this.RaiseAndSetIfChanged(ref _totalPurchases, value);
     }
 
     public int CountOrders
     {
-        get => countOrders;
-        set => countOrders = value;
-    }
-    
-    public string TotalPurchasesShow
-    {
-        get => TotalPurchases + " ₽";
-    }
-    
-    public string CountOrdersShow
-    {
-        get => CountOrders + " шт.";
+        get => _countOrders;
+        set => this.RaiseAndSetIfChanged(ref _countOrders, value);
     }
 
-    public string PhoneNumberShow
+    public bool IsRevealed
     {
-        get => MaskClientsData.MaskPhoneNumber(PhoneNumber);
+        get => _isRevealed;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isRevealed, value);
+            this.RaisePropertyChanged(nameof(NameShow));
+            this.RaisePropertyChanged(nameof(PhoneNumberShow));
+        }
     }
 
-    public string NameShow
-    {
-        get => MaskClientsData.MaskFullName(Name);
-    }
+    public string TotalPurchasesShow => TotalPurchases + " ₽";
+    public string CountOrdersShow    => CountOrders + " шт.";
+
+    public string PhoneNumberShow => IsRevealed
+        ? PhoneNumber
+        : MaskClientsData.MaskPhoneNumber(PhoneNumber);
+
+    public string NameShow => IsRevealed
+        ? Name
+        : MaskClientsData.MaskFullName(Name);
 
     public ClientShow(
-        int id, 
-        string name, 
-        string phoneNumber, 
+        int id,
+        string name,
+        string phoneNumber,
         string totalPurchases,
         int countOrders)
     {
-        OrderId = id;
-        Name = name;
-        PhoneNumber = phoneNumber;
-        TotalPurchases = totalPurchases;
-        CountOrders = countOrders;
+        _orderId        = id;
+        _name           = name;
+        _phoneNumber    = phoneNumber;
+        _totalPurchases = totalPurchases;
+        _countOrders    = countOrders;
     }
 }
