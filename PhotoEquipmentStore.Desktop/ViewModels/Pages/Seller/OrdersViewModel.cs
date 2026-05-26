@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
@@ -9,54 +11,80 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class OrdersViewModel : ViewModelBase
 {
-    public ObservableCollection<OrderShow> Orders { get; private set; } = new();
+    private readonly List<OrderShow> _allOrders = new();
+    public ObservableCollection<OrderShow> Orders { get; } = new();
 
-    private string _countOrders = string.Empty;
     private ObservableCollection<OrderShow> _currentOrders = new();
-
     public ObservableCollection<OrderShow> CurrentOrders
     {
         get => _currentOrders;
         set => this.RaiseAndSetIfChanged(ref _currentOrders, value);
     }
 
+    private string _countOrders = string.Empty;
     public string CountOrders
     {
         get => _countOrders;
         set => this.RaiseAndSetIfChanged(ref _countOrders, value);
     }
 
-    // Команда принимает выбранный заказ и вызывает колбэк навигации
+    private string _searchText = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _searchText, value);
+            ApplySearch(value);
+        }
+    }
+
     public ReactiveCommand<OrderShow, Unit> ViewOrderItemsCommand { get; }
+    public ReactiveCommand<Unit, Unit> ResetSearchCommand { get; }
 
     public OrdersViewModel(Action<OrderShow> onViewOrderItems)
     {
         ViewOrderItemsCommand = ReactiveCommand.Create<OrderShow>(onViewOrderItems);
-
-        var ordersDB = OrderService.GetOrders();
-        foreach (var order in ordersDB)
-        {
-            Orders.Add(new OrderShow(order.OrderId, order.ClientId, order.ClientName,
-                order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
-                order.StatusId, order.StatusName, order.OrderDate, order.TotalSum));
-        }
-
-        CountOrders = $"Количество элементов на форме: {Orders.Count}";
+        ResetSearchCommand = ReactiveCommand.Create(() => { SearchText = string.Empty; });
+        LoadOrders();
     }
-    
+
     [Obsolete("Design-time only")]
     public OrdersViewModel()
     {
         ViewOrderItemsCommand = ReactiveCommand.Create<OrderShow>(_ => { });
+        ResetSearchCommand = ReactiveCommand.Create(() => { SearchText = string.Empty; });
+        LoadOrders();
+    }
 
+    private void LoadOrders()
+    {
         var ordersDB = OrderService.GetOrders();
         foreach (var order in ordersDB)
         {
-            Orders.Add(new OrderShow(order.OrderId, order.ClientId, order.ClientName,
+            var show = new OrderShow(order.OrderId, order.ClientId, order.ClientName,
                 order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
-                order.StatusId, order.StatusName, order.OrderDate, order.TotalSum));
+                order.StatusId, order.StatusName, order.OrderDate, order.TotalSum);
+
+            _allOrders.Add(show);
+            Orders.Add(show);
         }
 
-        CountOrders = $"Количество элементов на форме: {Orders.Count}";
+        UpdateCountOrders(Orders.Count);
     }
+
+    private void ApplySearch(string query)
+    {
+        var result = string.IsNullOrWhiteSpace(query)
+            ? _allOrders
+            : _allOrders.Where(o => o.Id.ToString().Contains(query.Trim())).ToList();
+
+        Orders.Clear();
+        foreach (var o in result) Orders.Add(o);
+
+        UpdateCountOrders(Orders.Count);
+    }
+
+    private void UpdateCountOrders(int count) =>
+        CountOrders = $"Количество элементов на форме: {count}";
 }

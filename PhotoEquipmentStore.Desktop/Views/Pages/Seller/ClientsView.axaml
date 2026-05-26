@@ -27,12 +27,15 @@
                                     <TextBlock Classes="Body">
                                         Поиск клиента по ФИО
                                     </TextBlock>
-                                    <TextBox Watermark="Найти клиента..." Width="350" HorizontalAlignment="Left"/>
+                                    <TextBox Watermark="Найти клиента..."
+                                             Width="350"
+                                             HorizontalAlignment="Left"
+                                             Text="{Binding SearchText}"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Spacing="4">
-                                    <TextBlock Classes="Body">
-                                    </TextBlock>
-                                    <Button Padding="15 6">
+                                    <TextBlock Classes="Body"/>
+                                    <Button Padding="15 6"
+                                            Command="{Binding ResetSearchCommand}">
                                         Сбросить
                                     </Button>
                                 </StackPanel>

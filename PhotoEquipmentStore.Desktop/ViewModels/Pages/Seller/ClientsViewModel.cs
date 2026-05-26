@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
@@ -9,6 +11,7 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class ClientsViewModel : ViewModelBase
 {
+    private readonly List<ClientShow> _allClients = new();
     public ObservableCollection<ClientShow> Clients { get; } = new();
 
     private ObservableCollection<ClientShow> _currentClients = new();
@@ -25,8 +28,20 @@ public class ClientsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _countClients, value);
     }
 
-    public ReactiveCommand<ClientShow, Unit> EditCommand   { get; }
+    private string _searchText = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _searchText, value);
+            ApplySearch(value);
+        }
+    }
+
+    public ReactiveCommand<ClientShow, Unit> EditCommand { get; }
     public ReactiveCommand<ClientShow, Unit> DeleteCommand { get; }
+    public ReactiveCommand<Unit, Unit> ResetSearchCommand { get; }
 
     public ClientsViewModel(Action<ClientShow>? goToEdit = null)
     {
@@ -35,17 +50,39 @@ public class ClientsViewModel : ViewModelBase
 
         DeleteCommand = ReactiveCommand.Create<ClientShow>(item =>
         {
-            // TODO: вызов сервиса удаления
+            _allClients.Remove(item);
             Clients.Remove(item);
             CurrentClients.Remove(item);
-            CountClients = $"Количество записей на форме: {Clients.Count}";
+            UpdateCount(Clients.Count);
         });
+
+        ResetSearchCommand = ReactiveCommand.Create(() => { SearchText = string.Empty; });
 
         var clientsDb = ClientsService.GetClients();
         foreach (var client in clientsDb)
-            Clients.Add(new ClientShow(client.Id, client.Name,
-                client.PhoneNumber, client.TotalPurchases.ToString(), client.CountOrders));
+        {
+            var show = new ClientShow(client.Id, client.Name,
+                client.PhoneNumber, client.TotalPurchases.ToString(), client.CountOrders);
 
-        CountClients = $"Количество записей на форме: {Clients.Count}";
+            _allClients.Add(show);
+            Clients.Add(show);
+        }
+
+        UpdateCount(Clients.Count);
     }
+
+    private void ApplySearch(string query)
+    {
+        var result = string.IsNullOrWhiteSpace(query)
+            ? _allClients
+            : _allClients.Where(c => c.NameShow.ToLower().Contains(query.Trim().ToLower())).ToList();
+
+        Clients.Clear();
+        foreach (var c in result) Clients.Add(c);
+
+        UpdateCount(Clients.Count);
+    }
+
+    private void UpdateCount(int count) =>
+        CountClients = $"Количество записей на форме: {count}";
 }

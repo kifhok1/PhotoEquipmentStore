@@ -25,12 +25,15 @@
                                     <TextBlock Classes="Body">
                                         Поиск заказа по номеру
                                     </TextBlock>
-                                    <TextBox Watermark="Найти заказ..." Width="350" HorizontalAlignment="Left"/>
+                                    <TextBox Watermark="Найти заказ..."
+                                             Width="350"
+                                             HorizontalAlignment="Left"
+                                             Text="{Binding SearchText}"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Spacing="4">
-                                    <TextBlock Classes="Body">
-                                    </TextBlock>
-                                    <Button Padding="15 6">
+                                    <TextBlock Classes="Body"/>
+                                    <Button Padding="15 6"
+                                            Command="{Binding ResetSearchCommand}">
                                         Сбросить
                                     </Button>
                                 </StackPanel>

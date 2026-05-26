@@ -22,34 +22,42 @@
             <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     Padding="10" Background="{DynamicResource surface}"
                     CornerRadius="10">
-                <Grid ColumnDefinitions="350 200 * Auto" ColumnSpacing="10">
+                <Grid ColumnDefinitions="350 200 250 * Auto" ColumnSpacing="10">
+
                     <StackPanel Grid.Column="0" Spacing="4">
-                        <TextBlock Classes="Body">
-                            Поиск товара по названию
-                        </TextBlock>
-                        <TextBox Watermark="Найти товар..." Width="350" HorizontalAlignment="Left"/>
+                        <TextBlock Classes="Body">Поиск товара по названию</TextBlock>
+                        <TextBox Watermark="Найти товар..."
+                                 Width="350"
+                                 HorizontalAlignment="Left"
+                                 Text="{Binding SearchText}"/>
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Column="1" Spacing="4">
-                        <TextBlock Classes="Body">
-                            Сортировка по цене
-                        </TextBlock>
-                        <ComboBox PlaceholderText="Отсортировать" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Classes="Body">Сортировка по цене</TextBlock>
+                        <ComboBox PlaceholderText="Отсортировать"
+                                  Width="200"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding SortOptions}"
+                                  SelectedItem="{Binding SelectedSortOption}"/>
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Column="2" Spacing="4">
-                        <TextBlock Classes="Body">
-                            Фильтрация по категории
-                        </TextBlock>
-                        <ComboBox PlaceholderText="Отфильтровать" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Classes="Body">Фильтрация по категории</TextBlock>
+                        <ComboBox PlaceholderText="Отфильтровать"
+                                  Width="250"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Categories}"
+                                  SelectedItem="{Binding SelectedCategory}"/>
                     </StackPanel>
-                    
-                    <StackPanel Grid.Column="3" Spacing="4">
+
+                    <StackPanel Grid.Column="4" Spacing="4">
                         <TextBlock Classes="Body"/>
-                        <Button Padding="15 6">
+                        <Button Padding="15 6"
+                                Command="{Binding ResetCommand}">
                             Сбросить
                         </Button>
                     </StackPanel>
+
                 </Grid>
             </Border>
             <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
