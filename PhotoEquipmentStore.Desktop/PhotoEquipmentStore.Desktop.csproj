@@ -57,6 +57,10 @@
         <DependentUpon>UsersView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Controls\SettingsPopup.axaml.cs">
+        <DependentUpon>SettingsPopup.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
