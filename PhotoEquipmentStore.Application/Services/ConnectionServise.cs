@@ -1,5 +1,5 @@
 using PhotoEquipmentStore.Domain.Entities;
-using PhotoEquipmentStore.Infrastructure.Сonnection;
+using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Application.Services;
 

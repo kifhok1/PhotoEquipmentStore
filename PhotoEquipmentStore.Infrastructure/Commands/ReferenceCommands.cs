@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using MySql.Data.MySqlClient;
 using PhotoEquipmentStore.Domain.Entities;
-using PhotoEquipmentStore.Infrastructure.Сonnection;
+using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 

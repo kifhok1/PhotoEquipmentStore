@@ -1,10 +1,10 @@
 using System.Text.Json;
 
-namespace PhotoEquipmentStore.Infrastructure.Сonnection;
+namespace PhotoEquipmentStore.Infrastructure.Connection;
 
 public static class ConnectionSettingsEditor
 {
-    private static readonly string DefaultPath = Directory.GetCurrentDirectory() + "/Сonnection/connectionSettings.json";
+    private static readonly string DefaultPath = Directory.GetCurrentDirectory() + "/Connection/connectionSettings.json";
 
     private static readonly JsonSerializerOptions WriteOptions = new()
     {

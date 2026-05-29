@@ -1,7 +1,7 @@
 using MySql.Data.MySqlClient;
 using PhotoEquipmentStore.Domain.Entities;
 
-namespace PhotoEquipmentStore.Infrastructure.Сonnection;
+namespace PhotoEquipmentStore.Infrastructure.Connection;
 
 public class TestConnect
 {

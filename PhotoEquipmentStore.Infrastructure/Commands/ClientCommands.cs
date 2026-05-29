@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using MySql.Data.MySqlClient;
 using PhotoEquipmentStore.Domain.Entities;
-using PhotoEquipmentStore.Infrastructure.Сonnection;
+using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
@@ -42,5 +42,56 @@ public class ClientCommands
         }
 
         return clients;
+    }
+    
+    public bool CreateClient(Client client)
+    {
+        string query = @"
+            INSERT INTO clients (full_name, phone, total_purchases)
+            VALUES (@name, @phone, @totalPurchases);";
+
+        using var connection = new MySqlConnection(connString);
+        connection.Open();
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@name", client.Name);
+        command.Parameters.AddWithValue("@phone", client.PhoneNumber);
+        command.Parameters.AddWithValue("@totalPurchases", client.TotalPurchases);
+
+        int rowsAffected = command.ExecuteNonQuery();
+        return rowsAffected > 0;
+    }
+    
+    public bool UpdateClient(Client client)
+    {
+        string query = @"
+            UPDATE clients 
+            SET full_name = @name, 
+                phone = @phone, 
+                total_purchases = @totalPurchases
+            WHERE id = @id;";
+
+        using var connection = new MySqlConnection(connString);
+        connection.Open();
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@name", client.Name);
+        command.Parameters.AddWithValue("@phone", client.PhoneNumber);
+        command.Parameters.AddWithValue("@totalPurchases", client.TotalPurchases);
+        command.Parameters.AddWithValue("@id", client.Id);
+
+        int rowsAffected = command.ExecuteNonQuery();
+        return rowsAffected > 0;
+    }
+    
+    public bool DeleteClient(int clientId)
+    {
+        string query = "DELETE FROM clients WHERE id = @id;";
+
+        using var connection = new MySqlConnection(connString);
+        connection.Open();
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@id", clientId);
+
+        int rowsAffected = command.ExecuteNonQuery();
+        return rowsAffected > 0;
     }
 }

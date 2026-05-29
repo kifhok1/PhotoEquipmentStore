@@ -1,5 +1,5 @@
 using MySql.Data.MySqlClient;
-using PhotoEquipmentStore.Infrastructure.Сonnection;
+using PhotoEquipmentStore.Infrastructure.Connection;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Infrastructure.Helpers;
 

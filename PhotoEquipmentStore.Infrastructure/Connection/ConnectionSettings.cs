@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace PhotoEquipmentStore.Infrastructure.Сonnection;
+namespace PhotoEquipmentStore.Infrastructure.Connection;
 
 public class ConnectionSettings
 {
