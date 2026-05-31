@@ -10,12 +10,23 @@
         x:Class="PhotoEquipmentStore.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Title="PhotoEquipmentStore"
-        IsEnabled="{Binding !IsBlocked}">
-
+        IsEnabled="{Binding !IsBlocked}"
+        xmlns:dialogVm="using:PhotoEquipmentStore.ViewModels.Notification"
+        xmlns:dialogViews="using:PhotoEquipmentStore.Views.Notification">
     <Design.DataContext>
         <vm:MainViewModel/>
     </Design.DataContext>
 
-    <!-- ContentControl для отображения текущего представления -->
-    <ContentControl Content="{Binding CurrentViewModel}" />
+    <Panel>
+        <ContentControl Content="{Binding CurrentViewModel}" />
+        
+        <ContentControl Content="{Binding Notification}"
+                        IsVisible="{Binding IsNotificationVisible}">
+            <ContentControl.DataTemplates>
+                <DataTemplate DataType="dialogVm:NotificationViewModel">
+                    <dialogViews:NotificationView/>
+                </DataTemplate>
+            </ContentControl.DataTemplates>
+        </ContentControl>
+    </Panel>
 </Window>

@@ -1,12 +1,29 @@
+using System;
 using ReactiveUI;
 using System.Reactive;
+using System.Reactive.Linq;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
+using PhotoEquipmentStore.ViewModels.Notification;
 using PhotoEquipmentStore.Views;
 
 namespace PhotoEquipmentStore.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
+    private NotificationViewModel? _notification;
+    public NotificationViewModel? Notification
+    {
+        get => _notification;
+        private set
+        {
+            this.RaiseAndSetIfChanged(ref _notification, value);
+            this.RaisePropertyChanged(nameof(IsNotificationVisible));
+        }
+    }
+
+    public bool IsNotificationVisible => _notification is not null;
+    
     private ViewModelBase _currentViewModel;
     private UserInfo userInfo;
 
@@ -40,6 +57,10 @@ public class MainViewModel : ViewModelBase
     {
         // Устанавливаем начальное представление
         _currentViewModel = new LoginViewModel(this);
+        
+        NotificationService.Instance.Notifications
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(vm => Notification = vm);
         
         GoToLoginCommand = ReactiveCommand.Create(GoToLogin);
         GoToAdminCommand = ReactiveCommand.Create(GoToAdmin);
