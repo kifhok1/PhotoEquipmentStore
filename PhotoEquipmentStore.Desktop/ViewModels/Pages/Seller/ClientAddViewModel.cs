@@ -2,7 +2,10 @@ using System;
 using System.Linq;
 using System.Reactive;
 using System.Text.RegularExpressions;
+using PhotoEquipmentStore.Application.Services;
+using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
@@ -11,6 +14,7 @@ public class ClientAddViewModel : ViewModelBase
 {
     private readonly Action _goBack;
     private readonly ClientShow? _editItem;
+    private readonly ClientsService _clientsService = new ClientsService();
 
     public bool IsEdit => _editItem is not null;
     public string PageTitle => IsEdit ? "Редактировать клиента" : "Добавить клиента";
@@ -87,17 +91,56 @@ public class ClientAddViewModel : ViewModelBase
     // Конструктор для дизайнера
     public ClientAddViewModel() : this(() => { }) { }
 
-    private void Save()
+    private async void Save()
     {
         if (IsEdit)
         {
-            // TODO: обновить _editItem через сервис
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Редактировать запись?",
+                $"Вы действительно хотите изменить данные клиента? Это действие нельзя будет отменить.");
+
+            if (confirmed)
+            {
+                var clientsDb = _clientsService.UpdateClient(new Client
+                (
+                    _editItem!.Id,
+                    FullName,
+                    PhoneNumber
+                ));
+                if (clientsDb.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync("Успешно", $"Данные клиента - {FullName} изменены.");
+                    _goBack();
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось редакировать данные клиента. {clientsDb.ErrorMessage}");
+                }
+            }
         }
         else
         {
-            // TODO: создать клиента через сервис
+             bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Создать запись?",
+                $"Вы действительно хотите создать данные клиента? Это действие нельзя будет отменить.");
+
+            if (confirmed)
+            {
+                var clientsDb = _clientsService.CreateClient(new Client
+                (
+                    FullName,
+                    PhoneNumber
+                ));
+                if (clientsDb.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync("Успешно", $"Клиент - {FullName} создан.");
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось добавить клиента. {clientsDb.ErrorMessage}");
+                }
+            }
         }
-        _goBack();
     }
 
     private static bool IsValidPartialName(string? v)

@@ -5,17 +5,17 @@ namespace PhotoEquipmentStore.Models;
 
 public class ClientShow : ReactiveObject
 {
-    private int _orderId;
+    private int _Id;
     private string _name;
     private string _phoneNumber;
     private string _totalPurchases;
     private int _countOrders;
     private bool _isRevealed;
 
-    public int OrderId
+    public int Id
     {
-        get => _orderId;
-        set => this.RaiseAndSetIfChanged(ref _orderId, value);
+        get => _Id;
+        set => this.RaiseAndSetIfChanged(ref _Id, value);
     }
 
     public string Name
@@ -71,7 +71,7 @@ public class ClientShow : ReactiveObject
         string totalPurchases,
         int countOrders)
     {
-        _orderId        = id;
+        _Id        = id;
         _name           = name;
         _phoneNumber    = phoneNumber;
         _totalPurchases = totalPurchases;

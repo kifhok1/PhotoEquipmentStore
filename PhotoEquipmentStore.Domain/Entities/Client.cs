@@ -1,52 +1,33 @@
+
 namespace PhotoEquipmentStore.Domain.Entities;
 
 public class Client
 {
-    private int id;
-    private string name;
-    private string phoneNumber;
-    private int totalPurchases;
-    private int countOrders;
+    public int         Id             { get; }
+    public string      FullName       { get; }
+    public string      Phone          { get; }
+    public int         TotalPurchases { get; }
+    public int         CountOrders    { get; } 
 
-    public int Id
+    public Client(int id, string name, string phone, int totalPurchases, int countOrders)
     {
-        get => id; 
-        set => id = value;
-    }
-
-    public string Name
-    {
-        get => name;
-        set => name = value;
-    }
-
-    public string PhoneNumber
-    {
-        get => phoneNumber;
-        set => phoneNumber = value;
-    }
-
-    public int TotalPurchases
-    {
-        get => totalPurchases;
-        set => totalPurchases = value;
-    }
-
-    public int CountOrders
-    {
-        get => countOrders;
-        set => countOrders = value;
-    }
-    public Client(int id, 
-    string name, 
-    string phoneNumber, 
-    int totalPurchases,
-    int countOrders)
-    {
-        Id = id;
-        Name = name;
-        PhoneNumber = phoneNumber;
+        Id             = id;
+        FullName       = name;
+        Phone          = phone;
         TotalPurchases = totalPurchases;
-        CountOrders = countOrders;
+        CountOrders    = countOrders;
+    }
+
+    public Client(int id, string name, string phone)
+    {
+        Id             = id;
+        FullName       = name;
+        Phone          = phone;
+    }
+    
+    public Client(string name, string phone)
+    {
+        FullName       = name;
+        Phone          = phone;
     }
 }
