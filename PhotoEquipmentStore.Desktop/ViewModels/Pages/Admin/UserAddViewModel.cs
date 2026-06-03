@@ -22,6 +22,7 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
 public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 {
     public IValidationContext ValidationContext { get; } = new ValidationContext();
+    private ReferenceService _referenceService = new ReferenceService();
 
     private ValidationHelper _userNameValidation = null!;
     private ValidationHelper _phoneValidation    = null!;
@@ -100,7 +101,7 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
         _editItem = editItem;
 
         // Роли загружаем ДО предзаполнения, чтобы SelectedRole нашёл совпадение
-        var userRoles = ReferenceService.GetRoles();
+        var userRoles = _referenceService.GetRoles().References;
         foreach (var role in userRoles)
             Roles.Add(new ReferenceShow(role.Id, role.Name, role.Count, role.IsDeleted));
 

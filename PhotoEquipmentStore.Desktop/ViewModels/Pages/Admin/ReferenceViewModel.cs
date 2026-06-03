@@ -1,9 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
+using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
@@ -18,6 +20,7 @@ public partial class ReferenceViewModel : ViewModelBase
     private bool _isSelectedStatusOrder = false;
     private bool _isCreateDeleteVisible = false;
     private ReferenceType _selectedReferenceType = ReferenceType.Role;
+    private ReferenceService _referenceService = new ReferenceService();
 
     public bool IsSelectedRole
     {
@@ -26,7 +29,7 @@ public partial class ReferenceViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _isSelectedRole, value);
             if (!value) return;
-            LoadReferences(ReferenceService.GetRoles());
+            LoadReferences(_referenceService.GetRoles());
             _selectedReferenceType = ReferenceType.Role;
             IsCreateDeleteVisible  = false;
         }
@@ -39,7 +42,7 @@ public partial class ReferenceViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _isSelectedSupplier, value);
             if (!value) return;
-            LoadReferences(ReferenceService.GetSuppliers());
+            LoadReferences(_referenceService.GetSuppliers());
             _selectedReferenceType = ReferenceType.Suppliers;
             IsCreateDeleteVisible  = true;
         }
@@ -52,7 +55,7 @@ public partial class ReferenceViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _isSelectedManufacture, value);
             if (!value) return;
-            LoadReferences(ReferenceService.GetManufacturers());
+            LoadReferences(_referenceService.GetManufacturers());
             _selectedReferenceType = ReferenceType.Manufacturers;
             IsCreateDeleteVisible  = true;
         }
@@ -65,7 +68,7 @@ public partial class ReferenceViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _isSelectedCategory, value);
             if (!value) return;
-            LoadReferences(ReferenceService.GetCategories());
+            LoadReferences(_referenceService.GetCategories());
             _selectedReferenceType = ReferenceType.Category;
             IsCreateDeleteVisible  = true;
         }
@@ -78,7 +81,7 @@ public partial class ReferenceViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _isSelectedStatusOrder, value);
             if (!value) return;
-            LoadReferences(ReferenceService.GetOrderStatuses());
+            LoadReferences(_referenceService.GetOrderStatuses());
             _selectedReferenceType = ReferenceType.OrderStatuses;
             IsCreateDeleteVisible  = false;
         }
@@ -106,10 +109,10 @@ public partial class ReferenceViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _countReferences, value);
     }
 
-    private void LoadReferences(ObservableCollection<Reference> items)
+    private void LoadReferences(ReferenceResultDto items)
     {
         CurrentReferences.Clear();
-        foreach (var item in items)
+        foreach (var item in items.References)
             CurrentReferences.Add(new ReferenceShow(item.Id, item.Name, item.Count, item.IsDeleted));
         CountReferences = $"Количество записей на форме: {CurrentReferences.Count}";
     }
@@ -138,14 +141,65 @@ public partial class ReferenceViewModel : ViewModelBase
             item => goToEdit(_selectedReferenceType, item));
 
         // Команда «Удалить»
-        DeleteCommand = ReactiveCommand.Create<ReferenceShow>(item =>
+        DeleteCommand = ReactiveCommand.Create<ReferenceShow>(async item =>
         {
-            // TODO: вызов сервиса удаления
-            CurrentReferences.Remove(item);
-            CountReferences = $"Количество записей на форме: {CurrentReferences.Count}";
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Удалить запись?",
+                $"Вы уверены, что хотите удалить запись - {item.Title}? Это действие нельзя будет отменить.");
+            if (_selectedReferenceType == ReferenceType.Suppliers)
+            {
+                var dto = _referenceService.Delete(Domain.Enums.ReferenceType.Supplier, item.Id);
+                if (dto.IsSuccess)
+                {
+                    LoadReferences(_referenceService.GetSuppliers());
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успех",
+                        $"Запись - {item.Title} удалена.");
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка",
+                        $"Ошибка удаления - {dto.ErrorMessage}");
+                }
+            }
+            else if (_selectedReferenceType == ReferenceType.Manufacturers)
+            {
+                var dto = _referenceService.Delete(Domain.Enums.ReferenceType.Manufacturer, item.Id);
+                if (dto.IsSuccess)
+                {
+                    LoadReferences(_referenceService.GetManufacturers());
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успех",
+                        $"Запись - {item.Title} удалена.");
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка",
+                        $"Ошибка удаления - {dto.ErrorMessage}");
+                }
+            }
+            else if (_selectedReferenceType == ReferenceType.Category)
+            {
+                var dto = _referenceService.Delete(Domain.Enums.ReferenceType.Category, item.Id);
+                if (dto.IsSuccess)
+                {
+                    LoadReferences(_referenceService.GetCategories());
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успех",
+                        $"Запись - {item.Title} удалена.");
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка",
+                        $"Ошибка удаления - {dto.ErrorMessage}");
+                }
+            }
         });
 
-        LoadReferences(ReferenceService.GetRoles());
+        LoadReferences(_referenceService.GetRoles());
     }
 
     // Конструктор для дизайнера
@@ -154,6 +208,6 @@ public partial class ReferenceViewModel : ViewModelBase
         AddReferenceCommand  = ReactiveCommand.Create(() => { });
         EditReferenceCommand = ReactiveCommand.Create<ReferenceShow>(_ => { });
         DeleteCommand        = ReactiveCommand.Create<ReferenceShow>(_ => { });
-        LoadReferences(ReferenceService.GetRoles());
+        LoadReferences(_referenceService.GetRoles());
     }
 }

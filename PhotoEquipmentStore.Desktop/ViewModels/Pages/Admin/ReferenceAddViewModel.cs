@@ -1,7 +1,10 @@
 using System;
 using System.Reactive;
 using System.Text.RegularExpressions;
+using PhotoEquipmentStore.Application.Services;
+using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
@@ -9,7 +12,8 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
 public class ReferenceAddViewModel : ViewModelBase
 {
     private readonly Action _goBack;
-    private readonly ReferenceShow? _editItem;   // null → режим создания
+    private readonly ReferenceShow? _editItem;
+    private ReferenceService _referenceService = new ReferenceService();
 
     public ReferenceType ReferenceType { get; }
     public string PageTitle  { get; }
@@ -59,15 +63,75 @@ public class ReferenceAddViewModel : ViewModelBase
         ResetCommand = ReactiveCommand.Create(_goBack);   // ← сразу возврат на список
     }
 
-    private void Save()
+    private async void Save()
     {
         if (IsEdit)
         {
-            // TODO: обновить _editItem.Id через сервис
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Редактровать запись?",
+                $"Вы уверены, что хотите редактировать запись - {_editItem.Title}?");
+            if (confirmed)
+            {
+                Domain.Enums.ReferenceType type;
+                if (ReferenceType == ReferenceType.Suppliers)
+                    type = Domain.Enums.ReferenceType.Supplier;
+                else if (ReferenceType == ReferenceType.Manufacturers)
+                    type = Domain.Enums.ReferenceType.Manufacturer;
+                else if (ReferenceType == ReferenceType.OrderStatuses)
+                    type = Domain.Enums.ReferenceType.Status;
+                else if (ReferenceType == ReferenceType.Category)
+                    type = Domain.Enums.ReferenceType.Category;
+                else
+                    type = Domain.Enums.ReferenceType.Role;
+                var dto = _referenceService.Update(type, new Reference(_editItem.Id, Title));
+
+                if (dto.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успешно",
+                        $"Запись - {Title} отрадактирована.");
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка",
+                        $"Ошибка редактирования - {dto.ErrorMessage}");
+                }
+            }
         }
         else
         {
-            // TODO: создать новую запись через сервис
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Создать запись?",
+                $"Вы уверены, что хотите создать запись - {Title}?");
+            if (confirmed)
+            {
+                Domain.Enums.ReferenceType type;
+                if (ReferenceType == ReferenceType.Suppliers)
+                    type = Domain.Enums.ReferenceType.Supplier;
+                else if (ReferenceType == ReferenceType.Manufacturers)
+                    type = Domain.Enums.ReferenceType.Manufacturer;
+                else if (ReferenceType == ReferenceType.OrderStatuses)
+                    type = Domain.Enums.ReferenceType.Status;
+                else if (ReferenceType == ReferenceType.Category)
+                    type = Domain.Enums.ReferenceType.Category;
+                else
+                    type = Domain.Enums.ReferenceType.Role;
+                var dto = _referenceService.Create(type, Title);
+                
+                if (dto.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успешно",
+                        $"Запись - {Title} создана.");
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка",
+                        $"Ошибка создания - {dto.ErrorMessage}");
+                }
+            }
         }
 
         _goBack();

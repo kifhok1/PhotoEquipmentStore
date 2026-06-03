@@ -18,6 +18,7 @@ public class ProductAddViewModel : ViewModelBase
     private readonly Action        _goBack;
     private readonly ProductsShow? _editItem;
     private ProductsService _productsService = new ProductsService();
+    private ReferenceService _referenceService = new ReferenceService();
 
     public bool   IsEdit    => _editItem is not null;
     public string PageTitle => IsEdit ? "Редактировать товар" : "Создать товар";
@@ -103,11 +104,11 @@ public class ProductAddViewModel : ViewModelBase
         _goBack   = goBack;
         _editItem = editItem;
 
-        foreach (var item in ReferenceService.GetCategories())
+        foreach (var item in _referenceService.GetCategories().References)
             Categories.Add(new ReferenceShow(item.Id, item.Name, item.Count, item.IsDeleted));
-        foreach (var item in ReferenceService.GetManufacturers())
+        foreach (var item in _referenceService.GetManufacturers().References)
             Manufacturers.Add(new ReferenceShow(item.Id, item.Name, item.Count, item.IsDeleted));
-        foreach (var item in ReferenceService.GetSuppliers())
+        foreach (var item in _referenceService.GetSuppliers().References)
             Suppliers.Add(new ReferenceShow(item.Id, item.Name, item.Count, item.IsDeleted));
 
         if (editItem is not null)

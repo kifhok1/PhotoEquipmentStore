@@ -42,4 +42,12 @@ public class Reference
         Count = count; 
         IsDeleted = isDeleted;
     }
+    
+    public Reference(
+        int id,
+        string name)
+    {
+        Id = id;
+        Name = name;
+    }
 }
