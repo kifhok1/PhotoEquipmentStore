@@ -57,6 +57,7 @@
                             <TextBlock Classes="Body">Название</TextBlock>
                             <TextBox x:Name="NameBox"
                                      Watermark="Sony FE 50mm f/1.8"
+                                     MaxLength="200"
                                      Text="{Binding Name}"
                                      Classes.invalid="{Binding #NameBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
@@ -110,6 +111,7 @@
                             <TextBlock Classes="Body">Описание товара</TextBlock>
                             <TextBox TextWrapping="Wrap"
                                      Height="170"
+                                     MaxLength="1000"
                                      Watermark="У товара есть..."
                                      Text="{Binding Description}"/>
                         </StackPanel>
@@ -140,6 +142,7 @@
                             <TextBlock Classes="Body">Цена</TextBlock>
                             <TextBox x:Name="PriceBox"
                                      Watermark="Цена товара"
+                                     MaxLength="7"
                                      Text="{Binding Price}"
                                      Classes.invalid="{Binding #PriceBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
@@ -159,6 +162,7 @@
                             <TextBlock Classes="Body">Количество</TextBlock>
                             <TextBox x:Name="QtyBox"
                                      Watermark="Количество на складе"
+                                     MaxLength="2"
                                      Text="{Binding Quantity}"
                                      Classes.invalid="{Binding #QtyBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
@@ -178,6 +182,7 @@
                             <TextBlock Classes="Body">Скидка</TextBlock>
                             <TextBox x:Name="DiscountBox"
                                      Watermark="Скидка товара"
+                                     MaxLength="2"
                                      Text="{Binding Discount}"
                                      Classes.invalid="{Binding #DiscountBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">

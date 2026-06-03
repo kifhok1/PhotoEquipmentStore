@@ -53,6 +53,7 @@
                             <TextBlock Classes="Body">ФИО</TextBlock>
                             <TextBox x:Name="FullNameBox"
                                      Watermark="Иванов Иван Иванович"
+                                     MaxLength="150"
                                      Text="{Binding FullName}"
                                      Classes.invalid="{Binding #FullNameBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">

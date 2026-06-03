@@ -6,16 +6,16 @@ using System.Reactive;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
 
 public class ProductsViewModel : ViewModelBase
 {
-    // Полный неизменяемый список — источник истины
+    private readonly ProductsService _productsService = new ProductsService();
     private readonly List<ProductsShow> _allProducts = new();
 
-    // Пагинатор работает с этой коллекцией
     public ObservableCollection<ProductsShow> Products { get; } = new();
 
     private ObservableCollection<ProductsShow> _currentProducts = new();
@@ -72,62 +72,96 @@ public class ProductsViewModel : ViewModelBase
     public ProductsViewModel(Action<ProductsShow>? goToEdit = null)
     {
         EditCommand = ReactiveCommand.Create<ProductsShow>(
-            item => goToEdit?.Invoke(item));
+            item =>
+            {
+                goToEdit?.Invoke(item);
+                LoadProducts();
+            });
 
-        DeleteCommand = ReactiveCommand.Create<ProductsShow>(item =>
+        DeleteCommand = ReactiveCommand.CreateFromTask<ProductsShow>(async item =>
         {
-            _allProducts.Remove(item);
-            Products.Remove(item);
-            CurrentProducts.Remove(item);
-            UpdateCount(Products.Count);
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Удалить запись?",
+                $"Вы уверены, что хотите удалить товар - {item.Name}? Это действие нельзя будет отменить.");
+
+            if (confirmed)
+            {
+                var result = _productsService.DeleteProduct(item.Id);
+                if (result.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync("Успешно", $"Товар - {item.Name} удалён.");
+                    LoadProducts();
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось удалить товар - {item.Name}.");
+                }
+            }
         });
 
         ResetCommand = ReactiveCommand.Create(Reset);
 
-        var productsFromDb = ProductsService.GetProducts();
-        foreach (var product in productsFromDb)
+        LoadProducts();
+    }
+
+    /// <summary>
+    /// Загружает список продуктов из сервиса и обновляет коллекции.
+    /// </summary>
+    private async void LoadProducts()
+    {
+        _allProducts.Clear();
+        Products.Clear();
+
+        var productsFromDb = _productsService.GetProducts();
+        if (productsFromDb.IsSuccess)
         {
-            var show = new ProductsShow(
-                product.Id, product.Name, product.Price,
-                product.Discount, product.Quantity,
-                product.CategoryId, product.CategoryName,
-                product.ManufacturerId, product.ManufacturerName,
-                product.SupplierId, product.SupplierName,
-                product.Description, BitmapHelper.FromBytes(product.Image));
+            foreach (var product in productsFromDb.Products)
+            {
+                var show = new ProductsShow(
+                    product.Id, product.Name, product.Price,
+                    product.Discount, product.Quantity,
+                    product.CategoryId, product.CategoryName,
+                    product.ManufacturerId, product.ManufacturerName,
+                    product.SupplierId, product.SupplierName,
+                    product.Description, BitmapHelper.FromBytes(product.Image));
 
-            _allProducts.Add(show);
-            Products.Add(show);
+                _allProducts.Add(show);
+                Products.Add(show);
+            }
+
+            // Обновляем уникальные категории для ComboBox
+            Categories.Clear();
+            foreach (var cat in _allProducts.Select(p => p.CategoryName).Distinct().Order())
+                Categories.Add(cat);
+
+            UpdateCount(Products.Count);
         }
-
-        // Уникальные категории для ComboBox
-        foreach (var cat in _allProducts.Select(p => p.CategoryName).Distinct().Order())
-            Categories.Add(cat);
-
-        UpdateCount(Products.Count);
+        else
+        {
+            await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось загрузить список товаров.");
+            UpdateCount(Products.Count);
+        }
+       
     }
 
     private void ApplyFilters()
     {
         var result = _allProducts.AsEnumerable();
 
-        // 1. Поиск по названию
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             var q = SearchText.Trim().ToLower();
             result = result.Where(p => p.Name.ToLower().Contains(q));
         }
 
-        // 2. Фильтр по категории
         if (!string.IsNullOrWhiteSpace(SelectedCategory))
             result = result.Where(p => p.CategoryName == SelectedCategory);
 
-        // 3. Сортировка по цене
-        // Price — строка вида "15 000 ₽", поэтому парсим только цифры
         result = SelectedSortOption switch
         {
-            "По возрастанию цены"  => result.OrderBy(p => ParsePrice(p.Price.ToString())),
-            "По убыванию цены"     => result.OrderByDescending(p => ParsePrice(p.Price.ToString())),
-            _                      => result
+            "По возрастанию цены" => result.OrderBy(p => ParsePrice(p.Price.ToString())),
+            "По убыванию цены"    => result.OrderByDescending(p => ParsePrice(p.Price.ToString())),
+            _                     => result
         };
 
         var list = result.ToList();
@@ -140,7 +174,6 @@ public class ProductsViewModel : ViewModelBase
 
     private void Reset()
     {
-        // Сначала глушим реакции, чтобы ApplyFilters не вызывался трижды
         _searchText = string.Empty;
         this.RaisePropertyChanged(nameof(SearchText));
 
@@ -150,7 +183,6 @@ public class ProductsViewModel : ViewModelBase
         _selectedCategory = null;
         this.RaisePropertyChanged(nameof(SelectedCategory));
 
-        // Один вызов фильтрации после сброса всех полей
         ApplyFilters();
     }
 

@@ -3,9 +3,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using Avalonia.Media.Imaging;
+using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Services;
+using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
@@ -14,6 +17,7 @@ public class ProductAddViewModel : ViewModelBase
 {
     private readonly Action        _goBack;
     private readonly ProductsShow? _editItem;
+    private ProductsService _productsService = new ProductsService();
 
     public bool   IsEdit    => _editItem is not null;
     public string PageTitle => IsEdit ? "Редактировать товар" : "Создать товар";
@@ -141,23 +145,120 @@ public class ProductAddViewModel : ViewModelBase
     // Конструктор для дизайнера
     public ProductAddViewModel() : this(() => { }) { }
 
-    private void Save()
+    private async void Save()
+{
+    if (IsEdit)
     {
-        byte[]? imageBytes = ProductImage is not null
-            ? BitmapHelper.ToBytes(ProductImage)
-            : null;
+        bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+            "Редактировать запись?",
+            "Вы действительно хотите изменить данные товара? Это действие нельзя будет отменить.");
 
-        if (IsEdit)
-        {
-            // TODO: ProductsService.Update(_editItem!.Id, ...)
-        }
-        else
-        {
-            // TODO: ProductsService.Create(...)
-        }
+        if (!confirmed) return;
 
-        _goBack();
+        try
+        {
+            ProductResultDto productDB;
+
+            if (ProductImage is not null)
+            {
+                productDB = _productsService.UpdateProduct(new Product(
+                    id:             _editItem!.Id,
+                    name:           Name,
+                    description:    Description,
+                    price:          Convert.ToInt32(Price),
+                    quantity:       Convert.ToInt32(Quantity),
+                    discount:       Convert.ToInt32(Discount),
+                    categoryId:     SelectedCategory!.Id,
+                    manufacturerId: SelectedManufacturer!.Id,
+                    supplierId:     SelectedSupplier!.Id,
+                    image:          BitmapHelper.ToBytes(ProductImage)
+                ));
+            }
+            else
+            {
+                productDB = _productsService.UpdateProduct(new Product(
+                    id:             _editItem!.Id,
+                    name:           Name,
+                    description:    Description,
+                    price:          Convert.ToInt32(Price),
+                    quantity:       Convert.ToInt32(Quantity),
+                    discount:       Convert.ToInt32(Discount),
+                    categoryId:     SelectedCategory!.Id,
+                    manufacturerId: SelectedManufacturer!.Id,
+                    supplierId:     SelectedSupplier!.Id
+                ));
+            }
+
+            if (productDB.IsSuccess)
+            {
+                await NotificationService.Instance.ShowInfoAsync("Успешно", $"Данные товара «{Name}» изменены.");
+                _goBack();
+            }
+            else
+            {
+                await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось изменить данные товара. {productDB.ErrorMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            await NotificationService.Instance.ShowErrorAsync("Ошибка", $"{ex.Message}");
+        }
     }
+    else
+    {
+        bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+            "Создать запись?",
+            "Вы действительно хотите добавить товар?");
+
+        if (!confirmed) return;
+
+        try
+        {
+            ProductResultDto productDB;
+
+            if (ProductImage is not null)
+            {
+                productDB = _productsService.CreateProduct(new Product(
+                    name:           Name,
+                    description:    Description,
+                    price:          Convert.ToInt32(Price),
+                    quantity:       Convert.ToInt32(Quantity),
+                    discount:       Convert.ToInt32(Discount),
+                    categoryId:     SelectedCategory!.Id,
+                    manufacturerId: SelectedManufacturer!.Id,
+                    supplierId:     SelectedSupplier!.Id,
+                    image:          BitmapHelper.ToBytes(ProductImage)
+                ));
+            }
+            else
+            {
+                productDB = _productsService.CreateProduct(new Product(
+                    name:           Name,
+                    description:    Description,
+                    price:          Convert.ToInt32(Price),
+                    quantity:       Convert.ToInt32(Quantity),
+                    discount:       Convert.ToInt32(Discount),
+                    categoryId:     SelectedCategory!.Id,
+                    manufacturerId: SelectedManufacturer!.Id,
+                    supplierId:     SelectedSupplier!.Id
+                ));
+            }
+
+            if (productDB.IsSuccess)
+            {
+                await NotificationService.Instance.ShowInfoAsync("Успешно", $"Товар «{Name}» добавлен.");
+            }
+            else
+            {
+                await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось добавить товар. {productDB.ErrorMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            await NotificationService.Instance.ShowErrorAsync("Ошибка", $"{ex.Message}");
+        }
+    }
+}
 
     private void Reset()
     {

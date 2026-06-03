@@ -14,7 +14,7 @@ public class BitmapHelper
         return new Bitmap(ms);
     }
     
-    public static byte[] ToBytes(Bitmap bitmap)
+    public static byte[]? ToBytes(Bitmap? bitmap)
     {
         using var ms = new MemoryStream();
         bitmap.Save(ms);

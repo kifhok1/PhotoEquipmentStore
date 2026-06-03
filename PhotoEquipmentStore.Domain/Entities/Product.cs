@@ -149,4 +149,91 @@ public class Product
         SupplierName = supplierName;
         Description = description;
     }
+    
+    public Product(
+        int id,
+        string name,
+        int price,
+        int discount,
+        int quantity,
+        int categoryId,
+        int manufacturerId,
+        int supplierId,
+        string description,
+        byte[]? image = null)
+    {
+        Id = id;
+        Name = name;
+        Price = price;
+        Discount = discount;
+        Quantity = quantity;
+        CategoryId = categoryId;
+        ManufacturerId = manufacturerId;
+        SupplierId = supplierId;
+        Description = description;
+        Image = image;
+    }
+    
+    public Product(
+        string name,
+        int price,
+        int discount,
+        int quantity,
+        int categoryId,
+        int manufacturerId,
+        int supplierId,
+        string description,
+        byte[]? image = null)
+    {
+        Name = name;
+        Price = price;
+        Discount = discount;
+        Quantity = quantity;
+        CategoryId = categoryId;
+        ManufacturerId = manufacturerId;
+        SupplierId = supplierId;
+        Description = description;
+        Image = image;
+    }
+    public Product(
+        int id,
+        string name,
+        int price,
+        int discount,
+        int quantity,
+        int categoryId,
+        int manufacturerId,
+        int supplierId,
+        string description)
+    {
+        Id = id;
+        Name = name;
+        Price = price;
+        Discount = discount;
+        Quantity = quantity;
+        CategoryId = categoryId;
+        ManufacturerId = manufacturerId;
+        SupplierId = supplierId;
+        Description = description;
+    }
+    
+    public Product(
+        string name,
+        int price,
+        int discount,
+        int quantity,
+        int categoryId,
+        int manufacturerId,
+        int supplierId,
+        string description)
+    {
+        Name = name;
+        Price = price;
+        Discount = discount;
+        Quantity = quantity;
+        CategoryId = categoryId;
+        ManufacturerId = manufacturerId;
+        SupplierId = supplierId;
+        Description = description;
+    }
 }

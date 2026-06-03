@@ -122,7 +122,7 @@ public class ClientAddViewModel : ViewModelBase
         {
              bool confirmed = await NotificationService.Instance.ShowWarningAsync(
                 "Создать запись?",
-                $"Вы действительно хотите создать данные клиента? Это действие нельзя будет отменить.");
+                $"Вы действительно хотите создать данные клиента?");
 
             if (confirmed)
             {

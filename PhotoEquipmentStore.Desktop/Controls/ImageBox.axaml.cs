@@ -29,7 +29,6 @@ public partial class ImageBox : UserControl
 
     private Bitmap? _ownedBitmap;
 
-    // Кешируем после OnAttachedToVisualTree, когда DynamicResource уже резолвится
     private IBrush? _defaultBorderStroke;
     private IBrush? _defaultIconBorderBrush;
     private IBrush? _defaultIconStroke;
@@ -54,16 +53,15 @@ public partial class ImageBox : UserControl
     {
         base.OnAttachedToVisualTree(e);
 
-        // DynamicResource гарантированно резолвится к этому моменту
         _defaultBorderStroke    = DropBorderRect.Stroke;
         _defaultIconBorderBrush = IconCircleBorder.BorderBrush;
         _defaultIconStroke      = IconPath.Stroke;
 
-        // Привязка могла выставить ImageSource до прикрепления — применяем состояние
         if (ImageSource is not null)
         {
             PreviewImage.Source = ImageSource;
             ShowImageState("Изображение загружено");
+            SetWarning(false);
         }
         else
         {
@@ -84,7 +82,10 @@ public partial class ImageBox : UserControl
         if (bitmap is not null)
             ShowImageState("Изображение загружено");
         else
+        {
+            SetWarning(false);
             ShowDropState();
+        }
     }
 
     private void ShowImageState(string label)
@@ -113,7 +114,11 @@ public partial class ImageBox : UserControl
         DropBorderRect.Stroke          = _defaultBorderStroke;
     }
 
-    // SetHighlight использует кеш — ClearValue больше не нужен
+    private void SetWarning(bool show)
+    {
+        CompressionWarningText.IsVisible = show;
+    }
+
     private void SetHighlight(bool active)
     {
         if (active)
@@ -162,6 +167,7 @@ public partial class ImageBox : UserControl
     private void OnClearButtonClick(object? sender, RoutedEventArgs e)
     {
         e.Handled   = true;
+        SetWarning(false);
         ImageSource = null;
     }
 
@@ -171,7 +177,9 @@ public partial class ImageBox : UserControl
         if (!AllowedExtensions.Contains(ext)) return;
 
         var info = new FileInfo(path);
-        if (!info.Exists || info.Length > MaxFileSizeBytes) return;
+        if (!info.Exists) return;
+
+        bool tooBig = info.Length > MaxFileSizeBytes;
 
         try
         {
@@ -185,6 +193,8 @@ public partial class ImageBox : UserControl
             var name = Path.GetFileName(path);
             if (name.Length > 20) name = name[..20] + "...";
             FileInfoText.Text = $"{name} ({size})";
+
+            SetWarning(tooBig);
         }
         catch { }
     }
