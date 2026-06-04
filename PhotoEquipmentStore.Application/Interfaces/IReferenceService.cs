@@ -2,7 +2,7 @@ using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Domain.Enums;
 
-namespace PhotoEquipmentStore.Application.Services.Interfaces;
+namespace PhotoEquipmentStore.Application.Interfaces;
 
 public interface IReferenceService
 {

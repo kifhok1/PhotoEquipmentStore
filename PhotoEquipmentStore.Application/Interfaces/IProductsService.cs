@@ -1,7 +1,7 @@
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Domain.Entities;
 
-namespace PhotoEquipmentStore.Application.Services.Interfaces;
+namespace PhotoEquipmentStore.Application.Interfaces;
 
 public interface IProductsService
 {
