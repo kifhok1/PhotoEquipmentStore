@@ -7,7 +7,16 @@ public class UserInfo
     private string userName;
     private string userRole;
     private Bitmap userImage;
+    private int userId;
 
+    public int UserId
+    {
+        get
+        {
+            return userId;
+        }
+    }
+    
     public string UserName
     {
         get

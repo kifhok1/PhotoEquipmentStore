@@ -1,5 +1,5 @@
 using PhotoEquipmentStore.Application.DTO;
-using PhotoEquipmentStore.Application.Services.Interfaces;
+using PhotoEquipmentStore.Application.Interfaces;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Domain.Enums;
 using PhotoEquipmentStore.Infrastructure.Commands;

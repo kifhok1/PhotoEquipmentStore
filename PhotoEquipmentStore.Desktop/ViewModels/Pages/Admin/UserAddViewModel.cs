@@ -8,9 +8,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
+using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Services;
+using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 using ReactiveUI.Validation.Abstractions;
 using ReactiveUI.Validation.Contexts;
@@ -23,6 +26,7 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 {
     public IValidationContext ValidationContext { get; } = new ValidationContext();
     private ReferenceService _referenceService = new ReferenceService();
+    private UsersService     _usersService     = new UsersService();
 
     private ValidationHelper _userNameValidation = null!;
     private ValidationHelper _phoneValidation    = null!;
@@ -36,7 +40,7 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     public bool   IsEdit    => _editItem is not null;
     public string PageTitle => IsEdit ? "Редактировать пользователя" : "Создать пользователя";
 
-    // ── Свойства ─────────────────────────────────────────────────────────────
+    // ── Свойства ──────────────────────────────────────────────────────────────
 
     private string _userName = string.Empty;
     public string UserName
@@ -89,29 +93,28 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 
     public ObservableCollection<ReferenceShow> Roles { get; } = new();
 
-    // ── Команды ──────────────────────────────────────────────────────────────
+    // ── Команды ───────────────────────────────────────────────────────────────
 
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
 
-    // ── Конструктор ──────────────────────────────────────────────────────────
+    // ── Конструктор ───────────────────────────────────────────────────────────
 
     public UserAddViewModel(Action goBack, UserShow? editItem = null)
     {
         _goBack   = goBack;
         _editItem = editItem;
 
-        // Роли загружаем ДО предзаполнения, чтобы SelectedRole нашёл совпадение
         var userRoles = _referenceService.GetRoles().References;
         foreach (var role in userRoles)
             Roles.Add(new ReferenceShow(role.Id, role.Name, role.Count, role.IsDeleted));
 
         if (editItem is not null)
         {
-            _userName     = editItem.Name;
-            _phoneNumber  = editItem.PhoneNumber;
-            _login        = editItem.Login;
+            _userName    = editItem.Name;
+            _phoneNumber = editItem.PhoneNumber;
+            _login       = editItem.Login;
             _selectedRole = Roles.FirstOrDefault(r => r.Id == editItem.RoleID);
-            UserImage     = editItem.Image;
+            UserImage    = editItem.Image;
         }
 
         var canSave = this.WhenAnyValue(
@@ -121,10 +124,11 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
             x => x.Password,
             x => x.SelectedRole,
             (name, phone, login, pass, role) =>
-                IsValidPartialName(name)                                      &&
-                IsValidPhone(phone)                                           &&
-                !string.IsNullOrWhiteSpace(login)                            &&
-                (!string.IsNullOrWhiteSpace(pass) && pass.Length >= 6 || IsEdit) &&
+                IsValidPartialName(name)                                               &&
+                IsValidPhone(phone)                                                    &&
+                !string.IsNullOrWhiteSpace(login)                                     &&
+                (IsEdit || (!string.IsNullOrWhiteSpace(pass) && pass.Length >= 6))    &&
+                (string.IsNullOrWhiteSpace(pass) || IsValidLatinText(pass) && pass.Length >= 6) &&
                 role != null);
 
         SaveCommand = ReactiveCommand.Create(Save, canSave);
@@ -133,7 +137,6 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
         SubscribeToChanges();
     }
 
-    // Конструктор для дизайнера
     public UserAddViewModel() : this(() => { }) { }
 
     // ── Валидация ─────────────────────────────────────────────────────────────
@@ -157,7 +160,9 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 
         _passwordValidation = this.ValidationRule(
             vm => vm.Password,
-            v => !string.IsNullOrEmpty(v) && IsValidLatinText(v) && v.Length >= 6,
+            v => IsEdit
+                ? string.IsNullOrEmpty(v) || (IsValidLatinText(v) && v.Length >= 6)
+                : !string.IsNullOrEmpty(v) && IsValidLatinText(v) && v.Length >= 6,
             "Латиница, цифры, спецсимволы — минимум 6 символов");
 
         _roleValidation = this.ValidationRule(
@@ -188,7 +193,7 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 
     // ── Реализация команд ─────────────────────────────────────────────────────
 
-    private void Save()
+    private async void Save()
     {
         byte[]? imageBytes = UserImage is not null
             ? BitmapHelper.ToBytes(UserImage)
@@ -196,16 +201,81 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 
         if (IsEdit)
         {
-            // TODO: UsersService.Update(_editItem!.Id, UserName, PhoneNumber,
-            //           Login, Password, SelectedRole!.Id, imageBytes)
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Редактировать запись?",
+                "Вы действительно хотите изменить данные пользователя? Это действие нельзя будет отменить.");
+
+            if (!confirmed) return;
+
+            try
+            {
+                var updatedUser = new User(
+                    _editItem!.Id,
+                    UserName,
+                    Login,
+                    PhoneNumber,
+                    _editItem.Role,
+                    SelectedRole!.Id,
+                    imageBytes);
+
+                UserResultDto result = string.IsNullOrWhiteSpace(Password)
+                    ? _usersService.UpdateUser(updatedUser)
+                    : _usersService.UpdateUser(updatedUser, Password);
+
+                if (result.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успешно", $"Данные пользователя «{UserName}» изменены.");
+                    _goBack();
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка", $"Не удалось изменить данные пользователя. {result.ErrorMessage}");
+                }
+            }
+            catch (Exception ex)
+            {
+                await NotificationService.Instance.ShowErrorAsync("Ошибка", ex.Message);
+            }
         }
         else
         {
-            // TODO: UsersService.Create(UserName, PhoneNumber,
-            //           Login, Password, SelectedRole!.Id, imageBytes)
-        }
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Создать запись?",
+                "Вы действительно хотите добавить пользователя?");
 
-        _goBack();
+            if (!confirmed) return;
+
+            try
+            {
+                var newUser = new User(
+                    UserName,
+                    Login,
+                    Password,
+                    PhoneNumber,
+                    SelectedRole!.Id,
+                    imageBytes);
+
+                UserResultDto result = _usersService.CreateUser(newUser, Password);
+
+                if (result.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync(
+                        "Успешно", $"Пользователь «{UserName}» добавлен.");
+                    _goBack();
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync(
+                        "Ошибка", $"Не удалось добавить пользователя. {result.ErrorMessage}");
+                }
+            }
+            catch (Exception ex)
+            {
+                await NotificationService.Instance.ShowErrorAsync("Ошибка", ex.Message);
+            }
+        }
     }
 
     [RelayCommand]

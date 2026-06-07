@@ -2,9 +2,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using Avalonia.Media.Imaging;
+using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
@@ -12,6 +14,7 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
 public partial class UsersViewModel : ViewModelBase
 {
     public ObservableCollection<UserShow> Users { get; } = new();
+    private UsersService _usersService =  new UsersService();
 
     private string _usersCount = string.Empty;
     public string UsersCount
@@ -25,23 +28,44 @@ public partial class UsersViewModel : ViewModelBase
 
     public UsersViewModel(Action<UserShow>? goToEdit = null)
     {
+        FillUsers();
         EditCommand = ReactiveCommand.Create<UserShow>(
             item => goToEdit?.Invoke(item));
 
-        DeleteCommand = ReactiveCommand.Create<UserShow>(item =>
+        DeleteCommand = ReactiveCommand.Create<UserShow>(async item =>
         {
-            // TODO: вызов сервиса удаления
-            Users.Remove(item);
-            UsersCount = $"Количество элементов на форме: {Users.Count}";
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Удалить запись?",
+                $"Вы уверены, что хотите удалить пользователя - {item.Name}? Это действие нельзя будет отменить.");
+
+            if (confirmed)
+            {
+                var UsersDb = _usersService.DeleteUser(item.Id);
+                if (UsersDb.IsSuccess)
+                {
+                    await NotificationService.Instance.ShowInfoAsync("Успешно", $"Пользователь - {item.Name} удалён.");
+                    FillUsers();
+                }
+                else
+                {
+                    await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось удалить пользователя - {item.Name}.");
+                }
+            }
         });
 
-        var usersDb = UsersService.GetUsers();
+       
+    }
+    
+    private void FillUsers()
+    {
+        Users.Clear();
+        var usersDb = new UsersService().GetUsers().Users;
         foreach (var user in usersDb)
             Users.Add(new UserShow(
                 user.Id, user.Name, user.Login,
                 user.PhoneNumber, user.Role, user.RoleID,
-                BitmapHelper.FromBytes(user.Image)));
-
+                BitmapHelper.FromBytes(user.Image))
+            );
         UsersCount = $"Количество элементов на форме: {Users.Count}";
     }
 }

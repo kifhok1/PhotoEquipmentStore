@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using PhotoEquipmentStore.Application.DTO;
-using PhotoEquipmentStore.Application.Services.Interfaces;
+using PhotoEquipmentStore.Application.Interfaces;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Infrastructure.Commands;
 using PhotoEquipmentStore.Infrastructure.Exceptions;

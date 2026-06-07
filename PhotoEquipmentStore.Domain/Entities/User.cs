@@ -80,4 +80,15 @@ public class User
         RoleID = roleID;
         Image = image;
     }
+    
+    public User(string name, string login, string password,
+        string phoneNumber, int roleID, byte[]? image = null)
+    {
+        Name = name;
+        Login = login;
+        Password = password;
+        PhoneNumber = phoneNumber;
+        RoleID = roleID;
+        Image = image;
+    }
 }
