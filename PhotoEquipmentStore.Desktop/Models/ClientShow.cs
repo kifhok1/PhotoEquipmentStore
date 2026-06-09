@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using PhotoEquipmentStore.Helper;
 using ReactiveUI;
 
@@ -21,13 +23,21 @@ public class ClientShow : ReactiveObject
     public string Name
     {
         get => _name;
-        set => this.RaiseAndSetIfChanged(ref _name, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _name, value);
+            this.RaisePropertyChanged(nameof(DisplayLabel));
+        }
     }
 
     public string PhoneNumber
     {
         get => _phoneNumber;
-        set => this.RaiseAndSetIfChanged(ref _phoneNumber, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _phoneNumber, value);
+            this.RaisePropertyChanged(nameof(DisplayLabel));
+        }
     }
 
     public string TotalPurchases
@@ -52,6 +62,13 @@ public class ClientShow : ReactiveObject
             this.RaisePropertyChanged(nameof(PhoneNumberShow));
         }
     }
+    
+    private bool _isSelected;
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => this.RaiseAndSetIfChanged(ref _isSelected, value);
+    }
 
     public string TotalPurchasesShow => TotalPurchases + " ₽";
     public string CountOrdersShow    => CountOrders + " шт.";
@@ -63,6 +80,28 @@ public class ClientShow : ReactiveObject
     public string NameShow => IsRevealed
         ? Name
         : MaskClientsData.MaskFullName(Name);
+    
+    public string DisplayLabel
+    {
+        get
+        {
+            var parts = Name?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
+            string shortName = parts.Length switch
+            {
+                0 => "—",
+                1 => parts[0],
+                2 => $"{parts[0]} {parts[1][0]}.",
+                _ => $"{parts[0]} {parts[1][0]}. {parts[2][0]}."
+            };
+
+            var digits = new string(PhoneNumber?.Where(char.IsDigit).ToArray() ?? []);
+            string tail = digits.Length >= 4
+                ? $"{digits[^4..^2]}-{digits[^2..]}"
+                : digits;
+
+            return $"{shortName}  {tail}";
+        }
+    }
 
     public ClientShow(
         int id,
@@ -71,7 +110,7 @@ public class ClientShow : ReactiveObject
         string totalPurchases,
         int countOrders)
     {
-        _Id        = id;
+        _Id             = id;
         _name           = name;
         _phoneNumber    = phoneNumber;
         _totalPurchases = totalPurchases;

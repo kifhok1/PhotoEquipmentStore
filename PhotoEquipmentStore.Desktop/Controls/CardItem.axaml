@@ -1,0 +1,123 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PhotoEquipmentStore.Controls"
+             x:Class="PhotoEquipmentStore.Controls.CartItem"
+             x:DataType="local:CartItem">
+
+    <Border Background="{DynamicResource elevated}"
+            CornerRadius="10"
+            Margin="0 0 0 7"
+            Padding="10"
+            DataContext="{Binding Item, RelativeSource={RelativeSource AncestorType=local:CartItem}}">
+
+        <Grid ColumnDefinitions="44,*,Auto">
+
+            <!-- Миниатюра -->
+            <Border BorderBrush="{DynamicResource border}"
+                    BorderThickness="2"
+                    Width="45"
+                    Height="45"
+                    CornerRadius="8"
+                    Background="{DynamicResource secondary_background}">
+                <Border ClipToBounds="True"
+                        Width="42"
+                        Height="42"
+                        CornerRadius="12">
+                    <Panel>
+                        <Panel ClipToBounds="True">
+                            <Viewbox HorizontalAlignment="Center"
+                                     IsVisible="{Binding !HasImage}"
+                                     VerticalAlignment="Center"
+                                     Height="24"
+                                     Width="24"
+                                     ClipToBounds="False"
+                                     Margin="0 0 4 4">
+                                <Path Data="{DynamicResource NoImage}"
+                                      StrokeThickness="1.6"
+                                      Stroke="{DynamicResource muted_text}"
+                                      StrokeJoin="Round"
+                                      StrokeLineCap="Round"/>
+                            </Viewbox>
+                        </Panel>    
+                        <Image Source="{Binding Image}"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               Stretch="UniformToFill"/>
+                    </Panel>
+                </Border>
+            </Border>
+
+            <!-- Название + цена -->
+            <StackPanel Grid.Column="1" Margin="9,0,6,0" VerticalAlignment="Center" Spacing="2">
+                <TextBlock Text="{Binding Name}"
+                           FontSize="12" FontWeight="SemiBold"
+                           Foreground="{DynamicResource main_text}"
+                           TextWrapping="Wrap" MaxLines="2"/>
+                <TextBlock Text="{Binding FinalPrice, StringFormat='{}{0:N0} ₽'}"
+                           FontSize="12" FontWeight="Bold"
+                           Foreground="{DynamicResource accent}"/>
+            </StackPanel>
+
+            <!-- Счётчик + удалить -->
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="4">
+                <Border Background="{DynamicResource surface}" CornerRadius="8" Padding="3,2">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Button Width="22" Height="22"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Classes="Ghost"
+                                Command="{Binding DecreaseCommand, RelativeSource={RelativeSource AncestorType=local:CartItem}}"
+                                CommandParameter="{Binding}">
+                            <Viewbox Width="11" Height="11"
+                                     ClipToBounds="False" 
+                                     HorizontalAlignment="Center" 
+                                     VerticalAlignment="Center" Margin=" -10 0 0 -10">
+                                <Path Data="{DynamicResource Minus}"
+                                      StrokeThickness="1.7"
+                                      StrokeLineCap="Round"
+                                      StrokeJoin="Round"/>
+                            </Viewbox>
+                        </Button>
+                        <TextBlock Text="{Binding CartQuantity}"
+                                   FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource main_text}"
+                                   VerticalAlignment="Center"
+                                   MinWidth="16" TextAlignment="Center"/>
+                        <Button Width="22" Height="22" 
+                                Classes="Ghost"
+                                Foreground="{DynamicResource primary}"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding IncreaseCommand, RelativeSource={RelativeSource AncestorType=local:CartItem}}"
+                                CommandParameter="{Binding}">
+                            <Viewbox Width="11" Height="11"
+                                     ClipToBounds="False"
+                                     HorizontalAlignment="Center" 
+                                     VerticalAlignment="Center" Margin="-12 0 0 0">
+                                <Path Data="{DynamicResource Plus}"
+                                      StrokeThickness="1.7"
+                                      StrokeLineCap="Round"
+                                      StrokeJoin="Round"/>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <Button HorizontalAlignment="Right" Classes="Destructive"
+                        Width="22" Height="22" CornerRadius="4"
+                        Command="{Binding RemoveCommand, RelativeSource={RelativeSource AncestorType=local:CartItem}}"
+                        CommandParameter="{Binding}">
+                    <Viewbox Width="12" Height="12" 
+                             ClipToBounds="False" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" Margin="-12 0 0 0">
+                        <Path Data="{DynamicResource Delete}"
+                              StrokeThickness="1.7"
+                              StrokeLineCap="Round"
+                              StrokeJoin="Round"/>
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

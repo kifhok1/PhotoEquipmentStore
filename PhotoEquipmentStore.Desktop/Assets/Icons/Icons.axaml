@@ -183,4 +183,17 @@
     <StreamGeometry x:Key="Error">
         M12 16h.01 M12 8v4 M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z
     </StreamGeometry>
+    
+    <StreamGeometry x:Key="Plus">
+        M5 12h14 M12 5v14
+    </StreamGeometry>
+    
+    <StreamGeometry x:Key="Minus">
+        M5 12h14 v0.000001
+    </StreamGeometry>
+    
+    <StreamGeometry x:Key="Discount">
+        M3.85,8.62 A4,4 0 0,1 8.63,3.85 A4,4 0 0,1 15.37,3.85 A4,4 0 0,1 20.15,8.63 A4,4 0 0,1 20.15,15.37 A4,4 0 0,1 15.37,20.15 A4,4 0 0,1 8.63,20.15 A4,4 0 0,1 3.85,15.37 A4,4 0 0,1 3.85,8.62 Z M15,9 L9,15 M9,9 h.01 M15,15 h.01
+    </StreamGeometry>
+
 </ResourceDictionary>
