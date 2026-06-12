@@ -24,6 +24,9 @@
         <StyleInclude Source="Assets/Style/DataGridStyle.axaml"/>
         <StyleInclude Source="Assets/Style/ScrollBarStyle.axaml"/>
         <StyleInclude Source="Assets/Style/RadioButtonStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/CalendarDayButtonStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/CalendarDatePickerStyle.axaml"/>
+        <StyleInclude Source="Assets/Style/CalendarItemStyle.axaml"/>
     </Application.Styles>
              
     <Application.Resources>

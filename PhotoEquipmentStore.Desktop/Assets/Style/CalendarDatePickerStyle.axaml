@@ -1,0 +1,168 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource main_background}" 
+                Height="500" Width="500">
+            <StackPanel Spacing="15">
+                <CalendarDatePicker Watermark="Выберите дату" Width="280"/>
+                <CalendarDatePicker Watermark="Выберите дату" Width="280" IsEnabled="False"/>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+        <ResourceDictionary>
+
+            <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+                <Setter Property="Background"               Value="{DynamicResource secondary_background}" />
+                <Setter Property="Foreground"               Value="{DynamicResource main_text}" />
+                <Setter Property="BorderBrush"              Value="{DynamicResource border}" />
+                <Setter Property="BorderThickness"          Value="1" />
+                <Setter Property="CornerRadius"             Value="6" />
+                <Setter Property="MinHeight"                Value="30" />
+                <Setter Property="Padding"                  Value="6" />
+                <Setter Property="FontSize"                 Value="14" />
+                <Setter Property="FontFamily"               Value="{DynamicResource Geologica}" />
+                <Setter Property="HorizontalAlignment"      Value="Stretch" />
+                <Setter Property="VerticalAlignment"        Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment"   Value="Center" />
+                <Setter Property="FocusAdorner"             Value="{x:Null}" />
+
+                <Setter Property="Template">
+                    <ControlTemplate>
+                            <Panel x:Name="LayoutRoot">
+
+                                <Border x:Name="PART_Background"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        MinHeight="{TemplateBinding MinHeight}" />
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      Margin="{TemplateBinding BorderThickness}">
+
+                                    <TextBox Name="PART_TextBox"
+                                             Grid.Column="0"
+                                             Foreground="{TemplateBinding Foreground}"
+                                             FontFamily="{TemplateBinding FontFamily}"
+                                             FontSize="{TemplateBinding FontSize}"
+                                             Background="Transparent"
+                                             BorderBrush="Transparent"
+                                             BorderThickness="0"
+                                             CornerRadius="{TemplateBinding CornerRadius}"
+                                             Padding="{TemplateBinding Padding}"
+                                             Watermark="{TemplateBinding Watermark}"
+                                             UseFloatingWatermark="{TemplateBinding UseFloatingWatermark}"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Stretch"
+                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                        <TextBox.Styles>
+                                            <Style Selector="TextBox#PART_TextBox:focus /template/ Border#PART_BorderElement">
+                                                <Setter Property="Background"      Value="Transparent" />
+                                                <Setter Property="BorderBrush"     Value="Transparent" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                            </Style>
+                                            <Style Selector="TextBox#PART_TextBox:pointerover /template/ Border#PART_BorderElement">
+                                                <Setter Property="Background"  Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                <Setter Property="Opacity"     Value="1" />
+                                            </Style>
+                                            <Style Selector="TextBox#PART_TextBox:disabled /template/ Border#PART_BorderElement">
+                                                <Setter Property="Background"  Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                            </Style>
+                                            <Style Selector="TextBox#PART_TextBox /template/ TextBlock#PART_Watermark">
+                                                <Setter Property="Foreground" Value="{DynamicResource muted_text}" />
+                                            </Style>
+                                        </TextBox.Styles>
+                                    </TextBox>
+
+                                    <Button Name="PART_Button"
+                                            Grid.Column="1"
+                                            Focusable="False"
+                                            Width="34"
+                                            Height="26"
+                                            Margin="0,0,4,0"
+                                            Cursor="Hand"
+                                            Classes="Ghost">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <ContentPresenter Name="PART_ContentPresenter"
+                                                                  Background="{DynamicResource secondary_background}"
+                                                                  BorderBrush="{DynamicResource border}"
+                                                                  BorderThickness="1"
+                                                                  CornerRadius="8"
+                                                                  HorizontalContentAlignment="Center"
+                                                                  VerticalContentAlignment="Center">
+                                                    <ContentPresenter.Content>
+                                                        <Viewbox Width="16" Height="16" ClipToBounds="False">
+                                                            <Path Name="PART_Icon"
+                                                                  Data="{DynamicResource Calendar}"/>
+                                                        </Viewbox>
+                                                    </ContentPresenter.Content>
+                                                </ContentPresenter>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <Popup Name="PART_Popup"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           PlacementTarget="{TemplateBinding}"
+                                           IsLightDismissEnabled="True"
+                                           PlacementMode="Bottom"
+                                           Width="280">
+                                        <Border Background="{DynamicResource surface}"
+                                                BorderBrush="{DynamicResource border}"
+                                                BorderThickness="1"
+                                                CornerRadius="12"
+                                                Padding="10">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#15000000"
+                                                                  BlurRadius="20"
+                                                                  OffsetX="0"
+                                                                  OffsetY="6" />
+                                            </Border.Effect>
+                                            <Calendar Name="PART_Calendar"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Stretch"
+                                                      FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                                      IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                                      SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                      DisplayDate="{TemplateBinding DisplayDate}"
+                                                      DisplayDateStart="{TemplateBinding DisplayDateStart}"
+                                                      DisplayDateEnd="{TemplateBinding DisplayDateEnd}" />
+                                        </Border>
+                                    </Popup>
+
+                                </Grid>
+                            </Panel>
+                    </ControlTemplate>
+                </Setter>
+
+                <Style Selector="^:pointerover /template/ Border#PART_Background">
+                    <Setter Property="Opacity" Value="0.8" />
+                </Style>
+                <Style Selector="^:focus-within:not(CalendarDatePicker:focus) /template/ Border#PART_Background">
+                    <Setter Property="BorderBrush"     Value="{DynamicResource primary}" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Opacity"         Value="1" />
+                </Style>
+                <Style Selector="^:disabled /template/ Border#PART_Background">
+                    <Setter Property="Background"  Value="{DynamicResource main_background}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource border}" />
+                    <Setter Property="Opacity"     Value="0.85" />
+                </Style>
+                <Style Selector="^:error /template/ Border#PART_Background">
+                    <Setter Property="BorderBrush" Value="{DynamicResource error_border}" />
+                </Style>
+
+            </ControlTheme>
+
+        </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

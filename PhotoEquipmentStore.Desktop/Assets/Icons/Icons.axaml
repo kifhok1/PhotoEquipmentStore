@@ -195,5 +195,8 @@
     <StreamGeometry x:Key="Discount">
         M3.85,8.62 A4,4 0 0,1 8.63,3.85 A4,4 0 0,1 15.37,3.85 A4,4 0 0,1 20.15,8.63 A4,4 0 0,1 20.15,15.37 A4,4 0 0,1 15.37,20.15 A4,4 0 0,1 8.63,20.15 A4,4 0 0,1 3.85,15.37 A4,4 0 0,1 3.85,8.62 Z M15,9 L9,15 M9,9 h.01 M15,15 h.01
     </StreamGeometry>
-
+    
+    <StreamGeometry x:Key="Calendar">
+        M8,2 v4 M16,2 v4 M5,4 H19 A2,2 0 0,1 21,6 V20 A2,2 0 0,1 19,22 H5 A2,2 0 0,1 3,20 V6 A2,2 0 0,1 5,4 Z M3,10 h18 M8,14 h0.01 M12,14 h0.01 M16,14 h0.01 M8,18 h0.01 M12,18 h0.01 M16,18 h0.01
+    </StreamGeometry>
 </ResourceDictionary>
