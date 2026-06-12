@@ -1,3 +1,4 @@
+using System;
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Helpers;
 using Authorization = PhotoEquipmentStore.Infrastructure.Commands.Authorization;

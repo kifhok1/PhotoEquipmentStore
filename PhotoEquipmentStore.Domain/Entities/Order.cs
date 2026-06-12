@@ -1,3 +1,5 @@
+using System;
+
 namespace PhotoEquipmentStore.Domain.Entities;
 
 public class Order

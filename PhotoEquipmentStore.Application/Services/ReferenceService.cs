@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Interfaces;
 using PhotoEquipmentStore.Domain.Entities;

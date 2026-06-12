@@ -1,3 +1,4 @@
+using System.Linq;
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Helpers;
 using PhotoEquipmentStore.Application.Interfaces;

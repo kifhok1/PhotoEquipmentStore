@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using PhotoEquipmentStore.Infrastructure.Connection;
 using PhotoEquipmentStore.Infrastructure.Exceptions;

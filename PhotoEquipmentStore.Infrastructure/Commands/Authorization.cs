@@ -1,3 +1,4 @@
+using System;
 using MySql.Data.MySqlClient;
 using PhotoEquipmentStore.Infrastructure.Connection;
 using PhotoEquipmentStore.Domain.Entities;

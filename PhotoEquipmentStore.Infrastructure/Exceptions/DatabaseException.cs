@@ -1,3 +1,5 @@
+using System;
+
 namespace PhotoEquipmentStore.Infrastructure.Exceptions;
 
 public class DatabaseException : Exception
