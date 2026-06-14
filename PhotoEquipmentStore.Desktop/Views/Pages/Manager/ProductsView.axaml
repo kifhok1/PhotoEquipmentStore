@@ -9,10 +9,12 @@
              xmlns:controls="using:PhotoEquipmentStore.Controls"
              xmlns:conv="using:PhotoEquipmentStore.Converters"
              xmlns:models="using:PhotoEquipmentStore.Models">
+    <!-- Файл: Каталог товаров: фильтры, DataGrid, PaginationButtons. -->
     <Design.DataContext>
         <vm:ProductsViewModel/>
     </Design.DataContext>
 
+    <!-- Локальные ресурсы и конвертеры представления -->
     <UserControl.Resources>
         <conv:ListToProductShowCollectionConverter x:Key="ListToProductShowCollectionConverter"/>
     </UserControl.Resources>
@@ -70,12 +72,14 @@
                         Background="{DynamicResource secondary_background}"
                         BorderBrush="{DynamicResource border}">
                     <Grid RowDefinitions="* Auto" RowSpacing="10">
+                        <!-- Таблица данных (только чтение) -->
                         <DataGrid IsReadOnly="True"
                                   AutoGenerateColumns="False"
                                   ItemsSource="{Binding CurrentProducts}"
                                   CanUserSortColumns="False"
                                   BorderBrush="{DynamicResource border}"
                                   BorderThickness="0 0 0 1">
+                            <!-- Определение колонок таблицы -->
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Фото" Width="Auto" >
                                                     <DataGridTemplateColumn.CellTemplate>
@@ -198,6 +202,7 @@
                                        VerticalAlignment="Center"
                                        Text="{Binding #ProductsPaginator.PageCountText}"/>
 
+                            <!-- Компонент постраничной навигации -->
                             <controls:PaginationButtons
                                 x:Name="ProductsPaginator"
                                 Items="{Binding Products}"

@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Domain.Entities;
 
+/// <summary>
+/// Статистика для панели управления: количество заказов, товаров и выручка за текущий день и месяц.
+/// </summary>
 public class DashboardStats
 {
     public int     OrdersToday  { get; }

@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: ControlTheme для кнопок дней и месяцев календаря. -->
 
     <Styles.Resources>
         <ResourceDictionary>

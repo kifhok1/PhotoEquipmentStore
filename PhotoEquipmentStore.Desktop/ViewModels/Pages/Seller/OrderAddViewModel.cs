@@ -14,7 +14,10 @@ using PhotoEquipmentStore.Application.Interfaces;
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Infrastructure.Services;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel оформления заказа: выбор клиента, товаров и корзина.
+/// </summary>
+
 
 public class OrderAddViewModel : ViewModelBase
 {
@@ -25,6 +28,12 @@ public class OrderAddViewModel : ViewModelBase
     private readonly Action<OrderConfirmViewModel> _goToConfirm;
     private readonly Action _goBackToAdd;
 
+    /// <summary>
+
+    /// Признак видимости поля поиска клиента.
+
+    /// </summary>
+
     public bool IsClientSearchVisible => _selectedClient == null;
 
     public Func<string, Task<string?>>? SaveReceiptDelegate { get; set; }
@@ -32,17 +41,35 @@ public class OrderAddViewModel : ViewModelBase
     private ObservableCollection<OrderProductShow> _allProducts = new();
 
     private ObservableCollection<OrderProductShow> _filteredProducts = new();
+    /// <summary>
+    /// Отфильтрованный список товаров.
+    /// </summary>
     public ObservableCollection<OrderProductShow> FilteredProducts
     {
         get => _filteredProducts;
         set => this.RaiseAndSetIfChanged(ref _filteredProducts, value);
     }
 
+    /// <summary>
+
+    /// Список категорий для фильтра.
+
+    /// </summary>
+
     public ObservableCollection<string> Categories    { get; } = new();
+    /// <summary>
+    /// Продавец, оформивший заказ.
+    /// </summary>
     public UserInfo Seller { get; }
+    /// <summary>
+    /// Список производителей.
+    /// </summary>
     public ObservableCollection<string> Manufacturers { get; } = new();
 
     private string _searchText = string.Empty;
+    /// <summary>
+    /// Строка поиска по названию товара.
+    /// </summary>
     public string SearchText
     {
         get => _searchText;
@@ -61,6 +88,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private string? _selectedCategory;
+    /// <summary>
+    /// Выбранная категория фильтра.
+    /// </summary>
     public string? SelectedCategory
     {
         get => _selectedCategory;
@@ -72,6 +102,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private string? _selectedManufacturer;
+    /// <summary>
+    /// Выбранный производитель товара.
+    /// </summary>
     public string? SelectedManufacturer
     {
         get => _selectedManufacturer;
@@ -83,6 +116,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private OrderProductShow? _selectedProduct;
+    /// <summary>
+    /// Выбранный товар для детального просмотра.
+    /// </summary>
     public OrderProductShow? SelectedProduct
     {
         get => _selectedProduct;
@@ -90,15 +126,27 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private bool _isProductPanelVisible;
+    /// <summary>
+    /// Признак видимости панели деталей товара.
+    /// </summary>
     public bool IsProductPanelVisible
     {
         get => _isProductPanelVisible;
         set => this.RaiseAndSetIfChanged(ref _isProductPanelVisible, value);
     }
 
+    /// <summary>
+
+    /// Позиции корзины заказа.
+
+    /// </summary>
+
     public ObservableCollection<OrderCartItem> CartItems { get; } = new();
 
     private bool _isCartPanelVisible = true;
+    /// <summary>
+    /// Признак видимости панели корзины.
+    /// </summary>
     public bool IsCartPanelVisible
     {
         get => _isCartPanelVisible;
@@ -106,6 +154,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private int _cartItemCount;
+    /// <summary>
+    /// Количество позиций в корзине.
+    /// </summary>
     public int CartItemCount
     {
         get => _cartItemCount;
@@ -113,6 +164,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private int _cartSubtotal;
+    /// <summary>
+    /// Сумма корзины без учёта скидок.
+    /// </summary>
     public int CartSubtotal
     {
         get => _cartSubtotal;
@@ -120,6 +174,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private int _cartDiscount;
+    /// <summary>
+    /// Сумма скидок по корзине.
+    /// </summary>
     public int CartDiscount
     {
         get => _cartDiscount;
@@ -127,6 +184,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private int _cartTotal;
+    /// <summary>
+    /// Итоговая сумма корзины.
+    /// </summary>
     public int CartTotal
     {
         get => _cartTotal;
@@ -134,9 +194,15 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private List<ClientShow> _allClients = new();
+    /// <summary>
+    /// Отфильтрованный список клиентов.
+    /// </summary>
     public ObservableCollection<ClientShow> FilteredClients { get; } = new();
 
     private ClientShow? _selectedClient;
+    /// <summary>
+    /// Выбранный клиент заказа.
+    /// </summary>
     public ClientShow? SelectedClient
     {
         get => _selectedClient;
@@ -158,6 +224,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private string _clientSearchText = string.Empty;
+    /// <summary>
+    /// Строка поиска клиента.
+    /// </summary>
     public string ClientSearchText
     {
         get => _clientSearchText;
@@ -172,6 +241,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private bool _isClientDropDownOpen;
+    /// <summary>
+    /// Признак открытого выпадающего списка клиентов.
+    /// </summary>
     public bool IsClientDropDownOpen
     {
         get => _isClientDropDownOpen;
@@ -185,6 +257,9 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     private string? _errorMessage;
+    /// <summary>
+    /// Текст ошибки CAPTCHA.
+    /// </summary>
     public string? ErrorMessage
     {
         get => _errorMessage;
@@ -195,20 +270,68 @@ public class OrderAddViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+
+    /// Признак наличия ошибки на форме.
+
+    /// </summary>
+
     public bool HasError => !string.IsNullOrEmpty(_errorMessage);
 
+    /// <summary>
+
+    /// Команда выбора товара для детального просмотра.
+
+    /// </summary>
+
     public ICommand SelectProductCommand      { get; }
+    /// <summary>
+    /// Команда сброса выбранного товара.
+    /// </summary>
     public ICommand ClearSelectionCommand     { get; }
+    /// <summary>
+    /// Команда добавления выбранного товара в корзину.
+    /// </summary>
     public ICommand AddSelectedToCartCommand  { get; }
+    /// <summary>
+    /// Команда добавления товара в корзину.
+    /// </summary>
     public ICommand AddToCartCommand          { get; }
+    /// <summary>
+    /// Команда удаления позиции из корзины.
+    /// </summary>
     public ICommand RemoveFromCartCommand     { get; }
+    /// <summary>
+    /// Команда увеличения количества в корзине.
+    /// </summary>
     public ICommand IncreaseQuantityCommand   { get; }
+    /// <summary>
+    /// Команда уменьшения количества в корзине.
+    /// </summary>
     public ICommand DecreaseQuantityCommand   { get; }
+    /// <summary>
+    /// Команда очистки корзины.
+    /// </summary>
     public ICommand ClearCartCommand          { get; }
+    /// <summary>
+    /// Команда сброса фильтров поиска товаров.
+    /// </summary>
     public ICommand ClearSearchCommand        { get; }
+    /// <summary>
+    /// Команда перехода к подтверждению заказа.
+    /// </summary>
     public ICommand ConfirmOrderCommand       { get; }
+    /// <summary>
+    /// Команда сворачивания/разворачивания панели товара.
+    /// </summary>
     public ICommand ToggleProductPanelCommand { get; }
+    /// <summary>
+    /// Команда сворачивания/разворачивания панели корзины.
+    /// </summary>
     public ICommand ToggleCartPanelCommand    { get; }
+    /// <summary>
+    /// Команда выбора клиента из списка.
+    /// </summary>
     public ICommand SelectClientCommand       { get; }
 
     public OrderAddViewModel(Action<OrderConfirmViewModel> goToConfirm, Action goBackToAdd, UserInfo seller)

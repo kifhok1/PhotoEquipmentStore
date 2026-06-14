@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:collections="using:Avalonia.Collections">
+    <!-- Файл: Стили таблицы DataGrid: заголовки, строки, ячейки без сетки и выделения. -->
 
     <Style Selector="DataGrid">
         <Setter Property="Background" Value="{DynamicResource surface}"/>

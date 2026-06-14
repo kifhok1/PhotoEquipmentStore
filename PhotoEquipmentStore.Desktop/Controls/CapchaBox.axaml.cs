@@ -9,6 +9,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Пользовательский элемент ввода и проверки CAPTCHA при неудачной авторизации.
+/// </summary>
+
+
 public partial class CapchaBox : UserControl
 {
     private const string Alphabet = "ABCDEFGHJKLMNPQRTUVWXYZ2346789";
@@ -25,6 +30,12 @@ public partial class CapchaBox : UserControl
             nameof(ErrorMessage),
             defaultBindingMode: BindingMode.TwoWay);
 
+    /// <summary>
+
+    /// Текст ошибки CAPTCHA.
+
+    /// </summary>
+
     public string ErrorMessage
     {
         get => GetValue(ErrorMessageProperty);
@@ -34,6 +45,12 @@ public partial class CapchaBox : UserControl
     public static readonly StyledProperty<bool> ErrorVisibleProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(nameof(ErrorVisible));
 
+    /// <summary>
+
+    /// Признак видимости сообщения об ошибке.
+
+    /// </summary>
+
     public bool ErrorVisible
     {
         get => GetValue(ErrorVisibleProperty);
@@ -42,6 +59,12 @@ public partial class CapchaBox : UserControl
 
     public static readonly StyledProperty<double> CooldownProgressProperty =
         AvaloniaProperty.Register<CapchaBox, double>(nameof(CooldownProgress));
+
+    /// <summary>
+
+    /// Прогресс таймера блокировки после неверной CAPTCHA.
+
+    /// </summary>
 
     public double CooldownProgress
     {
@@ -54,6 +77,12 @@ public partial class CapchaBox : UserControl
             nameof(WindowBlocked),
             defaultBindingMode: BindingMode.TwoWay);
 
+    /// <summary>
+
+    /// Блокировка окна на время ожидания.
+
+    /// </summary>
+
     public bool WindowBlocked
     {
         get => GetValue(WindowBlockedProperty);
@@ -65,6 +94,12 @@ public partial class CapchaBox : UserControl
             nameof(ShowCapchaBlock),
             defaultBindingMode: BindingMode.TwoWay);
 
+    /// <summary>
+
+    /// Признак отображения блока CAPTCHA.
+
+    /// </summary>
+
     public bool ShowCapchaBlock
     {
         get => GetValue(ShowCapchaBlockProperty);
@@ -72,6 +107,12 @@ public partial class CapchaBox : UserControl
     }
 
     private bool canConfirm;
+
+    /// <summary>
+
+    /// Разрешено ли подтверждение CAPTCHA.
+
+    /// </summary>
 
     public bool CanConfirm
     {

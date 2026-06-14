@@ -7,7 +7,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// ViewModel создания и редактирования записи справочника.
+/// </summary>
+
 
 public class ReferenceAddViewModel : ViewModelBase
 {
@@ -15,19 +18,46 @@ public class ReferenceAddViewModel : ViewModelBase
     private readonly ReferenceShow? _editItem;
     private ReferenceService _referenceService = new ReferenceService();
 
+    /// <summary>
+
+    /// Тип редактируемого справочника.
+
+    /// </summary>
+
     public ReferenceType ReferenceType { get; }
+    /// <summary>
+    /// Заголовок страницы формы.
+    /// </summary>
     public string PageTitle  { get; }
+    /// <summary>
+    /// Подпись поля ввода наименования.
+    /// </summary>
     public string FieldLabel { get; }
+    /// <summary>
+    /// Признак режима редактирования существующей записи.
+    /// </summary>
     public bool   IsEdit     => _editItem is not null;
 
     private string _title = string.Empty;
+    /// <summary>
+    /// Заголовок уведомления.
+    /// </summary>
     public string Title
     {
         get => _title;
         set => this.RaiseAndSetIfChanged(ref _title, value);
     }
 
+    /// <summary>
+
+    /// Команда сохранения записи.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> SaveCommand  { get; }
+    /// <summary>
+    /// Команда сброса фильтров и поиска.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ResetCommand { get; }
 
     public ReferenceAddViewModel(Action goBack, ReferenceType type, ReferenceShow? editItem = null)

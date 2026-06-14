@@ -9,11 +9,13 @@
              x:DataType="vm:ClientsViewModel"
              xmlns:models="using:PhotoEquipmentStore.Models"
              xmlns:conv="using:PhotoEquipmentStore.Converters">
+    <!-- Файл: Список клиентов с поиском, DataGrid и пагинацией. -->
 
     <Design.DataContext>
         <vm:ClientsViewModel/>
     </Design.DataContext>
 
+    <!-- Локальные ресурсы и конвертеры представления -->
     <UserControl.Resources>
         <conv:ListToClientShowCollectionConverter x:Key="ListToClientsConverter"/>
     </UserControl.Resources>
@@ -57,6 +59,7 @@
                         BorderBrush="{DynamicResource border}">
                     <Grid RowDefinitions="* Auto" RowSpacing="10">
 
+                        <!-- Таблица данных (только чтение) -->
                         <DataGrid Grid.Row="0"
                                   IsReadOnly="True"
                                   AutoGenerateColumns="False"
@@ -65,6 +68,7 @@
                                   CanUserSortColumns="False"
                                   BorderBrush="{DynamicResource border}"
                                   BorderThickness="0 0 0 1">
+                            <!-- Определение колонок таблицы -->
                             <DataGrid.Columns>
 
                                 <DataGridTextColumn
@@ -134,6 +138,7 @@
                                        VerticalAlignment="Center"
                                        Text="{Binding #ClientsPaginator.PageCountText}"/>
 
+                            <!-- Компонент постраничной навигации -->
                             <controls:PaginationButtons
                                 x:Name="ClientsPaginator"
                                 Items="{Binding Clients}"

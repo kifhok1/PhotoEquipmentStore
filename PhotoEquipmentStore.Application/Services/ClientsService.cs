@@ -8,11 +8,15 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис управления клиентами магазина.
+/// </summary>
 public class ClientsService : IClientsService
 {
     private readonly ClientCommands _clientCommands = new();
     private readonly Phone          _phoneCommands  = new();
 
+    /// <summary>Возвращает список всех клиентов.</summary>
     public ClientResultDto GetClients()
     {
         try
@@ -26,6 +30,8 @@ public class ClientsService : IClientsService
         }
     }
 
+    /// <summary>Создаёт нового клиента с проверкой уникальности телефона.</summary>
+    /// <param name="client">Данные клиента.</param>
     public ClientResultDto CreateClient(Client client)
     {
         try
@@ -43,6 +49,8 @@ public class ClientsService : IClientsService
         }
     }
 
+    /// <summary>Обновляет данные существующего клиента.</summary>
+    /// <param name="client">Обновлённые данные клиента.</param>
     public ClientResultDto UpdateClient(Client client)
     {
         try
@@ -60,6 +68,8 @@ public class ClientsService : IClientsService
         }
     }
 
+    /// <summary>Удаляет клиента по идентификатору.</summary>
+    /// <param name="clientId">Идентификатор клиента.</param>
     public ClientResultDto DeleteClient(int clientId)
     {
         try
@@ -79,6 +89,7 @@ public class ClientsService : IClientsService
         {
             var allPhones = _phoneCommands.GetAllPhoneNumbers();
 
+            // При обновлении исключаем текущий номер клиента из проверки
             if (excludeClientId.HasValue)
             {
                 var current = ClientCommands.GetClients()

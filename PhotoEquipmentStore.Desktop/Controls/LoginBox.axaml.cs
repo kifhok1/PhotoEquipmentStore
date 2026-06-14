@@ -6,6 +6,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Блок ввода логина и пароля на экране авторизации.
+/// </summary>
+
+
 public partial class LoginBox : UserControl
 {
     public static readonly StyledProperty<string> LoginTextProperty =
@@ -26,11 +31,23 @@ public partial class LoginBox : UserControl
         AvaloniaProperty.Register<SidebarControl, bool>(
             nameof(Error));
 
+    /// <summary>
+
+    /// Введённый логин.
+
+    /// </summary>
+
     public string LoginText
     {
         get => GetValue(LoginTextProperty);
         set => SetValue(LoginTextProperty, value);
     }
+
+    /// <summary>
+
+    /// Введённый пароль.
+
+    /// </summary>
 
     public string PasswordText
     {
@@ -38,11 +55,23 @@ public partial class LoginBox : UserControl
         set => SetValue(PasswordTextProperty, value);
     }
 
+    /// <summary>
+
+    /// Команда входа в систему.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> LoginCommand
     {
         get => GetValue(LoginCommandProperty);
         set => SetValue(LoginCommandProperty, value);
     }
+
+    /// <summary>
+
+    /// Признак ошибки на форме входа.
+
+    /// </summary>
 
     public bool Error
     {

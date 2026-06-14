@@ -6,6 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.PopupComponent.SettingsPopup"
              x:Name="This">
+    <!-- Файл: Модальное окно настроек: параметры подключения к PostgreSQL и выбор темы. -->
     <Panel Classes="Popup">
 
         <Border Background="{DynamicResource overlay}"/>

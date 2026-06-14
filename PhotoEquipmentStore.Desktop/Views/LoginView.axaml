@@ -9,17 +9,22 @@
              x:DataType="vm:LoginViewModel"
              xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
              xmlns:popup="clr-namespace:PhotoEquipmentStore.PopupComponent">
+    <!-- Файл: Экран входа: промо-блок слева, форма авторизации/капчи справа, кнопки настроек и выхода. -->
+    <!-- Контекст данных для предпросмотра в дизайнере Avalonia -->
     <Design.DataContext>
         <vm:LoginViewModel/>
     </Design.DataContext>
     <Border>
         <Panel>
+            <!-- Двухколоночная сетка: левая колонка 640px — промо, правая — форма входа -->
             <Grid ColumnDefinitions="640 *">
+            <!-- Фоновое изображение левой панели (привязка ImageLoginForm, полупрозрачное) -->
             <Border Grid.Column="0"
                     Background="{DynamicResource secondary_background}">
                 <Image Source="{Binding ImageLoginForm}" Stretch="UniformToFill"
                        Opacity="0.15"/>
             </Border>
+            <!-- Текстовый промо-блок: логотип, заголовок и описание системы -->
             <Border Grid.Column="0"
                     Padding="48">
                 <StackPanel>
@@ -65,6 +70,7 @@
                 </StackPanel>
             </Border>
             <Panel Grid.Column="1" Background="{DynamicResource main_background}">
+                <!-- Форма входа (видна когда капча скрыта) -->
                 <controls:LoginBox
                     IsVisible="{Binding !CapchaVisible}"
                     LoginCommand="{Binding LoginCommand}"
@@ -72,6 +78,7 @@
                     PasswordText="{Binding PasswordText}"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Error="{Binding ErrorConnection}"/>
+                <!-- Блок капчи (виден после неудачной попытки входа) -->
                 <controls:CapchaBox
                     IsVisible="{Binding CapchaVisible}"
                     ErrorMessage="{Binding ErrorMessage}"
@@ -80,11 +87,13 @@
                     ShowCapchaBlock="{Binding CapchaVisible}"
                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
+                <!-- Верхний правый угол: настройки и закрытие приложения -->
                 <StackPanel Margin="0 10 10 0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Spacing="10"
                             Orientation="Horizontal">
+                    <!-- Кнопка открытия SettingsPopup (ShowSettingsCommand) -->
                     <Button Padding="8" Classes="Secondary"
                             ToolTip.Tip="Открыть настройки"
                             Command="{Binding ShowSettingsCommand}">
@@ -106,6 +115,7 @@
                 </StackPanel>
             </Panel>
         </Grid>
+        <!-- Модальное окно настроек приложения -->
         <popup:SettingsPopup IsVisible="{Binding SettingsVisible}"
                              CloseCommand="{Binding CloseSettingsCommand}"
                              ImageLoginForm="{Binding ImageLoginForm, Mode=TwoWay}"/>

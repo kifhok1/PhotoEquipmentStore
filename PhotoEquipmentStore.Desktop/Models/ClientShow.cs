@@ -3,7 +3,10 @@ using System.Linq;
 using PhotoEquipmentStore.Helper;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Модель клиента с маскированием данных и расчётом скидки.
+/// </summary>
+
 
 public class ClientShow : ReactiveObject
 {
@@ -14,11 +17,23 @@ public class ClientShow : ReactiveObject
     private int _countOrders;
     private bool _isRevealed;
 
+    /// <summary>
+
+    /// Уникальный идентификатор записи.
+
+    /// </summary>
+
     public int Id
     {
         get => _Id;
         set => this.RaiseAndSetIfChanged(ref _Id, value);
     }
+
+    /// <summary>
+
+    /// Наименование или ФИО.
+
+    /// </summary>
 
     public string Name
     {
@@ -30,6 +45,12 @@ public class ClientShow : ReactiveObject
         }
     }
 
+    /// <summary>
+
+    /// Номер телефона.
+
+    /// </summary>
+
     public string PhoneNumber
     {
         get => _phoneNumber;
@@ -39,6 +60,12 @@ public class ClientShow : ReactiveObject
             this.RaisePropertyChanged(nameof(DisplayLabel));
         }
     }
+
+    /// <summary>
+
+    /// Сумма покупок клиента.
+
+    /// </summary>
 
     public string TotalPurchases
     {
@@ -52,11 +79,23 @@ public class ClientShow : ReactiveObject
         }
     }
 
+    /// <summary>
+
+    /// Количество заказов клиента.
+
+    /// </summary>
+
     public int CountOrders
     {
         get => _countOrders;
         set => this.RaiseAndSetIfChanged(ref _countOrders, value);
     }
+
+    /// <summary>
+
+    /// Признак раскрытия персональных данных клиента.
+
+    /// </summary>
 
     public bool IsRevealed
     {
@@ -70,6 +109,9 @@ public class ClientShow : ReactiveObject
     }
 
     private bool _isSelected;
+    /// <summary>
+    /// Признак выбора клиента в списке.
+    /// </summary>
     public bool IsSelected
     {
         get => _isSelected;
@@ -79,6 +121,12 @@ public class ClientShow : ReactiveObject
     public int TotalPurchasesAmount =>
         int.TryParse(TotalPurchases?.Replace(" ", "").Replace(",", ""), out var v) ? v : 0;
 
+    /// <summary>
+
+    /// Процент накопительной скидки клиента.
+
+    /// </summary>
+
     public int ClientDiscountPercent => TotalPurchasesAmount switch
     {
         >= 500_000 => 15,
@@ -86,6 +134,12 @@ public class ClientShow : ReactiveObject
         >= 100_000 => 5,
         _          => 0
     };
+
+    /// <summary>
+
+    /// Текстовая метка скидки клиента.
+
+    /// </summary>
 
     public string ClientDiscountLabel => ClientDiscountPercent switch
     {
@@ -103,6 +157,12 @@ public class ClientShow : ReactiveObject
     public string NameShow => IsRevealed
         ? Name
         : MaskClientsData.MaskFullName(Name);
+
+    /// <summary>
+
+    /// Краткая подпись клиента для выпадающего списка.
+
+    /// </summary>
 
     public string DisplayLabel
     {

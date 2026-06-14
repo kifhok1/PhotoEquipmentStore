@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: ControlTheme CalendarDatePicker с popup-календарём. -->
 
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource main_background}"
@@ -11,6 +12,7 @@
         </Border>
     </Design.PreviewWith>
 
+    <!-- Встроенные ControlTheme и ресурсы стилей -->
     <Styles.Resources>
         <ResourceDictionary>
 

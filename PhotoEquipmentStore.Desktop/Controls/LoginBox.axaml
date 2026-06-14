@@ -6,6 +6,7 @@
              x:Class="PhotoEquipmentStore.Controls.LoginBox"
              x:Name="This"
              Background="{DynamicResource main_background}">
+    <!-- Файл: Карточка формы входа: заголовок, ошибка БД, поля логин/пароль, кнопка «Войти». -->
     <Border Background="{DynamicResource elevated}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

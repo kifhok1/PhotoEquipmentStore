@@ -3,6 +3,10 @@ using Avalonia.Xaml.Interactivity;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение внедрения <see cref="IStorageProvider"/> в ViewModel при загрузке <see cref="UserControl"/>.
+/// Обрабатывает событие <see cref="Control.Loaded"/>.
+/// </summary>
 public class StorageProviderInjectorBehavior : Behavior<UserControl>
 {
     protected override void OnAttached()

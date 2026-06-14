@@ -14,9 +14,19 @@ using Xdr = DocumentFormat.OpenXml.Drawing.Spreadsheet;
 
 namespace PhotoEquipmentStore.Application.Reports;
 
+/// <summary>
+/// Построитель XLSX-отчётов с таблицами и диаграммами.
+/// </summary>
 public static class ReportBuilder
 {
 
+    /// <summary>
+    /// Формирует отчёт по продажам за указанный период.
+    /// </summary>
+    /// <param name="path">Путь для сохранения XLSX-файла.</param>
+    /// <param name="data">Данные продаж.</param>
+    /// <param name="from">Начало периода.</param>
+    /// <param name="to">Конец периода.</param>
     public static void BuildSalesReport(
         string path,
         List<SalesReportData> data,
@@ -35,6 +45,7 @@ public static class ReportBuilder
         uint totalStyle = sf.TotalRow();
         uint redStyle   = sf.RedText();
 
+        // Возвраты не учитываются в итоговых суммах
         var nonReturnData = data.Where(r => !r.IsReturn).ToList();
 
         int row = 1;
@@ -102,6 +113,12 @@ public static class ReportBuilder
         doc.Save();
     }
 
+    /// <summary>
+    /// Формирует отчёт по остаткам товаров на складе.
+    /// </summary>
+    /// <param name="path">Путь для сохранения XLSX-файла.</param>
+    /// <param name="data">Данные об остатках.</param>
+    /// <param name="categoryFilter">Название категории для заголовка.</param>
     public static void BuildStockReport(
         string path,
         List<StockReportData> data,
@@ -173,6 +190,14 @@ public static class ReportBuilder
         doc.Save();
     }
 
+    /// <summary>
+    /// Формирует отчёт по популярности товаров.
+    /// </summary>
+    /// <param name="path">Путь для сохранения XLSX-файла.</param>
+    /// <param name="data">Данные о продажах товаров.</param>
+    /// <param name="categoryFilter">Название категории для заголовка.</param>
+    /// <param name="mode">Режим сортировки и фильтрации.</param>
+    /// <param name="allCategories">True, если отчёт охватывает все категории.</param>
     public static void BuildPopularityReport(
         string path,
         List<PopularityReportData> data,
@@ -245,6 +270,7 @@ public static class ReportBuilder
 
         SetColumnWidths(wsPart, 8, 34, 22, 14, 14, 12);
 
+        // Для режимов «все категории» строим сводные диаграммы по категориям и брендам
         if (allCategories)
         {
 
@@ -286,6 +312,7 @@ public static class ReportBuilder
         else
         {
 
+            // Для одной категории — график топ-15 товаров
             var chartData = data.Take(15).ToList();
             if (chartData.Count > 0)
             {

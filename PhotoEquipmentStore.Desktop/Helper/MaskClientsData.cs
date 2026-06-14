@@ -1,10 +1,16 @@
 using System;
 using System.Linq;
 
-namespace PhotoEquipmentStore.Helper;
+namespace PhotoEquipmentStore.Helper;/// <summary>
+/// Маскирование персональных данных клиентов (телефон и ФИО) для отображения в списках.
+/// </summary>
+
 
 public class MaskClientsData
 {
+    /// <summary>
+    /// Маскирует цифры телефона, оставляя видимыми первую и последние группы.
+    /// </summary>
     public static string MaskPhoneNumber(string phone)
     {
         var digitIndexes = phone.Select((ch, idx) => new { ch, idx })
@@ -30,6 +36,12 @@ public class MaskClientsData
 
         return new string(result);
     }
+
+    /// <summary>
+
+    /// Маскирует отчество клиента для краткого отображения.
+
+    /// </summary>
 
     public static string MaskFullName(string fullName)
     {

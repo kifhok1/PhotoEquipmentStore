@@ -3,11 +3,14 @@
              x:Class="PhotoEquipmentStore.App"
              xmlns:local="using:PhotoEquipmentStore"
              RequestedThemeVariant="Light">
+    <!-- Файл: Корневой файл приложения Avalonia: шаблоны представлений, глобальные стили и ресурсы. -->
 
+        <!-- DataTemplates: ViewLocator сопоставляет ViewModel → View -->
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
+    <!-- Глобальные стили: FluentTheme + кастомные StyleInclude -->
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="Assets/Style/TextStyle.axaml"/>
@@ -29,8 +32,10 @@
         <StyleInclude Source="Assets/Style/CalendarItemStyle.axaml"/>
     </Application.Styles>
 
+    <!-- Глобальные ресурсы: цвета, шрифты, иконки -->
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Объединённые словари ресурсов -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="Assets/Colors/Colors.axaml"/>
                 <ResourceInclude Source="Assets/Fonts/Fonts.axaml"/>

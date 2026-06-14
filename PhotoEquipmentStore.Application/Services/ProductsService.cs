@@ -6,10 +6,14 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис управления товарами каталога.
+/// </summary>
 public class ProductsService : IProductsService
 {
     private readonly ProductCommands _commands = new();
 
+    /// <summary>Возвращает список всех товаров.</summary>
     public ProductResultDto GetProducts()
     {
         try
@@ -23,6 +27,8 @@ public class ProductsService : IProductsService
         }
     }
 
+    /// <summary>Создаёт новый товар с предварительным сжатием изображения.</summary>
+    /// <param name="product">Данные товара.</param>
     public ProductResultDto CreateProduct(Product product)
     {
         try
@@ -37,6 +43,8 @@ public class ProductsService : IProductsService
         }
     }
 
+    /// <summary>Обновляет данные существующего товара.</summary>
+    /// <param name="product">Обновлённые данные товара.</param>
     public ProductResultDto UpdateProduct(Product product)
     {
         try
@@ -51,6 +59,8 @@ public class ProductsService : IProductsService
         }
     }
 
+    /// <summary>Удаляет товар по идентификатору.</summary>
+    /// <param name="productId">Идентификатор товара.</param>
     public ProductResultDto DeleteProduct(int productId)
     {
         try

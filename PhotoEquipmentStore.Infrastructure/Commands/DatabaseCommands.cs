@@ -5,10 +5,16 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Операции резервного копирования, восстановления и чтения таблиц базы данных.
+/// </summary>
 public class DatabaseCommands
 {
     private static string ConnString => ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Список всех таблиц базы данных, доступных для экспорта и импорта.
+    /// </summary>
     public static readonly IReadOnlyList<string> AllTables =
     [
         "categories",
@@ -23,6 +29,9 @@ public class DatabaseCommands
         "users"
     ];
 
+    /// <summary>
+    /// Создаёт резервную копию базы данных в указанный SQL-файл.
+    /// </summary>
     public async Task CreateBackupAsync(string outputPath)
     {
         try
@@ -44,6 +53,9 @@ public class DatabaseCommands
         }
     }
 
+    /// <summary>
+    /// Восстанавливает структуру и данные базы из SQL-файла.
+    /// </summary>
     public async Task RestoreStructureAsync(string sqlFilePath)
     {
         try
@@ -65,6 +77,9 @@ public class DatabaseCommands
         }
     }
 
+    /// <summary>
+    /// Загружает содержимое таблицы в DataTable, исключая столбцы с бинарными данными (BLOB).
+    /// </summary>
     public async Task<DataTable> FetchTableAsync(string tableName)
     {
         if (!AllTables.Contains(tableName))
@@ -77,6 +92,7 @@ public class DatabaseCommands
                 using var connection = new MySqlConnection(ConnString);
                 connection.Open();
 
+                // Получение списка столбцов без mediumblob (изображения)
                 var columnsQuery = @"
                 SELECT COLUMN_NAME
                 FROM INFORMATION_SCHEMA.COLUMNS

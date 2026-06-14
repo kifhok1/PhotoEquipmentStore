@@ -11,6 +11,9 @@ using QContainer = QuestPDF.Infrastructure.IContainer;
 
 namespace PhotoEquipmentStore.Infrastructure.Services;
 
+/// <summary>
+/// Сервис генерации PDF-чеков по заказам с использованием QuestPDF.
+/// </summary>
 public class ReceiptPdfService : IReceiptPdfService
 {
 
@@ -45,6 +48,12 @@ public class ReceiptPdfService : IReceiptPdfService
         return _logoBytes;
     }
 
+    /// <summary>
+    /// Формирует и сохраняет PDF-чек по данным заказа.
+    /// </summary>
+    /// <param name="data">Данные чека.</param>
+    /// <param name="filePath">Путь для сохранения файла.</param>
+    /// <returns>Флаг успеха и текст ошибки при неудаче.</returns>
     public Task<(bool Success, string? Error)> SaveReceiptAsync(ReceiptData data, string filePath)
     {
         try

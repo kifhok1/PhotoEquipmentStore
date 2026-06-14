@@ -11,11 +11,13 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Manager.ProductAddView"
              x:DataType="viewModels:ProductAddViewModel">
+    <!-- Файл: Форма товара: характеристики, цена/скидка/количество, изображение. -->
 
     <Design.DataContext>
         <viewModels:ProductAddViewModel/>
     </Design.DataContext>
 
+    <!-- Локальные стили представления (например, invalid TextBox) -->
     <UserControl.Styles>
         <Style Selector="TextBox.invalid">
             <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
@@ -59,6 +61,7 @@
                                      Text="{Binding Name}"
                                      Classes.invalid="{Binding #NameBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:ProductNameInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -138,6 +141,7 @@
                                      Text="{Binding Price}"
                                      Classes.invalid="{Binding #PriceBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:NumericInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -157,6 +161,7 @@
                                      Text="{Binding Quantity}"
                                      Classes.invalid="{Binding #QtyBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:NumericInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -176,6 +181,7 @@
                                      Text="{Binding Discount}"
                                      Classes.invalid="{Binding #DiscountBox.(helpers:InputValidation.InputError),
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:NumericInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -205,6 +211,7 @@
                                TextWrapping="Wrap">
                         Фото для отображения товара в системе
                     </TextBlock>
+                    <!-- Компонент загрузки изображения -->
                     <controls:ImageBox ImageSource="{Binding ProductImage, Mode=TwoWay}"
                                        HorizontalAlignment="Center"/>
                 </StackPanel>

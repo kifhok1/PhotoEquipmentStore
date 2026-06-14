@@ -2,6 +2,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:system="clr-namespace:System;assembly=System.Runtime">
+<!-- Файл: Кастомный шаблон TextBox с watermark, focus-состоянием и кнопкой показа пароля. -->
 
     <Design.PreviewWith>
 
@@ -88,6 +89,7 @@
                                  Text="{TemplateBinding Watermark}"
                                  DockPanel.Dock="Top" />
 
+                      <!-- Прокручиваемая область содержимого -->
                       <ScrollViewer Name="PART_ScrollViewer"
                                     HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"

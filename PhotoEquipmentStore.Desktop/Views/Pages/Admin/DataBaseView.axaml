@@ -8,11 +8,13 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:DataType="vm:DataBaseViewModel"
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.DataBaseView">
+    <!-- Файл: Страница управления БД: 4 карточки — импорт, экспорт, восстановление, бэкап. -->
 
     <i:Interaction.Behaviors>
         <behaviors:StorageProviderInjectorBehavior/>
     </i:Interaction.Behaviors>
 
+    <!-- Прокручиваемая область содержимого -->
     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Auto">
         <Border Background="{DynamicResource main_background}"
@@ -22,6 +24,7 @@
                   ColumnSpacing="12"
                   RowSpacing="12">
 
+                <!-- Карточка 1: импорт данных из CSV -->
                 <Border Grid.Row="0" Grid.Column="0"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"
@@ -84,6 +87,7 @@
                     </Grid>
                 </Border>
 
+                <!-- Карточка 2: экспорт данных в файл -->
                 <Border Grid.Row="0" Grid.Column="1"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"
@@ -153,6 +157,7 @@
                     </Grid>
                 </Border>
 
+                <!-- Карточка 3: восстановление БД из бэкапа -->
                 <Border Grid.Row="1" Grid.Column="0"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"
@@ -231,6 +236,7 @@
                     </Grid>
                 </Border>
 
+                <!-- Карточка 4: создание резервной копии -->
                 <Border Grid.Row="1" Grid.Column="1"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"

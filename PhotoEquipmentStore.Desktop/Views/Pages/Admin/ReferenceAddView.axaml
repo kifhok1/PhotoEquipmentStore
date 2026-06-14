@@ -9,6 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.ReferenceAddView"
              x:DataType="viewModels:ReferenceAddViewModel">
+    <!-- Файл: Форма добавления/редактирования записи справочника с валидацией. -->
 
     <UserControl.Styles>
         <Style Selector="TextBox.invalid">
@@ -48,6 +49,7 @@
                                  Text="{Binding Title}"
                                  Classes.invalid="{Binding #TitleBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                            <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                             <i:Interaction.Behaviors>
                                 <behaviors:ReferenceNameInputBehavior/>
                             </i:Interaction.Behaviors>

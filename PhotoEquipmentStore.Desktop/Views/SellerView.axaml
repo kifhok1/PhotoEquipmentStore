@@ -10,6 +10,7 @@
              mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.SellerView"
              x:DataType="vm:SellerViewModel">
+    <!-- Файл: Shell продавца с behaviors сброса таймера неактивности + SidebarControl + ContentControl. -->
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="PointerMoved">
             <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
@@ -24,12 +25,14 @@
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
+    <!-- Контекст данных для предпросмотра в дизайнере Avalonia -->
     <Design.DataContext>
                 <viewModels:SellerViewModel/>
             </Design.DataContext>
             <Border>
                 <Grid ColumnDefinitions="250,*">
 
+                    <!-- Боковая панель навигации: пункты меню, пользователь, выход -->
                     <controls:SidebarControl
                         Grid.Column="0"
                         SelectedMenuItem="{Binding SelectedNavigationMenuItem, Mode=TwoWay}"

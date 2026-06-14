@@ -11,6 +11,9 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис импорта данных из CSV-файлов в таблицы базы данных.
+/// </summary>
 public class ImportService : IImportService
 {
     private readonly ImportCommands _cmd = new();
@@ -42,6 +45,12 @@ public class ImportService : IImportService
 
     private static readonly int[] AllowedOrderDiscounts = [5, 10, 15];
 
+    /// <summary>
+    /// Импортирует данные из CSV-файла в указанную таблицу с валидацией строк.
+    /// </summary>
+    /// <param name="tableName">Имя целевой таблицы.</param>
+    /// <param name="csvFilePath">Путь к CSV-файлу.</param>
+    /// <returns>Результат импорта с количеством обработанных и пропущенных строк.</returns>
     public async Task<ImportResultDto> ImportAsync(string tableName, string csvFilePath)
     {
         if (!ExpectedHeaders.ContainsKey(tableName))
@@ -67,6 +76,7 @@ public class ImportService : IImportService
             return ImportResultDto.Failure($"Ошибка чтения файла: {ex.Message}");
         }
 
+        // Маршрутизация импорта по типу таблицы
         return tableName switch
         {
             "roles"          => await ImportSimpleAsync("roles",          rows),
@@ -264,6 +274,7 @@ public class ImportService : IImportService
                     skipped++; continue;
                 }
 
+                // Пароль из CSV хешируется перед сохранением в БД
                 var hash = PasswordHasher.ComputeSHA256Hash(passwordRaw);
                 await _cmd.InsertUserAsync(fullName, login, hash, phone, roleId);
                 imported++;

@@ -1,6 +1,9 @@
 using PhotoEquipmentStore.Models;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
+namespace PhotoEquipmentStore.ViewModels.Pages.Manager;/// <summary>
+/// Приветственный экран раздела менеджера.
+/// </summary>
+
 
 public class ManagerWelcomeViewModel : ViewModelBase
 {

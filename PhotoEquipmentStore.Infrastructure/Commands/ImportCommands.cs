@@ -4,10 +4,16 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Асинхронные операции импорта данных: проверка уникальности и вставка записей в таблицы.
+/// </summary>
 public class ImportCommands
 {
     private static string ConnString => ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Проверяет, существует ли запись с указанным значением в столбце таблицы.
+    /// </summary>
     public async Task<bool> ExistsAsync(string table, string column, object value)
     {
         try
@@ -28,6 +34,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Проверяет, что значение в столбце таблицы уникально (запись не существует).
+    /// </summary>
     public async Task<bool> IsUniqueAsync(string table, string column, object value)
     {
         try
@@ -48,6 +57,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Проверяет уникальность номера телефона среди клиентов и пользователей.
+    /// </summary>
     public async Task<bool> IsPhoneUniqueAsync(string phone)
     {
         try
@@ -56,6 +68,7 @@ public class ImportCommands
             {
                 using var conn = new MySqlConnection(ConnString);
                 conn.Open();
+                // Поиск телефона в обеих таблицах через UNION
                 const string sql = @"
                     SELECT COUNT(1) FROM (
                         SELECT phone FROM clients WHERE phone = @p
@@ -73,6 +86,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Вставляет запись с одним полем name в указанную справочную таблицу.
+    /// </summary>
     public async Task InsertSimpleAsync(string table, string name)
     {
         try
@@ -93,6 +109,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Вставляет нового клиента с именем и телефоном.
+    /// </summary>
     public async Task InsertClientAsync(string fullName, string phone)
     {
         try
@@ -114,6 +133,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Вставляет нового пользователя с хешированным паролем.
+    /// </summary>
     public async Task InsertUserAsync(
         string fullName, string login, string passwordHash,
         string phone, int roleId)
@@ -141,6 +163,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Вставляет новый товар при импорте данных.
+    /// </summary>
     public async Task InsertProductAsync(
         string name, int categoryId, decimal price, decimal discountPercent,
         string description, int stockQuantity, int supplierId, int manufacturerId)
@@ -175,6 +200,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Вставляет новый заказ при импорте данных.
+    /// </summary>
     public async Task InsertOrderAsync(
         string article, int statusId, int clientId,
         int discountPercent, int employeeId, DateTime createdAt)
@@ -205,6 +233,9 @@ public class ImportCommands
         }
     }
 
+    /// <summary>
+    /// Вставляет позицию заказа при импорте данных.
+    /// </summary>
     public async Task InsertOrderItemAsync(
         string orderArticle, int productId,
         int quantity, decimal price, decimal discountPercent)

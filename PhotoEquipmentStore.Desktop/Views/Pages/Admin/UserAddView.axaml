@@ -11,11 +11,13 @@
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.UserAddView"
              x:DataType="viewModels:UserAddViewModel"
              xmlns:helpers="clr-namespace:PhotoEquipmentStore.Helper">
+    <!-- Файл: Форма пользователя: основные данные, учётные данные, фото, кнопки сохранения. -->
 
     <Design.DataContext>
         <viewModels:UserAddViewModel/>
     </Design.DataContext>
 
+    <!-- Локальные стили представления (например, invalid TextBox) -->
     <UserControl.Styles>
 
         <Style Selector="TextBox.invalid">
@@ -59,6 +61,7 @@
                                      Text="{Binding UserName}"
                                      Classes.invalid="{Binding #UserNameBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:RussianNameInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -96,6 +99,7 @@
                                      Text="{Binding PhoneNumber}"
                                      Classes.invalid="{Binding #PhoneBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:PhoneMaskBehavior/>
                                 </i:Interaction.Behaviors>
@@ -135,6 +139,7 @@
                                      Text="{Binding Login}"
                                      Classes.invalid="{Binding #LoginBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:LatinInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -154,6 +159,7 @@
                                      Text="{Binding Password}"
                                      Classes.invalid="{Binding #PasswordBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                 <i:Interaction.Behaviors>
                                     <behaviors:LatinInputBehavior/>
                                 </i:Interaction.Behaviors>
@@ -197,6 +203,7 @@
                                TextWrapping="Wrap">
                         Фото для отображения пользователя в системе
                     </TextBlock>
+                    <!-- Компонент загрузки изображения -->
                     <controls:ImageBox ImageSource="{Binding UserImage, Mode=TwoWay}"
                                        HorizontalAlignment="Center"/>
                 </StackPanel>

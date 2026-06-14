@@ -4,6 +4,9 @@ using PhotoEquipmentStore.Domain.Entities;
 
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат операции со справочными данными (роли, категории, поставщики и т.д.).
+/// </summary>
 public class ReferenceResultDto
 {
     public bool IsSuccess             { get; init; }

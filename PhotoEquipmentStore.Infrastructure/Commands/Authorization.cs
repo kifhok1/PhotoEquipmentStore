@@ -7,12 +7,18 @@ using PhotoEquipmentStore.Infrastructure.Helpers;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Авторизация пользователя: получение учётных данных по логину из базы данных.
+/// </summary>
 public class Authorization
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
     private static MySqlConnection GetConnection() => new MySqlConnection(ConnString);
 
+    /// <summary>
+    /// Находит пользователя по логину и возвращает данные для проверки пароля; null, если не найден.
+    /// </summary>
     public static UserAuth? GetUser(string login)
     {
         try
@@ -49,6 +55,7 @@ public class Authorization
                 userImage:    BlobReader.ToBytes(reader, "image"),
                 roleId:       reader.GetInt32("roleId"),
                 roleName:     reader.GetString("roleName"),
+                // Время автовыхода по умолчанию — 3 часа
                 timeOfLogout: 3
             );
         }

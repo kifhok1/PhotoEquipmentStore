@@ -10,12 +10,21 @@ using PhotoEquipmentStore.Behaviors;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Domain.Enums;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
+namespace PhotoEquipmentStore.ViewModels.Pages.Manager;/// <summary>
+/// ViewModel формирования отчётов и сводной статистики.
+/// </summary>
+
 
 public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
 {
     private readonly ReportService    _reportService    = new();
     private readonly ReferenceService _referenceService = new();
+
+    /// <summary>
+
+    /// Провайдер диалогов выбора файлов и папок.
+
+    /// </summary>
 
     public IStorageProvider? StorageProvider { get; set; }
 
@@ -26,21 +35,66 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
     private string _itemsMonth   = "—";
     private string _revenueMonth = "—";
 
+    /// <summary>
+
+    /// Количество заказов за сегодня.
+
+    /// </summary>
+
     public string OrdersToday  { get => _ordersToday;  private set => this.RaiseAndSetIfChanged(ref _ordersToday,  value); }
+    /// <summary>
+    /// Количество позиций за сегодня.
+    /// </summary>
     public string ItemsToday   { get => _itemsToday;   private set => this.RaiseAndSetIfChanged(ref _itemsToday,   value); }
+    /// <summary>
+    /// Выручка за сегодня.
+    /// </summary>
     public string RevenueToday { get => _revenueToday; private set => this.RaiseAndSetIfChanged(ref _revenueToday, value); }
+    /// <summary>
+    /// Количество заказов за месяц.
+    /// </summary>
     public string OrdersMonth  { get => _ordersMonth;  private set => this.RaiseAndSetIfChanged(ref _ordersMonth,  value); }
+    /// <summary>
+    /// Количество позиций за месяц.
+    /// </summary>
     public string ItemsMonth   { get => _itemsMonth;   private set => this.RaiseAndSetIfChanged(ref _itemsMonth,   value); }
+    /// <summary>
+    /// Выручка за месяц.
+    /// </summary>
     public string RevenueMonth { get => _revenueMonth; private set => this.RaiseAndSetIfChanged(ref _revenueMonth, value); }
 
+    /// <summary>
+
+    /// Минимально допустимая дата отчёта по продажам.
+
+    /// </summary>
+
     public DateTimeOffset? SalesMinDate { get; private set; }
+    /// <summary>
+    /// Максимально допустимая дата отчёта по продажам.
+    /// </summary>
     public DateTimeOffset? SalesMaxDate { get; private set; }
 
+    /// <summary>
+
+    /// Верхняя граница для поля «дата с».
+
+    /// </summary>
+
     public DateTimeOffset? SalesDateFromMax => _salesDateTo   ?? SalesMaxDate;
+    /// <summary>
+    /// Нижняя граница для поля «дата по».
+    /// </summary>
     public DateTimeOffset? SalesDateToMin   => _salesDateFrom ?? SalesMinDate;
 
     private DateTimeOffset? _salesDateFrom;
     private DateTimeOffset? _salesDateTo;
+
+    /// <summary>
+
+    /// Начало периода отчёта по продажам.
+
+    /// </summary>
 
     public DateTimeOffset? SalesDateFrom
     {
@@ -54,6 +108,12 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
+    /// <summary>
+
+    /// Конец периода отчёта по продажам.
+
+    /// </summary>
+
     public DateTimeOffset? SalesDateTo
     {
         get => _salesDateTo;
@@ -66,23 +126,47 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
+    /// <summary>
+
+    /// Категории для отчёта по остаткам.
+
+    /// </summary>
+
     public ObservableCollection<Reference> StockCategories { get; } = new();
 
     private Reference? _selectedStockCategory;
+    /// <summary>
+    /// Выбранная категория отчёта по остаткам.
+    /// </summary>
     public Reference? SelectedStockCategory
     {
         get => _selectedStockCategory;
         set => this.RaiseAndSetIfChanged(ref _selectedStockCategory, value);
     }
 
+    /// <summary>
+
+    /// Категории для отчёта по популярности.
+
+    /// </summary>
+
     public ObservableCollection<Reference> PopularityCategories { get; } = new();
 
     private Reference? _selectedPopularityCategory;
+    /// <summary>
+    /// Выбранная категория отчёта по популярности.
+    /// </summary>
     public Reference? SelectedPopularityCategory
     {
         get => _selectedPopularityCategory;
         set => this.RaiseAndSetIfChanged(ref _selectedPopularityCategory, value);
     }
+
+    /// <summary>
+
+    /// Варианты сортировки отчёта по популярности.
+
+    /// </summary>
 
     public ObservableCollection<string> PopularityTypes { get; } = new()
     {
@@ -93,17 +177,35 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
     };
 
     private string _selectedPopularityType = "Все по убыванию популярности";
+    /// <summary>
+    /// Выбранный тип отчёта по популярности.
+    /// </summary>
     public string SelectedPopularityType
     {
         get => _selectedPopularityType;
         set => this.RaiseAndSetIfChanged(ref _selectedPopularityType, value);
     }
 
+    /// <summary>
+
+    /// Команда формирования отчёта по продажам.
+
+    /// </summary>
+
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> BuildSalesReportCommand      { get; }
+    /// <summary>
+    /// Команда формирования отчёта по остаткам.
+    /// </summary>
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> BuildStockReportCommand      { get; }
+    /// <summary>
+    /// Команда формирования отчёта по популярности.
+    /// </summary>
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> BuildPopularityReportCommand { get; }
 
     private string? _errorMessage;
+    /// <summary>
+    /// Текст ошибки CAPTCHA.
+    /// </summary>
     public string? ErrorMessage
     {
         get => _errorMessage;
@@ -131,6 +233,12 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         ItemsMonth   = $"{stats.ItemsMonth} за этот месяц";
         RevenueMonth = $"{stats.RevenueMonth:N0}₽ за месяц";
     }
+
+    /// <summary>
+
+    /// Инициализирует диапазон дат отчёта по продажам из БД.
+
+    /// </summary>
 
     public void InitializeDates()
     {

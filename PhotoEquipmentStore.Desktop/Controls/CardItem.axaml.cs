@@ -6,6 +6,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Элемент строки корзины заказа с кнопками изменения количества.
+/// </summary>
+
+
 public partial class CartItem : UserControl
 {
     public static readonly StyledProperty<OrderCartItem?> ItemProperty =
@@ -20,11 +25,23 @@ public partial class CartItem : UserControl
     public static readonly StyledProperty<ReactiveCommand<OrderCartItem, Unit>> RemoveCommandProperty =
         AvaloniaProperty.Register<CartItem, ReactiveCommand<OrderCartItem, Unit>>(nameof(RemoveCommand));
 
+    /// <summary>
+
+    /// Модель позиции корзины.
+
+    /// </summary>
+
     public OrderCartItem? Item
     {
         get => GetValue(ItemProperty);
         set => SetValue(ItemProperty, value);
     }
+
+    /// <summary>
+
+    /// Команда увеличения количества в корзине.
+
+    /// </summary>
 
     public ReactiveCommand<OrderCartItem, Unit> IncreaseCommand
     {
@@ -32,11 +49,23 @@ public partial class CartItem : UserControl
         set => SetValue(IncreaseCommandProperty, value);
     }
 
+    /// <summary>
+
+    /// Команда уменьшения количества в корзине.
+
+    /// </summary>
+
     public ReactiveCommand<OrderCartItem, Unit> DecreaseCommand
     {
         get => GetValue(DecreaseCommandProperty);
         set => SetValue(DecreaseCommandProperty, value);
     }
+
+    /// <summary>
+
+    /// Команда удаления позиции из корзины.
+
+    /// </summary>
 
     public ReactiveCommand<OrderCartItem, Unit> RemoveCommand
     {

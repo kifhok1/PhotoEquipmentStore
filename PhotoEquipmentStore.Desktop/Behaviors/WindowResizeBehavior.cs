@@ -6,11 +6,21 @@ using Avalonia.Xaml.Interactivity;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение изменения размера окна за границы <see cref="Border"/>.
+/// Обрабатывает события указателя: нажатие, перемещение, отпускание, вход и выход курсора.
+/// </summary>
 public class WindowResizeBehavior : Behavior<Border>
 {
+    /// <summary>
+    /// Avalonia-свойство границы окна, за которую выполняется изменение размера.
+    /// </summary>
     public static readonly StyledProperty<WindowEdge> EdgeProperty =
         AvaloniaProperty.Register<WindowResizeBehavior, WindowEdge>(nameof(Edge));
 
+    /// <summary>
+    /// Граница окна для изменения размера (север, юг, восток, запад и углы).
+    /// </summary>
     public WindowEdge Edge
     {
         get => GetValue(EdgeProperty);

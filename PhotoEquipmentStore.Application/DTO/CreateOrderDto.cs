@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Данные для создания нового заказа.
+/// </summary>
 public class CreateOrderDto
 {
     public string  OrderArticle    { get; init; } = "";

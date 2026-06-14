@@ -16,33 +16,93 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel подтверждения заказа и сохранения PDF-чека.
+/// </summary>
+
 
 public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
 {
 
+    /// <summary>
+
+    /// Уникальный номер заказа.
+
+    /// </summary>
+
     public string OrderNumber { get; }
+    /// <summary>
+    /// Дата и время создания заказа.
+    /// </summary>
     public string CreatedAt   { get; }
 
+    /// <summary>
+
+    /// Имя клиента заказа.
+
+    /// </summary>
+
     public string ClientName          { get; }
+    /// <summary>
+    /// Телефон клиента заказа.
+    /// </summary>
     public string ClientPhone         { get; }
+    /// <summary>
+    /// Текстовая метка скидки клиента.
+    /// </summary>
     public string ClientDiscountLabel { get; }
+
+    /// <summary>
+
+    /// Полная коллекция элементов для постраничного отображения.
+
+    /// </summary>
 
     public ObservableCollection<OrderConfirmShow> Items { get; }
 
+    /// <summary>
+
+    /// Сумма позиций без скидок.
+
+    /// </summary>
+
     public int Subtotal          { get; }
+    /// <summary>
+    /// Сумма скидки по товарам.
+    /// </summary>
     public int ProductDiscount   { get; }
+    /// <summary>
+    /// Сумма накопительной скидки клиента.
+    /// </summary>
     public int ClientDiscount    { get; }
     public int ClientDiscountPct { get; }
+    /// <summary>
+    /// Размер скидки.
+    /// </summary>
     public int Discount          { get; }
     public int Delivery          { get; }
+    /// <summary>
+    /// Итоговая сумма заказа.
+    /// </summary>
     public int Total             { get; }
+    /// <summary>
+    /// Продавец, оформивший заказ.
+    /// </summary>
     public UserInfo Seller       { get; }
+
+    /// <summary>
+
+    /// Подпись с количеством товаров в заказе.
+
+    /// </summary>
 
     public string ItemCountLabel =>
         $"{Items.Count} {PluralItems(Items.Count)}";
 
     private bool _isConfirmed;
+    /// <summary>
+    /// Признак успешного создания заказа.
+    /// </summary>
     public bool IsConfirmed
     {
         get => _isConfirmed;
@@ -50,6 +110,9 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private bool _receiptSaved;
+    /// <summary>
+    /// Признак сохранения чека на диск.
+    /// </summary>
     public bool ReceiptSaved
     {
         get => _receiptSaved;
@@ -57,14 +120,29 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private IStorageProvider? _storageProvider;
+    /// <summary>
+    /// Провайдер диалогов выбора файлов и папок.
+    /// </summary>
     public IStorageProvider? StorageProvider
     {
         get => _storageProvider;
         set => this.RaiseAndSetIfChanged(ref _storageProvider, value);
     }
 
+    /// <summary>
+
+    /// Команда подтверждения и создания заказа в БД.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> ConfirmCommand     { get; }
+    /// <summary>
+    /// Команда возврата к оформлению заказа.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> GoBackCommand      { get; }
+    /// <summary>
+    /// Команда сохранения PDF-чека.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> SaveReceiptCommand { get; }
 
     private readonly int                 _clientId;

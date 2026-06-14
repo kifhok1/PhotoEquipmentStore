@@ -9,16 +9,28 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
+namespace PhotoEquipmentStore.ViewModels.Pages.Manager;/// <summary>
+/// ViewModel каталога товаров с поиском, фильтрами и сортировкой.
+/// </summary>
+
 
 public class ProductsViewModel : ViewModelBase
 {
     private readonly ProductsService _productsService = new ProductsService();
     private readonly List<ProductsShow> _allProducts = new();
 
+    /// <summary>
+
+    /// Отфильтрованная коллекция товаров.
+
+    /// </summary>
+
     public ObservableCollection<ProductsShow> Products { get; } = new();
 
     private ObservableCollection<ProductsShow> _currentProducts = new();
+    /// <summary>
+    /// Текущая страница товаров (для пагинации).
+    /// </summary>
     public ObservableCollection<ProductsShow> CurrentProducts
     {
         get => _currentProducts;
@@ -26,6 +38,9 @@ public class ProductsViewModel : ViewModelBase
     }
 
     private string _countProducts = string.Empty;
+    /// <summary>
+    /// Подпись с количеством товаров на форме.
+    /// </summary>
     public string CountProducts
     {
         get => _countProducts;
@@ -33,11 +48,20 @@ public class ProductsViewModel : ViewModelBase
     }
 
     private string _searchText = string.Empty;
+    /// <summary>
+    /// Строка поиска по названию товара.
+    /// </summary>
     public string SearchText
     {
         get => _searchText;
         set { this.RaiseAndSetIfChanged(ref _searchText, value); ApplyFilters(); }
     }
+
+    /// <summary>
+
+    /// Варианты сортировки по цене.
+
+    /// </summary>
 
     public List<string> SortOptions { get; } = new()
     {
@@ -46,23 +70,47 @@ public class ProductsViewModel : ViewModelBase
     };
 
     private string? _selectedSortOption;
+    /// <summary>
+    /// Выбранный вариант сортировки.
+    /// </summary>
     public string? SelectedSortOption
     {
         get => _selectedSortOption;
         set { this.RaiseAndSetIfChanged(ref _selectedSortOption, value); ApplyFilters(); }
     }
 
+    /// <summary>
+
+    /// Список категорий для фильтра.
+
+    /// </summary>
+
     public ObservableCollection<string> Categories { get; } = new();
 
     private string? _selectedCategory;
+    /// <summary>
+    /// Выбранная категория фильтра.
+    /// </summary>
     public string? SelectedCategory
     {
         get => _selectedCategory;
         set { this.RaiseAndSetIfChanged(ref _selectedCategory, value); ApplyFilters(); }
     }
 
+    /// <summary>
+
+    /// Команда перехода к редактированию записи.
+
+    /// </summary>
+
     public ReactiveCommand<ProductsShow, Unit> EditCommand   { get; }
+    /// <summary>
+    /// Команда удаления записи.
+    /// </summary>
     public ReactiveCommand<ProductsShow, Unit> DeleteCommand { get; }
+    /// <summary>
+    /// Команда сброса фильтров и поиска.
+    /// </summary>
     public ReactiveCommand<Unit, Unit>         ResetCommand  { get; }
 
     public ProductsViewModel(Action<ProductsShow>? goToEdit = null)

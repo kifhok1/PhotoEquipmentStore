@@ -7,7 +7,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.ViewModels.Pages.Manager;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels;
+namespace PhotoEquipmentStore.ViewModels;/// <summary>
+/// ViewModel раздела менеджера: товары и отчёты.
+/// </summary>
+
 
 public class ManagerViewModel : ViewModelBase
 {
@@ -17,7 +20,19 @@ public class ManagerViewModel : ViewModelBase
     private NavigationMenuItem _selectedNavigationMenuItem;
     private UserInfo _currentUser;
 
+    /// <summary>
+
+    /// Команда выхода из системы.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
+
+    /// <summary>
+
+    /// Выбранный пункт бокового меню.
+
+    /// </summary>
 
     public NavigationMenuItem SelectedNavigationMenuItem
     {
@@ -25,13 +40,31 @@ public class ManagerViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedNavigationMenuItem, value);
     }
 
+    /// <summary>
+
+    /// Коллекция пунктов навигационного меню.
+
+    /// </summary>
+
     public ObservableCollection<NavigationMenuItem> NavigationMenuItems { get; }
+
+    /// <summary>
+
+    /// Активная дочерняя ViewModel (экран входа или раздел роли).
+
+    /// </summary>
 
     public ViewModelBase CurrentViewModel
     {
         get => _currentViewModel;
         set => this.RaiseAndSetIfChanged(ref _currentViewModel, value);
     }
+
+    /// <summary>
+
+    /// Информация о текущем пользователе раздела.
+
+    /// </summary>
 
     public UserInfo CurrentUser
     {

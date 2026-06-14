@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат проверки подключения к базе данных.
+/// </summary>
 public class TestConnectionDto
 {
     public bool IsConnected { get; init; }

@@ -3,25 +3,76 @@ using System.Threading.Tasks;
 using PhotoEquipmentStore.Models;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Notification;
+namespace PhotoEquipmentStore.ViewModels.Notification;/// <summary>
+/// ViewModel модального окна уведомления.
+/// </summary>
+
 
 public class NotificationViewModel : ViewModelBase
 {
     private readonly TaskCompletionSource<NotificationResult> _tcs = new();
 
+    /// <summary>
+
+    /// Заголовок уведомления.
+
+    /// </summary>
+
     public string             Title   { get; }
+    /// <summary>
+    /// Текст сообщения уведомления.
+    /// </summary>
     public string             Message { get; }
+    /// <summary>
+    /// Тип уведомления (информация, предупреждение, ошибка).
+    /// </summary>
     public NotificationType   Type    { get; }
+    /// <summary>
+    /// Набор кнопок диалога.
+    /// </summary>
     public NotificationButtons Buttons { get; }
 
+    /// <summary>
+
+    /// Отображать ли кнопку OK.
+
+    /// </summary>
+
     public bool ShowOk           => Buttons == NotificationButtons.Ok;
+    /// <summary>
+    /// Отображать ли кнопки Да/Нет.
+    /// </summary>
     public bool ShowYesNo        => Buttons is NotificationButtons.YesNo or NotificationButtons.YesNoCancel;
+    /// <summary>
+    /// Отображать ли кнопку Отмена.
+    /// </summary>
     public bool ShowCancel       => Buttons == NotificationButtons.YesNoCancel;
 
+    /// <summary>
+
+    /// Команда подтверждения уведомления (OK).
+
+    /// </summary>
+
     public ReactiveCommand<Unit, bool> OkCommand     { get; }
+    /// <summary>
+    /// Команда положительного ответа (Да).
+    /// </summary>
     public ReactiveCommand<Unit, bool> YesCommand    { get; }
+    /// <summary>
+    /// Команда отрицательного ответа (Нет).
+    /// </summary>
     public ReactiveCommand<Unit, bool> NoCommand     { get; }
+    /// <summary>
+    /// Команда отмены диалога.
+    /// </summary>
     public ReactiveCommand<Unit, bool> CancelCommand { get; }
+
+    /// <summary>
+
+    /// Задача, завершающаяся выбранным результатом диалога.
+
+    /// </summary>
 
     public Task<NotificationResult> Result => _tcs.Task;
 

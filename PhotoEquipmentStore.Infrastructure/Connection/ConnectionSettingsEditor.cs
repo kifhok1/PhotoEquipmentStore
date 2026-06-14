@@ -5,6 +5,9 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Infrastructure.Connection;
 
+/// <summary>
+/// Обновление параметров подключения к базе данных в JSON-файле конфигурации.
+/// </summary>
 public static class ConnectionSettingsEditor
 {
     private static readonly string DefaultPath =
@@ -23,6 +26,9 @@ public static class ConnectionSettingsEditor
         ReadCommentHandling         = JsonCommentHandling.Skip
     };
 
+    /// <summary>
+    /// Обновляет параметры подключения в файле настроек и сохраняет изменения.
+    /// </summary>
     public static void Update(string host, string user, string password, string database)
     {
         try

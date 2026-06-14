@@ -10,14 +10,23 @@ using PhotoEquipmentStore.Views;
 
 namespace PhotoEquipmentStore;
 
+/// <summary>
+/// Главный класс Avalonia-приложения: загрузка XAML, тема и инициализация главного окна.
+/// </summary>
 public partial class App : Avalonia.Application
 {
+    /// <summary>
+    /// Загружает ресурсы приложения и применяет сохранённую тему оформления.
+    /// </summary>
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
         ThemeService.Toggle(SettingsUIFileParser.GetTheme() == "Тёмная");
     }
 
+    /// <summary>
+    /// Создаёт главное окно с <see cref="MainViewModel"/> после инициализации фреймворка.
+    /// </summary>
     public override void OnFrameworkInitializationCompleted()
     {
 
@@ -33,6 +42,9 @@ public partial class App : Avalonia.Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    /// <summary>
+    /// Отключает встроенную валидацию DataAnnotations, чтобы использовать собственные правила.
+    /// </summary>
     private void DisableAvaloniaDataAnnotationValidation()
     {
 

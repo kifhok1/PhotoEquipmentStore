@@ -12,7 +12,10 @@ using System.Reactive;
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Behaviors;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// ViewModel работы с базой данных: экспорт, импорт, бэкап и восстановление.
+/// </summary>
+
 
 public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
 {
@@ -24,7 +27,19 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
         "ФотоМагазин", "Файлы базы данных");
 
+    /// <summary>
+
+    /// Провайдер диалогов выбора файлов и папок.
+
+    /// </summary>
+
     public IStorageProvider? StorageProvider { get; set; }
+
+    /// <summary>
+
+    /// Список таблиц для экспорта.
+
+    /// </summary>
 
     public ObservableCollection<string> Tables { get; } =
     [
@@ -32,9 +47,18 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         .. PhotoEquipmentStore.Infrastructure.Commands.DatabaseCommands.AllTables
     ];
 
+    /// <summary>
+
+    /// Доступные форматы экспорта.
+
+    /// </summary>
+
     public ObservableCollection<string> ExportFormats { get; } = ["CSV", "XLSX"];
 
     private string? _selectedExportTable;
+    /// <summary>
+    /// Выбранная таблица для экспорта.
+    /// </summary>
     public string? SelectedExportTable
     {
         get => _selectedExportTable;
@@ -42,6 +66,9 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private string? _selectedExportFormat;
+    /// <summary>
+    /// Выбранный формат экспорта.
+    /// </summary>
     public string? SelectedExportFormat
     {
         get => _selectedExportFormat;
@@ -49,6 +76,9 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private string? _exportFolderPath;
+    /// <summary>
+    /// Папка сохранения экспорта.
+    /// </summary>
     public string? ExportFolderPath
     {
         get => _exportFolderPath;
@@ -56,16 +86,28 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private string? _selectedImportTable;
+    /// <summary>
+    /// Выбранная таблица для импорта.
+    /// </summary>
     public string? SelectedImportTable
     {
         get => _selectedImportTable;
         set => this.RaiseAndSetIfChanged(ref _selectedImportTable, value);
     }
 
+    /// <summary>
+
+    /// Список таблиц для импорта.
+
+    /// </summary>
+
     public ObservableCollection<string> ImportTables { get; } =
         new(PhotoEquipmentStore.Infrastructure.Commands.DatabaseCommands.AllTables);
 
     private string? _importFilePath;
+    /// <summary>
+    /// Путь к CSV-файлу импорта.
+    /// </summary>
     public string? ImportFilePath
     {
         get => _importFilePath;
@@ -73,6 +115,9 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private string? _restoreFilePath;
+    /// <summary>
+    /// Путь к SQL-файлу восстановления.
+    /// </summary>
     public string? RestoreFilePath
     {
         get => _restoreFilePath;
@@ -80,6 +125,9 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private string? _backupFolderPath;
+    /// <summary>
+    /// Папка сохранения резервной копии.
+    /// </summary>
     public string? BackupFolderPath
     {
         get => _backupFolderPath;
@@ -87,19 +135,49 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     }
 
     private bool _isBusy;
+    /// <summary>
+    /// Признак выполнения длительной операции с БД.
+    /// </summary>
     public bool IsBusy
     {
         get => _isBusy;
         set => this.RaiseAndSetIfChanged(ref _isBusy, value);
     }
 
+    /// <summary>
+
+    /// Команда выбора папки экспорта.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> PickExportFolderCommand  { get; }
+    /// <summary>
+    /// Команда экспорта данных.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ExportCommand            { get; }
+    /// <summary>
+    /// Команда выбора файла импорта.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> PickImportFileCommand    { get; }
+    /// <summary>
+    /// Команда импорта данных.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ImportCommand            { get; }
+    /// <summary>
+    /// Команда выбора файла восстановления.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> PickRestoreFileCommand   { get; }
+    /// <summary>
+    /// Команда восстановления структуры БД.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> RestoreCommand           { get; }
+    /// <summary>
+    /// Команда выбора папки резервной копии.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> PickBackupFolderCommand  { get; }
+    /// <summary>
+    /// Команда создания резервной копии.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> BackupCommand            { get; }
 
     public DataBaseViewModel()

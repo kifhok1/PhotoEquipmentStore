@@ -8,10 +8,16 @@ using PhotoEquipmentStore.Infrastructure.Helpers;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Операции с заказами: получение, создание, изменение статуса и проверка артикула.
+/// </summary>
 public class OrderCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает коллекцию всех заказов с данными клиента, сотрудника и итоговой суммой.
+    /// </summary>
     public static ObservableCollection<Order> GetOrders()
     {
         try
@@ -76,6 +82,9 @@ public class OrderCommands
         }
     }
 
+    /// <summary>
+    /// Возвращает позиции указанного заказа с данными товаров.
+    /// </summary>
     public static ObservableCollection<OrderItem> GetOrderItems(string orderArticle)
     {
         try
@@ -126,6 +135,9 @@ public class OrderCommands
         }
     }
 
+    /// <summary>
+    /// Устанавливает статус заказа «Возврат» (status_id = 2).
+    /// </summary>
     public bool UpdateOrderStatus(string orderArticle)
     {
         try
@@ -153,6 +165,9 @@ public class OrderCommands
         }
     }
 
+    /// <summary>
+    /// Проверяет, существует ли заказ с указанным артикулом.
+    /// </summary>
     public bool ArticleExists(string article)
     {
         try
@@ -177,6 +192,9 @@ public class OrderCommands
         }
     }
 
+    /// <summary>
+    /// Создаёт заказ в транзакции: списание со склада, запись заказа, позиций и обновление покупок клиента.
+    /// </summary>
     public bool CreateOrder(
         string orderArticle,
         int clientId,
@@ -193,7 +211,7 @@ public class OrderCommands
 
             try
             {
-
+                // Списание товаров со склада с проверкой достаточности остатков
                 const string stockSql = @"
                     UPDATE products
                     SET stock_quantity = stock_quantity - @qty
@@ -210,6 +228,7 @@ public class OrderCommands
                             $"Недостаточно товара на складе (product_id={item.productId}).");
                 }
 
+                // Создание заказа со статусом «Новый» (status_id = 1)
                 const string orderSql = @"
                     INSERT INTO orders (article, status_id, client_id, discount_percent, employee_id, created_at)
                     VALUES (@article, 1, @clientId, @discount, @employeeId, NOW());";
@@ -236,6 +255,7 @@ public class OrderCommands
                     itemCmd.ExecuteNonQuery();
                 }
 
+                // Увеличение суммы покупок клиента
                 const string clientSql = @"
                     UPDATE clients
                     SET total_purchases = total_purchases + @amount

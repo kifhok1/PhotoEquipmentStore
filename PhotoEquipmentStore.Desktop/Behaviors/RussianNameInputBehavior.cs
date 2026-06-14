@@ -8,6 +8,10 @@ using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение ввода ФИО: разрешает только русские буквы и пробелы, не более трёх слов.
+/// Обрабатывает событие <see cref="InputElement.TextInputEvent"/>.
+/// </summary>
 public class RussianNameInputBehavior : Behavior<TextBox>
 {
     private static readonly Regex RussianOrSpace =
@@ -15,6 +19,9 @@ public class RussianNameInputBehavior : Behavior<TextBox>
 
     private const string ErrorText = "Только русские буквы";
 
+    /// <summary>
+    /// Подписывается на ввод текста в туннельном режиме.
+    /// </summary>
     protected override void OnAttached()
     {
         base.OnAttached();
@@ -22,12 +29,18 @@ public class RussianNameInputBehavior : Behavior<TextBox>
             InputElement.TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
     }
 
+    /// <summary>
+    /// Отписывается от обработчика ввода текста.
+    /// </summary>
     protected override void OnDetaching()
     {
         AssociatedObject!.RemoveHandler(InputElement.TextInputEvent, OnTextInput);
         base.OnDetaching();
     }
 
+    /// <summary>
+    /// Проверяет символы, ограничивает количество слов и выставляет сообщение об ошибке.
+    /// </summary>
     private void OnTextInput(object? sender, TextInputEventArgs e)
     {
         if (string.IsNullOrEmpty(e.Text)) return;

@@ -13,6 +13,11 @@ using Avalonia.Platform.Storage;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Компонент загрузки изображения через выбор файла или drag-and-drop.
+/// </summary>
+
+
 public partial class ImageBox : UserControl
 {
     private static readonly string[] AllowedExtensions = [".png", ".jpg", ".jpeg"];
@@ -20,6 +25,12 @@ public partial class ImageBox : UserControl
 
     public static readonly StyledProperty<Bitmap?> ImageSourceProperty =
         AvaloniaProperty.Register<ImageBox, Bitmap?>(nameof(ImageSource));
+
+    /// <summary>
+
+    /// Загруженное изображение.
+
+    /// </summary>
 
     public Bitmap? ImageSource
     {

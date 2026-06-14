@@ -10,7 +10,10 @@ using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.SettingsUI;
 
-namespace PhotoEquipmentStore.ViewModels;
+namespace PhotoEquipmentStore.ViewModels;/// <summary>
+/// ViewModel экрана входа: авторизация, капча и настройки.
+/// </summary>
+
 
 public partial class LoginViewModel : ViewModelBase
 {
@@ -24,13 +27,43 @@ public partial class LoginViewModel : ViewModelBase
     private Bitmap imageLoginForm;
     private bool errorConnection = false;
 
+    /// <summary>
+
+    /// Interaction для закрытия приложения.
+
+    /// </summary>
+
     public Interaction<Unit, Unit> Close { get; } = new Interaction<Unit, Unit>();
 
+    /// <summary>
+
+    /// Команда закрытия панели настроек.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> CloseCommand { get; set; }
+    /// <summary>
+    /// Команда входа в систему.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> LoginCommand { get; }
 
+    /// <summary>
+
+    /// Команда открытия панели настроек.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> ShowSettingsCommand { get; }
+    /// <summary>
+    /// Команда закрытия панели настроек.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
+
+    /// <summary>
+
+    /// Введённый логин.
+
+    /// </summary>
 
     public string LoginText
     {
@@ -38,11 +71,23 @@ public partial class LoginViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref login, value);
     }
 
+    /// <summary>
+
+    /// Введённый пароль.
+
+    /// </summary>
+
     public string PasswordText
     {
         get => password;
         set => this.RaiseAndSetIfChanged(ref password, value);
     }
+
+    /// <summary>
+
+    /// Текст ошибки CAPTCHA.
+
+    /// </summary>
 
     public string ErrorMessage
     {
@@ -50,11 +95,23 @@ public partial class LoginViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref errorMessage, value);
     }
 
+    /// <summary>
+
+    /// Признак видимости сообщения об ошибке.
+
+    /// </summary>
+
     public bool ErrorVisible
     {
         get => errorVisible;
         set => this.RaiseAndSetIfChanged(ref errorVisible, value);
     }
+
+    /// <summary>
+
+    /// Признак отображения блока CAPTCHA.
+
+    /// </summary>
 
     public bool CapchaVisible
     {
@@ -62,11 +119,23 @@ public partial class LoginViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref capchaVisible, value);
     }
 
+    /// <summary>
+
+    /// Признак отображения панели настроек.
+
+    /// </summary>
+
     public bool SettingsVisible
     {
         get => settingsVisible;
         set => this.RaiseAndSetIfChanged(ref settingsVisible, value);
     }
+
+    /// <summary>
+
+    /// Блокировка окна на время ожидания.
+
+    /// </summary>
 
     public bool WindowBlocked
     {
@@ -74,11 +143,23 @@ public partial class LoginViewModel : ViewModelBase
         set => mainViewModel.IsBlocked = value;
     }
 
+    /// <summary>
+
+    /// Фоновое изображение формы входа в настройках.
+
+    /// </summary>
+
     public Bitmap ImageLoginForm
     {
         get => imageLoginForm;
         set => this.RaiseAndSetIfChanged(ref imageLoginForm, value);
     }
+
+    /// <summary>
+
+    /// Признак ошибки подключения к базе данных.
+
+    /// </summary>
 
     public bool ErrorConnection
     {

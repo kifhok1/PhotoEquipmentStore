@@ -6,11 +6,13 @@
              mc:Ignorable="d" d:DesignWidth="240" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Controls.SidebarControl"
              x:Name="This">
+    <!-- Файл: Боковая панель: логотип, ListBox меню навигации, блок пользователя и кнопка выхода. -->
     <Border Background="{DynamicResource secondary_background}"
             BorderBrush="{DynamicResource border}"
             BorderThickness="0 0 1 0">
         <DockPanel>
 
+            <!-- Шапка сайдбара: логотип и название -->
             <Border DockPanel.Dock="Top"
                     Padding="0 0 0 10"
                     Margin="0"
@@ -42,6 +44,7 @@
                 </StackPanel>
             </Border>
 
+            <!-- Подвал сайдбара: аватар, имя, роль, выход -->
             <Border DockPanel.Dock="Bottom"
                     Padding="10 16 8 16"
                     BorderThickness=" 0 1 0 0"
@@ -79,6 +82,7 @@
                         </Border>
 
                         <StackPanel VerticalAlignment="Center">
+                            <!-- Имя текущего пользователя из Username -->
                             <TextBlock Text="{Binding #This.Username.UserName}"
                                        Classes="Caption"
                                        FontWeight="SemiBold"
@@ -86,6 +90,7 @@
                                        Width="140"
                                        TextWrapping="Wrap"
                                        Foreground="{DynamicResource main_text}"/>
+                            <!-- Роль текущего пользователя -->
                             <TextBlock Text="{Binding #This.Username.UserRole}"
                                        Classes="Caption"
                                        FontSize="10"
@@ -110,11 +115,13 @@
                 </Panel>
             </Border>
 
+            <!-- Список пунктов навигационного меню -->
             <ListBox Classes="SidebarMenu"
                      ItemsSource="{Binding #This.MenuItems}"
                      SelectedItem="{Binding #This.SelectedMenuItem, Mode=TwoWay}"
                      Margin="0, 5 0 0">
 
+                <!-- Шаблон пункта меню: иконка, текст, индикатор выбора -->
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="models:NavigationMenuItem">
 

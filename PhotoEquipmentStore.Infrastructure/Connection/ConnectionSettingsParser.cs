@@ -5,11 +5,17 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Infrastructure.Connection;
 
+/// <summary>
+/// Загрузка и валидация настроек подключения к базе данных из JSON-файла.
+/// </summary>
 public static class ConnectionSettingsParser
 {
     private static readonly string DefaultPath =
         Directory.GetCurrentDirectory() + "/Connection/connectionSettings.json";
 
+    /// <summary>
+    /// Читает, десериализует и проверяет настройки подключения из файла конфигурации.
+    /// </summary>
     public static ConnectionSettings Load()
     {
         try
@@ -50,6 +56,9 @@ public static class ConnectionSettingsParser
         }
     }
 
+    /// <summary>
+    /// Проверяет наличие обязательных полей в настройках подключения.
+    /// </summary>
     private static void Validate(ConnectionSettings s)
     {
         if (string.IsNullOrWhiteSpace(s.Host))

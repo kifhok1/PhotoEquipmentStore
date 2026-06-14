@@ -9,6 +9,7 @@
              xmlns:conv="clr-namespace:PhotoEquipmentStore.Converters"
              x:Class="PhotoEquipmentStore.Views.Pages.Manager.ReportsView"
              x:DataType="vm:ReportsViewModel">
+    <!-- Файл: Отчёты и дашборд: статистика, генерация отчётов по продажам/складу/популярности. -->
 
     <i:Interaction.Behaviors>
         <b:StorageProviderInjectorBehavior/>

@@ -7,6 +7,10 @@ using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение ввода названия товара: буквы, цифры, пробелы и спецсимволы.
+/// Обрабатывает событие <see cref="InputElement.TextInputEvent"/>.
+/// </summary>
 public class ProductNameInputBehavior : Behavior<TextBox>
 {
 

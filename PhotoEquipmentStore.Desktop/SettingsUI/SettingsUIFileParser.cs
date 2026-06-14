@@ -3,7 +3,10 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace PhotoEquipmentStore.SettingsUI;
+namespace PhotoEquipmentStore.SettingsUI;/// <summary>
+/// Чтение и запись настроек интерфейса (тема) из JSON-файла.
+/// </summary>
+
 
 public class SettingsUIFileParser
 {
@@ -13,6 +16,12 @@ public class SettingsUIFileParser
     {
         WriteIndented = true
     };
+
+    /// <summary>
+
+    /// Читает название темы из файла настроек.
+
+    /// </summary>
 
     public static string? GetTheme()
     {
@@ -24,6 +33,12 @@ public class SettingsUIFileParser
 
         return root?["theme"]?.GetValue<string>();
     }
+
+    /// <summary>
+
+    /// Записывает название темы в файл настроек.
+
+    /// </summary>
 
     public static void SetTheme(string theme)
     {

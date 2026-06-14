@@ -8,10 +8,16 @@ using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// CRUD-операции с пользователями системы в базе данных.
+/// </summary>
 public class UserCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает коллекцию всех активных пользователей с данными ролей.
+    /// </summary>
     public static ObservableCollection<User> GetUsers()
     {
         try
@@ -62,6 +68,9 @@ public class UserCommands
         }
     }
 
+    /// <summary>
+    /// Создаёт нового пользователя с хешированным паролем.
+    /// </summary>
     public bool CreateUser(User user, string passwordHash)
     {
         try
@@ -93,6 +102,9 @@ public class UserCommands
         }
     }
 
+    /// <summary>
+    /// Обновляет данные пользователя без изменения пароля.
+    /// </summary>
     public bool UpdateUser(User user)
     {
         try
@@ -130,6 +142,9 @@ public class UserCommands
         }
     }
 
+    /// <summary>
+    /// Обновляет данные пользователя вместе с новым хешем пароля.
+    /// </summary>
     public bool UpdateUserWithPassword(User user, string passwordHash)
     {
         try
@@ -169,6 +184,9 @@ public class UserCommands
         }
     }
 
+    /// <summary>
+    /// Помечает пользователя как удалённого (мягкое удаление).
+    /// </summary>
     public bool DeleteUser(int userId)
     {
         try
@@ -197,6 +215,9 @@ public class UserCommands
         }
     }
 
+    /// <summary>
+    /// Проверяет, занят ли логин другим пользователем; при редактировании исключает текущего.
+    /// </summary>
     public bool LoginExists(string login, int? excludeUserId = null)
     {
         try

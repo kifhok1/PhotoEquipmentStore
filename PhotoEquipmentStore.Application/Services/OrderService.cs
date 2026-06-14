@@ -7,10 +7,14 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис управления заказами: просмотр, создание и смена статуса.
+/// </summary>
 public class OrderService : IOrderService
 {
     private readonly OrderCommands _orderCommands = new();
 
+    /// <summary>Возвращает список всех заказов.</summary>
     public OrderResultDto GetOrders()
     {
         try
@@ -24,6 +28,8 @@ public class OrderService : IOrderService
         }
     }
 
+    /// <summary>Возвращает позиции указанного заказа.</summary>
+    /// <param name="orderId">Идентификатор или артикул заказа.</param>
     public OrderResultDto GetOrderItems(string orderId)
     {
         try
@@ -37,6 +43,8 @@ public class OrderService : IOrderService
         }
     }
 
+    /// <summary>Переводит заказ на следующий статус в жизненном цикле.</summary>
+    /// <param name="orderArticle">Артикул заказа.</param>
     public OrderResultDto UpdateOrderStatus(string orderArticle)
     {
         try
@@ -50,6 +58,8 @@ public class OrderService : IOrderService
         }
     }
 
+    /// <summary>Создаёт новый заказ с указанными позициями.</summary>
+    /// <param name="dto">Данные для создания заказа.</param>
     public OrderResultDto CreateOrder(CreateOrderDto dto)
     {
         try

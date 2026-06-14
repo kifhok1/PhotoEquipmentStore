@@ -14,6 +14,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Компонент постраничной навигации по коллекции элементов.
+/// </summary>
+
+
 public partial class PaginationButtons : UserControl
 {
     public static readonly StyledProperty<IList> ItemsProperty =
@@ -48,11 +53,23 @@ public partial class PaginationButtons : UserControl
             o => o.PageCountText,
             (o, v) => o.PageCountText = v);
 
+    /// <summary>
+
+    /// Текстовая подпись о количестве записей на форме.
+
+    /// </summary>
+
     public string PageCountText
     {
         get => _pageCountText;
         set => SetAndRaise(PageCountTextProperty, ref _pageCountText, value);
     }
+
+    /// <summary>
+
+    /// Полная коллекция элементов для постраничного отображения.
+
+    /// </summary>
 
     public IList Items
     {
@@ -60,17 +77,35 @@ public partial class PaginationButtons : UserControl
         set => SetValue(ItemsProperty, value);
     }
 
+    /// <summary>
+
+    /// Количество элементов на одной странице.
+
+    /// </summary>
+
     public int PageSize
     {
         get => GetValue(PageSizeProperty);
         set => SetValue(PageSizeProperty, value);
     }
 
+    /// <summary>
+
+    /// Номер текущей страницы.
+
+    /// </summary>
+
     public int CurrentPage
     {
         get => GetValue(CurrentPageProperty);
         set => SetValue(CurrentPageProperty, Math.Clamp(value, 1, Math.Max(1, TotalPages)));
     }
+
+    /// <summary>
+
+    /// Элементы, отображаемые на текущей странице.
+
+    /// </summary>
 
     public IList CurrentPageItems
     {
@@ -80,10 +115,28 @@ public partial class PaginationButtons : UserControl
 
     private int TotalPages => ComputeTotalPages();
 
+    /// <summary>
+
+    /// Кнопки номеров страниц для навигации.
+
+    /// </summary>
+
     public ObservableCollection<PageButton> PageButtons { get; } = [];
 
+    /// <summary>
+
+    /// Команда перехода на предыдущую страницу.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> PreviousCommand { get; }
+    /// <summary>
+    /// Команда перехода на следующую страницу.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> NextCommand     { get; }
+    /// <summary>
+    /// Команда перехода на указанную страницу.
+    /// </summary>
     public ReactiveCommand<int,  Unit> GoToPageCommand { get; }
 
     private IDisposable? _collectionChangedSubscription;

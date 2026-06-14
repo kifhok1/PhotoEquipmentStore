@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Позиция товара при создании заказа.
+/// </summary>
 public class CreateOrderItemDto
 {
     public int     ProductId       { get; init; }

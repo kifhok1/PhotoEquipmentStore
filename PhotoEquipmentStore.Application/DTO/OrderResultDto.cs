@@ -3,6 +3,9 @@ using PhotoEquipmentStore.Domain.Entities;
 
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат операции с заказами и их позициями.
+/// </summary>
 public class OrderResultDto
 {
     public bool    IsSuccess       { get; init; }

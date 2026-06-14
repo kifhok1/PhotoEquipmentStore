@@ -5,8 +5,17 @@ using Authorization = PhotoEquipmentStore.Infrastructure.Commands.Authorization;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис аутентификации пользователей по логину и паролю.
+/// </summary>
 public class AuthorizationService
 {
+    /// <summary>
+    /// Проверяет учётные данные пользователя и возвращает результат входа.
+    /// </summary>
+    /// <param name="login">Логин пользователя.</param>
+    /// <param name="password">Пароль в открытом виде.</param>
+    /// <returns>Результат аутентификации с данными пользователя или сообщением об ошибке.</returns>
     public static AuthResultDto Authenticate(string login, string password)
     {
         if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))

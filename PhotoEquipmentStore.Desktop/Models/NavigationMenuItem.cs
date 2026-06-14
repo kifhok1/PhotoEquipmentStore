@@ -5,7 +5,10 @@ using Avalonia.Styling;
 using PhotoEquipmentStore.Helper;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Пункт навигационного меню боковой панели.
+/// </summary>
+
 
 public class NavigationMenuItem : ReactiveObject
 {
@@ -13,15 +16,33 @@ public class NavigationMenuItem : ReactiveObject
     private StreamGeometry icon;
     private ReactiveCommand<Unit, Unit> navigateCommand { get; init; } = null!;
 
+    /// <summary>
+
+    /// Заголовок или наименование записи.
+
+    /// </summary>
+
     public string Title
     {
         get { return title; }
     }
 
+    /// <summary>
+
+    /// Векторная иконка пункта меню.
+
+    /// </summary>
+
     public StreamGeometry Icon
     {
         get { return icon; }
     }
+
+    /// <summary>
+
+    /// Команда навигации по пункту меню.
+
+    /// </summary>
 
     public ReactiveCommand<Unit, Unit> NavigateCommand
     {

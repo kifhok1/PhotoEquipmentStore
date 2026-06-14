@@ -6,10 +6,16 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Получение списка логинов пользователей из базы данных для автозаполнения формы входа.
+/// </summary>
 public class Login
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает список логинов всех активных (не удалённых) пользователей.
+    /// </summary>
     public List<string> GetAllLogins()
     {
         try

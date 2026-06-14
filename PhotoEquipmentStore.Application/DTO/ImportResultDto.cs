@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат импорта данных из CSV-файла.
+/// </summary>
 public class ImportResultDto
 {
 

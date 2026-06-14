@@ -9,12 +9,18 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel списка клиентов с поиском и маскированием данных.
+/// </summary>
+
 
 public class ClientsViewModel : ViewModelBase
 {
     private readonly ClientsService _clientsService = new ClientsService();
     private readonly List<ClientShow> _allClients = new();
+    /// <summary>
+    /// Список клиентов.
+    /// </summary>
     public ObservableCollection<ClientShow> Clients { get; } = new();
 
     private ObservableCollection<ClientShow> _currentClients = new();
@@ -25,6 +31,9 @@ public class ClientsViewModel : ViewModelBase
     }
 
     private ClientShow? _selectedClient;
+    /// <summary>
+    /// Выбранный клиент заказа.
+    /// </summary>
     public ClientShow? SelectedClient
     {
         get => _selectedClient;
@@ -43,6 +52,9 @@ public class ClientsViewModel : ViewModelBase
     }
 
     private string _countClients = string.Empty;
+    /// <summary>
+    /// Подпись с количеством клиентов.
+    /// </summary>
     public string CountClients
     {
         get => _countClients;
@@ -50,6 +62,9 @@ public class ClientsViewModel : ViewModelBase
     }
 
     private string _searchText = string.Empty;
+    /// <summary>
+    /// Строка поиска по названию товара.
+    /// </summary>
     public string SearchText
     {
         get => _searchText;
@@ -60,8 +75,20 @@ public class ClientsViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+
+    /// Команда перехода к редактированию записи.
+
+    /// </summary>
+
     public ReactiveCommand<ClientShow, Unit> EditCommand   { get; }
+    /// <summary>
+    /// Команда удаления записи.
+    /// </summary>
     public ReactiveCommand<ClientShow, Unit> DeleteCommand { get; }
+    /// <summary>
+    /// Команда сброса строки поиска.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ResetSearchCommand  { get; }
 
     public ClientsViewModel(Action<ClientShow>? goToEdit = null)

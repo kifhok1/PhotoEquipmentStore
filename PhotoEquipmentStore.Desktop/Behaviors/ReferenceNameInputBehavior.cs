@@ -9,6 +9,10 @@ using PhotoEquipmentStore.ViewModels.Pages.Admin;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение ввода наименования справочника с правилами, зависящими от типа записи.
+/// Обрабатывает <see cref="InputElement.TextInputEvent"/> и <see cref="Control.DataContextChanged"/>.
+/// </summary>
 public class ReferenceNameInputBehavior : Behavior<TextBox>
 {
     private Regex?  _allowed;

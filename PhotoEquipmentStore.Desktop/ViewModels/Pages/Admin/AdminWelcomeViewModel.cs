@@ -1,6 +1,9 @@
 using PhotoEquipmentStore.Models;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// Приветственный экран раздела администратора.
+/// </summary>
+
 
 public class AdminWelcomeViewModel : ViewModelBase
 {

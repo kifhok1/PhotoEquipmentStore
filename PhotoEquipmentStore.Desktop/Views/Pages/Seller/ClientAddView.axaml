@@ -9,11 +9,13 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.ClientAddView"
              x:DataType="viewModels:ClientAddViewModel">
+    <!-- Файл: Форма добавления/редактирования клиента (ФИО, телефон). -->
 
     <Design.DataContext>
         <viewModels:ClientAddViewModel/>
     </Design.DataContext>
 
+    <!-- Локальные стили представления (например, invalid TextBox) -->
     <UserControl.Styles>
         <Style Selector="TextBox.invalid">
             <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
@@ -55,6 +57,7 @@
                                          Text="{Binding FullName}"
                                          Classes.invalid="{Binding #FullNameBox.(helpers:InputValidation.InputError),
                                              Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                    <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                     <i:Interaction.Behaviors>
                                         <behaviors:RussianNameInputBehavior/>
                                     </i:Interaction.Behaviors>
@@ -82,6 +85,7 @@
                                          Text="{Binding PhoneNumber}"
                                          Classes.invalid="{Binding #PhoneBox.(helpers:InputValidation.InputError),
                                              Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                    <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
                                     <i:Interaction.Behaviors>
                                         <behaviors:PhoneMaskBehavior/>
                                     </i:Interaction.Behaviors>

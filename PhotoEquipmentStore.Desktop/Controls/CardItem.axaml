@@ -3,6 +3,7 @@
              xmlns:local="clr-namespace:PhotoEquipmentStore.Controls"
              x:Class="PhotoEquipmentStore.Controls.CartItem"
              x:DataType="local:CartItem">
+    <!-- Файл: Элемент корзины: миниатюра, название, цена, +/- количество, удаление. -->
 
     <Border Background="{DynamicResource elevated}"
             CornerRadius="10"

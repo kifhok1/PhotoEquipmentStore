@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Сводная статистика по заказам и выручке за день и месяц.
+/// </summary>
 public class DashboardStatsDto
 {
     public int     OrdersToday  { get; }

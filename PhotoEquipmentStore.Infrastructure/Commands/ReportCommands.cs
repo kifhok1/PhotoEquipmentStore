@@ -8,10 +8,16 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Формирование аналитических отчётов и статистики для панели управления.
+/// </summary>
 public class ReportCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает сводную статистику заказов и выручки за текущий день и месяц.
+    /// </summary>
     public DashboardStats GetDashboardStats()
     {
         try
@@ -71,6 +77,9 @@ public class ReportCommands
         }
     }
 
+    /// <summary>
+    /// Возвращает минимальную и максимальную даты заказов в базе данных.
+    /// </summary>
     public (DateTime Min, DateTime Max) GetOrderDateRange()
     {
         try
@@ -105,6 +114,9 @@ public class ReportCommands
         }
     }
 
+    /// <summary>
+    /// Формирует отчёт по продажам за указанный период.
+    /// </summary>
     public List<SalesReportData> GetSalesReport(DateTime from, DateTime to)
     {
         try
@@ -155,6 +167,7 @@ public class ReportCommands
                     reader.GetInt32("itemsCount"),
                     reader.GetInt32("totalQuantity"),
                     decimal.Round(reader.GetDecimal("totalSum"), 2),
+                    // status_id = 2 соответствует статусу «Возврат»
                     reader.GetInt32("statusId") == 2
                 ));
             }
@@ -171,6 +184,9 @@ public class ReportCommands
         }
     }
 
+    /// <summary>
+    /// Формирует отчёт по остаткам на складе с опциональной фильтрацией по категории.
+    /// </summary>
     public List<StockReportData> GetStockReport(int? categoryId)
     {
         try
@@ -225,10 +241,14 @@ public class ReportCommands
         }
     }
 
+    /// <summary>
+    /// Формирует отчёт по популярности товаров с учётом режима сортировки и фильтра категории.
+    /// </summary>
     public List<PopularityReportData> GetPopularityReport(int? categoryId, PopularityMode mode)
     {
         try
         {
+            // Определение направления сортировки и ограничения выборки по режиму
             bool descending = mode is PopularityMode.AllDesc or PopularityMode.Top30;
             bool hasLimit   = mode is PopularityMode.Top30   or PopularityMode.Bottom30;
 

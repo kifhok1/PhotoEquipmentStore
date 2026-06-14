@@ -7,6 +7,7 @@
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.UsersView"
              x:DataType="vm:UsersViewModel"
              xmlns:models="using:PhotoEquipmentStore.Models">
+    <!-- Файл: Таблица пользователей с фото, ФИО, телефоном, логином, ролью и действиями. -->
 
     <Design.DataContext>
         <vm:UsersViewModel/>
@@ -23,12 +24,14 @@
                                         Background="{DynamicResource secondary_background}"
                                         BorderBrush="{DynamicResource border}">
                                     <Grid RowDefinitions="* Auto" RowSpacing="10">
+                                        <!-- Таблица данных (только чтение) -->
                                         <DataGrid IsReadOnly="True"
                                                   AutoGenerateColumns="False"
                                                   ItemsSource="{Binding Users}"
                                                   CanUserSortColumns="False"
                                                   BorderBrush="{DynamicResource border}"
                                                   BorderThickness="0 0 0 1">
+                                            <!-- Определение колонок таблицы -->
                                             <DataGrid.Columns>
 
                                                 <DataGridTemplateColumn Header="Фото" Width="Auto">

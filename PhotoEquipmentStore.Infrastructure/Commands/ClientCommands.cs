@@ -7,10 +7,16 @@ using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// CRUD-операции с клиентами магазина в базе данных.
+/// </summary>
 public class ClientCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает коллекцию всех активных клиентов с количеством их заказов.
+    /// </summary>
     public static ObservableCollection<Client> GetClients()
     {
         try
@@ -58,6 +64,9 @@ public class ClientCommands
         }
     }
 
+    /// <summary>
+    /// Создаёт нового клиента в базе данных.
+    /// </summary>
     public bool CreateClient(Client client)
     {
         try
@@ -86,6 +95,9 @@ public class ClientCommands
         }
     }
 
+    /// <summary>
+    /// Обновляет данные существующего клиента.
+    /// </summary>
     public bool UpdateClient(Client client)
     {
         try
@@ -117,6 +129,9 @@ public class ClientCommands
         }
     }
 
+    /// <summary>
+    /// Помечает клиента как удалённого (мягкое удаление).
+    /// </summary>
     public bool DeleteClient(int clientId)
     {
         try

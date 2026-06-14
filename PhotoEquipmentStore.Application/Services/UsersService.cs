@@ -8,11 +8,15 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис управления пользователями системы.
+/// </summary>
 public class UsersService : IUsersService
 {
     private readonly UserCommands _userCommands  = new();
     private readonly Phone        _phoneCommands = new();
 
+    /// <summary>Возвращает список всех пользователей.</summary>
     public UserResultDto GetUsers()
     {
         try
@@ -25,6 +29,9 @@ public class UsersService : IUsersService
         }
     }
 
+    /// <summary>Создаёт нового пользователя с хешированием пароля.</summary>
+    /// <param name="user">Данные пользователя.</param>
+    /// <param name="password">Пароль в открытом виде.</param>
     public UserResultDto CreateUser(User user, string password)
     {
         try
@@ -50,6 +57,8 @@ public class UsersService : IUsersService
         }
     }
 
+    /// <summary>Обновляет данные пользователя без смены пароля.</summary>
+    /// <param name="user">Обновлённые данные пользователя.</param>
     public UserResultDto UpdateUser(User user)
     {
         try
@@ -71,6 +80,9 @@ public class UsersService : IUsersService
         }
     }
 
+    /// <summary>Обновляет данные пользователя вместе с новым паролем.</summary>
+    /// <param name="user">Обновлённые данные пользователя.</param>
+    /// <param name="password">Новый пароль в открытом виде.</param>
     public UserResultDto UpdateUser(User user, string password)
     {
         try
@@ -96,6 +108,8 @@ public class UsersService : IUsersService
         }
     }
 
+    /// <summary>Удаляет пользователя по идентификатору.</summary>
+    /// <param name="userId">Идентификатор пользователя.</param>
     public UserResultDto DeleteUser(int userId)
     {
         try
@@ -130,6 +144,7 @@ public class UsersService : IUsersService
         {
             var allPhones = _phoneCommands.GetAllPhoneNumbers();
 
+            // При обновлении исключаем текущий номер пользователя из проверки
             if (excludeUserId.HasValue)
             {
                 var current = UserCommands.GetUsers()

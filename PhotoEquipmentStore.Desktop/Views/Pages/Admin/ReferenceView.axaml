@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Admin"
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.ReferenceView"
              x:DataType="viewModels:ReferenceViewModel">
+    <!-- Файл: Справочники: переключатель типа (RadioButton) + DataGrid записей. -->
     <Design.DataContext>
         <viewModels:ReferenceViewModel/>
     </Design.DataContext>
@@ -47,12 +48,14 @@
                                         Background="{DynamicResource secondary_background}"
                                         BorderBrush="{DynamicResource border}">
                                     <Grid RowDefinitions="* Auto" RowSpacing="10">
+                                        <!-- Таблица данных (только чтение) -->
                                         <DataGrid IsReadOnly="True"
                                                   AutoGenerateColumns="False"
                                                   ItemsSource="{Binding CurrentReferences}"
                                                   CanUserSortColumns="False"
                                                   BorderBrush="{DynamicResource border}"
                                                   BorderThickness="0 0 0 1">
+                                            <!-- Определение колонок таблицы -->
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn
                                                     Header="Наименование"

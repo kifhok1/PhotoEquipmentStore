@@ -9,7 +9,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.ViewModels.Pages.Seller;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels;
+namespace PhotoEquipmentStore.ViewModels;/// <summary>
+/// ViewModel раздела продавца: меню, навигация и таймер неактивности.
+/// </summary>
+
 
 public class SellerViewModel : ViewModelBase
 {
@@ -21,7 +24,19 @@ public class SellerViewModel : ViewModelBase
     private readonly Timer _inactivityTimer;
     private const double InactivityTimeout = 3 * 60 * 1000;
 
+    /// <summary>
+
+    /// Команда выхода из системы.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
+
+    /// <summary>
+
+    /// Выбранный пункт бокового меню.
+
+    /// </summary>
 
     public NavigationMenuItem SelectedNavigationMenuItem
     {
@@ -29,7 +44,19 @@ public class SellerViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedNavigationMenuItem, value);
     }
 
+    /// <summary>
+
+    /// Коллекция пунктов навигационного меню.
+
+    /// </summary>
+
     public ObservableCollection<NavigationMenuItem> NavigationMenuItems { get; }
+
+    /// <summary>
+
+    /// Активная дочерняя ViewModel (экран входа или раздел роли).
+
+    /// </summary>
 
     public ViewModelBase CurrentViewModel
     {
@@ -37,11 +64,23 @@ public class SellerViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _currentViewModel, value);
     }
 
+    /// <summary>
+
+    /// Информация о текущем пользователе раздела.
+
+    /// </summary>
+
     public UserInfo CurrentUser
     {
         get => _currentUser;
         set => this.RaiseAndSetIfChanged(ref _currentUser, value);
     }
+
+    /// <summary>
+
+    /// Сбрасывает таймер автоматического выхода при неактивности.
+
+    /// </summary>
 
     public void ResetInactivityTimer()
     {

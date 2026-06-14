@@ -20,10 +20,16 @@ using ReactiveUI.Validation.Contexts;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// ViewModel создания и редактирования пользователя.
+/// </summary>
+
 
 public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 {
+    /// <summary>
+    /// Контекст валидации ReactiveUI для формы.
+    /// </summary>
     public IValidationContext ValidationContext { get; } = new ValidationContext();
     private ReferenceService _referenceService = new ReferenceService();
     private UsersService     _usersService     = new UsersService();
@@ -37,10 +43,22 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     private readonly Action    _goBack;
     private readonly UserShow? _editItem;
 
+    /// <summary>
+
+    /// Признак режима редактирования существующей записи.
+
+    /// </summary>
+
     public bool   IsEdit    => _editItem is not null;
+    /// <summary>
+    /// Заголовок страницы формы.
+    /// </summary>
     public string PageTitle => IsEdit ? "Редактировать пользователя" : "Создать пользователя";
 
     private string _userName = string.Empty;
+    /// <summary>
+    /// ФИО пользователя.
+    /// </summary>
     public string UserName
     {
         get => _userName;
@@ -48,6 +66,9 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     private string _phoneNumber = string.Empty;
+    /// <summary>
+    /// Номер телефона.
+    /// </summary>
     public string PhoneNumber
     {
         get => _phoneNumber;
@@ -55,6 +76,9 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     private string _login = string.Empty;
+    /// <summary>
+    /// Логин пользователя.
+    /// </summary>
     public string Login
     {
         get => _login;
@@ -62,6 +86,9 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     private string _password = string.Empty;
+    /// <summary>
+    /// Пароль пользователя БД.
+    /// </summary>
     public string Password
     {
         get => _password;
@@ -69,6 +96,9 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     private ReferenceShow? _selectedRole;
+    /// <summary>
+    /// Выбранная роль пользователя.
+    /// </summary>
     public ReferenceShow? SelectedRole
     {
         get => _selectedRole;
@@ -76,6 +106,9 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     private Bitmap? _userImage;
+    /// <summary>
+    /// Аватар пользователя.
+    /// </summary>
     public Bitmap? UserImage
     {
         get => _userImage;
@@ -83,13 +116,28 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     private string _userNameError = string.Empty;
+    /// <summary>
+    /// Текст ошибки валидации ФИО.
+    /// </summary>
     public string UserNameError
     {
         get => _userNameError;
         private set => this.RaiseAndSetIfChanged(ref _userNameError, value);
     }
 
+    /// <summary>
+
+    /// Список доступных ролей пользователя.
+
+    /// </summary>
+
     public ObservableCollection<ReferenceShow> Roles { get; } = new();
+
+    /// <summary>
+
+    /// Команда сохранения записи.
+
+    /// </summary>
 
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
 

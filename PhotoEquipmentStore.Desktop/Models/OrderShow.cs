@@ -3,7 +3,10 @@ using Avalonia.Media;
 using PhotoEquipmentStore.Helper;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Модель заказа для списка продавца.
+/// </summary>
+
 
 public class OrderShow : ReactiveObject
 {
@@ -20,6 +23,12 @@ public class OrderShow : ReactiveObject
     private decimal _totalSum;
     private bool _isRevealed;
 
+    /// <summary>
+
+    /// Уникальный идентификатор записи.
+
+    /// </summary>
+
     public string Id
     {
         get => _id;
@@ -31,6 +40,12 @@ public class OrderShow : ReactiveObject
         get => _clientId;
         set => this.RaiseAndSetIfChanged(ref _clientId, value);
     }
+
+    /// <summary>
+
+    /// Имя клиента заказа.
+
+    /// </summary>
 
     public string ClientName
     {
@@ -52,11 +67,23 @@ public class OrderShow : ReactiveObject
 
     public string DiscountClientShow => $"{_discountClient}%";
 
+    /// <summary>
+
+    /// Идентификатор пользователя.
+
+    /// </summary>
+
     public int UserId
     {
         get => _userId;
         set => this.RaiseAndSetIfChanged(ref _userId, value);
     }
+
+    /// <summary>
+
+    /// ФИО пользователя.
+
+    /// </summary>
 
     public string UserName
     {
@@ -87,6 +114,12 @@ public class OrderShow : ReactiveObject
         get => _totalSum;
         set => this.RaiseAndSetIfChanged(ref _totalSum, value);
     }
+
+    /// <summary>
+
+    /// Признак раскрытия персональных данных клиента.
+
+    /// </summary>
 
     public bool IsRevealed
     {

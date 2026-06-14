@@ -8,6 +8,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Боковая панель навигации с меню и информацией о пользователе.
+/// </summary>
+
+
 public partial class SidebarControl : UserControl
 {
 
@@ -27,11 +32,23 @@ public partial class SidebarControl : UserControl
         AvaloniaProperty.Register<SidebarControl, ReactiveCommand<Unit, Unit>>(
             nameof(LogoutCommand));
 
+    /// <summary>
+
+    /// Пункты меню боковой панели.
+
+    /// </summary>
+
     public ObservableCollection<NavigationMenuItem> MenuItems
     {
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
     }
+
+    /// <summary>
+
+    /// Выбранный пункт меню.
+
+    /// </summary>
 
     public NavigationMenuItem SelectedMenuItem
     {
@@ -45,11 +62,23 @@ public partial class SidebarControl : UserControl
         }
     }
 
+    /// <summary>
+
+    /// Информация о текущем пользователе.
+
+    /// </summary>
+
     public UserInfo Username
     {
         get => GetValue(UsernameProperty);
         set => SetValue(UsernameProperty, value);
     }
+
+    /// <summary>
+
+    /// Команда выхода из системы.
+
+    /// </summary>
 
     public ReactiveCommand<Unit, Unit> LogoutCommand
     {

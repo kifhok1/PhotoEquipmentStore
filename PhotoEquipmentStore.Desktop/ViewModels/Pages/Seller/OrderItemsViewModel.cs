@@ -8,34 +8,79 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel просмотра состава заказа и оформления возврата.
+/// </summary>
+
 
 public class OrderItemsViewModel : ViewModelBase
 {
     private readonly OrderService _orderService = new();
 
     private OrderShow _order;
+    /// <summary>
+    /// Модель текущего заказа.
+    /// </summary>
     public OrderShow Order
     {
         get => _order;
         set => this.RaiseAndSetIfChanged(ref _order, value);
     }
 
+    /// <summary>
+
+    /// Позиции состава заказа.
+
+    /// </summary>
+
     public ObservableCollection<OrderItemShow> OrderItems { get; } = new();
 
+    /// <summary>
+
+    /// Команда возврата к оформлению заказа.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> GoBackCommand      { get; }
+    /// <summary>
+    /// Команда оформления возврата по заказу.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ReturnOrderCommand { get; }
+
+    /// <summary>
+
+    /// Сумма позиций без скидок.
+
+    /// </summary>
 
     public decimal Subtotal =>
         OrderItems.Sum(i => i.Price * i.Quantity);
+
+    /// <summary>
+
+    /// Сумма скидки по товарам.
+
+    /// </summary>
 
     public decimal ProductDiscount =>
         OrderItems.Sum(i => i.Price * i.Discount / 100m * i.Quantity);
 
     public decimal AfterProductDiscount => Subtotal - ProductDiscount;
 
+    /// <summary>
+
+    /// Сумма накопительной скидки клиента.
+
+    /// </summary>
+
     public decimal ClientDiscount =>
         AfterProductDiscount * Order.DiscountClient / 100m;
+
+    /// <summary>
+
+    /// Итоговая сумма заказа.
+
+    /// </summary>
 
     public decimal Total => AfterProductDiscount - ClientDiscount;
 
@@ -44,6 +89,12 @@ public class OrderItemsViewModel : ViewModelBase
     public bool HasClientDiscount  => Order.DiscountClient > 0;
 
     public bool IsStatusActive => Order.StatusId == "1";
+
+    /// <summary>
+
+    /// Подпись с количеством товаров в заказе.
+
+    /// </summary>
 
     public string ItemCountLabel
     {

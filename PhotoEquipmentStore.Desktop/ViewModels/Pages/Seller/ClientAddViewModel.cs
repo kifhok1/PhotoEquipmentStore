@@ -8,7 +8,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel создания и редактирования клиента.
+/// </summary>
+
 
 public class ClientAddViewModel : ViewModelBase
 {
@@ -16,10 +19,22 @@ public class ClientAddViewModel : ViewModelBase
     private readonly ClientShow? _editItem;
     private readonly ClientsService _clientsService = new ClientsService();
 
+    /// <summary>
+
+    /// Признак режима редактирования существующей записи.
+
+    /// </summary>
+
     public bool IsEdit => _editItem is not null;
+    /// <summary>
+    /// Заголовок страницы формы.
+    /// </summary>
     public string PageTitle => IsEdit ? "Редактировать клиента" : "Добавить клиента";
 
     private string _fullName = string.Empty;
+    /// <summary>
+    /// Полное имя клиента.
+    /// </summary>
     public string FullName
     {
         get => _fullName;
@@ -27,6 +42,9 @@ public class ClientAddViewModel : ViewModelBase
     }
 
     private string _phoneNumber = string.Empty;
+    /// <summary>
+    /// Номер телефона.
+    /// </summary>
     public string PhoneNumber
     {
         get => _phoneNumber;
@@ -34,13 +52,25 @@ public class ClientAddViewModel : ViewModelBase
     }
 
     private string _fullNameError = string.Empty;
+    /// <summary>
+    /// Текст ошибки валидации ФИО клиента.
+    /// </summary>
     public string FullNameError
     {
         get => _fullNameError;
         private set => this.RaiseAndSetIfChanged(ref _fullNameError, value);
     }
 
+    /// <summary>
+
+    /// Команда сохранения записи.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> SaveCommand  { get; }
+    /// <summary>
+    /// Команда сброса фильтров и поиска.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ResetCommand { get; }
 
     public ClientAddViewModel(Action goBack, ClientShow? editItem = null)

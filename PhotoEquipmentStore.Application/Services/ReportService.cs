@@ -9,13 +9,18 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис формирования аналитических отчётов и статистики дашборда.
+/// </summary>
 public class ReportService
 {
     private readonly ReportCommands _commands = new();
 
+    /// <summary>Возвращает минимальную и максимальную даты заказов в базе.</summary>
     public (DateTime Min, DateTime Max) GetOrderDateRange()
         => _commands.GetOrderDateRange();
 
+    /// <summary>Возвращает сводную статистику по заказам за день и месяц.</summary>
     public DashboardStatsDto GetDashboardStats()
     {
         try
@@ -28,6 +33,12 @@ public class ReportService
         catch (DatabaseException) { return DashboardStatsDto.Empty; }
     }
 
+    /// <summary>
+    /// Формирует отчёт по продажам за указанный период и сохраняет в XLSX.
+    /// </summary>
+    /// <param name="from">Начало периода.</param>
+    /// <param name="to">Конец периода.</param>
+    /// <param name="pickSavePath">Делегат выбора пути сохранения файла.</param>
     public async Task<ReportResultDto> BuildSalesReportAsync(
         DateTime from, DateTime to,
         Func<string, Task<string?>> pickSavePath)
@@ -54,6 +65,12 @@ public class ReportService
         }
     }
 
+    /// <summary>
+    /// Формирует отчёт по остаткам товаров на складе и сохраняет в XLSX.
+    /// </summary>
+    /// <param name="categoryId">Идентификатор категории; null — все категории.</param>
+    /// <param name="categoryName">Название категории для заголовка отчёта.</param>
+    /// <param name="pickSavePath">Делегат выбора пути сохранения файла.</param>
     public async Task<ReportResultDto> BuildStockReportAsync(
         int? categoryId, string categoryName,
         Func<string, Task<string?>> pickSavePath)
@@ -80,6 +97,13 @@ public class ReportService
         }
     }
 
+    /// <summary>
+    /// Формирует отчёт по популярности товаров и сохраняет в XLSX.
+    /// </summary>
+    /// <param name="categoryId">Идентификатор категории; null — все категории.</param>
+    /// <param name="categoryName">Название категории для заголовка отчёта.</param>
+    /// <param name="mode">Режим сортировки и фильтрации популярности.</param>
+    /// <param name="pickSavePath">Делегат выбора пути сохранения файла.</param>
     public async Task<ReportResultDto> BuildPopularityReportAsync(
         int? categoryId, string categoryName, PopularityMode mode,
         Func<string, Task<string?>> pickSavePath)

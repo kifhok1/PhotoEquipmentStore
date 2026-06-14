@@ -1,6 +1,9 @@
 using PhotoEquipmentStore.Models;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// Приветственный экран раздела продавца.
+/// </summary>
+
 
 public class SellerWelcomeViewModel : ViewModelBase
 {

@@ -8,11 +8,13 @@
              x:DataType="vm:OrdersViewModel"
              xmlns:controls="using:PhotoEquipmentStore.Controls"
              xmlns:conv="using:PhotoEquipmentStore.Converters">
+    <!-- Файл: Список заказов с поиском, DataGrid, пагинацией и легендой цветов суммы. -->
 
     <Design.DataContext>
         <vm:OrdersViewModel/>
     </Design.DataContext>
 
+    <!-- Локальные ресурсы и конвертеры представления -->
     <UserControl.Resources>
         <conv:ListToOrdersShowCollectionConverter x:Key="ListToOrdersConverter"/>
     </UserControl.Resources>
@@ -56,6 +58,7 @@
                             BorderBrush="{DynamicResource border}">
                         <Grid RowDefinitions="* Auto" RowSpacing="10">
 
+                            <!-- Таблица данных (только чтение) -->
                             <DataGrid Grid.Row="0"
                                       IsReadOnly="True"
                                       AutoGenerateColumns="False"
@@ -64,6 +67,7 @@
                                       CanUserSortColumns="False"
                                       BorderBrush="{DynamicResource border}"
                                       BorderThickness="0 0 0 1">
+                                <!-- Определение колонок таблицы -->
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Header="Номер заказа" Width="Auto">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -164,6 +168,7 @@
                                            VerticalAlignment="Center"
                                            Text="{Binding #OrdersPaginator.PageCountText}"/>
 
+                                <!-- Компонент постраничной навигации -->
                                 <controls:PaginationButtons
                                     x:Name="OrdersPaginator"
                                     Items="{Binding Orders}"

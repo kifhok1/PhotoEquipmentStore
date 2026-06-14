@@ -6,10 +6,16 @@ using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// Получение списка номеров телефонов пользователей и клиентов для проверки уникальности.
+/// </summary>
 public class Phone
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает объединённый список телефонов активных пользователей и клиентов.
+    /// </summary>
     public List<string> GetAllPhoneNumbers()
     {
         try

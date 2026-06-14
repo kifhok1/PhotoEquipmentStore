@@ -7,6 +7,7 @@
              x:Class="PhotoEquipmentStore.Controls.CapchaBox"
              x:Name="This"
              Background="{DynamicResource main_background}">
+    <!-- Файл: Карточка капчи: заголовок безопасности, ошибка, изображение капчи, ввод и прогресс-бар cooldown. -->
     <Border HorizontalAlignment="Center"
             VerticalAlignment="Center"
             CornerRadius="16"

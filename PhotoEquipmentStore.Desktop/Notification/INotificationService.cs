@@ -1,7 +1,10 @@
 using System.Threading.Tasks;
 using PhotoEquipmentStore.Models;
 
-namespace PhotoEquipmentStore.Notification;
+namespace PhotoEquipmentStore.Notification;/// <summary>
+/// Контракт сервиса модальных уведомлений приложения.
+/// </summary>
+
 
 public interface INotificationService
 {

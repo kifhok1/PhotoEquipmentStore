@@ -7,12 +7,14 @@
              mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.RootUserView"
              x:DataType="vm:RootUserViewModel">
+    <!-- Файл: Shell root-пользователя: SidebarControl + ContentControl. -->
     <Design.DataContext>
         <vm:RootUserViewModel/>
     </Design.DataContext>
     <Border>
         <Grid ColumnDefinitions="250,*">
 
+            <!-- Боковая панель навигации: пункты меню, пользователь, выход -->
             <controls:SidebarControl
                 Grid.Column="0"
                 SelectedMenuItem="{Binding SelectedNavigationMenuItem, Mode=TwoWay}"

@@ -1,6 +1,9 @@
 
 namespace PhotoEquipmentStore.Domain.Entities;
 
+/// <summary>
+/// Строка отчёта по остаткам на складе с данными о товаре и его справочниках.
+/// </summary>
 public class StockReportData
 {
     public int    ProductId        { get; }

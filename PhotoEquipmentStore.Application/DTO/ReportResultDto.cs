@@ -1,6 +1,9 @@
 
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат формирования и сохранения отчёта.
+/// </summary>
 public class ReportResultDto
 {
     public bool    IsSuccess    { get; init; }

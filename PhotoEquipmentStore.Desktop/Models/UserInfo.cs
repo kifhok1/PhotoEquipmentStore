@@ -1,6 +1,9 @@
 using Avalonia.Media.Imaging;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Краткая информация об авторизованном пользователе для боковой панели.
+/// </summary>
+
 
 public class UserInfo
 {
@@ -8,6 +11,12 @@ public class UserInfo
     private string userRole;
     private Bitmap userImage;
     private int userId;
+
+    /// <summary>
+
+    /// Идентификатор пользователя.
+
+    /// </summary>
 
     public int UserId
     {
@@ -17,6 +26,12 @@ public class UserInfo
         }
     }
 
+    /// <summary>
+
+    /// ФИО пользователя.
+
+    /// </summary>
+
     public string UserName
     {
         get
@@ -25,6 +40,12 @@ public class UserInfo
         }
     }
 
+    /// <summary>
+
+    /// Роль пользователя.
+
+    /// </summary>
+
     public string UserRole
     {
         get
@@ -32,6 +53,12 @@ public class UserInfo
             return userRole;
         }
     }
+
+    /// <summary>
+
+    /// Аватар пользователя.
+
+    /// </summary>
 
     public Bitmap UserImage
     {

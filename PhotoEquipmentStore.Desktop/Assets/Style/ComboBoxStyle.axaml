@@ -3,6 +3,7 @@
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:behaviors="clr-namespace:PhotoEquipmentStore.Behaviors">
+    <!-- Файл: Шаблон ComboBox с chevron, popup и поведением скругления при открытии. -->
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource main_background}">
             <StackPanel Spacing="10" Width="160">

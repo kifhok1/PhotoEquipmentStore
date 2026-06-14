@@ -1,6 +1,9 @@
 using PhotoEquipmentStore.Models;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// Приветственный экран системного пользователя root.
+/// </summary>
+
 
 public class RootWelcomeViewModel : ViewModelBase
 {

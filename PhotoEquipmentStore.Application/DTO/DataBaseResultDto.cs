@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат операции с базой данных (резервное копирование, восстановление, экспорт).
+/// </summary>
 public class DataBaseResultDto
 {
     public bool    IsSuccess    { get; init; }

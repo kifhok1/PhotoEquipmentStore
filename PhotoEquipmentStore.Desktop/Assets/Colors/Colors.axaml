@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: Словарь цветовых ресурсов: палитры Light/Dark и семантические цвета (primary, accent, error и т.д.). -->
     <ResourceDictionary.ThemeDictionaries>
 
+        <!-- Светлая тема: фоны, поверхности, текст -->
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="main_background" Color="#EAEFF9"/>
             <SolidColorBrush x:Key="secondary_background" Color="#DCE4F4"/>
@@ -15,6 +17,7 @@
             <SolidColorBrush x:Key="muted_text" Color="#9BA3BF"/>
         </ResourceDictionary>
 
+        <!-- Тёмная тема: фоны, поверхности, текст -->
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="main_background" Color="#090B10"/>
             <SolidColorBrush x:Key="secondary_background" Color="#10131E"/>

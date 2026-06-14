@@ -9,6 +9,7 @@
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.OrderAddView"
              xmlns:views="clr-namespace:PhotoEquipmentStore.Views.Pages.Seller"
              x:DataType="vm:OrderAddViewModel">
+    <!-- Файл: POS-экран оформления заказа: сетка ProductCard, детали товара, корзина. -->
 
     <Border Background="{DynamicResource main_background}">
         <Border Background="{DynamicResource main_background}">
@@ -21,6 +22,7 @@
         <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
+    <!-- Левая колонка: каталог товаров с фильтрами -->
     <DockPanel Grid.Column="0" Margin="16,16,8,16">
         <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,14">
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
@@ -29,6 +31,7 @@
                          Text="{Binding SearchText}"
                          CornerRadius="10"
                          Padding="12,9"/>
+                <!-- Центральная колонка: детали выбранного товара -->
                 <Button Grid.Column="1"
                         Content="Очистить"
                         Classes="Secondary"
@@ -56,6 +59,7 @@
                        VerticalAlignment="Center"
                        Text="{Binding #Paginator.PageCountText}"/>
 
+            <!-- Компонент постраничной навигации -->
             <controls:PaginationButtons
                 x:Name="Paginator"
                 HorizontalAlignment="Right"
@@ -64,8 +68,10 @@
                 PageSize="20"/>
         </Panel>
 
+        <!-- Прокручиваемая область содержимого -->
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
+            <!-- Сетка карточек товаров текущей страницы -->
             <ItemsRepeater ItemsSource="{Binding #Paginator.CurrentPageItems}"
                            HorizontalAlignment="Center"
                            Margin="0,4,0,4">
@@ -78,6 +84,7 @@
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderProductShow">
+                        <!-- Карточка товара в каталоге заказа -->
                         <controls:ProductCard
                             Product="{Binding}"
                             SelectCommand="{Binding $parent[ItemsRepeater].((vm:OrderAddViewModel)DataContext).SelectProductCommand}"
@@ -180,6 +187,7 @@
                 </StackPanel>
             </Button>
 
+            <!-- Прокручиваемая область содержимого -->
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Spacing="0">
 
@@ -308,6 +316,7 @@
         </DockPanel>
     </Border>
 
+    <!-- Правая колонка: корзина и выбор клиента -->
     <Border Grid.Column="2"
             Width="300"
             Background="{DynamicResource surface}"
@@ -370,6 +379,7 @@
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,6,6"
                             ClipToBounds="True">
+                        <!-- Прокручиваемая область содержимого -->
                         <ScrollViewer VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled">
                             <ItemsControl ItemsSource="{Binding FilteredClients}">
@@ -502,10 +512,12 @@
                         Command="{Binding ConfirmOrderCommand}"/>
             </StackPanel>
 
+            <!-- Прокручиваемая область содержимого -->
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding CartItems}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="models:OrderCartItem">
+                            <!-- Строка товара в корзине -->
                             <controls:CartItem
                                 Item="{Binding}"
                                 IncreaseCommand="{Binding $parent[ItemsControl].((vm:OrderAddViewModel)DataContext).IncreaseQuantityCommand}"

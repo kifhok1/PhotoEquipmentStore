@@ -7,6 +7,10 @@ using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение латинского ввода: английские буквы, цифры и спецсимволы.
+/// Обрабатывает событие <see cref="InputElement.TextInputEvent"/>.
+/// </summary>
 public class LatinInputBehavior : Behavior<TextBox>
 {
     private static readonly Regex Allowed =

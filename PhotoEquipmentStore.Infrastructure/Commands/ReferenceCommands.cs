@@ -7,10 +7,16 @@ using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// CRUD-операции со справочниками (роли, статусы, категории, поставщики, производители).
+/// </summary>
 public class ReferenceCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает список ролей с количеством привязанных пользователей.
+    /// </summary>
     public static ObservableCollection<Reference> GetRoles()
     {
         const string query = @"
@@ -26,6 +32,9 @@ public class ReferenceCommands
         return ExecuteReferenceQuery(query, "Ошибка при получении списка ролей.");
     }
 
+    /// <summary>
+    /// Возвращает список статусов заказов с количеством связанных заказов.
+    /// </summary>
     public static ObservableCollection<Reference> GetOrderStatuses()
     {
         const string query = @"
@@ -41,6 +50,9 @@ public class ReferenceCommands
         return ExecuteReferenceQuery(query, "Ошибка при получении списка статусов заказов.");
     }
 
+    /// <summary>
+    /// Возвращает список категорий товаров с количеством привязанных товаров.
+    /// </summary>
     public static ObservableCollection<Reference> GetCategories()
     {
         const string query = @"
@@ -56,6 +68,9 @@ public class ReferenceCommands
         return ExecuteReferenceQuery(query, "Ошибка при получении списка категорий.");
     }
 
+    /// <summary>
+    /// Возвращает список поставщиков с количеством привязанных товаров.
+    /// </summary>
     public static ObservableCollection<Reference> GetSuppliers()
     {
         const string query = @"
@@ -71,6 +86,9 @@ public class ReferenceCommands
         return ExecuteReferenceQuery(query, "Ошибка при получении списка поставщиков.");
     }
 
+    /// <summary>
+    /// Возвращает список производителей с количеством привязанных товаров.
+    /// </summary>
     public static ObservableCollection<Reference> GetManufacturers()
     {
         const string query = @"
@@ -86,6 +104,9 @@ public class ReferenceCommands
         return ExecuteReferenceQuery(query, "Ошибка при получении списка производителей.");
     }
 
+    /// <summary>
+    /// Создаёт новую запись в указанном справочнике.
+    /// </summary>
     public bool CreateReference(string table, string name)
     {
         try
@@ -110,6 +131,9 @@ public class ReferenceCommands
         }
     }
 
+    /// <summary>
+    /// Обновляет наименование записи в указанном справочнике.
+    /// </summary>
     public bool UpdateReference(string table, Reference reference)
     {
         try
@@ -135,6 +159,9 @@ public class ReferenceCommands
         }
     }
 
+    /// <summary>
+    /// Удаляет запись из указанного справочника по идентификатору.
+    /// </summary>
     public bool DeleteReference(string table, int id)
     {
         try
@@ -159,6 +186,9 @@ public class ReferenceCommands
         }
     }
 
+    /// <summary>
+    /// Проверяет, существует ли запись с таким наименованием; при редактировании исключает текущую.
+    /// </summary>
     public bool NameExists(string table, string name, int? excludeId = null)
     {
         try
@@ -187,6 +217,9 @@ public class ReferenceCommands
         }
     }
 
+    /// <summary>
+    /// Выполняет запрос справочника и формирует коллекцию с признаком возможности удаления.
+    /// </summary>
     private static ObservableCollection<Reference> ExecuteReferenceQuery(string query, string errorMessage)
     {
         try
@@ -205,6 +238,7 @@ public class ReferenceCommands
                     reader.GetInt32("id"),
                     reader.GetString("name"),
                     reader.GetInt32("cnt"),
+                    // isDeleted = true, если нет связанных записей и запись можно удалить
                     reader.GetBoolean("isDeleted")
                 ));
             }

@@ -13,6 +13,9 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис операций с базой данных: резервное копирование, восстановление и экспорт.
+/// </summary>
 public class DatabaseService : IDatabaseService
 {
     private readonly DatabaseCommands _commands = new();
@@ -20,6 +23,8 @@ public class DatabaseService : IDatabaseService
     private static readonly string DefaultDumpPath = Path.Combine(
         AppContext.BaseDirectory, "Scripts", "default_dump.sql");
 
+    /// <summary>Создаёт резервную копию базы данных.</summary>
+    /// <param name="outputPath">Путь для сохранения дампа.</param>
     public async Task<DataBaseResultDto> CreateBackupAsync(string outputPath)
     {
         try
@@ -34,6 +39,8 @@ public class DatabaseService : IDatabaseService
         }
     }
 
+    /// <summary>Восстанавливает структуру БД из SQL-файла или дампа по умолчанию.</summary>
+    /// <param name="sqlFilePath">Путь к SQL-файлу; при null используется файл по умолчанию.</param>
     public async Task<DataBaseResultDto> RestoreStructureAsync(string? sqlFilePath)
     {
         try
@@ -52,6 +59,9 @@ public class DatabaseService : IDatabaseService
         }
     }
 
+    /// <summary>Экспортирует таблицу в CSV-файл.</summary>
+    /// <param name="tableName">Имя таблицы.</param>
+    /// <param name="outputPath">Путь для сохранения файла.</param>
     public async Task<DataBaseResultDto> ExportTableCsvAsync(string tableName, string outputPath)
     {
         try
@@ -71,6 +81,9 @@ public class DatabaseService : IDatabaseService
         }
     }
 
+    /// <summary>Экспортирует таблицу в XLSX-файл.</summary>
+    /// <param name="tableName">Имя таблицы.</param>
+    /// <param name="outputPath">Путь для сохранения файла.</param>
     public async Task<DataBaseResultDto> ExportTableXlsxAsync(string tableName, string outputPath)
     {
         try
@@ -90,6 +103,9 @@ public class DatabaseService : IDatabaseService
         }
     }
 
+    /// <summary>Экспортирует все таблицы в ZIP-архив указанного формата.</summary>
+    /// <param name="outputFolderPath">Папка для сохранения архива.</param>
+    /// <param name="format">Формат файлов: csv или xlsx.</param>
     public async Task<DataBaseResultDto> ExportAllTablesAsync(string outputFolderPath, string format)
     {
         var tempDir = Path.Combine(Path.GetTempPath(), $"db_export_{Guid.NewGuid():N}");

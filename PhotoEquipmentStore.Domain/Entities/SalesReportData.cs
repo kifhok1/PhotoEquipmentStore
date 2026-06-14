@@ -2,6 +2,9 @@ using System;
 
 namespace PhotoEquipmentStore.Domain.Entities;
 
+/// <summary>
+/// Строка отчёта по продажам: данные заказа, клиента, сотрудника и итоговые суммы за период.
+/// </summary>
 public class SalesReportData
 {
     public string   OrderId       { get; }

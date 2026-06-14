@@ -1,6 +1,10 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace PhotoEquipmentStore.Application.Reports;
+
+/// <summary>
+/// Фабрика стилей ячеек для формирования XLSX-отчётов.
+/// </summary>
 internal class StyleFactory
 {
     private readonly Stylesheet       _styles;
@@ -30,6 +34,8 @@ internal class StyleFactory
         styles.NumberingFormats = _numFmts;
     }
 
+    /// <summary>Создаёт стиль заголовка таблицы с заданным цветом фона.</summary>
+    /// <param name="hexColor">Цвет фона в формате HEX.</param>
     public uint Header(string hexColor)
     {
         uint fontId = AddFont(true, "FFFFFF");
@@ -37,18 +43,21 @@ internal class StyleFactory
         return AddFormat(fontId, fillId, halign: HorizontalAlignmentValues.Center);
     }
 
+    /// <summary>Создаёт стиль для метаинформации в шапке отчёта.</summary>
     public uint MetaText()
     {
         uint fontId = AddFont(false, "808080");
         return AddFormat(fontId, 1);
     }
 
+    /// <summary>Создаёт стиль для чередующихся строк таблицы.</summary>
     public uint AltRow()
     {
         uint fillId = AddFill("F2F2F2");
         return AddFormat(0, fillId);
     }
 
+    /// <summary>Создаёт стиль для итоговой строки таблицы.</summary>
     public uint TotalRow()
     {
         uint fontId = AddFont(true, "000000");
@@ -56,12 +65,15 @@ internal class StyleFactory
         return AddFormat(fontId, fillId);
     }
 
+    /// <summary>Создаёт стиль для выделения текста красным цветом.</summary>
     public uint RedText()
     {
         uint fontId = AddFont(true, "E74C3C");
         return AddFormat(fontId, 1);
     }
 
+    /// <summary>Создаёт стиль медали (золото/серебро/бронза) для рейтинговых отчётов.</summary>
+    /// <param name="hexColor">Цвет фона в формате HEX.</param>
     public uint Medal(string hexColor)
     {
         uint fontId = AddFont(true, "000000");
@@ -69,6 +81,7 @@ internal class StyleFactory
         return AddFormat(fontId, fillId, halign: HorizontalAlignmentValues.Center);
     }
 
+    /// <summary>Создаёт стиль для отображения денежных сумм с двумя знаками после запятой.</summary>
     public uint Money()
     {
         uint numFmtId = _fmtIdx++;

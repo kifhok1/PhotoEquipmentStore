@@ -9,22 +9,40 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// ViewModel списка пользователей с редактированием и удалением.
+/// </summary>
+
 
 public partial class UsersViewModel : ViewModelBase
 {
+    /// <summary>
+    /// Список пользователей.
+    /// </summary>
     public ObservableCollection<UserShow> Users { get; } = new();
     private UsersService _usersService = new UsersService();
     private readonly int _currentUserId;
 
     private string _usersCount = string.Empty;
+    /// <summary>
+    /// Подпись с количеством пользователей.
+    /// </summary>
     public string UsersCount
     {
         get => _usersCount;
         set => this.RaiseAndSetIfChanged(ref _usersCount, value);
     }
 
+    /// <summary>
+
+    /// Команда перехода к редактированию записи.
+
+    /// </summary>
+
     public ReactiveCommand<UserShow, Unit> EditCommand   { get; }
+    /// <summary>
+    /// Команда удаления записи.
+    /// </summary>
     public ReactiveCommand<UserShow, Unit> DeleteCommand { get; }
 
     public UsersViewModel(Action<UserShow>? goToEdit = null, int currentUserId = 0)

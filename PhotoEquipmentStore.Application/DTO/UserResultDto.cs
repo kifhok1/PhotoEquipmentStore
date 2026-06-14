@@ -4,6 +4,9 @@ using PhotoEquipmentStore.Domain.Entities;
 
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат операции с пользователями системы.
+/// </summary>
 public class UserResultDto
 {
     public bool IsSuccess      { get; init; }

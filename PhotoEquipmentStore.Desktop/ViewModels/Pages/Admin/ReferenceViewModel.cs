@@ -8,7 +8,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
+namespace PhotoEquipmentStore.ViewModels.Pages.Admin;/// <summary>
+/// ViewModel списка справочников с переключением типов.
+/// </summary>
+
 
 public partial class ReferenceViewModel : ViewModelBase
 {
@@ -21,6 +24,12 @@ public partial class ReferenceViewModel : ViewModelBase
     private bool _isCreateDeleteVisible = false;
     private ReferenceType _selectedReferenceType = ReferenceType.Role;
     private ReferenceService _referenceService = new ReferenceService();
+
+    /// <summary>
+
+    /// Выбрана вкладка справочника «Роли».
+
+    /// </summary>
 
     public bool IsSelectedRole
     {
@@ -35,6 +44,12 @@ public partial class ReferenceViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+
+    /// Выбрана вкладка справочника «Поставщики».
+
+    /// </summary>
+
     public bool IsSelectedSupplier
     {
         get => _isSelectedSupplier;
@@ -47,6 +62,12 @@ public partial class ReferenceViewModel : ViewModelBase
             IsCreateDeleteVisible  = true;
         }
     }
+
+    /// <summary>
+
+    /// Выбрана вкладка справочника «Производители».
+
+    /// </summary>
 
     public bool IsSelectedManufacture
     {
@@ -61,6 +82,12 @@ public partial class ReferenceViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+
+    /// Выбрана вкладка справочника «Категории».
+
+    /// </summary>
+
     public bool IsSelectedCategory
     {
         get => _isSelectedCategory;
@@ -73,6 +100,12 @@ public partial class ReferenceViewModel : ViewModelBase
             IsCreateDeleteVisible  = true;
         }
     }
+
+    /// <summary>
+
+    /// Выбрана вкладка справочника «Статусы заказа».
+
+    /// </summary>
 
     public bool IsSelectedStatusOrder
     {
@@ -87,6 +120,12 @@ public partial class ReferenceViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+
+    /// Признак видимости кнопок создания и удаления.
+
+    /// </summary>
+
     public bool IsCreateDeleteVisible
     {
         get => _isCreateDeleteVisible;
@@ -96,11 +135,23 @@ public partial class ReferenceViewModel : ViewModelBase
     private ObservableCollection<ReferenceShow> _currentReferences = new();
     private string _countReferences = string.Empty;
 
+    /// <summary>
+
+    /// Текущий список записей справочника.
+
+    /// </summary>
+
     public ObservableCollection<ReferenceShow> CurrentReferences
     {
         get => _currentReferences;
         private set => this.RaiseAndSetIfChanged(ref _currentReferences, value);
     }
+
+    /// <summary>
+
+    /// Подпись с количеством записей.
+
+    /// </summary>
 
     public string CountReferences
     {
@@ -116,9 +167,27 @@ public partial class ReferenceViewModel : ViewModelBase
         CountReferences = $"Количество записей на форме: {CurrentReferences.Count}";
     }
 
+    /// <summary>
+
+    /// Команда перехода к добавлению справочника.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> AddReferenceCommand { get; }
 
+    /// <summary>
+
+    /// Команда редактирования записи справочника.
+
+    /// </summary>
+
     public ReactiveCommand<ReferenceShow, Unit> EditReferenceCommand { get; }
+
+    /// <summary>
+
+    /// Команда удаления записи.
+
+    /// </summary>
 
     public ReactiveCommand<ReferenceShow, Unit> DeleteCommand { get; }
 

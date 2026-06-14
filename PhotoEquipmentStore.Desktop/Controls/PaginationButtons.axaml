@@ -5,6 +5,7 @@
              x:Class="PhotoEquipmentStore.Controls.PaginationButtons"
              x:DataType="local:PaginationButtons"
              x:Name="This">
+    <!-- Файл: Горизонтальная панель пагинации: «назад», номера страниц, «вперёд». -->
 
     <StackPanel Orientation="Horizontal"
                 Spacing="2"

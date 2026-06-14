@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Данные для формирования PDF-чека по заказу.
+/// </summary>
 public class ReceiptData
 {
     public string OrderNumber      { get; init; } = "";
@@ -22,6 +25,9 @@ public class ReceiptData
     public int Total               { get; init; }
 }
 
+/// <summary>
+/// Позиция товара в чеке.
+/// </summary>
 public class ReceiptItem
 {
     public string Name         { get; init; } = "";

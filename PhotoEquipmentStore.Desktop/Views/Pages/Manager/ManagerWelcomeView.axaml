@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Manager"
              x:DataType="vm:ManagerWelcomeViewModel"
              x:Class="PhotoEquipmentStore.Views.Pages.Manager.ManagerWelcomeView">
+    <!-- Файл: Приветственный экран менеджера. -->
     <Border Background="{DynamicResource main_background}" >
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"

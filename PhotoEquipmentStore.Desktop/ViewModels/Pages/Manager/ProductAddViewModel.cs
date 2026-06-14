@@ -11,7 +11,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
+namespace PhotoEquipmentStore.ViewModels.Pages.Manager;/// <summary>
+/// ViewModel создания и редактирования товара.
+/// </summary>
+
 
 public class ProductAddViewModel : ViewModelBase
 {
@@ -20,10 +23,22 @@ public class ProductAddViewModel : ViewModelBase
     private ProductsService _productsService = new ProductsService();
     private ReferenceService _referenceService = new ReferenceService();
 
+    /// <summary>
+
+    /// Признак режима редактирования существующей записи.
+
+    /// </summary>
+
     public bool   IsEdit    => _editItem is not null;
+    /// <summary>
+    /// Заголовок страницы формы.
+    /// </summary>
     public string PageTitle => IsEdit ? "Редактировать товар" : "Создать товар";
 
     private string _name = string.Empty;
+    /// <summary>
+    /// Наименование или ФИО.
+    /// </summary>
     public string Name
     {
         get => _name;
@@ -31,6 +46,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private string _description = string.Empty;
+    /// <summary>
+    /// Описание товара.
+    /// </summary>
     public string Description
     {
         get => _description;
@@ -38,6 +56,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private string _price = string.Empty;
+    /// <summary>
+    /// Цена товара.
+    /// </summary>
     public string Price
     {
         get => _price;
@@ -45,6 +66,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private string _quantity = string.Empty;
+    /// <summary>
+    /// Количество на складе или в позиции.
+    /// </summary>
     public string Quantity
     {
         get => _quantity;
@@ -52,6 +76,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private string _discount = string.Empty;
+    /// <summary>
+    /// Размер скидки.
+    /// </summary>
     public string Discount
     {
         get => _discount;
@@ -59,6 +86,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private ReferenceShow? _selectedCategory;
+    /// <summary>
+    /// Выбранная категория фильтра.
+    /// </summary>
     public ReferenceShow? SelectedCategory
     {
         get => _selectedCategory;
@@ -66,6 +96,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private ReferenceShow? _selectedManufacturer;
+    /// <summary>
+    /// Выбранный производитель товара.
+    /// </summary>
     public ReferenceShow? SelectedManufacturer
     {
         get => _selectedManufacturer;
@@ -73,6 +106,9 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private ReferenceShow? _selectedSupplier;
+    /// <summary>
+    /// Выбранный поставщик товара.
+    /// </summary>
     public ReferenceShow? SelectedSupplier
     {
         get => _selectedSupplier;
@@ -80,17 +116,41 @@ public class ProductAddViewModel : ViewModelBase
     }
 
     private Bitmap? _productImage;
+    /// <summary>
+    /// Изображение товара.
+    /// </summary>
     public Bitmap? ProductImage
     {
         get => _productImage;
         set => this.RaiseAndSetIfChanged(ref _productImage, value);
     }
 
+    /// <summary>
+
+    /// Список категорий для фильтра.
+
+    /// </summary>
+
     public ObservableCollection<ReferenceShow> Categories    { get; } = new();
+    /// <summary>
+    /// Список производителей.
+    /// </summary>
     public ObservableCollection<ReferenceShow> Manufacturers { get; } = new();
+    /// <summary>
+    /// Список поставщиков.
+    /// </summary>
     public ObservableCollection<ReferenceShow> Suppliers     { get; } = new();
 
+    /// <summary>
+
+    /// Команда сохранения записи.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> SaveCommand  { get; }
+    /// <summary>
+    /// Команда сброса фильтров и поиска.
+    /// </summary>
     public ReactiveCommand<Unit, Unit> ResetCommand { get; }
 
     public ProductAddViewModel(Action goBack, ProductsShow? editItem = null)

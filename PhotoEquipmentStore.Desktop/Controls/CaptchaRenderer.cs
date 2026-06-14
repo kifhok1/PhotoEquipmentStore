@@ -5,7 +5,10 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using PhotoEquipmentStore.Helper;
 
-namespace PhotoEquipmentStore.Controls;
+namespace PhotoEquipmentStore.Controls;/// <summary>
+/// Элемент отрисовки графической CAPTCHA с искажёнными символами.
+/// </summary>
+
 
 public class CaptchaRenderer : Control
 {
@@ -45,6 +48,12 @@ public class CaptchaRenderer : Control
         2 => new Point(pos * w,   0),
         _ => new Point(pos * w,   h),
     };
+
+    /// <summary>
+
+    /// Генерирует и отображает новую CAPTCHA с заданным текстом.
+
+    /// </summary>
 
     public void SetCaptcha(string text)
     {
@@ -112,6 +121,12 @@ public class CaptchaRenderer : Control
 
         InvalidateVisual();
     }
+
+    /// <summary>
+
+    /// Отрисовывает CAPTCHA на холсте элемента.
+
+    /// </summary>
 
     public override void Render(DrawingContext ctx)
     {

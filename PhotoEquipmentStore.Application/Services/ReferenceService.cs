@@ -9,6 +9,9 @@ using PhotoEquipmentStore.Infrastructure.Exceptions;
 
 namespace PhotoEquipmentStore.Application.Services;
 
+/// <summary>
+/// Сервис управления справочными данными (роли, категории, поставщики и т.д.).
+/// </summary>
 public class ReferenceService : IReferenceService
 {
     private readonly ReferenceCommands _commands = new();
@@ -33,6 +36,7 @@ public class ReferenceService : IReferenceService
         _ => "справочник"
     };
 
+    /// <summary>Возвращает список ролей пользователей.</summary>
     public ReferenceResultDto GetRoles()
     {
         try
@@ -45,6 +49,7 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Возвращает список статусов заказов.</summary>
     public ReferenceResultDto GetOrderStatuses()
     {
         try
@@ -57,6 +62,7 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Возвращает список категорий товаров.</summary>
     public ReferenceResultDto GetCategories()
     {
         try
@@ -69,6 +75,7 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Возвращает список поставщиков.</summary>
     public ReferenceResultDto GetSuppliers()
     {
         try
@@ -81,6 +88,7 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Возвращает список производителей.</summary>
     public ReferenceResultDto GetManufacturers()
     {
         try
@@ -93,6 +101,9 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Создаёт новую запись в указанном справочнике.</summary>
+    /// <param name="type">Тип справочника.</param>
+    /// <param name="name">Наименование записи.</param>
     public ReferenceResultDto Create(ReferenceType type, string name)
     {
         try
@@ -117,6 +128,9 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Обновляет существующую запись справочника.</summary>
+    /// <param name="type">Тип справочника.</param>
+    /// <param name="reference">Данные записи для обновления.</param>
     public ReferenceResultDto Update(ReferenceType type, Reference reference)
     {
         try
@@ -139,6 +153,9 @@ public class ReferenceService : IReferenceService
         }
     }
 
+    /// <summary>Удаляет запись из справочника, если нет связанных товаров.</summary>
+    /// <param name="type">Тип справочника.</param>
+    /// <param name="id">Идентификатор записи.</param>
     public ReferenceResultDto Delete(ReferenceType type, int id)
     {
         try
@@ -149,6 +166,7 @@ public class ReferenceService : IReferenceService
             if (target is null)
                 return ReferenceResultDto.Failure("Запись не найдена.");
 
+            // Удаление запрещено, если запись используется в связанных товарах
             if (target.Count > 0)
                 return ReferenceResultDto.Failure(
                     $"Нельзя удалить «{target.Name}»: есть {target.Count} связанных товаров.");

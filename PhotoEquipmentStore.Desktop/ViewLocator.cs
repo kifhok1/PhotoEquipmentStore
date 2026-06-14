@@ -9,8 +9,16 @@ namespace PhotoEquipmentStore;
 [RequiresUnreferencedCode(
     "Default implementation of ViewLocator involves reflection which may be trimmed away.",
     Url = "https://docs.avaloniaui.net/docs/concepts/view-locator")]
+/// <summary>
+/// Локатор представлений: сопоставляет ViewModel с соответствующим View по соглашению об именовании.
+/// </summary>
 public class ViewLocator : IDataTemplate
 {
+    /// <summary>
+    /// Создаёт экземпляр View для переданной ViewModel через рефлексию.
+    /// </summary>
+    /// <param name="data">Объект ViewModel.</param>
+    /// <returns>Элемент управления или текстовое сообщение об ошибке.</returns>
     public Control? Build(object? data)
     {
         if (data is null)
@@ -40,6 +48,11 @@ public class ViewLocator : IDataTemplate
         return new TextBlock { Text = "Not Found: " + name };
     }
 
+    /// <summary>
+    /// Определяет, подходит ли данный шаблон для объекта (наследник <see cref="ViewModelBase"/>).
+    /// </summary>
+    /// <param name="data">Проверяемый объект контекста данных.</param>
+    /// <returns><c>true</c>, если объект является ViewModel.</returns>
     public bool Match(object? data)
     {
         return data is ViewModelBase;

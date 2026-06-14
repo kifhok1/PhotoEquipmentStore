@@ -1,6 +1,9 @@
 using Avalonia.Media.Imaging;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Модель пользователя для отображения в списке администратора.
+/// </summary>
+
 
 public class UserShow
 {
@@ -12,11 +15,23 @@ public class UserShow
     private int roleID;
     private Bitmap? image = null;
 
+    /// <summary>
+
+    /// Уникальный идентификатор записи.
+
+    /// </summary>
+
     public int Id
     {
         get => id;
         set => id = value;
     }
+
+    /// <summary>
+
+    /// Наименование или ФИО.
+
+    /// </summary>
 
     public string Name
     {
@@ -24,11 +39,23 @@ public class UserShow
         set => name = value;
     }
 
+    /// <summary>
+
+    /// Логин пользователя.
+
+    /// </summary>
+
     public string Login
     {
         get => login;
         set => login = value;
     }
+
+    /// <summary>
+
+    /// Номер телефона.
+
+    /// </summary>
 
     public string PhoneNumber
     {
@@ -54,10 +81,22 @@ public class UserShow
         set => image = value;
     }
 
+    /// <summary>
+
+    /// Признак наличия изображения.
+
+    /// </summary>
+
     public bool IsVisibleImage
     {
         get => image != null;
     }
+
+    /// <summary>
+
+    /// Признак, что запись относится к текущему пользователю.
+
+    /// </summary>
 
     public bool IsSelf { get; }
 

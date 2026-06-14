@@ -9,10 +9,18 @@ using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение маски телефона в формате +7(XXX) XXX-XX-XX.
+/// Обрабатывает <see cref="InputElement.TextInputEvent"/>, <see cref="InputElement.KeyDownEvent"/>,
+/// <see cref="InputElement.GotFocusEvent"/> и <see cref="InputElement.LostFocusEvent"/>.
+/// </summary>
 public class PhoneMaskBehavior : Behavior<TextBox>
 {
     private const string ErrorText = "Только цифры";
 
+    /// <summary>
+    /// Подписывается на ввод, клавиши и события фокуса текстового поля.
+    /// </summary>
     protected override void OnAttached()
     {
         base.OnAttached();
@@ -23,6 +31,9 @@ public class PhoneMaskBehavior : Behavior<TextBox>
         tb.LostFocus += OnLostFocus;
     }
 
+    /// <summary>
+    /// Отписывается от всех обработчиков ввода и фокуса.
+    /// </summary>
     protected override void OnDetaching()
     {
         var tb = AssociatedObject!;

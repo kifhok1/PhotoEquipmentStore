@@ -9,12 +9,18 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel списка заказов с поиском.
+/// </summary>
+
 
 public class OrdersViewModel : ViewModelBase
 {
     private readonly OrderService _orderService = new();
     private readonly List<OrderShow> _allOrders = new();
+    /// <summary>
+    /// Список заказов.
+    /// </summary>
     public ObservableCollection<OrderShow> Orders { get; } = new();
 
     private ObservableCollection<OrderShow> _currentOrders = new();
@@ -25,6 +31,9 @@ public class OrdersViewModel : ViewModelBase
     }
 
     private string _countOrders = string.Empty;
+    /// <summary>
+    /// Количество заказов клиента.
+    /// </summary>
     public string CountOrders
     {
         get => _countOrders;
@@ -32,6 +41,9 @@ public class OrdersViewModel : ViewModelBase
     }
 
     private string _searchText = string.Empty;
+    /// <summary>
+    /// Строка поиска по названию товара.
+    /// </summary>
     public string SearchText
     {
         get => _searchText;
@@ -43,6 +55,9 @@ public class OrdersViewModel : ViewModelBase
     }
 
     private OrderShow? _selectedOrder;
+    /// <summary>
+    /// Выбранный заказ в списке.
+    /// </summary>
     public OrderShow? SelectedOrder
     {
         get => _selectedOrder;
@@ -60,7 +75,16 @@ public class OrdersViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+
+    /// Команда просмотра состава заказа.
+
+    /// </summary>
+
     public ReactiveCommand<OrderShow, Unit> ViewOrderItemsCommand { get; }
+    /// <summary>
+    /// Команда сброса строки поиска.
+    /// </summary>
     public ReactiveCommand<Unit, Unit>      ResetSearchCommand    { get; }
 
     public OrdersViewModel(Action<OrderShow> onViewOrderItems)

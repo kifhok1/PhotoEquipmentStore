@@ -16,6 +16,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.PopupComponent;
 
+/// <summary>
+/// Всплывающая панель настроек подключения к БД и темы оформления.
+/// </summary>
+
+
 public partial class SettingsPopup : UserControl
 {
     public static readonly StyledProperty<bool> BlockVisibleProperty =
@@ -57,6 +62,12 @@ public partial class SettingsPopup : UserControl
 
     private ObservableCollection<ThemeSettings> _theme;
 
+    /// <summary>
+
+    /// Доступные варианты темы оформления.
+
+    /// </summary>
+
     public ObservableCollection<ThemeSettings> Theme
     {
         get => _theme;
@@ -66,11 +77,23 @@ public partial class SettingsPopup : UserControl
     public static readonly StyledProperty<ThemeSettings> ThemeSelectedProperty =
         AvaloniaProperty.Register<SettingsPopup, ThemeSettings>(nameof(ThemeSelected));
 
+    /// <summary>
+
+    /// Выбранная тема оформления.
+
+    /// </summary>
+
     public ThemeSettings ThemeSelected
     {
         get => GetValue(ThemeSelectedProperty);
         set => SetValue(ThemeSelectedProperty, value);
     }
+
+    /// <summary>
+
+    /// Фоновое изображение формы входа в настройках.
+
+    /// </summary>
 
     public Bitmap ImageLoginForm
     {
@@ -78,11 +101,23 @@ public partial class SettingsPopup : UserControl
         set => SetValue(ImageLoginFormProperty, value);
     }
 
+    /// <summary>
+
+    /// Признак видимости панели настроек.
+
+    /// </summary>
+
     public bool BlockVisible
     {
         get => GetValue(BlockVisibleProperty);
         set => SetValue(BlockVisibleProperty, value);
     }
+
+    /// <summary>
+
+    /// Команда закрытия панели настроек.
+
+    /// </summary>
 
     public ReactiveCommand<Unit, Unit> CloseCommand
     {
@@ -90,11 +125,23 @@ public partial class SettingsPopup : UserControl
         set => SetValue(CloseCommandProperty, value);
     }
 
+    /// <summary>
+
+    /// Хост сервера базы данных.
+
+    /// </summary>
+
     public string Host
     {
         get => GetValue(HostProperty);
         set => SetValue(HostProperty, value);
     }
+
+    /// <summary>
+
+    /// Имя пользователя БД.
+
+    /// </summary>
 
     public string User
     {
@@ -102,11 +149,23 @@ public partial class SettingsPopup : UserControl
         set => SetValue(UserProperty, value);
     }
 
+    /// <summary>
+
+    /// Пароль пользователя БД.
+
+    /// </summary>
+
     public string Password
     {
         get => GetValue(PasswordProperty);
         set => SetValue(PasswordProperty, value);
     }
+
+    /// <summary>
+
+    /// Имя базы данных.
+
+    /// </summary>
 
     public string Database
     {
@@ -114,11 +173,23 @@ public partial class SettingsPopup : UserControl
         set => SetValue(DatabaseProperty, value);
     }
 
+    /// <summary>
+
+    /// Признак успешного тестового подключения.
+
+    /// </summary>
+
     public bool ConnectionError
     {
         get => GetValue(ConnectionErrorProperty);
         set => SetValue(ConnectionErrorProperty,  value);
     }
+
+    /// <summary>
+
+    /// Сообщение о результате тестового подключения.
+
+    /// </summary>
 
     public string ConnectionMessage
     {
@@ -127,6 +198,9 @@ public partial class SettingsPopup : UserControl
     }
 
     [RelayCommand]
+    /// <summary>
+    /// Проверяет подключение к базе данных с текущими параметрами.
+    /// </summary>
     public void TestConnection()
     {
         TestConnectionDto testConnection = TestConnectionService.TestConnection(

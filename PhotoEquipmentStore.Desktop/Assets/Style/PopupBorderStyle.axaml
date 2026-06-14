@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: Анимация появления Panel.Popup (fade-in 0.25s). -->
     <Design.PreviewWith>
         <Panel Height="800" Width="1280" Background="{DynamicResource main_background}">
             <Panel Classes="Popup">

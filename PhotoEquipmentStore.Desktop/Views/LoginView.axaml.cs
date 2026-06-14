@@ -7,11 +7,15 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Views;
 
+/// <summary>
+/// Экран авторизации. Обрабатывает закрытие окна через ReactiveUI interaction.
+/// </summary>
 public partial class LoginView : ReactiveUserControl<LoginViewModel>
 {
     public LoginView()
     {
         InitializeComponent();
+        // Подписка на interaction закрытия окна из ViewModel
         this.WhenActivated(d =>
         {
 

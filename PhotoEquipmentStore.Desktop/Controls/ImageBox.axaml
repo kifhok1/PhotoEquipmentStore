@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
              x:Class="PhotoEquipmentStore.Controls.ImageBox"
              Background="Transparent">
+    <!-- Файл: Drop-zone загрузки изображения 300×300: превью, drag-and-drop, кнопка очистки. -->
 
     <StackPanel Spacing="6">
 

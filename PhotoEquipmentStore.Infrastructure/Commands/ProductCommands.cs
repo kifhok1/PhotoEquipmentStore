@@ -8,10 +8,16 @@ using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
+/// <summary>
+/// CRUD-операции с товарами в базе данных.
+/// </summary>
 public class ProductCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
+    /// <summary>
+    /// Возвращает коллекцию всех активных товаров с данными справочников.
+    /// </summary>
     public static ObservableCollection<Product> GetProducts()
     {
         try
@@ -76,6 +82,9 @@ public class ProductCommands
         }
     }
 
+    /// <summary>
+    /// Создаёт новый товар в базе данных.
+    /// </summary>
     public bool CreateProduct(Product product)
     {
         try
@@ -114,6 +123,9 @@ public class ProductCommands
         }
     }
 
+    /// <summary>
+    /// Обновляет данные существующего товара.
+    /// </summary>
     public bool UpdateProduct(Product product)
     {
         try
@@ -159,6 +171,9 @@ public class ProductCommands
         }
     }
 
+    /// <summary>
+    /// Помечает товар как удалённый (мягкое удаление).
+    /// </summary>
     public bool DeleteProduct(int productId)
     {
         try

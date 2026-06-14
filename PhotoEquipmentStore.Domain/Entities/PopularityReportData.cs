@@ -1,5 +1,8 @@
 namespace PhotoEquipmentStore.Domain.Entities;
 
+/// <summary>
+/// Строка отчёта по популярности товаров с рейтингом и статистикой продаж.
+/// </summary>
 public class PopularityReportData
 {
     public int    Rank         { get; }

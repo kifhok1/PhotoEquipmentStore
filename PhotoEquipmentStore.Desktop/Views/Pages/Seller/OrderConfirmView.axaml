@@ -9,6 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.OrderConfirmView"
              x:DataType="vm:OrderConfirmViewModel">
+    <!-- Файл: Подтверждение заказа: позиции, итоги, клиент, сохранение чека. -->
 
     <i:Interaction.Behaviors>
         <behaviors:StorageProviderInjectorBehavior/>
@@ -156,6 +157,7 @@
                             </StackPanel>
                         </Border>
 
+                        <!-- Прокручиваемая область содержимого -->
                         <ScrollViewer Grid.Row="1"
                                       VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled">

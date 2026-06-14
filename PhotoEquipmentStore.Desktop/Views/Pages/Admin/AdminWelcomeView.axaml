@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Admin"
              x:DataType="vm:AdminWelcomeViewModel"
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.AdminWelcomeView">
+    <!-- Файл: Приветственный экран администратора с иконкой пользователя и именем. -->
     <Border Background="{DynamicResource main_background}" >
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"

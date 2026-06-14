@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Seller"
              x:DataType="vm:SellerWelcomeViewModel"
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.SellerWelcomeView">
+    <!-- Файл: Приветственный экран продавца. -->
     <Border Background="{DynamicResource main_background}" >
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"

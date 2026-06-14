@@ -7,8 +7,10 @@
              xmlns:models="using:PhotoEquipmentStore.Models"
              x:DataType="vm:NotificationViewModel"
              x:Class="PhotoEquipmentStore.Views.Notification.NotificationView">
+    <!-- Файл: Модальный диалог уведомления с иконкой по типу, текстом и кнопками действий. -->
     <Panel Background="{DynamicResource overlay}">
 
+        <!-- Центральная карточка диалога 540px с тенью -->
         <Border Width="540"
                 CornerRadius="20"
                 ClipToBounds="True"
@@ -25,6 +27,7 @@
                             <Viewbox Width="40" Height="40" VerticalAlignment="Center">
                                 <Panel>
 
+                                    <!-- Иконка Info — показывается при Type=Info -->
                                     <Panel IsVisible="{Binding Type,
                                     Converter={x:Static ObjectConverters.Equal},
                                     ConverterParameter={x:Static models:NotificationType.Info}}">
@@ -44,6 +47,7 @@
                                         <Border Height="40" Width="40"
                                                 Background="{DynamicResource warning}"
                                                 Opacity="0.25" CornerRadius="10"/>
+                                        <!-- Иконка Warning -->
                                             <Path Stroke="{DynamicResource warning}"
                                                   StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
                                                   Margin="-3 -2 0 0"
@@ -57,6 +61,7 @@
                                         <Border Height="40" Width="40"
                                                 Background="{DynamicResource error}"
                                                 Opacity="0.25" CornerRadius="10"/>
+                                        <!-- Иконка Error -->
                                         <Path Stroke="{DynamicResource error}"
                                               StrokeThickness="2" StrokeJoin="Round" StrokeLineCap="Round"
                                               Margin="-3 -2 0 0"
@@ -75,6 +80,7 @@
 
                 <Border Padding="24 20 24 20" Background="{DynamicResource elevated}">
 
+                    <!-- Основной текст сообщения уведомления -->
                     <TextBlock Text="{Binding Message}"
                                FontSize="16"
                                TextWrapping="Wrap"
@@ -85,6 +91,7 @@
                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"
                                 Orientation="Horizontal" Spacing="12">
 
+                        <!-- Кнопка отмены (ShowCancel) -->
                         <Button Content="Отмена"
                                 IsVisible="{Binding ShowCancel}"
                                 Command="{Binding CancelCommand}"
@@ -99,6 +106,7 @@
                                 IsVisible="{Binding ShowOk}"
                                 Command="{Binding OkCommand}"/>
 
+                        <!-- Кнопка подтверждения Yes/No -->
                         <Button Content="Да"
                                 IsVisible="{Binding ShowYesNo}"
                                 Command="{Binding YesCommand}"/>
