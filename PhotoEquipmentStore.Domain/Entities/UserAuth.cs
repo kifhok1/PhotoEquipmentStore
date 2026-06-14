@@ -10,7 +10,7 @@ public class UserAuth
     private int roleId;
     private string roleName;
     private int timeOfLogout;
-    
+
     public int Id { get => id; set => id = value; }
     public string Name { get => name; set => name = value; }
     public string Login { get => login; set => login = value; }

@@ -20,8 +20,6 @@ public class DatabaseService : IDatabaseService
     private static readonly string DefaultDumpPath = Path.Combine(
         AppContext.BaseDirectory, "Scripts", "default_dump.sql");
 
-    // ── Backup ────────────────────────────────────────────────────────────────
-
     public async Task<DataBaseResultDto> CreateBackupAsync(string outputPath)
     {
         try
@@ -35,8 +33,6 @@ public class DatabaseService : IDatabaseService
             return DataBaseResultDto.Failure(ex.Message);
         }
     }
-
-    // ── Restore ───────────────────────────────────────────────────────────────
 
     public async Task<DataBaseResultDto> RestoreStructureAsync(string? sqlFilePath)
     {
@@ -55,8 +51,6 @@ public class DatabaseService : IDatabaseService
             return DataBaseResultDto.Failure(ex.Message);
         }
     }
-
-    // ── Export CSV ────────────────────────────────────────────────────────────
 
     public async Task<DataBaseResultDto> ExportTableCsvAsync(string tableName, string outputPath)
     {
@@ -77,8 +71,6 @@ public class DatabaseService : IDatabaseService
         }
     }
 
-    // ── Export XLSX ───────────────────────────────────────────────────────────
-
     public async Task<DataBaseResultDto> ExportTableXlsxAsync(string tableName, string outputPath)
     {
         try
@@ -97,8 +89,6 @@ public class DatabaseService : IDatabaseService
             return DataBaseResultDto.Failure($"Ошибка при записи XLSX: {ex.Message}");
         }
     }
-
-    // ── Export All (ZIP) ──────────────────────────────────────────────────────
 
     public async Task<DataBaseResultDto> ExportAllTablesAsync(string outputFolderPath, string format)
     {
@@ -141,8 +131,6 @@ public class DatabaseService : IDatabaseService
         }
     }
 
-    // ── Write CSV ─────────────────────────────────────────────────────────────
-
     private static async Task WriteCsvAsync(DataTable table, string outputPath)
     {
         await Task.Run(() =>
@@ -162,8 +150,6 @@ public class DatabaseService : IDatabaseService
             }
         });
     }
-
-    // ── Write XLSX ────────────────────────────────────────────────────────────
 
     private static async Task WriteXlsxAsync(DataTable table, string sheetName, string outputPath)
     {
@@ -185,13 +171,11 @@ public class DatabaseService : IDatabaseService
                 Name    = sheetName
             });
 
-            // Заголовки
             var headerRow = new Row();
             foreach (DataColumn col in table.Columns)
                 headerRow.Append(MakeCell(col.ColumnName));
             sheetData.Append(headerRow);
 
-            // Строки
             foreach (DataRow row in table.Rows)
             {
                 var xlRow = new Row();
@@ -203,8 +187,6 @@ public class DatabaseService : IDatabaseService
             workbookPart.Workbook.Save();
         });
     }
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private static Cell MakeCell(string value) =>
         new()

@@ -7,10 +7,10 @@
              x:Class="PhotoEquipmentStore.PopupComponent.SettingsPopup"
              x:Name="This">
     <Panel Classes="Popup">
-        <!-- Рамка -->
+
         <Border Background="{DynamicResource overlay}"/>
-        <!-- Контент -->
-        <Border  Width="500" 
+
+        <Border  Width="500"
                 Background="{DynamicResource main_background}"
                 CornerRadius="20" ClipToBounds="True"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -46,23 +46,23 @@
                         <StackPanel Spacing="20">
                             <Grid RowDefinitions="* * * * * Auto" ColumnDefinitions="* 210" RowSpacing="12">
                                 <TextBlock Grid.Column="0" Grid.Row="0" Classes="Body" VerticalAlignment="Center">Хост</TextBlock>
-                                <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" 
+                                <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"
                                          Text="{Binding #This.Host}"/>
-                            
+
                                 <TextBlock Grid.Column="0" Grid.Row="1" Classes="Body" VerticalAlignment="Center">Пользователь</TextBlock>
                                 <TextBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Text="{Binding #This.User}"/>
-                            
+
                                 <TextBlock Grid.Column="0" Grid.Row="2"  Classes="Body" VerticalAlignment="Center">Пароль</TextBlock>
                                 <TextBox Grid.Column="1" Grid.Row="2"  VerticalAlignment="Center" Text="{Binding #This.Password}"/>
-                            
+
                                 <TextBlock Grid.Column="0" Grid.Row="3" Classes="Body" VerticalAlignment="Center">База данных</TextBlock>
                                 <TextBox Grid.Column="1" Grid.Row="3"  VerticalAlignment="Center" Text="{Binding #This.Database}"/>
-                                
+
                                 <StackPanel Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Orientation="Horizontal" Spacing="6">
                                     <Ellipse Fill="{DynamicResource success}"
                                              Height="6"
                                              Width="6"
-                                             VerticalAlignment="Center" IsVisible="{Binding #This.ConnectionError}"/> 
+                                             VerticalAlignment="Center" IsVisible="{Binding #This.ConnectionError}"/>
                                     <Ellipse Fill="{DynamicResource error}"
                                              Height="6"
                                              Width="6"
@@ -73,10 +73,10 @@
                                 <Button Grid.Column="1" Grid.Row="4" Width="210" Command="{Binding #This.TestConnectionCommand}">
                                     Проверить подключение
                                 </Button>
-                                
+
                                 <TextBlock Grid.Row="5" Grid.Column="0" Classes="Body" VerticalAlignment="Center">Тема</TextBlock>
                                 <ComboBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Width="210"
-                                          ItemsSource="{Binding #This.Theme}" 
+                                          ItemsSource="{Binding #This.Theme}"
                                           SelectedItem="{Binding #This.ThemeSelected}"
                                           DisplayMemberBinding="{ReflectionBinding Theme}">
                                 </ComboBox>
@@ -85,7 +85,7 @@
                     </Border>
 
                     <Border Padding="24 14 24 14" Background="{DynamicResource surface}">
-                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" 
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"
                                         Orientation="Horizontal" Spacing="12">
                                 <Button Classes="Secondary" Command="{Binding #This.CloseCommand}">
                                     Выйти

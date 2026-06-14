@@ -39,9 +39,9 @@ public class NotificationService
         NotificationButtons buttons)
     {
         var vm = new NotificationViewModel(title, message, type, buttons);
-        _subject.OnNext(vm);                  // показать
-        var result = await vm.Result;         // ждать ответа
-        _subject.OnNext(null);                // скрыть
+        _subject.OnNext(vm);
+        var result = await vm.Result;
+        _subject.OnNext(null);
         return result;
     }
 }

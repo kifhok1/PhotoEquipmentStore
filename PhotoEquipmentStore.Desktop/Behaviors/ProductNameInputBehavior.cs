@@ -9,7 +9,7 @@ namespace PhotoEquipmentStore.Behaviors;
 
 public class ProductNameInputBehavior : Behavior<TextBox>
 {
-    // Русские, английские, цифры, пробел и спецсимволы
+
     private static readonly Regex Allowed =
         new(@"^[а-яёА-ЯЁa-zA-Z0-9 !@#$%^&*()\-_=+\[\]{};':"",./<>?\\|`~.]+$",
             RegexOptions.Compiled);

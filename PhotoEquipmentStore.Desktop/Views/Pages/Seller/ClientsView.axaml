@@ -21,7 +21,6 @@
     <Border Background="{DynamicResource main_background}" Padding="20">
         <Grid RowSpacing="15" RowDefinitions="Auto *">
 
-            <!-- Поиск -->
             <Border Grid.Row="0"
                     BorderThickness="1.5"
                     BorderBrush="{DynamicResource border}"
@@ -46,7 +45,6 @@
                 </Grid>
             </Border>
 
-            <!-- Таблица -->
             <Border Grid.Row="1"
                     BorderBrush="{DynamicResource border}"
                     CornerRadius="10"
@@ -130,7 +128,6 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <!-- Пагинация -->
                         <Panel Grid.Row="1" Margin="10 0 10 8">
                             <TextBlock Classes="Body"
                                        HorizontalAlignment="Left"

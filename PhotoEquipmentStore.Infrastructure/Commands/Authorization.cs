@@ -47,7 +47,7 @@ public class Authorization
                 login:        reader.GetString("login"),
                 heshPassword: reader.GetString("password_hash"),
                 userImage:    BlobReader.ToBytes(reader, "image"),
-                roleId:       reader.GetInt32("roleId"),   // ← исправлен баг
+                roleId:       reader.GetInt32("roleId"),
                 roleName:     reader.GetString("roleName"),
                 timeOfLogout: 3
             );

@@ -76,9 +76,6 @@ public class ClientShow : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _isSelected, value);
     }
 
-    // ── Накопительная скидка ──────────────────────────────────────────────────
-
-    /// <summary>Числовое значение суммы покупок для расчёта скидки.</summary>
     public int TotalPurchasesAmount =>
         int.TryParse(TotalPurchases?.Replace(" ", "").Replace(",", ""), out var v) ? v : 0;
 
@@ -95,8 +92,6 @@ public class ClientShow : ReactiveObject
         0 => "нет",
         _ => $"{ClientDiscountPercent}% (накопительная)"
     };
-
-    // ── Отображение ───────────────────────────────────────────────────────────
 
     public string TotalPurchasesShow => TotalPurchases + " ₽";
     public string CountOrdersShow    => CountOrders + " шт.";

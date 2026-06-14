@@ -11,7 +11,6 @@ public class OrderProductShow : ReactiveObject
     public string Description { get; set; }
     public int Price { get; set; }
 
-    /// <summary>Скидка на товар в процентах (из БД).</summary>
     public int DiscountPercent { get; set; }
 
     public int Quantity { get; set; }
@@ -25,13 +24,10 @@ public class OrderProductShow : ReactiveObject
 
     public bool HasImage => Image != null;
 
-    /// <summary>Скидка в рублях за единицу товара.</summary>
     public int DiscountAmount => Price * DiscountPercent / 100;
 
-    /// <summary>Итоговая цена за единицу после скидки.</summary>
     public int FinalPrice => Price - DiscountAmount;
 
-    /// <summary>Для обратной совместимости с местами где используется Discount.</summary>
     public int Discount => DiscountAmount;
 
     private int _cartQuantity;
@@ -55,7 +51,7 @@ public class OrderProductShow : ReactiveObject
         Name            = product.Name;
         Description     = product.Description;
         Price           = product.Price;
-        DiscountPercent = product.Discount; // в БД — проценты
+        DiscountPercent = product.Discount;
         Quantity        = product.Quantity;
         CategoryId      = product.CategoryId;
         CategoryName    = product.CategoryName;

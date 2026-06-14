@@ -13,8 +13,6 @@ public class ClientsService : IClientsService
     private readonly ClientCommands _clientCommands = new();
     private readonly Phone          _phoneCommands  = new();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public ClientResultDto GetClients()
     {
         try
@@ -27,8 +25,6 @@ public class ClientsService : IClientsService
             return ClientResultDto.Failure("Не удалось загрузить список клиентов.");
         }
     }
-
-    // ── Create ────────────────────────────────────────────────────────────────
 
     public ClientResultDto CreateClient(Client client)
     {
@@ -47,8 +43,6 @@ public class ClientsService : IClientsService
         }
     }
 
-    // ── Update ────────────────────────────────────────────────────────────────
-
     public ClientResultDto UpdateClient(Client client)
     {
         try
@@ -66,8 +60,6 @@ public class ClientsService : IClientsService
         }
     }
 
-    // ── Delete ────────────────────────────────────────────────────────────────
-
     public ClientResultDto DeleteClient(int clientId)
     {
         try
@@ -80,8 +72,6 @@ public class ClientsService : IClientsService
             return ClientResultDto.Failure("Не удалось удалить клиента.");
         }
     }
-
-    // ── Private ───────────────────────────────────────────────────────────────
 
     private ClientResultDto EnsurePhoneIsUnique(string phone, int? excludeClientId)
     {

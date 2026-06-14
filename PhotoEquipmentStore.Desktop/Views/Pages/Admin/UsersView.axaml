@@ -7,11 +7,11 @@
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.UsersView"
              x:DataType="vm:UsersViewModel"
              xmlns:models="using:PhotoEquipmentStore.Models">
-    
+
     <Design.DataContext>
         <vm:UsersViewModel/>
     </Design.DataContext>
-    
+
     <Border Background="{DynamicResource main_background}" Padding="20">
                         <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
                                             CornerRadius="10"
@@ -30,7 +30,7 @@
                                                   BorderBrush="{DynamicResource border}"
                                                   BorderThickness="0 0 0 1">
                                             <DataGrid.Columns>
-                                                
+
                                                 <DataGridTemplateColumn Header="Фото" Width="Auto">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -59,7 +59,7 @@
                                                                                     StrokeJoin="Round"
                                                                                     StrokeLineCap="Round"/>
                                                                         </Viewbox>
-                                                                    
+
                                                                         <Image Source="{Binding Image}" HorizontalAlignment="Stretch"
                                                                                VerticalAlignment="Stretch"
                                                                                Stretch="UniformToFill"/>
@@ -69,7 +69,7 @@
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                                
+
                                                 <DataGridTextColumn
                                                     Header="ФИО пользователя"
                                                     Binding="{Binding Name}"
@@ -88,7 +88,7 @@
                                                     Binding="{Binding Role}"
                                                     Foreground="{DynamicResource accent}"
                                                     Width="Auto"/>
-                                                
+
                                                 <DataGridTemplateColumn Header="Действия">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate x:DataType="models:UserShow">

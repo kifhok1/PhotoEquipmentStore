@@ -1,4 +1,4 @@
-// Domain/Entities/StockReportData.cs
+
 namespace PhotoEquipmentStore.Domain.Entities;
 
 public class StockReportData

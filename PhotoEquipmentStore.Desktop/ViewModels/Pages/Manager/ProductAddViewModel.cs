@@ -23,8 +23,6 @@ public class ProductAddViewModel : ViewModelBase
     public bool   IsEdit    => _editItem is not null;
     public string PageTitle => IsEdit ? "Редактировать товар" : "Создать товар";
 
-    // ── Свойства ─────────────────────────────────────────────────────────────
-
     private string _name = string.Empty;
     public string Name
     {
@@ -88,13 +86,9 @@ public class ProductAddViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _productImage, value);
     }
 
-    // ── Коллекции ────────────────────────────────────────────────────────────
-
     public ObservableCollection<ReferenceShow> Categories    { get; } = new();
     public ObservableCollection<ReferenceShow> Manufacturers { get; } = new();
     public ObservableCollection<ReferenceShow> Suppliers     { get; } = new();
-
-    // ── Команды ──────────────────────────────────────────────────────────────
 
     public ReactiveCommand<Unit, Unit> SaveCommand  { get; }
     public ReactiveCommand<Unit, Unit> ResetCommand { get; }
@@ -143,7 +137,6 @@ public class ProductAddViewModel : ViewModelBase
         ResetCommand = ReactiveCommand.Create(IsEdit ? _goBack : Reset);
     }
 
-    // Конструктор для дизайнера
     public ProductAddViewModel() : this(() => { }) { }
 
     private async void Save()

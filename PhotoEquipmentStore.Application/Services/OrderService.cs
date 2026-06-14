@@ -11,8 +11,6 @@ public class OrderService : IOrderService
 {
     private readonly OrderCommands _orderCommands = new();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public OrderResultDto GetOrders()
     {
         try
@@ -39,8 +37,6 @@ public class OrderService : IOrderService
         }
     }
 
-    // ── Update ────────────────────────────────────────────────────────────────
-
     public OrderResultDto UpdateOrderStatus(string orderArticle)
     {
         try
@@ -53,8 +49,6 @@ public class OrderService : IOrderService
             return OrderResultDto.Failure("Не удалось обновить статус заказа.");
         }
     }
-
-    // ── Create ────────────────────────────────────────────────────────────────
 
     public OrderResultDto CreateOrder(CreateOrderDto dto)
     {

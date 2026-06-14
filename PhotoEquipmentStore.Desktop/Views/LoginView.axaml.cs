@@ -14,7 +14,7 @@ public partial class LoginView : ReactiveUserControl<LoginViewModel>
         InitializeComponent();
         this.WhenActivated(d =>
         {
-            // Обработчик для закрытия окна
+
             d(ViewModel.Close.RegisterHandler(interaction =>
             {
                 interaction.SetOutput(Unit.Default);

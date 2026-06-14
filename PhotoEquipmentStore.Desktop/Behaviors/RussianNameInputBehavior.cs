@@ -57,7 +57,6 @@ public class RussianNameInputBehavior : Behavior<TextBox>
             return;
         }
 
-        // Символ допустимый — сбрасываем ошибку
         InputValidation.SetInputError(tb, string.Empty);
     }
 }

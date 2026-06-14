@@ -38,7 +38,7 @@ public partial class UsersViewModel : ViewModelBase
         DeleteCommand = ReactiveCommand.Create<UserShow>(async item =>
         {
             if (item.Id == _currentUserId)
-                return; // дополнительная защита на уровне VM
+                return;
 
             bool confirmed = await NotificationService.Instance.ShowWarningAsync(
                 "Удалить запись?",

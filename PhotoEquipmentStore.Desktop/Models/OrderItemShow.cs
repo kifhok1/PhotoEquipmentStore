@@ -10,7 +10,7 @@ public class OrderItemShow
     private decimal price;
     private int discount;
     private Bitmap? productImage;
-    
+
     public  int ProductId
     {
         get { return productId; }
@@ -43,7 +43,7 @@ public class OrderItemShow
         get { return productImage; }
         set { productImage = value; }
     }
-    
+
     public decimal LineTotal => (Price - Price * Discount / 100m) * Quantity;
     public bool HasImage => ProductImage != null;
 

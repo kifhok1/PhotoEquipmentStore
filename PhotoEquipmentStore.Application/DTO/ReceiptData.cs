@@ -5,18 +5,14 @@ public class ReceiptData
     public string OrderNumber      { get; init; } = "";
     public string CreatedAt        { get; init; } = "";
 
-    // Клиент
     public string ClientName       { get; init; } = "";
     public string ClientPhone      { get; init; } = "";
-    public string ClientDiscount   { get; init; } = ""; // например "5%"
+    public string ClientDiscount   { get; init; } = "";
 
-    // Продавец
     public string SellerName       { get; init; } = "";
 
-    // Позиции
     public List<ReceiptItem> Items { get; init; } = [];
 
-    // Суммы
     public int Subtotal            { get; init; }
     public int ProductDiscount     { get; init; }
     public int ClientDiscountPct   { get; init; }
@@ -30,7 +26,7 @@ public class ReceiptItem
 {
     public string Name         { get; init; } = "";
     public int    Quantity     { get; init; }
-    public int    OriginalPrice{ get; init; } // цена без скидки за штуку
-    public int    FinalPrice   { get; init; } // цена со скидкой за штуку
-    public int    LineTotal    { get; init; } // итого по позиции (со скидкой * кол-во)
+    public int    OriginalPrice{ get; init; }
+    public int    FinalPrice   { get; init; }
+    public int    LineTotal    { get; init; }
 }

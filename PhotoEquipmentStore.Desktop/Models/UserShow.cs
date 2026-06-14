@@ -53,12 +53,12 @@ public class UserShow
         get => image;
         set => image = value;
     }
-    
+
     public bool IsVisibleImage
     {
         get => image != null;
     }
-    
+
     public bool IsSelf { get; }
 
     public UserShow(

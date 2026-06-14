@@ -10,12 +10,10 @@
 
         <Grid Height="300" Width="300">
 
-            <!-- 1. Фон -->
             <Rectangle RadiusX="12" RadiusY="12"
                        Fill="{DynamicResource secondary_background}"
                        Margin="3"/>
 
-            <!-- 2. Превью + лейбл с именем файла -->
             <Border x:Name="ImageLayer"
                     CornerRadius="12"
                     ClipToBounds="True"
@@ -26,7 +24,6 @@
                            Stretch="UniformToFill">
                     </Image>
 
-                    <!-- Лейбл внизу поверх изображения -->
                     <Border VerticalAlignment="Bottom"
                             Background="#CC000000"
                             Padding="10,7">
@@ -40,7 +37,6 @@
                 </Grid>
             </Border>
 
-            <!-- 3. Рамка поверх всего -->
             <Rectangle x:Name="DropBorderRect"
                        RadiusX="14" RadiusY="14"
                        Fill="Transparent"
@@ -49,7 +45,6 @@
                        StrokeThickness="3"
                        StrokeDashArray="2, 1"/>
 
-            <!-- 4. Контент зоны дропа -->
             <StackPanel x:Name="DropContent"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
@@ -89,7 +84,6 @@
                            Foreground="{DynamicResource secondary_text}"/>
             </StackPanel>
 
-            <!-- 5. Кнопка сброса -->
             <Button x:Name="ClearButton"
                     Classes="Secondary"
                     IsVisible="False"
@@ -111,7 +105,6 @@
 
         </Grid>
 
-        <!-- 6. Предупреждение о сжатии -->
         <Border x:Name="CompressionWarningText"
                 IsVisible="False"
                 Background="{DynamicResource elevated}"

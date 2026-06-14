@@ -59,7 +59,6 @@ public class PhoneMaskBehavior : Behavior<TextBox>
 
         var incoming = new string(input.Where(char.IsDigit).ToArray());
 
-        // Попытка ввести не цифру
         if (string.IsNullOrEmpty(incoming) && input.Length > 0)
         {
             InputValidation.SetInputError(tb, ErrorText);

@@ -23,7 +23,7 @@ public class MainViewModel : ViewModelBase
     }
 
     public bool IsNotificationVisible => _notification is not null;
-    
+
     private ViewModelBase _currentViewModel;
     private UserInfo userInfo;
 
@@ -39,56 +39,55 @@ public class MainViewModel : ViewModelBase
         get => this.userInfo;
         set => this.RaiseAndSetIfChanged(ref this.userInfo, value);
     }
-    
+
     public ViewModelBase CurrentViewModel
     {
         get => _currentViewModel;
         set => this.RaiseAndSetIfChanged(ref _currentViewModel, value);
-    } 
-    
-    // Команды для навигации
+    }
+
     public ReactiveCommand<Unit, Unit> GoToLoginCommand { get; }
     public ReactiveCommand<Unit, Unit> GoToAdminCommand { get; }
     public ReactiveCommand<Unit, Unit> GoToSellerCommand { get; }
     public ReactiveCommand<Unit, Unit> GoToManagerCommand { get; }
     public ReactiveCommand<Unit, Unit> GoToRootCommand { get; }
-    
+
     public MainViewModel()
     {
-        // Устанавливаем начальное представление
+
         _currentViewModel = new LoginViewModel(this);
-        
+
         NotificationService.Instance.Notifications
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(vm => Notification = vm);
-        
+
         GoToLoginCommand = ReactiveCommand.Create(GoToLogin);
         GoToAdminCommand = ReactiveCommand.Create(GoToAdmin);
         GoToManagerCommand = ReactiveCommand.Create(GoToManager);
         GoToSellerCommand = ReactiveCommand.Create(GoToSeller);
         GoToRootCommand = ReactiveCommand.Create(GoToRoot);
     }
-    
+
     private void GoToLogin()
     {
         CurrentViewModel = new LoginViewModel(this);
     }
-    
+
     private void GoToAdmin()
     {
         CurrentViewModel = new AdminViewModel(this, userInfo);
     }
-    
+
     private void GoToSeller()
     {
         CurrentViewModel = new SellerViewModel(this, userInfo);
     }
-    
+
     private void GoToManager()
     {
         CurrentViewModel = new ManagerViewModel(this, userInfo);
     }
-    
+
     private void GoToRoot()
     {
         CurrentViewModel = new RootUserViewModel(this, userInfo);

@@ -18,9 +18,8 @@ public class SellerViewModel : ViewModelBase
     private NavigationMenuItem _selectedNavigationMenuItem;
     private UserInfo _currentUser;
 
-    // --- Таймер бездействия ---
     private readonly Timer _inactivityTimer;
-    private const double InactivityTimeout = 3 * 60 * 1000; // 3 минуты
+    private const double InactivityTimeout = 3 * 60 * 1000;
 
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
 
@@ -76,17 +75,15 @@ public class SellerViewModel : ViewModelBase
             new NavigationMenuItem("Заказы",             "Order",     goToOrderCommand),
             new NavigationMenuItem("Создание заказа",    "AddOrder",  goToOrderAddCommand),
         };
-        
+
         _currentUser = userInfo;
         _currentViewModel = new SellerWelcomeViewModel(_currentUser);
 
-        // Запускаем таймер сразу при входе
         _inactivityTimer = new Timer(InactivityTimeout) { AutoReset = false };
         _inactivityTimer.Elapsed += OnInactivityElapsed;
         _inactivityTimer.Start();
     }
 
-    // остальные методы без изменений...
     private void Logout()
     {
         _inactivityTimer.Stop();
@@ -121,7 +118,7 @@ public class SellerViewModel : ViewModelBase
         CurrentViewModel = new OrderAddViewModel(
             goToConfirm: GoToOrderConfirm,
             goBackToAdd: GoToAddOrder,
-            seller: _currentUser);        // кнопка "Назад" в confirm вернёт сюда же
+            seller: _currentUser);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Создание заказа");
     }
 
@@ -129,9 +126,9 @@ public class SellerViewModel : ViewModelBase
     {
         CurrentViewModel = new OrderItemsViewModel(
             order,
-            goBack: GoToOrders); // ← кнопка "Выйти" вернёт на список заказов
+            goBack: GoToOrders);
     }
-    
+
     private void GoToOrderConfirm(OrderConfirmViewModel confirmVm)
     {
         CurrentViewModel = confirmVm;

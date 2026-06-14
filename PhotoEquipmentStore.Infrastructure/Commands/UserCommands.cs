@@ -12,8 +12,6 @@ public class UserCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public static ObservableCollection<User> GetUsers()
     {
         try
@@ -64,8 +62,6 @@ public class UserCommands
         }
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
-
     public bool CreateUser(User user, string passwordHash)
     {
         try
@@ -96,8 +92,6 @@ public class UserCommands
             throw new DatabaseException("Непредвиденная ошибка при создании пользователя.", ex);
         }
     }
-
-    // ── Update ────────────────────────────────────────────────────────────────
 
     public bool UpdateUser(User user)
     {
@@ -175,8 +169,6 @@ public class UserCommands
         }
     }
 
-    // ── Soft Delete ───────────────────────────────────────────────────────────
-
     public bool DeleteUser(int userId)
     {
         try
@@ -204,8 +196,6 @@ public class UserCommands
             throw new DatabaseException("Непредвиденная ошибка при удалении пользователя.", ex);
         }
     }
-
-    // ── Проверка уникальности логина ──────────────────────────────────────────
 
     public bool LoginExists(string login, int? excludeUserId = null)
     {

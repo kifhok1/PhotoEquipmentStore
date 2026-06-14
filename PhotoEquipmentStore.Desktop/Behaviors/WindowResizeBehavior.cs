@@ -49,14 +49,14 @@ public class WindowResizeBehavior : Behavior<Border>
     {
         if (!e.GetCurrentPoint(AssociatedObject).Properties.IsLeftButtonPressed) return;
         _window = TopLevel.GetTopLevel(AssociatedObject) as Window;
-    
+
         if (_window is null) return;
 
         _isDragging = true;
         _startPointerPos = _window.PointToScreen(e.GetPosition(_window));
         _startWindowPos = _window.Position;
         _startWindowSize = new Size(_window.Width, _window.Height);
-    
+
         e.Pointer.Capture(AssociatedObject);
         e.Handled = true;
     }

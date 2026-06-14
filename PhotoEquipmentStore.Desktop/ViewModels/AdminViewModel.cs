@@ -17,13 +17,13 @@ public class AdminViewModel : ViewModelBase
     private UserInfo _currentUser;
 
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
-        
+
     public NavigationMenuItem SelectedNavigationMenuItem
     {
         get => _selectedNavigationMenuItem;
         set => this.RaiseAndSetIfChanged(ref _selectedNavigationMenuItem, value);
     }
-    
+
     public ObservableCollection<NavigationMenuItem> NavigationMenuItems { get; }
 
     public ViewModelBase CurrentViewModel
@@ -37,7 +37,7 @@ public class AdminViewModel : ViewModelBase
         get => _currentUser;
         set => this.RaiseAndSetIfChanged(ref _currentUser, value);
     }
-    
+
     public AdminViewModel(MainViewModel mainViewModel, UserInfo userInfo)
     {
         _mainViewModel = mainViewModel;
@@ -47,7 +47,6 @@ public class AdminViewModel : ViewModelBase
         ReactiveCommand<Unit, Unit> goToUsersCommand     = ReactiveCommand.Create(GoToUsers);
         ReactiveCommand<Unit, Unit> goToDataBaseCommand  = ReactiveCommand.Create(GoToDataBase);
         ReactiveCommand<Unit, Unit> goToReferenceCommand = ReactiveCommand.Create(GoToReference);
-        // ← goToReferenceAddCommand и goToReferenceEditCommand убраны
 
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
@@ -83,8 +82,7 @@ public class AdminViewModel : ViewModelBase
         _currentUser                = new UserInfo(0, "Иванов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
-    
-    
+
     private void Logout()
     {
         _mainViewModel.GoToLoginCommand.Execute().Subscribe();

@@ -10,9 +10,9 @@ public class User
     private string role;
     private int roleID;
     private byte[] image;
-    
-    public int Id { 
-        get => id; 
+
+    public int Id {
+        get => id;
         set => id = value;
     }
 
@@ -24,7 +24,7 @@ public class User
 
     public string Login
     {
-        get => login; 
+        get => login;
         set  => login = value;
     }
 
@@ -33,8 +33,8 @@ public class User
         get => password;
         set => password = value;
     }
-    
-    public string PhoneNumber { 
+
+    public string PhoneNumber {
         get => phoneNumber;
         set => phoneNumber = value;
     }
@@ -80,7 +80,7 @@ public class User
         RoleID = roleID;
         Image = image;
     }
-    
+
     public User(string name, string login, string password,
         string phoneNumber, int roleID, byte[]? image = null)
     {

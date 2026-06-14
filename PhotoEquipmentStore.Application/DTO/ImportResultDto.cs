@@ -2,7 +2,7 @@ namespace PhotoEquipmentStore.Application.DTO;
 
 public class ImportResultDto
 {
-    
+
     public bool         IsSuccess    { get; init; }
     public string?      ErrorMessage { get; init; }
     public int          Imported     { get; init; }

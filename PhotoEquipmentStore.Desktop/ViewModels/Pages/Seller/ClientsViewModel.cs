@@ -112,7 +112,7 @@ public class ClientsViewModel : ViewModelBase
 
         UpdateCount(Clients.Count);
     }
-    
+
     private async void LoadClients()
     {
         _allClients.Clear();
@@ -145,7 +145,7 @@ public class ClientsViewModel : ViewModelBase
 
             _allClients.Add(show);
             Clients.Add(show);
-            
+
             await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось загрузить список клиентов.");
         }
 

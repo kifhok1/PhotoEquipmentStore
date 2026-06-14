@@ -20,17 +20,11 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     private readonly NotificationService _notification    = NotificationService.Instance;
     private readonly IImportService _importService = new ImportService();
 
-    // ── Путь по умолчанию ─────────────────────────────────────────────────────
-
     private static string DefaultFolder => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
         "ФотоМагазин", "Файлы базы данных");
 
-    // ── StorageProvider ───────────────────────────────────────────────────────
-
     public IStorageProvider? StorageProvider { get; set; }
-
-    // ── Таблицы ───────────────────────────────────────────────────────────────
 
     public ObservableCollection<string> Tables { get; } =
     [
@@ -39,8 +33,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     ];
 
     public ObservableCollection<string> ExportFormats { get; } = ["CSV", "XLSX"];
-
-    // ── Export ────────────────────────────────────────────────────────────────
 
     private string? _selectedExportTable;
     public string? SelectedExportTable
@@ -63,8 +55,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         set => this.RaiseAndSetIfChanged(ref _exportFolderPath, value);
     }
 
-    // ── Import ────────────────────────────────────────────────────────────────
-
     private string? _selectedImportTable;
     public string? SelectedImportTable
     {
@@ -82,16 +72,12 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         set => this.RaiseAndSetIfChanged(ref _importFilePath, value);
     }
 
-    // ── Restore ───────────────────────────────────────────────────────────────
-
     private string? _restoreFilePath;
     public string? RestoreFilePath
     {
         get => _restoreFilePath;
         set => this.RaiseAndSetIfChanged(ref _restoreFilePath, value);
     }
-
-    // ── Backup ────────────────────────────────────────────────────────────────
 
     private string? _backupFolderPath;
     public string? BackupFolderPath
@@ -100,16 +86,12 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         set => this.RaiseAndSetIfChanged(ref _backupFolderPath, value);
     }
 
-    // ── IsBusy ────────────────────────────────────────────────────────────────
-
     private bool _isBusy;
     public bool IsBusy
     {
         get => _isBusy;
         set => this.RaiseAndSetIfChanged(ref _isBusy, value);
     }
-
-    // ── Commands ──────────────────────────────────────────────────────────────
 
     public ReactiveCommand<Unit, Unit> PickExportFolderCommand  { get; }
     public ReactiveCommand<Unit, Unit> ExportCommand            { get; }
@@ -123,7 +105,7 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
     public DataBaseViewModel()
     {
         var notBusy = this.WhenAnyValue(x => x.IsBusy, b => !b);
-        
+
         PickExportFolderCommand = ReactiveCommand.CreateFromTask(PickExportFolderAsync,  notBusy);
         ExportCommand           = ReactiveCommand.CreateFromTask(ExportAsync,            notBusy);
         PickImportFileCommand   = ReactiveCommand.CreateFromTask(PickImportFileAsync,    notBusy);
@@ -133,8 +115,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         PickBackupFolderCommand = ReactiveCommand.CreateFromTask(PickBackupFolderAsync,  notBusy);
         BackupCommand           = ReactiveCommand.CreateFromTask(BackupAsync,            notBusy);
     }
-
-    // ── Export ────────────────────────────────────────────────────────────────
 
     private async Task PickExportFolderAsync()
     {
@@ -165,7 +145,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         var folder = string.IsNullOrWhiteSpace(ExportFolderPath) ? DefaultFolder : ExportFolderPath;
         var format = SelectedExportFormat.ToLowerInvariant();
 
-        // Для "Все таблицы" предупреждаем — будет создан zip-архив
         if (SelectedExportTable == "Все таблицы")
         {
             var confirmed = await _notification.ShowWarningAsync(
@@ -207,8 +186,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
-    // ── Import ────────────────────────────────────────────────────────────────
-
     private async Task PickImportFileAsync()
     {
         var files = await StorageProvider!.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -225,7 +202,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
             ImportFilePath = files[0].Path.LocalPath;
     }
 
-    // Метод ImportAsync заменить на:
     private async Task ImportAsync()
     {
         if (string.IsNullOrWhiteSpace(SelectedImportTable))
@@ -280,8 +256,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
-    // ── Restore ───────────────────────────────────────────────────────────────
-
     private async Task PickRestoreFileAsync()
     {
         var files = await StorageProvider!.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -300,7 +274,7 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
 
     private async Task RestoreAsync()
     {
-        // Показываем предупреждение — это деструктивная операция
+
         var filLabel  = string.IsNullOrWhiteSpace(RestoreFilePath)
             ? "файл по умолчанию"
             : Path.GetFileName(RestoreFilePath);
@@ -317,7 +291,7 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
         IsBusy = true;
         try
         {
-            // null → DatabaseService подставит default_dump.sql
+
             var result = await _databaseService.RestoreStructureAsync(RestoreFilePath);
 
             if (result.IsSuccess)
@@ -331,8 +305,6 @@ public class DataBaseViewModel : ViewModelBase, IStorageProviderReceiver
             IsBusy = false;
         }
     }
-
-    // ── Backup ────────────────────────────────────────────────────────────────
 
     private async Task PickBackupFolderAsync()
     {

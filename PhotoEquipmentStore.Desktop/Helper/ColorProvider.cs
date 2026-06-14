@@ -14,7 +14,7 @@ public static class ColorProvider
 
         return fallback;
     }
-    
+
     public static IBrush GetBrush(string key, Color fallback)
     {
         var app = Avalonia.Application.Current;

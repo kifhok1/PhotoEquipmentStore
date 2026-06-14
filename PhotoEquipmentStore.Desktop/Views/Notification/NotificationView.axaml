@@ -8,8 +8,7 @@
              x:DataType="vm:NotificationViewModel"
              x:Class="PhotoEquipmentStore.Views.Notification.NotificationView">
     <Panel Background="{DynamicResource overlay}">
-        
-        <!-- Карточка -->
+
         <Border Width="540"
                 CornerRadius="20"
                 ClipToBounds="True"
@@ -18,16 +17,16 @@
                 Background="{DynamicResource surface}"
                 BoxShadow="0 0 32 0 #40000000">
             <StackPanel Spacing="16" Width="540">
-                <!-- Иконка + Заголовок -->
+
                 <Panel HorizontalAlignment="Stretch">
                     <Border Padding="24 24 24 0" Background="{DynamicResource surface}">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <!-- Иконка типа -->
+
                             <Viewbox Width="40" Height="40" VerticalAlignment="Center">
                                 <Panel>
-                                    <!-- Info -->
-                                    <Panel IsVisible="{Binding Type, 
-                                    Converter={x:Static ObjectConverters.Equal}, 
+
+                                    <Panel IsVisible="{Binding Type,
+                                    Converter={x:Static ObjectConverters.Equal},
                                     ConverterParameter={x:Static models:NotificationType.Info}}">
                                         <Border Height="40" Width="40"
                                                 Background="{DynamicResource info}"
@@ -38,7 +37,7 @@
                                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Data="{DynamicResource Info}"/>
                                     </Panel>
-                                    <!-- Warning -->
+
                                     <Panel IsVisible="{Binding Type,
                                     Converter={x:Static ObjectConverters.Equal},
                                     ConverterParameter={x:Static models:NotificationType.Warning}}">
@@ -51,7 +50,7 @@
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   Data="{DynamicResource Warning}"/>
                                     </Panel>
-                                    <!-- Error -->
+
                                     <Panel IsVisible="{Binding Type,
                                     Converter={x:Static ObjectConverters.Equal},
                                     ConverterParameter={x:Static models:NotificationType.Error}}">
@@ -69,14 +68,13 @@
                                     <TextBlock Classes="H3" FontSize="18" VerticalAlignment="Center" Text="{Binding Title}"/>
                             </StackPanel>
                         </Border>
-                        <Border Height="3"  CornerRadius="16" 
+                        <Border Height="3"  CornerRadius="16"
                                 Background="{DynamicResource line}"
                                 Width="540" VerticalAlignment="Top"/>
                 </Panel>
-                
-                <!-- Сообщение -->
+
                 <Border Padding="24 20 24 20" Background="{DynamicResource elevated}">
-                        
+
                     <TextBlock Text="{Binding Message}"
                                FontSize="16"
                                TextWrapping="Wrap"
@@ -84,27 +82,23 @@
                 </Border>
 
                 <Border Padding="24 0 24 14" Background="{DynamicResource surface}">
-                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" 
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"
                                 Orientation="Horizontal" Spacing="12">
-                        
-                        <!-- ОТМЕНА (только YesNoCancel) -->
+
                         <Button Content="Отмена"
                                 IsVisible="{Binding ShowCancel}"
                                 Command="{Binding CancelCommand}"
                                 Classes="Secondary"/>
 
-                        <!-- НЕТ -->
                         <Button Content="Нет"
                                 IsVisible="{Binding ShowYesNo}"
                                 Command="{Binding NoCommand}"
                                 Classes="Secondary"/>
 
-                        <!-- ОК -->
                         <Button Content="ОК"
                                 IsVisible="{Binding ShowOk}"
                                 Command="{Binding OkCommand}"/>
 
-                        <!-- ДА -->
                         <Button Content="Да"
                                 IsVisible="{Binding ShowYesNo}"
                                 Command="{Binding YesCommand}"/>

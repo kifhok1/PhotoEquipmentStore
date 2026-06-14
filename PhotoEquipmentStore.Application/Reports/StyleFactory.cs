@@ -58,7 +58,7 @@ internal class StyleFactory
 
     public uint RedText()
     {
-        uint fontId = AddFont(true, "E74C3C");  // error из Colors.axaml
+        uint fontId = AddFont(true, "E74C3C");
         return AddFormat(fontId, 1);
     }
 

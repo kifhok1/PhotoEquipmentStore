@@ -66,7 +66,7 @@
                                TextWrapping="Wrap" Margin="0 0 0 -10">
                         Введите символы с картинки
                     </TextBlock>
-                    
+
                     <Border Height="60"
                             Background="{DynamicResource main_background}"
                             CornerRadius="10"

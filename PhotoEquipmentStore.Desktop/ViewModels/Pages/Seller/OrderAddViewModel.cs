@@ -10,28 +10,24 @@ using PhotoEquipmentStore.Models;
 using ReactiveUI;
 using System.Windows.Input;
 using Avalonia;
-using PhotoEquipmentStore.Application.Interfaces; // Добавлено для IReceiptPdfService
+using PhotoEquipmentStore.Application.Interfaces;
 using PhotoEquipmentStore.Application.DTO;
-using PhotoEquipmentStore.Infrastructure.Services; // Добавлено для ReceiptData
+using PhotoEquipmentStore.Infrastructure.Services;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class OrderAddViewModel : ViewModelBase
 {
-    // ── Сервисы ───────────────────────────────────────────────────────────────
 
     private readonly ProductsService  _productsService  = new();
     private readonly ClientsService   _clientsService   = new();
     private readonly ReferenceService _referenceService = new();
     private readonly Action<OrderConfirmViewModel> _goToConfirm;
     private readonly Action _goBackToAdd;
-    /// <summary>Скрывает поле поиска когда клиент уже выбран.</summary>
+
     public bool IsClientSearchVisible => _selectedClient == null;
 
-    // ── Делегат сохранения чека (внедряется через Behavior как в отчётах) ─────────
     public Func<string, Task<string?>>? SaveReceiptDelegate { get; set; }
-
-    // ── Каталог ───────────────────────────────────────────────────────────────
 
     private ObservableCollection<OrderProductShow> _allProducts = new();
 
@@ -56,7 +52,7 @@ public class OrderAddViewModel : ViewModelBase
             ApplyFilters();
         }
     }
-    
+
     private CornerRadius _clientDropDownCornerRadius = new CornerRadius(6);
     public CornerRadius ClientDropDownCornerRadius
     {
@@ -86,8 +82,6 @@ public class OrderAddViewModel : ViewModelBase
         }
     }
 
-    // ── Предпросмотр ──────────────────────────────────────────────────────────
-
     private OrderProductShow? _selectedProduct;
     public OrderProductShow? SelectedProduct
     {
@@ -101,8 +95,6 @@ public class OrderAddViewModel : ViewModelBase
         get => _isProductPanelVisible;
         set => this.RaiseAndSetIfChanged(ref _isProductPanelVisible, value);
     }
-
-    // ── Корзина ───────────────────────────────────────────────────────────────
 
     public ObservableCollection<OrderCartItem> CartItems { get; } = new();
 
@@ -140,8 +132,6 @@ public class OrderAddViewModel : ViewModelBase
         get => _cartTotal;
         private set => this.RaiseAndSetIfChanged(ref _cartTotal, value);
     }
-
-    // ── Клиенты ───────────────────────────────────────────────────────────────
 
     private List<ClientShow> _allClients = new();
     public ObservableCollection<ClientShow> FilteredClients { get; } = new();
@@ -194,8 +184,6 @@ public class OrderAddViewModel : ViewModelBase
         }
     }
 
-    // ── Ошибка ────────────────────────────────────────────────────────────────
-
     private string? _errorMessage;
     public string? ErrorMessage
     {
@@ -208,8 +196,6 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     public bool HasError => !string.IsNullOrEmpty(_errorMessage);
-
-    // ── Команды ───────────────────────────────────────────────────────────────
 
     public ICommand SelectProductCommand      { get; }
     public ICommand ClearSelectionCommand     { get; }
@@ -225,14 +211,12 @@ public class OrderAddViewModel : ViewModelBase
     public ICommand ToggleCartPanelCommand    { get; }
     public ICommand SelectClientCommand       { get; }
 
-    // ── Конструктор ───────────────────────────────────────────────────────────
-
     public OrderAddViewModel(Action<OrderConfirmViewModel> goToConfirm, Action goBackToAdd, UserInfo seller)
     {
         _goToConfirm  = goToConfirm;
         _goBackToAdd  = goBackToAdd;
         Seller = seller;
-        
+
         SelectProductCommand = ReactiveCommand.Create<OrderProductShow>(p =>
         {
             SelectedProduct = p;
@@ -268,8 +252,6 @@ public class OrderAddViewModel : ViewModelBase
 
         LoadData();
     }
-
-    // ── Загрузка данных ───────────────────────────────────────────────────────
 
     private void LoadData()
     {
@@ -346,8 +328,6 @@ public class OrderAddViewModel : ViewModelBase
         catch { return null; }
     }
 
-    // ── Фильтрация товаров ────────────────────────────────────────────────────
-
     private void ApplyFilters()
     {
         var result = _allProducts.AsEnumerable();
@@ -366,8 +346,6 @@ public class OrderAddViewModel : ViewModelBase
         FilteredProducts = new ObservableCollection<OrderProductShow>(result);
     }
 
-    // ── Фильтрация клиентов ───────────────────────────────────────────────────
-
     private void ApplyClientFilter()
     {
         FilteredClients.Clear();
@@ -381,8 +359,6 @@ public class OrderAddViewModel : ViewModelBase
         foreach (var c in query)
             FilteredClients.Add(c);
     }
-
-    // ── Логика корзины ────────────────────────────────────────────────────────
 
     private void AddToCart(OrderProductShow product)
     {
@@ -477,8 +453,6 @@ public class OrderAddViewModel : ViewModelBase
         SelectedCategory     = Categories.FirstOrDefault();
         SelectedManufacturer = Manufacturers.FirstOrDefault();
     }
-    
-    // ── Модалка подтверждения ─────────────────────────────────────────────────
 
     private void ConfirmOrder()
     {
@@ -495,7 +469,6 @@ public class OrderAddViewModel : ViewModelBase
             ErrorMessage = "Корзина пуста.";
             return;
         }
-        
 
         var vm = new OrderConfirmViewModel(
             client:            SelectedClient,
@@ -504,7 +477,7 @@ public class OrderAddViewModel : ViewModelBase
             seller:            Seller,
             onConfirm:         OnOrderConfirmed,
             goBack:            _goBackToAdd,
-            receiptPdfService: new ReceiptPdfService() // Правильное имя параметра и типа!
+            receiptPdfService: new ReceiptPdfService()
         );
 
         _goToConfirm(vm);

@@ -30,16 +30,12 @@ public class ReferenceAddViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> SaveCommand  { get; }
     public ReactiveCommand<Unit, Unit> ResetCommand { get; }
 
-    /// <param name="goBack">Вызывается при «Сбросить» и после успешного сохранения</param>
-    /// <param name="type">Тип справочника</param>
-    /// <param name="editItem">Не null → режим редактирования</param>
     public ReferenceAddViewModel(Action goBack, ReferenceType type, ReferenceShow? editItem = null)
     {
         _goBack   = goBack;
         _editItem = editItem;
         ReferenceType = type;
 
-        // Предзаполнение при редактировании
         if (editItem is not null)
             _title = editItem.Title;
 
@@ -60,7 +56,7 @@ public class ReferenceAddViewModel : ViewModelBase
             title => !string.IsNullOrWhiteSpace(title) && IsValidForType(title, type));
 
         SaveCommand  = ReactiveCommand.Create(Save,  canSave);
-        ResetCommand = ReactiveCommand.Create(_goBack);   // ← сразу возврат на список
+        ResetCommand = ReactiveCommand.Create(_goBack);
     }
 
     private async void Save()
@@ -118,7 +114,7 @@ public class ReferenceAddViewModel : ViewModelBase
                 else
                     type = Domain.Enums.ReferenceType.Role;
                 var dto = _referenceService.Create(type, Title);
-                
+
                 if (dto.IsSuccess)
                 {
                     await NotificationService.Instance.ShowInfoAsync(

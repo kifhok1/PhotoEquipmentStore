@@ -17,7 +17,7 @@
     </Design.DataContext>
 
     <UserControl.Styles>
-        <!-- Красная рамка TextBox при ошибке -->
+
         <Style Selector="TextBox.invalid">
             <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
         </Style>
@@ -35,7 +35,6 @@
               ColumnSpacing="15"
               VerticalAlignment="Center">
 
-            <!-- ── Основная информация ──────────────────────────────────── -->
             <Border Grid.Column="0" Grid.Row="0"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"
@@ -53,7 +52,6 @@
                     <Grid RowDefinitions="Auto Auto" RowSpacing="12"
                           ColumnDefinitions="* *" ColumnSpacing="10">
 
-                        <!-- ФИО -->
                         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Spacing="2">
                             <TextBlock Classes="Body">ФИО</TextBlock>
                             <TextBox x:Name="UserNameBox"
@@ -65,14 +63,14 @@
                                     <behaviors:RussianNameInputBehavior/>
                                 </i:Interaction.Behaviors>
                             </TextBox>
-                            <!-- Ошибка от поведения (недопустимый символ) -->
+
                             <TextBlock Classes="Caption"
                                        TextWrapping="Wrap"
                                        Foreground="{DynamicResource error}"
                                        IsVisible="{Binding #UserNameBox.(helpers:InputValidation.InputError),
                                        Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                        Text="{Binding #UserNameBox.(helpers:InputValidation.InputError)}"/>
-                            <!-- Ошибка формата от ВМ (три слова) -->
+
                             <TextBlock Classes="Caption"
                                        TextWrapping="Wrap"
                                        Foreground="{DynamicResource error}"
@@ -81,7 +79,6 @@
                                        Text="{Binding UserNameError}"/>
                         </StackPanel>
 
-                        <!-- Роль -->
                         <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2">
                             <TextBlock Classes="Body">Роль</TextBlock>
                             <ComboBox PlaceholderText="Выберите роль пользователя"
@@ -92,7 +89,6 @@
                                       DisplayMemberBinding="{Binding Title}"/>
                         </StackPanel>
 
-                        <!-- Телефон -->
                         <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2">
                             <TextBlock Classes="Body">Номер телефона</TextBlock>
                             <TextBox x:Name="PhoneBox"
@@ -115,7 +111,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Учётные данные ───────────────────────────────────────── -->
             <Border Grid.Column="0" Grid.Row="1"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"
@@ -133,7 +128,6 @@
 
                     <Grid ColumnDefinitions="* * Auto" ColumnSpacing="10">
 
-                        <!-- Логин -->
                         <StackPanel Grid.Column="0" Spacing="2">
                             <TextBlock Classes="Body">Логин</TextBlock>
                             <TextBox x:Name="LoginBox"
@@ -153,7 +147,6 @@
                                        Text="{Binding #LoginBox.(helpers:InputValidation.InputError)}"/>
                         </StackPanel>
 
-                        <!-- Пароль -->
                         <StackPanel Grid.Column="1" Spacing="2">
                             <TextBlock Classes="Body">Пароль</TextBlock>
                             <TextBox x:Name="PasswordBox"
@@ -173,7 +166,6 @@
                                        Text="{Binding #PasswordBox.(helpers:InputValidation.InputError)}"/>
                         </StackPanel>
 
-                        <!-- Генерация пароля -->
                         <StackPanel Grid.Column="2" Spacing="2">
                             <TextBlock Classes="Body" Opacity="0">_</TextBlock>
                             <Button Classes="Secondary"
@@ -190,7 +182,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Изображение ─────────────────────────────────────────── -->
             <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"
@@ -211,7 +202,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Кнопки ──────────────────────────────────────────────── -->
             <Border Grid.Column="1" Grid.Row="2"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"

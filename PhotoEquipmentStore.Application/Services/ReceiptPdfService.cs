@@ -13,7 +13,6 @@ namespace PhotoEquipmentStore.Infrastructure.Services;
 
 public class ReceiptPdfService : IReceiptPdfService
 {
-    // ── Цвета — единая синяя палитра ─────────────────────────────────────────
 
     private const string CPrimary      = "#4E6EF5";
     private const string CPrimaryDark  = "#3A55D4";
@@ -25,10 +24,8 @@ public class ReceiptPdfService : IReceiptPdfService
     private const string CBackground   = "#EAEFF9";
     private const string CBorder       = "#D2DAEC";
     private const string CElevated     = "#F3F6FF";
-    private const string CSuccess      = "#27AE60";  // зелёный только для скидок
+    private const string CSuccess      = "#27AE60";
     private const string CSuccessBg    = "#EAF7EF";
-
-    // ── Логотип ───────────────────────────────────────────────────────────────
 
     private static byte[]? _logoBytes;
 
@@ -47,7 +44,7 @@ public class ReceiptPdfService : IReceiptPdfService
         }
         return _logoBytes;
     }
-    
+
     public Task<(bool Success, string? Error)> SaveReceiptAsync(ReceiptData data, string filePath)
     {
         try
@@ -81,8 +78,6 @@ public class ReceiptPdfService : IReceiptPdfService
         }
     }
 
-    // ── Шапка ─────────────────────────────────────────────────────────────────
-
     private static void ComposeHeader(QContainer container, ReceiptData data)
     {
         container.Column(col =>
@@ -93,10 +88,10 @@ public class ReceiptPdfService : IReceiptPdfService
                 .PaddingVertical(16)
                 .Row(row =>
                 {
-                    // Логотип — иконка камеры + название
+
                     row.RelativeItem().Column(c =>
                     {
-                        // Иконка камеры через Unicode + название рядом
+
                         c.Item().Row(r =>
                         {
                             var logo = GetLogoBytes();
@@ -123,7 +118,6 @@ public class ReceiptPdfService : IReceiptPdfService
                         });
                     });
 
-                    // Номер и дата
                     row.AutoItem().AlignRight().AlignMiddle().Column(c =>
                     {
                         c.Item().AlignRight()
@@ -135,12 +129,9 @@ public class ReceiptPdfService : IReceiptPdfService
                     });
                 });
 
-            // Разделитель — тёмно-синяя полоса (вместо оранжевой)
             col.Item().Height(4).Background(CPrimaryDark);
         });
     }
-
-    // ── Основной контент ──────────────────────────────────────────────────────
 
     private static void ComposeContent(QContainer container, ReceiptData data)
     {
@@ -149,7 +140,7 @@ public class ReceiptPdfService : IReceiptPdfService
             .PaddingTop(16)
             .Column(col =>
             {
-                // ── Участники сделки ──────────────────────────────────────────
+
                 col.Item().Row(row =>
                 {
                     row.RelativeItem().Element(c => ComposePersonCard(c,
@@ -171,7 +162,6 @@ public class ReceiptPdfService : IReceiptPdfService
 
                 col.Item().Height(14);
 
-                // ── Заголовок таблицы ─────────────────────────────────────────
                 col.Item().Row(r =>
                 {
                     r.RelativeItem()
@@ -184,7 +174,6 @@ public class ReceiptPdfService : IReceiptPdfService
 
                 col.Item().Height(6);
 
-                // Шапка таблицы
                 col.Item()
                     .Background(CPrimary)
                     .PaddingVertical(6)
@@ -208,7 +197,6 @@ public class ReceiptPdfService : IReceiptPdfService
                             .FontSize(8).Bold().FontColor(CSurface);
                     });
 
-                // Строки товаров
                 for (int i = 0; i < data.Items.Count; i++)
                 {
                     var item     = data.Items[i];
@@ -230,7 +218,6 @@ public class ReceiptPdfService : IReceiptPdfService
                                 .Text(item.Quantity.ToString())
                                 .FontSize(8.5f).FontColor(CSecondary);
 
-                            // Оригинальная цена (зачёркнутая если есть скидка)
                             r.RelativeItem(2.2f).AlignRight().Text(text =>
                             {
                                 var span = text.Span($"{item.OriginalPrice:N0} ₽")
@@ -241,7 +228,6 @@ public class ReceiptPdfService : IReceiptPdfService
                                     span.FontColor(CMainText);
                             });
 
-                            // Цена со скидкой
                             r.RelativeItem(2.2f).AlignRight().Text(text =>
                             {
                                 var span = text.Span($"{item.FinalPrice:N0} ₽")
@@ -260,10 +246,9 @@ public class ReceiptPdfService : IReceiptPdfService
 
                 col.Item().Height(14);
 
-                // ── Блок итогов — на всю ширину ───────────────────────────────
                 col.Item().Column(s =>
                 {
-                    // Строки скидок
+
                     if (data.ProductDiscount > 0 || data.ClientDiscountAmt > 0)
                     {
                         col.Item()
@@ -298,7 +283,6 @@ public class ReceiptPdfService : IReceiptPdfService
                                 $"+{data.Delivery:N0} ₽", CSecondary);
                     }
 
-                    // Итоговая строка — на всю ширину
                     s.Item()
                         .Background(CPrimary)
                         .PaddingVertical(10)
@@ -315,8 +299,6 @@ public class ReceiptPdfService : IReceiptPdfService
                 });
             });
     }
-
-    // ── Подвал ────────────────────────────────────────────────────────────────
 
     private static void ComposeFooter(QContainer container)
     {
@@ -337,8 +319,6 @@ public class ReceiptPdfService : IReceiptPdfService
                 });
             });
     }
-
-    // ── Карточка участника ────────────────────────────────────────────────────
 
     private static void ComposePersonCard(
         QContainer container,
@@ -382,8 +362,6 @@ public class ReceiptPdfService : IReceiptPdfService
                 }
             });
     }
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private static void AddSummaryRow(
         ColumnDescriptor col,

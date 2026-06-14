@@ -19,8 +19,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
 
     public IStorageProvider? StorageProvider { get; set; }
 
-    // ── Статистика ────────────────────────────────────────────────────────────
-
     private string _ordersToday  = "—";
     private string _itemsToday   = "—";
     private string _revenueToday = "—";
@@ -34,8 +32,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
     public string OrdersMonth  { get => _ordersMonth;  private set => this.RaiseAndSetIfChanged(ref _ordersMonth,  value); }
     public string ItemsMonth   { get => _itemsMonth;   private set => this.RaiseAndSetIfChanged(ref _itemsMonth,   value); }
     public string RevenueMonth { get => _revenueMonth; private set => this.RaiseAndSetIfChanged(ref _revenueMonth, value); }
-
-    // ── Отчёт 1: Продажи — даты ───────────────────────────────────────────────
 
     public DateTimeOffset? SalesMinDate { get; private set; }
     public DateTimeOffset? SalesMaxDate { get; private set; }
@@ -70,8 +66,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
-    // ── Отчёт 2: Остатки — категория ─────────────────────────────────────────
-
     public ObservableCollection<Reference> StockCategories { get; } = new();
 
     private Reference? _selectedStockCategory;
@@ -80,8 +74,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         get => _selectedStockCategory;
         set => this.RaiseAndSetIfChanged(ref _selectedStockCategory, value);
     }
-
-    // ── Отчёт 3: Популярность ─────────────────────────────────────────────────
 
     public ObservableCollection<Reference> PopularityCategories { get; } = new();
 
@@ -107,13 +99,9 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         set => this.RaiseAndSetIfChanged(ref _selectedPopularityType, value);
     }
 
-    // ── Команды ───────────────────────────────────────────────────────────────
-
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> BuildSalesReportCommand      { get; }
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> BuildStockReportCommand      { get; }
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> BuildPopularityReportCommand { get; }
-
-    // ── Уведомления ──────────────────────────────────────────────────────────
 
     private string? _errorMessage;
     public string? ErrorMessage
@@ -121,8 +109,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         get => _errorMessage;
         private set => this.RaiseAndSetIfChanged(ref _errorMessage, value);
     }
-
-    // ── Конструктор ───────────────────────────────────────────────────────────
 
     public ReportsViewModel()
     {
@@ -132,10 +118,8 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
 
         LoadStats();
         LoadCategories();
-        // LoadDateRange убран отсюда — вызывается из Behavior после AttachedToVisualTree
-    }
 
-    // ── Загрузка данных ───────────────────────────────────────────────────────
+    }
 
     private void LoadStats()
     {
@@ -193,8 +177,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         SelectedPopularityCategory = all;
     }
 
-    // ── Диалог выбора пути ────────────────────────────────────────────────────
-
     private async Task<string?> PickSavePathAsync(string defaultPath)
     {
         if (StorageProvider is null) return null;
@@ -219,8 +201,6 @@ public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
         var file = await StorageProvider.SaveFilePickerAsync(options);
         return file?.TryGetLocalPath();
     }
-
-    // ── Команды — реализация ──────────────────────────────────────────────────
 
     private async Task ExecuteBuildSalesReportAsync()
     {

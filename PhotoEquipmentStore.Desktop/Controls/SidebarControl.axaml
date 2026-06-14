@@ -10,13 +10,13 @@
             BorderBrush="{DynamicResource border}"
             BorderThickness="0 0 1 0">
         <DockPanel>
-            <!-- Логотип -->
+
             <Border DockPanel.Dock="Top"
                     Padding="0 0 0 10"
                     Margin="0"
                     BorderThickness="0 0 0 1"
                     BorderBrush="{DynamicResource border}">
-                <StackPanel Height="45" 
+                <StackPanel Height="45"
                             Orientation="Horizontal"
                             Spacing="6"
                             Margin="14 16 0 0">
@@ -33,16 +33,15 @@
                             <Path Classes="Logo"/>
                         </Viewbox>
                     </Border>
-                    <TextBlock Classes="H3" Foreground="{DynamicResource main_text}" 
+                    <TextBlock Classes="H3" Foreground="{DynamicResource main_text}"
                                FontSize="18" FontWeight="SemiBold"
-                               HorizontalAlignment="Center" 
+                               HorizontalAlignment="Center"
                                TextWrapping="Wrap">
                         Магазин<LineBreak/>фототехники
                     </TextBlock>
                 </StackPanel>
             </Border>
-            
-            <!-- Пользователь (прижат к низу) -->
+
             <Border DockPanel.Dock="Bottom"
                     Padding="10 16 8 16"
                     BorderThickness=" 0 1 0 0"
@@ -79,7 +78,6 @@
                             </Border>
                         </Border>
 
-
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="{Binding #This.Username.UserName}"
                                        Classes="Caption"
@@ -103,16 +101,15 @@
                             ToolTip.Tip="Выйти"
                             Command="{Binding #This.LogoutCommand}">
                         <Button.Content>
-                            <Path Width="16" 
-                                  Height="14" 
+                            <Path Width="16"
+                                  Height="14"
                                   StrokeThickness="1.5"
                                   Data="{DynamicResource Logout}"/>
                         </Button.Content>
                     </Button>
                 </Panel>
             </Border>
-            
-            <!-- Меню -->
+
             <ListBox Classes="SidebarMenu"
                      ItemsSource="{Binding #This.MenuItems}"
                      SelectedItem="{Binding #This.SelectedMenuItem, Mode=TwoWay}"
@@ -120,7 +117,7 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="models:NavigationMenuItem">
-                            <!-- Кнопка пункта меню -->
+
                             <Button Classes="SidebarMenuItem"
                                     Command="{Binding NavigateCommand}">
                                 <Panel>
@@ -130,21 +127,21 @@
                                             IsVisible="{Binding $parent[ListBoxItem].IsSelected}"/>
                                     <StackPanel Orientation="Horizontal"
                                                 Spacing="8" Margin=" 0 6 8 6">
-                                        
+
                                         <Border CornerRadius="0,3,3,0"
                                                 Background="{DynamicResource primary}"
                                                 IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                                 Height="24"
                                                 Width="3"
                                                 Margin="0 0 0 0"/>
-                                        
+
                                         <Border CornerRadius="0,3,3,0"
                                                 Background="Transparent"
                                                 IsVisible="{Binding !$parent[ListBoxItem].IsSelected}"
                                                 Height="24"
                                                 Width="3"
                                                 Margin="0 0 0 0"/>
-                                        
+
                                         <Path x:Name="Icon"
                                               Data="{Binding Icon}"/>
 

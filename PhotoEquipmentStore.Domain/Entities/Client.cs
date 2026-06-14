@@ -7,7 +7,7 @@ public class Client
     public string      FullName       { get; }
     public string      Phone          { get; }
     public int         TotalPurchases { get; }
-    public int         CountOrders    { get; } 
+    public int         CountOrders    { get; }
 
     public Client(int id, string name, string phone, int totalPurchases, int countOrders)
     {
@@ -24,7 +24,7 @@ public class Client
         FullName       = name;
         Phone          = phone;
     }
-    
+
     public Client(string name, string phone)
     {
         FullName       = name;

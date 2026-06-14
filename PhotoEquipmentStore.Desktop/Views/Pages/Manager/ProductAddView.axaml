@@ -34,7 +34,6 @@
               ColumnSpacing="15"
               VerticalAlignment="Center">
 
-            <!-- ── Основная информация ───────────────────────────────────── -->
             <Border Grid.Column="0" Grid.Row="0"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"
@@ -52,7 +51,6 @@
                     <Grid RowDefinitions="Auto Auto Auto" RowSpacing="12"
                           ColumnDefinitions="* *" ColumnSpacing="10">
 
-                        <!-- Название -->
                         <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2">
                             <TextBlock Classes="Body">Название</TextBlock>
                             <TextBox x:Name="NameBox"
@@ -73,7 +71,6 @@
                                        Text="{Binding #NameBox.(helpers:InputValidation.InputError)}"/>
                         </StackPanel>
 
-                        <!-- Категория -->
                         <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2">
                             <TextBlock Classes="Body">Категория</TextBlock>
                             <ComboBox PlaceholderText="Выберите категорию"
@@ -84,7 +81,6 @@
                                       DisplayMemberBinding="{Binding Title}"/>
                         </StackPanel>
 
-                        <!-- Производитель -->
                         <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2">
                             <TextBlock Classes="Body">Производитель</TextBlock>
                             <ComboBox PlaceholderText="Выберите производителя"
@@ -95,7 +91,6 @@
                                       DisplayMemberBinding="{Binding Title}"/>
                         </StackPanel>
 
-                        <!-- Поставщик -->
                         <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2">
                             <TextBlock Classes="Body">Поставщик</TextBlock>
                             <ComboBox PlaceholderText="Выберите поставщика"
@@ -106,7 +101,6 @@
                                       DisplayMemberBinding="{Binding Title}"/>
                         </StackPanel>
 
-                        <!-- Описание -->
                         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Spacing="2">
                             <TextBlock Classes="Body">Описание товара</TextBlock>
                             <TextBox TextWrapping="Wrap"
@@ -119,7 +113,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Цена, количество, скидка ──────────────────────────────── -->
             <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"
@@ -137,7 +130,6 @@
 
                     <Grid ColumnDefinitions="* * *" ColumnSpacing="10">
 
-                        <!-- Цена -->
                         <StackPanel Grid.Column="0" Spacing="2">
                             <TextBlock Classes="Body">Цена</TextBlock>
                             <TextBox x:Name="PriceBox"
@@ -157,7 +149,6 @@
                                        Text="{Binding #PriceBox.(helpers:InputValidation.InputError)}"/>
                         </StackPanel>
 
-                        <!-- Количество -->
                         <StackPanel Grid.Column="1" Spacing="2">
                             <TextBlock Classes="Body">Количество</TextBlock>
                             <TextBox x:Name="QtyBox"
@@ -177,7 +168,6 @@
                                        Text="{Binding #QtyBox.(helpers:InputValidation.InputError)}"/>
                         </StackPanel>
 
-                        <!-- Скидка -->
                         <StackPanel Grid.Column="2" Spacing="2">
                             <TextBlock Classes="Body">Скидка</TextBlock>
                             <TextBox x:Name="DiscountBox"
@@ -200,7 +190,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Изображение ─────────────────────────────────────────── -->
             <Border Grid.Column="1" Grid.Row="0"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"
@@ -221,7 +210,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Кнопки ──────────────────────────────────────────────── -->
             <Border Grid.Column="1" Grid.Row="2"
                     Background="{DynamicResource surface}"
                     CornerRadius="10"

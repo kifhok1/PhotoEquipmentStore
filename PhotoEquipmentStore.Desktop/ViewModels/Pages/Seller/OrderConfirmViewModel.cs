@@ -1,4 +1,4 @@
-// ViewModels/Pages/Seller/OrderConfirmViewModel.cs
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +20,6 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
 {
-    // ── Данные заказа ─────────────────────────────────────────────────────────
 
     public string OrderNumber { get; }
     public string CreatedAt   { get; }
@@ -43,8 +42,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
     public string ItemCountLabel =>
         $"{Items.Count} {PluralItems(Items.Count)}";
 
-    // ── Состояние ─────────────────────────────────────────────────────────────
-
     private bool _isConfirmed;
     public bool IsConfirmed
     {
@@ -59,8 +56,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
         private set => this.RaiseAndSetIfChanged(ref _receiptSaved, value);
     }
 
-    // ── IStorageProviderReceiver ──────────────────────────────────────────────
-
     private IStorageProvider? _storageProvider;
     public IStorageProvider? StorageProvider
     {
@@ -68,13 +63,9 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
         set => this.RaiseAndSetIfChanged(ref _storageProvider, value);
     }
 
-    // ── Команды ───────────────────────────────────────────────────────────────
-
     public ReactiveCommand<Unit, Unit> ConfirmCommand     { get; }
     public ReactiveCommand<Unit, Unit> GoBackCommand      { get; }
     public ReactiveCommand<Unit, Unit> SaveReceiptCommand { get; }
-
-    // ── Зависимости ───────────────────────────────────────────────────────────
 
     private readonly int                 _clientId;
     private readonly List<OrderCartItem> _cartSnapshot;
@@ -83,8 +74,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
     private readonly OrderService        _orderService  = new();
     private readonly OrderCommands       _orderCommands = new();
     private readonly IReceiptPdfService  _receiptPdfService;
-
-    // ── Конструктор ───────────────────────────────────────────────────────────
 
     public OrderConfirmViewModel(
         ClientShow client,
@@ -120,7 +109,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
         _goBack            = goBack;
         _receiptPdfService = receiptPdfService;
 
-        // Номер генерируется последним — делает запрос в БД
         OrderNumber = GenerateUniqueOrderNumber();
 
         ConfirmCommand = ReactiveCommand.CreateFromTask(
@@ -133,8 +121,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
             ExecuteSaveReceiptAsync,
             this.WhenAnyValue(x => x.IsConfirmed));
     }
-
-    // ── Подтверждение заказа ─────────────────────────────────────────────────
 
     private async Task ExecuteConfirmAsync()
     {
@@ -190,8 +176,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
-    // ── Сохранение чека ───────────────────────────────────────────────────────
-
     private async Task ExecuteSaveReceiptAsync()
     {
         if (_storageProvider is null)
@@ -207,11 +191,11 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
             "ФотоМагазин");
 
         try { Directory.CreateDirectory(defaultDir); }
-        catch { /* не критично */ }
+        catch {  }
 
         IStorageFolder? startFolder = null;
         try { startFolder = await _storageProvider.TryGetFolderFromPathAsync(defaultDir); }
-        catch { /* откроется в папке по умолчанию */ }
+        catch {  }
 
         IStorageFile? file;
         try
@@ -266,8 +250,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
         }
     }
 
-    // ── Построение данных чека ────────────────────────────────────────────────
-
     private ReceiptData BuildReceiptData() => new()
     {
         OrderNumber       = OrderNumber,
@@ -292,8 +274,6 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
         Delivery          = Delivery,
         Total             = Total
     };
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private string GenerateUniqueOrderNumber()
     {

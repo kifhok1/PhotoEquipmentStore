@@ -13,7 +13,7 @@ public class SettingsUIFileParser
     {
         WriteIndented = true
     };
-    
+
     public static string? GetTheme()
     {
         if (!File.Exists(_filePath))
@@ -24,7 +24,7 @@ public class SettingsUIFileParser
 
         return root?["theme"]?.GetValue<string>();
     }
-    
+
     public static void SetTheme(string theme)
     {
         if (theme == null) throw new ArgumentNullException(nameof(theme));

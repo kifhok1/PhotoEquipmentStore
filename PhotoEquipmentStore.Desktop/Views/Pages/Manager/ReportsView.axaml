@@ -21,7 +21,6 @@
               RowSpacing="10"
               ColumnSpacing="8">
 
-            <!-- ── Заказов сегодня ── -->
             <Border Grid.Row="0" Grid.Column="0"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -52,7 +51,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Товаров сегодня ── -->
             <Border Grid.Row="0" Grid.Column="1"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -83,7 +81,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Выручка сегодня ── -->
             <Border Grid.Row="0" Grid.Column="2"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -114,7 +111,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Заказов за месяц ── -->
             <Border Grid.Row="1" Grid.Column="0"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -145,7 +141,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Товаров за месяц ── -->
             <Border Grid.Row="1" Grid.Column="1"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -176,7 +171,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Выручка за месяц ── -->
             <Border Grid.Row="1" Grid.Column="2"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -207,7 +201,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Отчёт по продажам ── -->
             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -263,7 +256,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Остатки на складе ── -->
             <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">
@@ -311,7 +303,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Популярные товары ── -->
             <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
                     BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     CornerRadius="8" Background="{DynamicResource surface}">

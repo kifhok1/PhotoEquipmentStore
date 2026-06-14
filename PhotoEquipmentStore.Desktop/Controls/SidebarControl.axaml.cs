@@ -10,27 +10,23 @@ namespace PhotoEquipmentStore.Controls;
 
 public partial class SidebarControl : UserControl
 {
-    
-    // Коллекция пунктов меню
+
     public static readonly StyledProperty<ObservableCollection<NavigationMenuItem>> MenuItemsProperty =
         AvaloniaProperty.Register<SidebarControl, ObservableCollection<NavigationMenuItem>>(
             nameof(MenuItems));
 
-    // Выбранный пункт
     public static readonly StyledProperty<NavigationMenuItem> SelectedMenuItemProperty =
         AvaloniaProperty.Register<SidebarControl, NavigationMenuItem>(
             nameof(SelectedMenuItem));
-    
-    // Имя пользователя
+
     public static readonly StyledProperty<UserInfo> UsernameProperty =
         AvaloniaProperty.Register<SidebarControl, UserInfo>(
             nameof(Username));
-    
-    // Команда выхода
+
     public static readonly StyledProperty<ReactiveCommand<Unit, Unit>> LogoutCommandProperty =
         AvaloniaProperty.Register<SidebarControl, ReactiveCommand<Unit, Unit>>(
             nameof(LogoutCommand));
-    
+
     public ObservableCollection<NavigationMenuItem> MenuItems
     {
         get => GetValue(MenuItemsProperty);
@@ -54,7 +50,7 @@ public partial class SidebarControl : UserControl
         get => GetValue(UsernameProperty);
         set => SetValue(UsernameProperty, value);
     }
-    
+
     public ReactiveCommand<Unit, Unit> LogoutCommand
     {
         get => GetValue(LogoutCommandProperty);
@@ -64,7 +60,7 @@ public partial class SidebarControl : UserControl
     public SidebarControl()
     {
         InitializeComponent();
-        
+
         if (Design.IsDesignMode)
         {
             MenuItems =
@@ -95,10 +91,10 @@ public partial class SidebarControl : UserControl
             Username = new UserInfo(0, "Иван Макаровouhpiuh phpihpyugpiuy",
                 "Админстратор",
                 new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
-            
+
             LogoutCommand = ReactiveCommand.Create(() => { });
         }
-        
+
         if (MenuItems != null)
         {
             SelectedMenuItem = MenuItems[0];

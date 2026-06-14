@@ -12,7 +12,7 @@ public class NavigationMenuItem : ReactiveObject
     private string title;
     private StreamGeometry icon;
     private ReactiveCommand<Unit, Unit> navigateCommand { get; init; } = null!;
-    
+
     public string Title
     {
         get { return title; }
@@ -34,7 +34,7 @@ public class NavigationMenuItem : ReactiveObject
         this.icon = IconProvider.Get(icon);
         this.navigateCommand = navigateCommand;
     }
-    
+
     public NavigationMenuItem(string title, string icon)
     {
         this.title = title;

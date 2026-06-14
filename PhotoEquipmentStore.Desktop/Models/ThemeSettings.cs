@@ -3,7 +3,7 @@ namespace PhotoEquipmentStore.Models;
 public class ThemeSettings
 {
     private string theme;
-    
+
     public override string ToString() => Theme;
 
     public string Theme
@@ -11,7 +11,7 @@ public class ThemeSettings
         get => theme;
         set => theme = value;
     }
-    
+
     public ThemeSettings(string theme)
     {
         Theme = theme;

@@ -13,12 +13,8 @@ public class ReportService
 {
     private readonly ReportCommands _commands = new();
 
-    // ── Диапазон дат заказов ──────────────────────────────────────────────────
-
     public (DateTime Min, DateTime Max) GetOrderDateRange()
         => _commands.GetOrderDateRange();
-
-    // ── Статистика ────────────────────────────────────────────────────────────
 
     public DashboardStatsDto GetDashboardStats()
     {
@@ -31,8 +27,6 @@ public class ReportService
         }
         catch (DatabaseException) { return DashboardStatsDto.Empty; }
     }
-
-    // ── Отчёт 1: Продажи ─────────────────────────────────────────────────────
 
     public async Task<ReportResultDto> BuildSalesReportAsync(
         DateTime from, DateTime to,
@@ -60,8 +54,6 @@ public class ReportService
         }
     }
 
-    // ── Отчёт 2: Остатки ─────────────────────────────────────────────────────
-
     public async Task<ReportResultDto> BuildStockReportAsync(
         int? categoryId, string categoryName,
         Func<string, Task<string?>> pickSavePath)
@@ -88,8 +80,6 @@ public class ReportService
         }
     }
 
-    // ── Отчёт 3: Популярность ────────────────────────────────────────────────
-
     public async Task<ReportResultDto> BuildPopularityReportAsync(
         int? categoryId, string categoryName, PopularityMode mode,
         Func<string, Task<string?>> pickSavePath)
@@ -100,7 +90,6 @@ public class ReportService
             if (data.Count == 0)
                 return ReportResultDto.Failure("Нет данных по выбранной категории.");
 
-            // ← allCategories = true когда фильтр не задан (все товары)
             bool allCategories = categoryId is null;
 
             string modeTag = mode switch
@@ -129,8 +118,6 @@ public class ReportService
         }
     }
 
-    // ── Private ───────────────────────────────────────────────────────────────
-
     private static async Task<string> ResolveSavePath(
         string defaultPath,
         Func<string, Task<string?>> pickSavePath)
@@ -141,7 +128,7 @@ public class ReportService
             if (!string.IsNullOrWhiteSpace(chosen))
                 return chosen;
         }
-        catch { /* пользователь отменил — fallback */ }
+        catch {  }
 
         return defaultPath;
     }

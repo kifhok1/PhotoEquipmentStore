@@ -33,5 +33,5 @@ public class ComboBoxDropDownBorderBehavior : Behavior<ComboBox>
         if (AssociatedObject is null) return;
         AssociatedObject.CornerRadius = new CornerRadius(6);
         AssociatedObject.BorderThickness = new Thickness(1);
-    } 
+    }
 }

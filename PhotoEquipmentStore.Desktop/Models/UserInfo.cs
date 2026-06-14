@@ -16,7 +16,7 @@ public class UserInfo
             return userId;
         }
     }
-    
+
     public string UserName
     {
         get
@@ -40,8 +40,7 @@ public class UserInfo
             return userImage;
         }
     }
-    
-    
+
     public UserInfo(int userID, string userName, string userRole, Bitmap userImage)
     {
         this.userId = userID;

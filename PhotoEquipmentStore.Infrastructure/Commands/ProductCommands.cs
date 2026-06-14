@@ -12,8 +12,6 @@ public class ProductCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public static ObservableCollection<Product> GetProducts()
     {
         try
@@ -78,8 +76,6 @@ public class ProductCommands
         }
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
-
     public bool CreateProduct(Product product)
     {
         try
@@ -117,8 +113,6 @@ public class ProductCommands
             throw new DatabaseException("Непредвиденная ошибка при создании товара.", ex);
         }
     }
-
-    // ── Update ────────────────────────────────────────────────────────────────
 
     public bool UpdateProduct(Product product)
     {
@@ -164,8 +158,6 @@ public class ProductCommands
             throw new DatabaseException("Непредвиденная ошибка при обновлении товара.", ex);
         }
     }
-
-    // ── Soft Delete ───────────────────────────────────────────────────────────
 
     public bool DeleteProduct(int productId)
     {

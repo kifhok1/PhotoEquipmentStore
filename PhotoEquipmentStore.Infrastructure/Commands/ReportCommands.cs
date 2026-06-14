@@ -12,8 +12,6 @@ public class ReportCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
-    // ── Статистика главного экрана ────────────────────────────────────────────
-
     public DashboardStats GetDashboardStats()
     {
         try
@@ -73,8 +71,6 @@ public class ReportCommands
         }
     }
 
-    // ── Диапазон дат заказов ──────────────────────────────────────────────────
-
     public (DateTime Min, DateTime Max) GetOrderDateRange()
     {
         try
@@ -108,8 +104,6 @@ public class ReportCommands
             throw new DatabaseException("Непредвиденная ошибка при получении диапазона дат.", ex);
         }
     }
-
-    // ── Отчёт 1: Продажи за период ───────────────────────────────────────────
 
     public List<SalesReportData> GetSalesReport(DateTime from, DateTime to)
     {
@@ -161,7 +155,7 @@ public class ReportCommands
                     reader.GetInt32("itemsCount"),
                     reader.GetInt32("totalQuantity"),
                     decimal.Round(reader.GetDecimal("totalSum"), 2),
-                    reader.GetInt32("statusId") == 2          // ← IsReturn
+                    reader.GetInt32("statusId") == 2
                 ));
             }
 
@@ -176,8 +170,6 @@ public class ReportCommands
             throw new DatabaseException("Непредвиденная ошибка при получении отчёта по продажам.", ex);
         }
     }
-
-    // ── Отчёт 2: Остатки на складе ───────────────────────────────────────────
 
     public List<StockReportData> GetStockReport(int? categoryId)
     {
@@ -232,8 +224,6 @@ public class ReportCommands
             throw new DatabaseException("Непредвиденная ошибка при получении отчёта по остаткам.", ex);
         }
     }
-
-    // ── Отчёт 3: Популярность товаров ────────────────────────────────────────
 
     public List<PopularityReportData> GetPopularityReport(int? categoryId, PopularityMode mode)
     {

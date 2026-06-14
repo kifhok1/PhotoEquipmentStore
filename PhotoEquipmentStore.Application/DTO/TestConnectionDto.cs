@@ -4,7 +4,7 @@ public class TestConnectionDto
 {
     public bool IsConnected { get; init; }
     public string? ErrorMessage { get; init; }
-    
+
     public static TestConnectionDto Success() =>
         new() { IsConnected = true};
 

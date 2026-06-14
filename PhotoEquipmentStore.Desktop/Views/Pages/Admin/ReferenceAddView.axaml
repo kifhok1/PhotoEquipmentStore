@@ -28,7 +28,6 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
 
-            <!-- ── Форма ── -->
             <Border Background="{DynamicResource surface}"
                     CornerRadius="10"
                     BorderBrush="{DynamicResource border}"
@@ -63,7 +62,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- ── Кнопки ── -->
             <Border Background="{DynamicResource surface}"
                     CornerRadius="10"
                     BorderBrush="{DynamicResource border}"

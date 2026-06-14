@@ -7,19 +7,19 @@ public class ConnectionToDBSettings
     private string password;
     private string database;
     private string connectionString;
-    
+
     public string Host
     {
         get => host;
         set => host = value;
     }
-    
+
     public string User
     {
         get => user;
         set => user = value;
     }
-    
+
     public string Password
     {
         get => password;

@@ -11,24 +11,16 @@
                 </StackPanel>
             </Border>
     </Design.PreviewWith>
-  
-  <Style Selector="ComboBoxItem">
-  
-  <!--
-    Стиль для элемента выпадающего списка (ComboBoxItem).
-    Определяет внешний вид и визуальные состояния: наведение, нажатие, выбор, отключение.
-  -->
 
-  <!--  Базовые свойства элемента  -->
+  <Style Selector="ComboBoxItem">
+
   <Setter Property="Foreground" Value="{DynamicResource secondary_text}" />
-  <Setter Property="Background" Value="{DynamicResource secondary_background}" />   <!--  Исправлено: исходный ComboBoxItemBackground, но оставляем как есть  -->
+  <Setter Property="Background" Value="{DynamicResource secondary_background}" />
   <Setter Property="BorderThickness" Value="1 0 1 0"/>
   <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
   <Setter Property="Padding" Value="5 7 0 7 "/>
   <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-  
 
-  <!--  Шаблон элемента – просто ContentPresenter, который отображает контент  -->
   <Setter Property="Template">
     <ControlTemplate>
       <Panel>
@@ -47,8 +39,7 @@
                 Background="{DynamicResource primary}"
                 Opacity="0"
                 IsHitTestVisible="False"/>
-      
-              <!-- Галочка справа -->
+
               <Viewbox x:Name="CheckMark"
                        Width="10" Height="10"
                        HorizontalAlignment="Right"
@@ -65,35 +56,30 @@
       </Panel>
     </ControlTemplate>
   </Setter>
-  
-  <!-- последний элемент -->
+
   <Style Selector="^:nth-last-child(1) /template/ ContentPresenter">
     <Setter Property="BorderThickness" Value="1 0 1 1"/>
     <Setter Property="CornerRadius" Value="0 0 5 5"/>
   </Style>
-  
-  <!--  Состояние: наведение курсора (PointerOver)  -->
+
   <Style Selector="^:pointerover /template/ ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource secondary_background}" />
     <Setter Property="BorderBrush" Value="{DynamicResource border}" />
     <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
   </Style>
 
-  <!--  Состояние: отключённый элемент (Disabled)  -->
   <Style Selector="^:disabled /template/ ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource secondary_background}" />
     <Setter Property="BorderBrush" Value="{DynamicResource border}" />
     <Setter Property="Foreground" Value="{DynamicResource muted_text}" />
   </Style>
 
-  <!--  Состояние: нажатие (Pressed)  -->
   <Style Selector="^:pressed /template/ ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource secondary_background}" />
     <Setter Property="BorderBrush" Value="{DynamicResource border}" />
     <Setter Property="Foreground" Value="{DynamicResource main_text}" />
   </Style>
 
-  <!--  Состояние: выбранный элемент (Selected)  -->
   <Style Selector="^:selected">
     <Style Selector="^ /template/ Border#SelectedOverlay">
       <Setter Property="Opacity" Value="0.1" />
@@ -101,28 +87,25 @@
     <Style Selector="^ /template/ Viewbox#CheckMark">
       <Setter Property="IsVisible" Value="True" />
     </Style>
-    <!--  Базовое состояние выбранного элемента  -->
+
     <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource border}" />
       <Setter Property="Foreground" Value="{DynamicResource primary}" />
     </Style>
 
-    <!--  Выбранный + отключённый  -->
     <Style Selector="^:disabled /template/ ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource border}" />
       <Setter Property="Foreground" Value="{DynamicResource primary}" />
     </Style>
 
-    <!--  Выбранный + наведение  -->
     <Style Selector="^:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource border}" />
       <Setter Property="Foreground" Value="{DynamicResource primary}" />
     </Style>
 
-    <!--  Выбранный + нажатие  -->
     <Style Selector="^:pressed /template/ ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource border}" />
@@ -130,5 +113,5 @@
     </Style>
   </Style>
 </Style>
-  
+
 </Styles>

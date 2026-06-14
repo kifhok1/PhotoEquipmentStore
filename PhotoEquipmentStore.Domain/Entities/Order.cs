@@ -75,13 +75,13 @@ public class Order
         get => orderDate;
         set => orderDate = value;
     }
-    
+
     public decimal TotalSum
     {
         get => totalSum;
         set => totalSum = value;
     }
-    
+
     public Order(
         string orderId,
         string clientId,

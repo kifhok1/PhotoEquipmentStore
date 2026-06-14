@@ -32,7 +32,6 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center">
 
-                <!-- ── Основная информация ── -->
                 <Border Background="{DynamicResource surface}"
                         CornerRadius="10"
                         BorderBrush="{DynamicResource border}"
@@ -48,7 +47,6 @@
 
                         <StackPanel Spacing="12">
 
-                            <!-- ФИО -->
                             <StackPanel Spacing="2">
                                 <TextBlock Classes="Body">ФИО</TextBlock>
                                 <TextBox x:Name="FullNameBox"
@@ -61,14 +59,14 @@
                                         <behaviors:RussianNameInputBehavior/>
                                     </i:Interaction.Behaviors>
                                 </TextBox>
-                                <!-- Ошибка от поведения (недопустимый символ) -->
+
                                 <TextBlock Classes="Caption"
                                            TextWrapping="Wrap"
                                            Foreground="{DynamicResource error}"
                                            IsVisible="{Binding #FullNameBox.(helpers:InputValidation.InputError),
                                                Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                            Text="{Binding #FullNameBox.(helpers:InputValidation.InputError)}"/>
-                                <!-- Ошибка формата от ВМ (минимум 2 слова) -->
+
                                 <TextBlock Classes="Caption"
                                            TextWrapping="Wrap"
                                            Foreground="{DynamicResource error}"
@@ -77,7 +75,6 @@
                                            Text="{Binding FullNameError}"/>
                             </StackPanel>
 
-                            <!-- Телефон -->
                             <StackPanel Spacing="2">
                                 <TextBlock Classes="Body">Номер телефона</TextBlock>
                                 <TextBox x:Name="PhoneBox"
@@ -101,7 +98,6 @@
                     </StackPanel>
                 </Border>
 
-                <!-- ── Кнопки ── -->
                 <Border Background="{DynamicResource surface}"
                         CornerRadius="10"
                         BorderBrush="{DynamicResource border}"

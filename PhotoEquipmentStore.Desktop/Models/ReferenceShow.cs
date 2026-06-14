@@ -17,13 +17,13 @@ public class ReferenceShow
         get { return title; }
         set { title = value; }
     }
-    
+
     public int Count
     {
         get => count;
         set => count = value;
     }
-    
+
     public string CountShow
     {
         get => count.ToString() + "шт.";

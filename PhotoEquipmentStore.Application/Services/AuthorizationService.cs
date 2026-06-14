@@ -23,7 +23,6 @@ public class AuthorizationService
                 return AuthResultDto.Failure("Пользователь не найден.");
             }
 
-
             if (!PasswordHasher.Verify(password, user.HeshPassword))
             {
                 return AuthResultDto.Failure("Неверный пароль.");

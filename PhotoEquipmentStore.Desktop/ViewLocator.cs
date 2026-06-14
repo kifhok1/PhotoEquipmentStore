@@ -6,9 +6,6 @@ using PhotoEquipmentStore.ViewModels;
 
 namespace PhotoEquipmentStore;
 
-/// <summary>
-/// Given a view model, returns the corresponding view if possible.
-/// </summary>
 [RequiresUnreferencedCode(
     "Default implementation of ViewLocator involves reflection which may be trimmed away.",
     Url = "https://docs.avaloniaui.net/docs/concepts/view-locator")]
@@ -21,7 +18,7 @@ public class ViewLocator : IDataTemplate
 
         var originalName = data.GetType().FullName!;
         var name = originalName.Replace("ViewModel", "View", StringComparison.Ordinal);
-    
+
         var type = Type.GetType(name);
 
         if (type != null)
@@ -42,7 +39,6 @@ public class ViewLocator : IDataTemplate
         }
         return new TextBlock { Text = "Not Found: " + name };
     }
-
 
     public bool Match(object? data)
     {

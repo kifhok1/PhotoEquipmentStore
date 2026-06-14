@@ -10,13 +10,12 @@ namespace PhotoEquipmentStore.Converters;
 
 public class ListToClientShowCollectionConverter : IValueConverter
 {
-    // Convert вызывается при потоке источник -> цель
+
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return value;
     }
 
-    // ConvertBack вызывается при потоке цель -> источник
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is IList list)

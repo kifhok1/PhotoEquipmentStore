@@ -14,7 +14,7 @@
         <ia:EventTriggerBehavior EventName="PointerMoved">
             <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
         </ia:EventTriggerBehavior>
-        
+
         <ia:EventTriggerBehavior EventName="PointerPressed">
             <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
         </ia:EventTriggerBehavior>
@@ -23,21 +23,20 @@
             <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
         </ia:EventTriggerBehavior>
     </i:Interaction.Behaviors>
-    
+
     <Design.DataContext>
                 <viewModels:SellerViewModel/>
             </Design.DataContext>
             <Border>
                 <Grid ColumnDefinitions="250,*">
-                    <!-- Боковое меню -->
+
                     <controls:SidebarControl
                         Grid.Column="0"
                         SelectedMenuItem="{Binding SelectedNavigationMenuItem, Mode=TwoWay}"
                         MenuItems="{Binding NavigationMenuItems}"
                         LogoutCommand="{Binding LogoutCommand}"
                         Username="{Binding CurrentUser}"/>
-                
-                    <!-- Контент страницы -->
+
                     <ContentControl
                         Grid.Column="1"
                         Content="{Binding CurrentViewModel}"/>

@@ -7,7 +7,7 @@
             </Label>
         </Border>
     </Design.PreviewWith>
-    
+
     <Style Selector="Label">
         <Setter Property="FontFamily" Value="Geologica"/>
     </Style>

@@ -1,4 +1,4 @@
-// Application/DTO/ReportResultDto.cs
+
 namespace PhotoEquipmentStore.Application.DTO;
 
 public class ReportResultDto

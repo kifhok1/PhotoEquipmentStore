@@ -23,12 +23,12 @@ public partial class LoginViewModel : ViewModelBase
     private bool settingsVisible = false;
     private Bitmap imageLoginForm;
     private bool errorConnection = false;
-    
+
     public Interaction<Unit, Unit> Close { get; } = new Interaction<Unit, Unit>();
-     
+
     public ReactiveCommand<Unit, Unit> CloseCommand { get; set; }
     public ReactiveCommand<Unit, Unit> LoginCommand { get; }
-    
+
     public ReactiveCommand<Unit, Unit> ShowSettingsCommand { get; }
     public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
 
@@ -85,18 +85,17 @@ public partial class LoginViewModel : ViewModelBase
         get => errorConnection;
         set => this.RaiseAndSetIfChanged(ref errorConnection, value);
     }
-    
+
     public LoginViewModel(MainViewModel mainViewModel)
     {
-        this.mainViewModel = mainViewModel; 
+        this.mainViewModel = mainViewModel;
         ErrorVisible = false;
-        //Команда авторизации
+
         LoginCommand = ReactiveCommand.Create(Login);
-        
-        // Команда для закрытия окна авторизации
+
         CloseCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            // Бэкап перед выходом
+
             try
             {
                 var folder   = Path.Combine(
@@ -110,14 +109,14 @@ public partial class LoginViewModel : ViewModelBase
             }
             catch
             {
-                // Не блокируем выход если бэкап не удался
-            }   
+
+            }
             return await Close.Handle(Unit.Default);
         });
-        
+
         ShowSettingsCommand = ReactiveCommand.Create(ShowSettings);
         CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
-        
+
         var basePath = AppContext.BaseDirectory;
         if (SettingsUIFileParser.GetTheme() == "Тёмная")
             ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-dark.jpg"));
@@ -125,16 +124,15 @@ public partial class LoginViewModel : ViewModelBase
             ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-light.png"));
 
     }
-    
-    // Конструктор для дизайнера
+
     [Obsolete("Design-time only")]
     public LoginViewModel()
     {
         ErrorVisible = true;
         ErrorMessage = "Неверный логин или пароль";
-        // Инициализируем команду закрытия для дизайнера (без MainViewModel)
+
         CloseCommand = ReactiveCommand.CreateFromTask(async () => await Close.Handle(Unit.Default));
-        
+
         ShowSettingsCommand = ReactiveCommand.Create(ShowSettings);
         CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
 
@@ -145,7 +143,7 @@ public partial class LoginViewModel : ViewModelBase
             ImageLoginForm = new Bitmap(Path.Combine(basePath, "Assets", "login-background-light.png"));
 
     }
-    
+
     private void Login()
     {
         if (LoginText == "root" && PasswordText == "root")
@@ -155,9 +153,7 @@ public partial class LoginViewModel : ViewModelBase
             mainViewModel.GoToRootCommand.Execute().Subscribe();
             return;
         }
-        
-        // Здесь логика входа
-        // После успешной авторизации переходим на форму в зависимости от роли пользователя
+
         var result = AuthorizationService.Authenticate(LoginText, PasswordText);
 
         if (!result.IsSuccess)
@@ -181,7 +177,7 @@ public partial class LoginViewModel : ViewModelBase
         string role = result.User.RoleName;
         Bitmap userImage = BitmapHelper.FromBytes(result.User.UserImage);
         UserInfo userInfo = new UserInfo(userID, name, role, userImage);
-        mainViewModel.CurrentUser = userInfo;  
+        mainViewModel.CurrentUser = userInfo;
         switch (result.User!.RoleId)
         {
             case 1:

@@ -12,7 +12,7 @@ namespace PhotoEquipmentStore.ViewModels.Pages.Admin;
 
 public partial class ReferenceViewModel : ViewModelBase
 {
-    // ── Tab-переключатели ────────────────────────────────────────────────────
+
     private bool _isSelectedRole        = true;
     private bool _isSelectedSupplier    = false;
     private bool _isSelectedManufacture = false;
@@ -93,7 +93,6 @@ public partial class ReferenceViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isCreateDeleteVisible, value);
     }
 
-    // ── Данные таблицы ───────────────────────────────────────────────────────
     private ObservableCollection<ReferenceShow> _currentReferences = new();
     private string _countReferences = string.Empty;
 
@@ -117,30 +116,23 @@ public partial class ReferenceViewModel : ViewModelBase
         CountReferences = $"Количество записей на форме: {CurrentReferences.Count}";
     }
 
-    // ── Команды ──────────────────────────────────────────────────────────────
-
-    /// Создать — вызывается кнопкой «Создать» в шапке
     public ReactiveCommand<Unit, Unit> AddReferenceCommand { get; }
 
-    /// Редактировать — принимает строку таблицы (CommandParameter)
     public ReactiveCommand<ReferenceShow, Unit> EditReferenceCommand { get; }
 
-    /// Удалить — принимает строку таблицы (CommandParameter)
     public ReactiveCommand<ReferenceShow, Unit> DeleteCommand { get; }
 
     public ReferenceViewModel(
         Action<ReferenceType>           goToAdd,
         Action<ReferenceType, ReferenceShow> goToEdit)
     {
-        // Команда «Создать» передаёт текущий тип справочника
+
         AddReferenceCommand = ReactiveCommand.Create(
             () => goToAdd(_selectedReferenceType));
 
-        // Команда «Редактировать» передаёт тип + выбранный элемент
         EditReferenceCommand = ReactiveCommand.Create<ReferenceShow>(
             item => goToEdit(_selectedReferenceType, item));
 
-        // Команда «Удалить»
         DeleteCommand = ReactiveCommand.Create<ReferenceShow>(async item =>
         {
             bool confirmed = await NotificationService.Instance.ShowWarningAsync(
@@ -202,7 +194,6 @@ public partial class ReferenceViewModel : ViewModelBase
         LoadReferences(_referenceService.GetRoles());
     }
 
-    // Конструктор для дизайнера
     public ReferenceViewModel()
     {
         AddReferenceCommand  = ReactiveCommand.Create(() => { });

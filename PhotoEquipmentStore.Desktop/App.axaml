@@ -7,7 +7,7 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="Assets/Style/TextStyle.axaml"/>
@@ -28,7 +28,7 @@
         <StyleInclude Source="Assets/Style/CalendarDatePickerStyle.axaml"/>
         <StyleInclude Source="Assets/Style/CalendarItemStyle.axaml"/>
     </Application.Styles>
-             
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

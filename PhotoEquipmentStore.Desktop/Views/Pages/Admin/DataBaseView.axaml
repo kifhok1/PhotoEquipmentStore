@@ -22,7 +22,6 @@
                   ColumnSpacing="12"
                   RowSpacing="12">
 
-                <!-- ══ Импорт ══════════════════════════════════════════════════ -->
                 <Border Grid.Row="0" Grid.Column="0"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"
@@ -85,7 +84,6 @@
                     </Grid>
                 </Border>
 
-                <!-- ══ Экспорт ═════════════════════════════════════════════════ -->
                 <Border Grid.Row="0" Grid.Column="1"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"
@@ -155,7 +153,6 @@
                     </Grid>
                 </Border>
 
-                <!-- ══ Восстановление ══════════════════════════════════════════ -->
                 <Border Grid.Row="1" Grid.Column="0"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"
@@ -234,7 +231,6 @@
                     </Grid>
                 </Border>
 
-                <!-- ══ Резервная копия ═════════════════════════════════════════ -->
                 <Border Grid.Row="1" Grid.Column="1"
                         MinWidth="320"
                         BorderBrush="{DynamicResource border}"

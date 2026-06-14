@@ -61,7 +61,6 @@ public class ClientAddViewModel : ViewModelBase
 
         SaveCommand = ReactiveCommand.Create(Save, canSave);
 
-        // Добавление → очистить поля, Редактирование → вернуться на список
         ResetCommand = ReactiveCommand.Create(IsEdit ? _goBack : Reset);
 
         this.WhenAnyValue(x => x.FullName)
@@ -88,7 +87,6 @@ public class ClientAddViewModel : ViewModelBase
         PhoneNumber = string.Empty;
     }
 
-    // Конструктор для дизайнера
     public ClientAddViewModel() : this(() => { }) { }
 
     private async void Save()

@@ -8,7 +8,7 @@ public class ThemeService
 {
     public static void Toggle(bool isDark)
     {
-        Avalonia.Application.Current!.RequestedThemeVariant = 
+        Avalonia.Application.Current!.RequestedThemeVariant =
             isDark ? ThemeVariant.Dark : ThemeVariant.Light;
     }
 }

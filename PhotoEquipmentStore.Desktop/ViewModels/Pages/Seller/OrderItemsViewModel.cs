@@ -23,12 +23,8 @@ public class OrderItemsViewModel : ViewModelBase
 
     public ObservableCollection<OrderItemShow> OrderItems { get; } = new();
 
-    // ── Команды ───────────────────────────────────────────────────────────────
-
     public ReactiveCommand<Unit, Unit> GoBackCommand      { get; }
     public ReactiveCommand<Unit, Unit> ReturnOrderCommand { get; }
-
-    // ── Вычисляемые итоги ─────────────────────────────────────────────────────
 
     public decimal Subtotal =>
         OrderItems.Sum(i => i.Price * i.Quantity);
@@ -47,7 +43,6 @@ public class OrderItemsViewModel : ViewModelBase
 
     public bool HasClientDiscount  => Order.DiscountClient > 0;
 
-    /// <summary>Статус «Оформлен» (id == "1") — активный заказ.</summary>
     public bool IsStatusActive => Order.StatusId == "1";
 
     public string ItemCountLabel
@@ -59,8 +54,6 @@ public class OrderItemsViewModel : ViewModelBase
             return $"{c} {word}";
         }
     }
-
-    // ── Конструктор ───────────────────────────────────────────────────────────
 
     public OrderItemsViewModel(OrderShow order, Action goBack)
     {
@@ -82,7 +75,6 @@ public class OrderItemsViewModel : ViewModelBase
                 await NotificationService.Instance.ShowInfoAsync(
                     "Успешно", $"Возврат по заказу №{Order.Id} успешно оформлен.");
 
-                // Обновляем статус локально, чтобы кнопка сразу скрылась
                 Order.StatusId   = "2";
                 Order.StatusName = "Возврат";
                 this.RaisePropertyChanged(nameof(IsStatusActive));
@@ -108,8 +100,6 @@ public class OrderItemsViewModel : ViewModelBase
         ReturnOrderCommand = ReactiveCommand.Create(() => { });
         LoadItems("72963458");
     }
-
-    // ── Загрузка ──────────────────────────────────────────────────────────────
 
     private async void LoadItems(string orderId)
     {

@@ -9,7 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.OrderConfirmView"
              x:DataType="vm:OrderConfirmViewModel">
-    
+
     <i:Interaction.Behaviors>
         <behaviors:StorageProviderInjectorBehavior/>
     </i:Interaction.Behaviors>
@@ -17,14 +17,12 @@
     <Border Background="{DynamicResource main_background}" Padding="20">
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="12">
 
-            <!-- ── Шапка ── -->
             <Border Grid.Row="0"
                     Background="{DynamicResource surface}"
                     CornerRadius="14"
                     Padding="20,16">
                 <Grid ColumnDefinitions="Auto,*,Auto,Auto">
 
-                    <!-- Иконка + номер + дата -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal"
                                 Spacing="14" VerticalAlignment="Center">
                         <Border Width="44" Height="44"
@@ -61,7 +59,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Клиент -->
                     <StackPanel Grid.Column="1" Spacing="2"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
@@ -78,7 +75,6 @@
                                    Foreground="{DynamicResource secondary_text}"/>
                     </StackPanel>
 
-                    <!-- Кнопка сохранить чек -->
                     <Button Grid.Column="2"
                             Classes="Secondary"
                             VerticalAlignment="Center"
@@ -104,7 +100,6 @@
                         </StackPanel>
                     </Button>
 
-                    <!-- Кнопка назад -->
                     <Button Grid.Column="3"
                             Classes="Secondary"
                             VerticalAlignment="Center"
@@ -131,10 +126,8 @@
                 </Grid>
             </Border>
 
-            <!-- ── Тело: позиции + итоги рядом ── -->
             <Grid Grid.Row="1" ColumnDefinitions="*,300" ColumnSpacing="12">
 
-                <!-- Список позиций -->
                 <Border Grid.Column="0"
                         Background="{DynamicResource surface}"
                         CornerRadius="14"
@@ -233,14 +226,12 @@
                     </Grid>
                 </Border>
 
-                <!-- Правая панель итогов -->
                 <Border Grid.Column="1"
                         Background="{DynamicResource surface}"
                         CornerRadius="14"
                         Padding="20">
                     <DockPanel>
 
-                        <!-- Кнопки внизу -->
                         <StackPanel DockPanel.Dock="Bottom" Spacing="10">
                             <Border Background="{DynamicResource warning_background}"
                                     CornerRadius="10"
@@ -289,7 +280,6 @@
                             </Button>
                         </StackPanel>
 
-                        <!-- Итоги -->
                         <StackPanel Spacing="0">
                             <TextBlock Text="ИТОГ"
                                        FontSize="10" FontWeight="SemiBold"
@@ -352,7 +342,6 @@
                 </Border>
             </Grid>
 
-            <!-- ── Статус подтверждения ── -->
             <Border Grid.Row="2"
                     Background="{DynamicResource surface}"
                     CornerRadius="14"

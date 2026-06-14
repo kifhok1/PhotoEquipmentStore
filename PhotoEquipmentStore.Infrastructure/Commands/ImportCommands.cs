@@ -8,8 +8,6 @@ public class ImportCommands
 {
     private static string ConnString => ConnectionSettingsParser.Load().ToString();
 
-    // ── Проверки существования ────────────────────────────────────────────────
-
     public async Task<bool> ExistsAsync(string table, string column, object value)
     {
         try
@@ -50,7 +48,6 @@ public class ImportCommands
         }
     }
 
-    // Проверка уникальности телефона сразу в двух таблицах
     public async Task<bool> IsPhoneUniqueAsync(string phone)
     {
         try
@@ -75,8 +72,6 @@ public class ImportCommands
             throw new DatabaseException("Ошибка проверки уникальности телефона.", ex);
         }
     }
-
-    // ── Вставки ───────────────────────────────────────────────────────────────
 
     public async Task InsertSimpleAsync(string table, string name)
     {

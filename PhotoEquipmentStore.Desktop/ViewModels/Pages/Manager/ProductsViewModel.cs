@@ -32,7 +32,6 @@ public class ProductsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _countProducts, value);
     }
 
-    // ── Поиск ──────────────────────────────────────────────────────────
     private string _searchText = string.Empty;
     public string SearchText
     {
@@ -40,7 +39,6 @@ public class ProductsViewModel : ViewModelBase
         set { this.RaiseAndSetIfChanged(ref _searchText, value); ApplyFilters(); }
     }
 
-    // ── Сортировка ─────────────────────────────────────────────────────
     public List<string> SortOptions { get; } = new()
     {
         "По возрастанию цены",
@@ -54,7 +52,6 @@ public class ProductsViewModel : ViewModelBase
         set { this.RaiseAndSetIfChanged(ref _selectedSortOption, value); ApplyFilters(); }
     }
 
-    // ── Фильтр по категории ────────────────────────────────────────────
     public ObservableCollection<string> Categories { get; } = new();
 
     private string? _selectedCategory;
@@ -64,7 +61,6 @@ public class ProductsViewModel : ViewModelBase
         set { this.RaiseAndSetIfChanged(ref _selectedCategory, value); ApplyFilters(); }
     }
 
-    // ── Команды ────────────────────────────────────────────────────────
     public ReactiveCommand<ProductsShow, Unit> EditCommand   { get; }
     public ReactiveCommand<ProductsShow, Unit> DeleteCommand { get; }
     public ReactiveCommand<Unit, Unit>         ResetCommand  { get; }
@@ -104,9 +100,6 @@ public class ProductsViewModel : ViewModelBase
         LoadProducts();
     }
 
-    /// <summary>
-    /// Загружает список продуктов из сервиса и обновляет коллекции.
-    /// </summary>
     private async void LoadProducts()
     {
         _allProducts.Clear();
@@ -129,7 +122,6 @@ public class ProductsViewModel : ViewModelBase
                 Products.Add(show);
             }
 
-            // Обновляем уникальные категории для ComboBox
             Categories.Clear();
             foreach (var cat in _allProducts.Select(p => p.CategoryName).Distinct().Order())
                 Categories.Add(cat);
@@ -141,7 +133,7 @@ public class ProductsViewModel : ViewModelBase
             await NotificationService.Instance.ShowErrorAsync("Ошибка", $"Не удалось загрузить список товаров.");
             UpdateCount(Products.Count);
         }
-       
+
     }
 
     private void ApplyFilters()

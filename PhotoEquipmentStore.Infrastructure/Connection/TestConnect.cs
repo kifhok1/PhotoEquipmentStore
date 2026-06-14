@@ -18,7 +18,7 @@ public class TestConnect
     {
         get { return errorMassage; }
     }
-    
+
     public void Connect(ConnectionToDBSettings connectionSettings)
     {
         try

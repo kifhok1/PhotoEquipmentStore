@@ -17,7 +17,7 @@ public class ConnectionServise
     public static ConnectionToDBSettings GetConnectionSettings()
     {
         ConnectionSettings conn = ConnectionSettingsParser.Load();
-        
+
         return new ConnectionToDBSettings(
             conn.Host,
             conn.User,

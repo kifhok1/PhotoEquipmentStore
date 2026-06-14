@@ -40,8 +40,6 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     public bool   IsEdit    => _editItem is not null;
     public string PageTitle => IsEdit ? "Редактировать пользователя" : "Создать пользователя";
 
-    // ── Свойства ──────────────────────────────────────────────────────────────
-
     private string _userName = string.Empty;
     public string UserName
     {
@@ -93,11 +91,7 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
 
     public ObservableCollection<ReferenceShow> Roles { get; } = new();
 
-    // ── Команды ───────────────────────────────────────────────────────────────
-
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
-
-    // ── Конструктор ───────────────────────────────────────────────────────────
 
     public UserAddViewModel(Action goBack, UserShow? editItem = null)
     {
@@ -138,8 +132,6 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
     }
 
     public UserAddViewModel() : this(() => { }) { }
-
-    // ── Валидация ─────────────────────────────────────────────────────────────
 
     private void SetupValidation()
     {
@@ -190,8 +182,6 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
                     : "Минимум два слова, каждое с заглавной русской буквы";
             });
     }
-
-    // ── Реализация команд ─────────────────────────────────────────────────────
 
     private async void Save()
     {
@@ -316,8 +306,6 @@ public partial class UserAddViewModel : ViewModelBase, IValidatableViewModel
         }
         Password = new string(arr);
     }
-
-    // ── Хелперы ───────────────────────────────────────────────────────────────
 
     private static bool IsValidPartialName(string? v)
     {

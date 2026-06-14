@@ -98,7 +98,7 @@ public class OrderShow : ReactiveObject
             this.RaisePropertyChanged(nameof(ClientPhoneNumberShow));
         }
     }
-    
+
     public bool IsReturnStatus => StatusId == "2";
 
     public string ClientNameShow => IsRevealed

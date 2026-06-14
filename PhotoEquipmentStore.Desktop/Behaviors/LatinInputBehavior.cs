@@ -13,7 +13,7 @@ public class LatinInputBehavior : Behavior<TextBox>
         new(@"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{};':"",./<>?\\|`~]+$", RegexOptions.Compiled);
 
     private const string ErrorText = "Только английские буквы, цифры и спецсимволы";
-    
+
     protected override void OnAttached()
     {
         base.OnAttached();

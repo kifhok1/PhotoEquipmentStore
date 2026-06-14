@@ -12,8 +12,6 @@ public class OrderCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public static ObservableCollection<Order> GetOrders()
     {
         try
@@ -128,8 +126,6 @@ public class OrderCommands
         }
     }
 
-    // ── Update ────────────────────────────────────────────────────────────────
-
     public bool UpdateOrderStatus(string orderArticle)
     {
         try
@@ -157,8 +153,6 @@ public class OrderCommands
         }
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
-
     public bool ArticleExists(string article)
     {
         try
@@ -183,12 +177,6 @@ public class OrderCommands
         }
     }
 
-    /// <param name="orderArticle">Артикул заказа (CHAR 8)</param>
-    /// <param name="clientId">ID клиента</param>
-    /// <param name="employeeId">ID сотрудника</param>
-    /// <param name="discountPercent">Скидка клиента %</param>
-    /// <param name="totalAmount">Итоговая сумма заказа для зачисления клиенту</param>
-    /// <param name="items">Позиции заказа: (productId, quantity, price, discountPercent)</param>
     public bool CreateOrder(
         string orderArticle,
         int clientId,
@@ -205,7 +193,7 @@ public class OrderCommands
 
             try
             {
-                // ── Шаг 1: списать со склада ──────────────────────────
+
                 const string stockSql = @"
                     UPDATE products
                     SET stock_quantity = stock_quantity - @qty
@@ -222,7 +210,6 @@ public class OrderCommands
                             $"Недостаточно товара на складе (product_id={item.productId}).");
                 }
 
-                // ── Шаг 2: создать заказ ──────────────────────────────
                 const string orderSql = @"
                     INSERT INTO orders (article, status_id, client_id, discount_percent, employee_id, created_at)
                     VALUES (@article, 1, @clientId, @discount, @employeeId, NOW());";
@@ -234,7 +221,6 @@ public class OrderCommands
                 orderCmd.Parameters.AddWithValue("@employeeId", employeeId);
                 orderCmd.ExecuteNonQuery();
 
-                // ── Шаг 3: позиции заказа ─────────────────────────────
                 const string itemSql = @"
                     INSERT INTO order_items (order_article, product_id, quantity, price, discount_percent)
                     VALUES (@article, @productId, @qty, @price, @discount);";
@@ -250,7 +236,6 @@ public class OrderCommands
                     itemCmd.ExecuteNonQuery();
                 }
 
-                // ── Шаг 4: прибавить сумму клиенту ───────────────────
                 const string clientSql = @"
                     UPDATE clients
                     SET total_purchases = total_purchases + @amount

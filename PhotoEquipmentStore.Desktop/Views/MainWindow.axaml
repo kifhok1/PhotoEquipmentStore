@@ -32,10 +32,9 @@
             BoxShadow="0 8 32 0 #40000000">
         <Panel>
 
-            <!-- Контент -->
             <Border CornerRadius="12" ClipToBounds="True">
                 <Panel>
-                    <!-- Drag-плашка -->
+
                     <Border Height="20" VerticalAlignment="Top"
                             Background="#01000000" ZIndex="100">
                         <i:Interaction.Behaviors>
@@ -56,7 +55,6 @@
                 </Panel>
             </Border>
 
-            <!-- Resize-полоски -->
             <Border Height="8" VerticalAlignment="Top" Background="#01000000" ZIndex="200">
                 <i:Interaction.Behaviors>
                     <behaviors:WindowResizeBehavior Edge="North"/>
@@ -78,7 +76,6 @@
                 </i:Interaction.Behaviors>
             </Border>
 
-            <!-- Углы -->
             <Border Width="16" Height="16"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Background="#01000000" ZIndex="201">

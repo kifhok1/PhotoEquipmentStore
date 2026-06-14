@@ -88,7 +88,7 @@ public class ProductsShow
         get => description;
         set => description = value;
     }
-    
+
     public bool IsVisibleImage
     {
         get => image != null;
@@ -102,7 +102,7 @@ public class ProductsShow
         int quantity,
         int categoryId,
         string categoryName,
-        int manufacturerId, 
+        int manufacturerId,
         string manufacturerName,
         int supplierId,
         string supplierName,
@@ -123,7 +123,7 @@ public class ProductsShow
         Description = description;
         Image = image;
     }
-    
+
     public ProductsShow(
         int id,
         string name,
@@ -132,7 +132,7 @@ public class ProductsShow
         int quantity,
         int categoryId,
         string categoryName,
-        int manufacturerId, 
+        int manufacturerId,
         string manufacturerName,
         int supplierId,
         string supplierName,

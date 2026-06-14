@@ -12,7 +12,6 @@
 
         <Grid ColumnDefinitions="44,*,Auto">
 
-            <!-- Миниатюра -->
             <Border BorderBrush="{DynamicResource border}"
                     BorderThickness="2"
                     Width="45"
@@ -38,7 +37,7 @@
                                       StrokeJoin="Round"
                                       StrokeLineCap="Round"/>
                             </Viewbox>
-                        </Panel>    
+                        </Panel>
                         <Image Source="{Binding Image}"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
@@ -47,7 +46,6 @@
                 </Border>
             </Border>
 
-            <!-- Название + цена -->
             <StackPanel Grid.Column="1" Margin="9,0,6,0" VerticalAlignment="Center" Spacing="2">
                 <TextBlock Text="{Binding Name}"
                            FontSize="12" FontWeight="SemiBold"
@@ -58,7 +56,6 @@
                            Foreground="{DynamicResource accent}"/>
             </StackPanel>
 
-            <!-- Счётчик + удалить -->
             <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="4">
                 <Border Background="{DynamicResource surface}" CornerRadius="8" Padding="3,2">
                     <StackPanel Orientation="Horizontal" Spacing="5">
@@ -69,8 +66,8 @@
                                 Command="{Binding DecreaseCommand, RelativeSource={RelativeSource AncestorType=local:CartItem}}"
                                 CommandParameter="{Binding}">
                             <Viewbox Width="11" Height="11"
-                                     ClipToBounds="False" 
-                                     HorizontalAlignment="Center" 
+                                     ClipToBounds="False"
+                                     HorizontalAlignment="Center"
                                      VerticalAlignment="Center" Margin=" -10 0 0 -10">
                                 <Path Data="{DynamicResource Minus}"
                                       StrokeThickness="1.7"
@@ -83,7 +80,7 @@
                                    Foreground="{DynamicResource main_text}"
                                    VerticalAlignment="Center"
                                    MinWidth="16" TextAlignment="Center"/>
-                        <Button Width="22" Height="22" 
+                        <Button Width="22" Height="22"
                                 Classes="Ghost"
                                 Foreground="{DynamicResource primary}"
                                 HorizontalContentAlignment="Center"
@@ -92,7 +89,7 @@
                                 CommandParameter="{Binding}">
                             <Viewbox Width="11" Height="11"
                                      ClipToBounds="False"
-                                     HorizontalAlignment="Center" 
+                                     HorizontalAlignment="Center"
                                      VerticalAlignment="Center" Margin="-12 0 0 0">
                                 <Path Data="{DynamicResource Plus}"
                                       StrokeThickness="1.7"
@@ -107,9 +104,9 @@
                         Width="22" Height="22" CornerRadius="4"
                         Command="{Binding RemoveCommand, RelativeSource={RelativeSource AncestorType=local:CartItem}}"
                         CommandParameter="{Binding}">
-                    <Viewbox Width="12" Height="12" 
-                             ClipToBounds="False" 
-                             HorizontalAlignment="Center" 
+                    <Viewbox Width="12" Height="12"
+                             ClipToBounds="False"
+                             HorizontalAlignment="Center"
                              VerticalAlignment="Center" Margin="-12 0 0 0">
                         <Path Data="{DynamicResource Delete}"
                               StrokeThickness="1.7"

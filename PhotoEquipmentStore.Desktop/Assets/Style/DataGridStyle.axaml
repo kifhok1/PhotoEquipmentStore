@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:collections="using:Avalonia.Collections">
-        <!-- ───── DataGrid: общие настройки ───── -->
+
     <Style Selector="DataGrid">
         <Setter Property="Background" Value="{DynamicResource surface}"/>
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
@@ -14,7 +14,6 @@
         <Setter Property="CornerRadius" Value="0"/>
     </Style>
 
-    <!-- ───── Заголовки колонок ───── -->
     <Style Selector="DataGridColumnHeader">
         <Setter Property="Background" Value="{DynamicResource secondary_background}"/>
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
@@ -24,60 +23,49 @@
         <Setter Property="BorderThickness" Value=" 0 0 0 1"/>
         <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
     </Style>
-        
+
     <Style Selector="DataGridColumnHeader:pointerover">
         <Setter Property="Background" Value="{DynamicResource secondary_background}"/>
     </Style>
-        
+
     <Style Selector="DataGridColumnHeader:pressed">
         <Setter Property="Background" Value="{DynamicResource secondary_background}"/>
     </Style>
-    <!-- Вертикальный разделитель между заголовками колонок -->
+
     <Style Selector="DataGridColumnHeader /template/ Rectangle#PART_VerticalSeparator">
         <Setter Property="IsVisible" Value="False"/>
     </Style>
 
-    <!-- Граница внутри шаблона заголовка колонки -->
     <Style Selector="DataGridColumnHeader /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- ───── Шаблон самого DataGrid ───── -->
-
-    <!-- Горизонтальные линии сетки внутри DataGrid -->
     <Style Selector="DataGrid /template/ Line">
         <Setter Property="IsVisible" Value="False"/>
     </Style>
 
-    <!-- Разделитель между областью заголовков и строками -->
     <Style Selector="DataGrid /template/ Rectangle#PART_ColumnHeadersAndRowsSeparator">
         <Setter Property="IsVisible" Value="False"/>
     </Style>
 
-    <!-- Внешние границы контейнеров внутри шаблона DataGrid -->
     <Style Selector="DataGrid /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- ───── Заголовок строки (левый столбец-маркер) ───── -->
-
-    <!-- Граница внутри шаблона заголовка строки -->
     <Style Selector="DataGridRowHeader /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="4 0"/>
     </Style>
 
-    <!-- Скрываем столбец заголовка строки полностью -->
     <Style Selector="DataGridRowHeader">
         <Setter Property="Width" Value="0"/>
     </Style>
 
-    <!-- ───── Строки ───── -->
     <Style Selector="DataGridRow">
         <Setter Property="BorderThickness" Value=" 0 1 0 0"/>
         <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
     </Style>
-    
+
     <Style Selector="DataGridRow:nth-last-child(1)">
         <Setter Property="BorderThickness" Value="0 1 0 1"/>
     </Style>
@@ -85,68 +73,57 @@
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- Фон строки в обычном состоянии -->
     <Style Selector="DataGridRow /template/ Rectangle#BackgroundRectangle">
         <Setter Property="Fill" Value="{DynamicResource surface}"/>
         <Setter Property="Margin" Value="4 0"/>
     </Style>
 
-    <!-- Фон строки при наведении курсора -->
     <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
         <Setter Property="Fill" Value="{DynamicResource surface}"/>
     </Style>
 
-    <!-- Фон выбранной строки -->
     <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
         <Setter Property="Fill" Value="{DynamicResource surface}"/>
         <Setter Property="Opacity" Value="1"/>
     </Style>
 
-    <!-- Фон выбранной строки при наведении курсора -->
     <Style Selector="DataGridRow:selected:pointerover /template/ Rectangle#BackgroundRectangle">
         <Setter Property="Fill" Value="{DynamicResource surface}"/>
         <Setter Property="Opacity" Value="1"/>
     </Style>
 
-    <!-- Цвет текста выбранной строки -->
     <Style Selector="DataGridRow:selected">
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
     </Style>
 
-    <!-- Убираем границы вокруг строки -->
     <Style Selector="DataGridRow /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- ───── Ячейки ───── -->
     <Style Selector="DataGridCell">
         <Setter Property="Padding" Value="0 6"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FocusAdorner" Value="{x:Null}"/>
     </Style>
 
-    <!-- Убираем обводку активной ячейки -->
     <Style Selector="DataGridCell:current">
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- Убираем обводку выбранной ячейки -->
     <Style Selector="DataGridCell:selected">
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- Убираем визуальный индикатор фокуса активной ячейки -->
     <Style Selector="DataGridCell:current /template/ Grid#FocusVisual">
         <Setter Property="IsVisible" Value="False"/>
     </Style>
 
-    <!-- Убираем границы внутри шаблона ячейки -->
     <Style Selector="DataGridCell /template/ Border">
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
-        
+
     <Style Selector="DataGridColumnHeader">
             <Setter Property="Template">
                 <ControlTemplate>
@@ -157,10 +134,9 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <!-- без колонки для иконки сортировки -->
+
                             </Grid.ColumnDefinitions>
 
-                            <!-- Основной контент (текст) -->
                             <ContentPresenter Grid.Column="0"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -168,7 +144,6 @@
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}" />
 
-                            <!-- Кнопка-разделитель (для ресайза) - оставляем по необходимости -->
                             <Thumb x:Name="PART_RightHeaderGripper"
                                    Grid.Column="0"
                                    HorizontalAlignment="Right"

@@ -13,8 +13,6 @@ public class ReferenceService : IReferenceService
 {
     private readonly ReferenceCommands _commands = new();
 
-    // ── Маппинг ───────────────────────────────────────────────────────────────
-
     private static string GetTable(ReferenceType type) => type switch
     {
         ReferenceType.Category     => "categories",
@@ -34,8 +32,6 @@ public class ReferenceService : IReferenceService
         ReferenceType.Role => "роль",
         _ => "справочник"
     };
-
-    // ── Read ──────────────────────────────────────────────────────────────────
 
     public ReferenceResultDto GetRoles()
     {
@@ -97,8 +93,6 @@ public class ReferenceService : IReferenceService
         }
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
-
     public ReferenceResultDto Create(ReferenceType type, string name)
     {
         try
@@ -123,8 +117,6 @@ public class ReferenceService : IReferenceService
         }
     }
 
-    // ── Update ────────────────────────────────────────────────────────────────
-
     public ReferenceResultDto Update(ReferenceType type, Reference reference)
     {
         try
@@ -146,8 +138,6 @@ public class ReferenceService : IReferenceService
             return ReferenceResultDto.Failure("Не удалось обновить запись.");
         }
     }
-
-    // ── Delete ────────────────────────────────────────────────────────────────
 
     public ReferenceResultDto Delete(ReferenceType type, int id)
     {
@@ -171,8 +161,6 @@ public class ReferenceService : IReferenceService
             return ReferenceResultDto.Failure("Не удалось удалить запись.");
         }
     }
-
-    // ── Private ───────────────────────────────────────────────────────────────
 
     private ReferenceResultDto GetByType(ReferenceType type) => type switch
     {

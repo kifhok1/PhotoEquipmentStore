@@ -15,7 +15,6 @@ public class ImportService : IImportService
 {
     private readonly ImportCommands _cmd = new();
 
-    // Ожидаемые заголовки для каждой таблицы
     private static readonly Dictionary<string, string[]> ExpectedHeaders = new()
     {
         ["roles"]          = ["name"],
@@ -32,7 +31,6 @@ public class ImportService : IImportService
         ["order_items"]    = ["order_article", "product_id", "quantity", "price", "discount_percent"],
     };
 
-    // Regex
     private static readonly Regex RussianName =
         new(@"^[А-ЯЁа-яё]+(?: [А-ЯЁа-яё]+){1,2}$", RegexOptions.Compiled);
 
@@ -43,8 +41,6 @@ public class ImportService : IImportService
         new(@"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{};':"",./<>?\\|`~]+$", RegexOptions.Compiled);
 
     private static readonly int[] AllowedOrderDiscounts = [5, 10, 15];
-
-    // ── Точка входа ───────────────────────────────────────────────────────────
 
     public async Task<ImportResultDto> ImportAsync(string tableName, string csvFilePath)
     {
@@ -59,7 +55,6 @@ public class ImportService : IImportService
         {
             rows = ReadCsv(csvFilePath, out var header);
 
-            // Проверка структуры заголовка
             var expected = ExpectedHeaders[tableName];
             if (!header.SequenceEqual(expected))
                 return ImportResultDto.Failure(
@@ -88,8 +83,6 @@ public class ImportService : IImportService
         };
     }
 
-    // ── Простые таблицы: roles, manufacturers, suppliers, categories, order_statuses ──
-
     private async Task<ImportResultDto> ImportSimpleAsync(string table, List<string[]> rows)
     {
         int imported = 0, skipped = 0;
@@ -98,7 +91,7 @@ public class ImportService : IImportService
         for (var i = 0; i < rows.Count; i++)
         {
             var row    = rows[i];
-            var lineNo = i + 2; // +2 потому что строка 1 — заголовок
+            var lineNo = i + 2;
 
             if (row.Length < 1 || string.IsNullOrWhiteSpace(row[0]))
             {
@@ -134,8 +127,6 @@ public class ImportService : IImportService
 
         return ImportResultDto.Success(imported, skipped, reasons);
     }
-
-    // ── Clients ───────────────────────────────────────────────────────────────
 
     private async Task<ImportResultDto> ImportClientsAsync(List<string[]> rows)
     {
@@ -194,8 +185,6 @@ public class ImportService : IImportService
 
         return ImportResultDto.Success(imported, skipped, reasons);
     }
-
-    // ── Users ─────────────────────────────────────────────────────────────────
 
     private async Task<ImportResultDto> ImportUsersAsync(List<string[]> rows)
     {
@@ -288,8 +277,6 @@ public class ImportService : IImportService
 
         return ImportResultDto.Success(imported, skipped, reasons);
     }
-
-    // ── Products ──────────────────────────────────────────────────────────────
 
     private async Task<ImportResultDto> ImportProductsAsync(List<string[]> rows)
     {
@@ -399,8 +386,6 @@ public class ImportService : IImportService
         return ImportResultDto.Success(imported, skipped, reasons);
     }
 
-    // ── Orders ────────────────────────────────────────────────────────────────
-
     private async Task<ImportResultDto> ImportOrdersAsync(List<string[]> rows)
     {
         int imported = 0, skipped = 0;
@@ -503,8 +488,6 @@ public class ImportService : IImportService
         return ImportResultDto.Success(imported, skipped, reasons);
     }
 
-    // ── Order Items ───────────────────────────────────────────────────────────
-
     private async Task<ImportResultDto> ImportOrderItemsAsync(List<string[]> rows)
     {
         int imported = 0, skipped = 0;
@@ -579,8 +562,6 @@ public class ImportService : IImportService
 
         return ImportResultDto.Success(imported, skipped, reasons);
     }
-
-    // ── CSV Reader ────────────────────────────────────────────────────────────
 
     private static List<string[]> ReadCsv(string path, out string[] header)
     {

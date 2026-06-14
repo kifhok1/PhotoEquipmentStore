@@ -20,21 +20,21 @@ public partial class SettingsPopup : UserControl
 {
     public static readonly StyledProperty<bool> BlockVisibleProperty =
         AvaloniaProperty.Register<SettingsPopup, bool>(nameof(BlockVisible));
-    
+
     public static readonly StyledProperty<ReactiveCommand<Unit, Unit>> CloseCommandProperty =
         AvaloniaProperty.Register<SettingsPopup, ReactiveCommand<Unit, Unit>>(
             nameof(CloseCommand));
-    
+
     public static readonly DirectProperty<SettingsPopup, ObservableCollection<ThemeSettings>> ThemeProperty =
         AvaloniaProperty.RegisterDirect<SettingsPopup, ObservableCollection<ThemeSettings>>(
             nameof(Theme),
             o => o.Theme,
             (o, v) => o.Theme = v);
-    
+
     public static readonly StyledProperty<Bitmap> ImageLoginFormProperty =
         AvaloniaProperty.Register<SettingsPopup, Bitmap>(
             nameof(ImageLoginForm), defaultBindingMode: BindingMode.TwoWay);
-    
+
     public static readonly StyledProperty<string> HostProperty =
         AvaloniaProperty.Register<SettingsPopup, string>(
             nameof(Host), defaultBindingMode: BindingMode.TwoWay);
@@ -47,8 +47,7 @@ public partial class SettingsPopup : UserControl
     public static readonly StyledProperty<string> DatabaseProperty =
         AvaloniaProperty.Register<SettingsPopup, string>(
             nameof(Database), defaultBindingMode: BindingMode.TwoWay);
-    
-    
+
     public static readonly StyledProperty<bool> ConnectionErrorProperty =
         AvaloniaProperty.Register<SettingsPopup, bool>(
             nameof(ConnectionError), defaultBindingMode: BindingMode.TwoWay);
@@ -56,7 +55,6 @@ public partial class SettingsPopup : UserControl
         AvaloniaProperty.Register<SettingsPopup, string>(
             nameof(ConnectionMessage), defaultBindingMode: BindingMode.TwoWay);
 
-    
     private ObservableCollection<ThemeSettings> _theme;
 
     public ObservableCollection<ThemeSettings> Theme
@@ -79,13 +77,13 @@ public partial class SettingsPopup : UserControl
         get => GetValue(ImageLoginFormProperty);
         set => SetValue(ImageLoginFormProperty, value);
     }
-    
+
     public bool BlockVisible
     {
         get => GetValue(BlockVisibleProperty);
         set => SetValue(BlockVisibleProperty, value);
     }
-    
+
     public ReactiveCommand<Unit, Unit> CloseCommand
     {
         get => GetValue(CloseCommandProperty);
@@ -133,7 +131,7 @@ public partial class SettingsPopup : UserControl
     {
         TestConnectionDto testConnection = TestConnectionService.TestConnection(
             new ConnectionToDBSettings(Host, User, Password, Database));
-        
+
         ConnectionError = testConnection.IsConnected;
         if (testConnection.IsConnected)
         {
@@ -147,10 +145,10 @@ public partial class SettingsPopup : UserControl
 
     private void SaveConnectionSettings()
     {
-        TestConnection(); 
+        TestConnection();
         ConnectionServise.SaveConnection(new ConnectionToDBSettings(Host, User, Password, Database));
     }
-    
+
     private void SaveUISettings()
     {
          SettingsUIFileParser.SetTheme(ThemeSelected.Theme);
@@ -174,7 +172,7 @@ public partial class SettingsPopup : UserControl
         SaveUISettings();
         CloseCommand?.Execute(Unit.Default).Subscribe();
     }
-    
+
     public SettingsPopup()
     {
         ConnectionToDBSettings connectionToDbSettings = ConnectionServise.GetConnectionSettings();
@@ -183,7 +181,7 @@ public partial class SettingsPopup : UserControl
         Password = connectionToDbSettings.Password;
         Database = connectionToDbSettings.Database;
         TestConnection();
-        
+
         InitializeComponent();
         Theme = new ObservableCollection<ThemeSettings>
             {

@@ -10,8 +10,6 @@ public class ProductsService : IProductsService
 {
     private readonly ProductCommands _commands = new();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public ProductResultDto GetProducts()
     {
         try
@@ -24,8 +22,6 @@ public class ProductsService : IProductsService
             return ProductResultDto.Failure("Не удалось загрузить список товаров.");
         }
     }
-
-    // ── Create ────────────────────────────────────────────────────────────────
 
     public ProductResultDto CreateProduct(Product product)
     {
@@ -41,8 +37,6 @@ public class ProductsService : IProductsService
         }
     }
 
-    // ── Update ────────────────────────────────────────────────────────────────
-
     public ProductResultDto UpdateProduct(Product product)
     {
         try
@@ -56,8 +50,6 @@ public class ProductsService : IProductsService
             return ProductResultDto.Failure("Не удалось обновить товар.");
         }
     }
-
-    // ── Delete ────────────────────────────────────────────────────────────────
 
     public ProductResultDto DeleteProduct(int productId)
     {

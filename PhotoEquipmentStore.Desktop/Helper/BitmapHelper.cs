@@ -13,7 +13,7 @@ public class BitmapHelper
         using var ms = new MemoryStream(bytes);
         return new Bitmap(ms);
     }
-    
+
     public static byte[]? ToBytes(Bitmap? bitmap)
     {
         using var ms = new MemoryStream();

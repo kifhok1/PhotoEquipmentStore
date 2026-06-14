@@ -13,8 +13,6 @@ public class UsersService : IUsersService
     private readonly UserCommands _userCommands  = new();
     private readonly Phone        _phoneCommands = new();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public UserResultDto GetUsers()
     {
         try
@@ -26,8 +24,6 @@ public class UsersService : IUsersService
             return UserResultDto.Failure("Не удалось загрузить список пользователей.");
         }
     }
-
-    // ── Create ────────────────────────────────────────────────────────────────
 
     public UserResultDto CreateUser(User user, string password)
     {
@@ -53,8 +49,6 @@ public class UsersService : IUsersService
             return UserResultDto.Failure("Не удалось создать пользователя.");
         }
     }
-
-    // ── Update ────────────────────────────────────────────────────────────────
 
     public UserResultDto UpdateUser(User user)
     {
@@ -102,8 +96,6 @@ public class UsersService : IUsersService
         }
     }
 
-    // ── Delete ────────────────────────────────────────────────────────────────
-
     public UserResultDto DeleteUser(int userId)
     {
         try
@@ -116,8 +108,6 @@ public class UsersService : IUsersService
             return UserResultDto.Failure("Не удалось удалить пользователя.");
         }
     }
-
-    // ── Private ───────────────────────────────────────────────────────────────
 
     private UserResultDto EnsureLoginIsUnique(string login, int? excludeUserId)
     {

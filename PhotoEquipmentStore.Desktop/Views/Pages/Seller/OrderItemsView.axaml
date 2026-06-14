@@ -15,14 +15,12 @@
     <Border Background="{DynamicResource main_background}" Padding="20">
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="12">
 
-            <!-- ── Шапка заказа ── -->
             <Border Grid.Row="0"
                     Background="{DynamicResource surface}"
                     CornerRadius="14"
                     Padding="20,16">
                 <Grid ColumnDefinitions="Auto,*,Auto">
 
-                    <!-- Иконка + номер + дата -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal"
                                 Spacing="14" VerticalAlignment="Center">
                         <Border Width="44" Height="44"
@@ -59,7 +57,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Статус + кнопка возврата -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal"
                                 Spacing="12" VerticalAlignment="Center">
 
@@ -88,7 +85,6 @@
                             </Border>
                         </StackPanel>
 
-                        <!-- Кнопка возврата — только при статусе Оформлен -->
                         <Button IsVisible="{Binding IsStatusActive}"
                                 Padding="16,10"
                                 CornerRadius="10"
@@ -102,7 +98,6 @@
                             </StackPanel>
                         </Button>
 
-                        <!-- К заказам -->
                         <Button Classes="Secondary"
                                 Padding="16,10"
                                 CornerRadius="10"
@@ -129,7 +124,6 @@
                 </Grid>
             </Border>
 
-            <!-- ── Список позиций ── -->
             <Border Grid.Row="1"
                     Background="{DynamicResource surface}"
                     CornerRadius="14"
@@ -268,14 +262,12 @@
                 </Grid>
             </Border>
 
-            <!-- ── Нижняя панель ── -->
             <Border Grid.Row="2"
                     Background="{DynamicResource surface}"
                     CornerRadius="14"
                     Padding="20,16">
                 <Grid ColumnDefinitions="Auto *">
 
-                    <!-- Левая часть: итоги -->
                     <StackPanel Grid.Column="0" Spacing="6" MinWidth="260"
                                 VerticalAlignment="Center">
 
@@ -333,14 +325,12 @@
 
                     </StackPanel>
 
-                    <!-- Центр: клиент (сверху) + продавец (снизу) + скидка клиента -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal"
                                 Spacing="0" HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
 
-                        <!-- Клиент над продавцом -->
                         <StackPanel Spacing="10" Margin="32,0">
-                            <!-- Клиент -->
+
                             <StackPanel Spacing="2">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
                                     <Viewbox Width="11" Height="11"
@@ -366,7 +356,6 @@
                                            Foreground="{DynamicResource secondary_text}"/>
                             </StackPanel>
 
-                            <!-- Продавец -->
                             <StackPanel Spacing="2">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
                                     <Viewbox Width="11" Height="11"

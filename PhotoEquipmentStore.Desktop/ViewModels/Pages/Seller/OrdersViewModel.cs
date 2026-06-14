@@ -16,7 +16,7 @@ public class OrdersViewModel : ViewModelBase
     private readonly OrderService _orderService = new();
     private readonly List<OrderShow> _allOrders = new();
     public ObservableCollection<OrderShow> Orders { get; } = new();
-    
+
     private ObservableCollection<OrderShow> _currentOrders = new();
     public ObservableCollection<OrderShow> CurrentOrders
     {

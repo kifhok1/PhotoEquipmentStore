@@ -11,8 +11,6 @@ public class ReferenceCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
 
-    // ── Read ──────────────────────────────────────────────────────────────────
-
     public static ObservableCollection<Reference> GetRoles()
     {
         const string query = @"
@@ -88,8 +86,6 @@ public class ReferenceCommands
         return ExecuteReferenceQuery(query, "Ошибка при получении списка производителей.");
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
-
     public bool CreateReference(string table, string name)
     {
         try
@@ -113,8 +109,6 @@ public class ReferenceCommands
             throw new DatabaseException($"Непредвиденная ошибка при создании записи в {table}.", ex);
         }
     }
-
-    // ── Update ────────────────────────────────────────────────────────────────
 
     public bool UpdateReference(string table, Reference reference)
     {
@@ -141,8 +135,6 @@ public class ReferenceCommands
         }
     }
 
-    // ── Delete ────────────────────────────────────────────────────────────────
-
     public bool DeleteReference(string table, int id)
     {
         try
@@ -166,8 +158,6 @@ public class ReferenceCommands
             throw new DatabaseException($"Непредвиденная ошибка при удалении записи из {table}.", ex);
         }
     }
-
-    // ── Проверка уникальности ─────────────────────────────────────────────────
 
     public bool NameExists(string table, string name, int? excludeId = null)
     {
@@ -196,8 +186,6 @@ public class ReferenceCommands
             throw new DatabaseException($"Непредвиденная ошибка при проверке уникальности в {table}.", ex);
         }
     }
-
-    // ── Private ───────────────────────────────────────────────────────────────
 
     private static ObservableCollection<Reference> ExecuteReferenceQuery(string query, string errorMessage)
     {

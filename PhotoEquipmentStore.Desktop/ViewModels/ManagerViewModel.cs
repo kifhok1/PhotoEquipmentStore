@@ -11,20 +11,20 @@ namespace PhotoEquipmentStore.ViewModels;
 
 public class ManagerViewModel : ViewModelBase
 {
-    
+
     private readonly MainViewModel _mainViewModel;
     private ViewModelBase _currentViewModel;
     private NavigationMenuItem _selectedNavigationMenuItem;
     private UserInfo _currentUser;
 
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
-        
+
     public NavigationMenuItem SelectedNavigationMenuItem
     {
         get => _selectedNavigationMenuItem;
         set => this.RaiseAndSetIfChanged(ref _selectedNavigationMenuItem, value);
     }
-    
+
     public ObservableCollection<NavigationMenuItem> NavigationMenuItems { get; }
 
     public ViewModelBase CurrentViewModel
@@ -38,17 +38,16 @@ public class ManagerViewModel : ViewModelBase
         get => _currentUser;
         set => this.RaiseAndSetIfChanged(ref _currentUser, value);
     }
-    
+
     public ManagerViewModel(MainViewModel mainViewModel, UserInfo userInfo)
     {
         _mainViewModel = mainViewModel;
         LogoutCommand = ReactiveCommand.Create(Logout);
-        
-        // Инициализация команд навигации
+
         ReactiveCommand<Unit, Unit> goToReportsCommand = ReactiveCommand.Create(GoToReports);
         ReactiveCommand<Unit, Unit> goToProductsCommand = ReactiveCommand.Create(GoToProducts);
         ReactiveCommand<Unit, Unit> goToProductAddCommand = ReactiveCommand.Create(GoToProductAdd);
-        
+
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
             new NavigationMenuItem("Формирование отчёта", "Records",  goToReportsCommand),
@@ -58,33 +57,30 @@ public class ManagerViewModel : ViewModelBase
         _currentUser = userInfo;
         _currentViewModel = new ManagerWelcomeViewModel(_currentUser);
     }
-    
-     // Конструктор для дизайнера
+
     [Obsolete("Design-time only")]
     public ManagerViewModel()
     {
-        // Инициализация для дизайна (без MainViewModel)
-        LogoutCommand = ReactiveCommand.Create(() => { }); // Пустая команда для дизайна
-        
-        // Создаем пустые команды для дизайнера
+
+        LogoutCommand = ReactiveCommand.Create(() => { });
+
         ReactiveCommand<Unit, Unit> goToReportsCommand = ReactiveCommand.Create(GoToReports);
         ReactiveCommand<Unit, Unit> goToProductsCommand = ReactiveCommand.Create(GoToProducts);
         ReactiveCommand<Unit, Unit> goToProductAddCommand = ReactiveCommand.Create(GoToProductAdd);
-        
+
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
             new NavigationMenuItem("Формирование отчёта", "Records",  goToReportsCommand),
             new NavigationMenuItem("Товары", "Product", goToProductsCommand),
             new NavigationMenuItem("Создание товара", "ProductAdd", goToProductAddCommand),
         };
-        
+
         _selectedNavigationMenuItem = NavigationMenuItems[0];
         _currentViewModel = new ReportsViewModel();
         _currentUser = new UserInfo(0, "Ианов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
-    
-    
+
     private void Logout()
     {
         _mainViewModel.GoToLoginCommand.Execute().Subscribe();

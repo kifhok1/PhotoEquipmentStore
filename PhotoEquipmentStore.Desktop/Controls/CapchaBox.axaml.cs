@@ -20,7 +20,6 @@ public partial class CapchaBox : UserControl
     private DispatcherTimer? _cooldownTimer;
     private double _cooldownRemaining;
 
-    // --- ErrorMessage ---
     public static readonly StyledProperty<string> ErrorMessageProperty =
         AvaloniaProperty.Register<CapchaBox, string>(
             nameof(ErrorMessage),
@@ -32,7 +31,6 @@ public partial class CapchaBox : UserControl
         set => SetValue(ErrorMessageProperty, value);
     }
 
-    // --- ErrorVisible ---
     public static readonly StyledProperty<bool> ErrorVisibleProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(nameof(ErrorVisible));
 
@@ -51,8 +49,6 @@ public partial class CapchaBox : UserControl
         set => SetValue(CooldownProgressProperty, value);
     }
 
-    // --- Блокировка окна --- 
-    
     public static readonly StyledProperty<bool> WindowBlockedProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(
             nameof(WindowBlocked),
@@ -64,8 +60,6 @@ public partial class CapchaBox : UserControl
         set => SetValue(WindowBlockedProperty, value);
     }
 
-    // --- Отображение окна с капчей --- 
-    
     public static readonly StyledProperty<bool> ShowCapchaBlockProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(
             nameof(ShowCapchaBlock),
@@ -77,10 +71,8 @@ public partial class CapchaBox : UserControl
         set => SetValue(ShowCapchaBlockProperty, value);
     }
 
-    // --- CanConfirm ---
-
     private bool canConfirm;
-    
+
     public bool CanConfirm
     {
         get => canConfirm;
@@ -163,7 +155,6 @@ public partial class CapchaBox : UserControl
     {
         _cooldownRemaining -= TickMs / 1000.0;
 
-        // Значение прогресса пропорционально оставшемуся времени
         CooldownProgress = Math.Max(0, _cooldownRemaining / CooldownSeconds * 10000);
 
         if (_cooldownRemaining <= 0)
@@ -176,7 +167,7 @@ public partial class CapchaBox : UserControl
 
             CooldownProgress = 0;
             CanConfirm = true;
-            
+
             WindowBlocked = false;
         }
     }

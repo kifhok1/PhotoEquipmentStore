@@ -12,7 +12,7 @@ public class Reference
         get { return id; }
         set { id = value; }
     }
-    
+
     public string Name
     {
         get { return name; }
@@ -30,7 +30,7 @@ public class Reference
         get { return isDeleted; }
         set { isDeleted = value; }
     }
-    
+
     public Reference(
         int id,
         string name,
@@ -39,10 +39,10 @@ public class Reference
     {
         Id = id;
         Name = name;
-        Count = count; 
+        Count = count;
         IsDeleted = isDeleted;
     }
-    
+
     public Reference(
         int id,
         string name)

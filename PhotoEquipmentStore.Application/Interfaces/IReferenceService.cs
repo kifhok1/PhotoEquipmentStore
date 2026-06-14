@@ -15,5 +15,5 @@ public interface IReferenceService
     ReferenceResultDto Create(ReferenceType type, string name);
     ReferenceResultDto Update(ReferenceType type, Reference reference);
     ReferenceResultDto Delete(ReferenceType type, int id);
-    
+
 }

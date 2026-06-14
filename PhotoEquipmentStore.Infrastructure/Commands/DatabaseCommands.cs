@@ -23,8 +23,6 @@ public class DatabaseCommands
         "users"
     ];
 
-    // ── Backup ────────────────────────────────────────────────────────────────
-
     public async Task CreateBackupAsync(string outputPath)
     {
         try
@@ -33,7 +31,7 @@ public class DatabaseCommands
             {
                 using var connection = new MySqlConnection(ConnString);
                 using var command = new MySqlCommand {
-                    Connection = connection 
+                    Connection = connection
                 };
                 using var backup     = new MySqlBackup(command);
                 connection.Open();
@@ -46,8 +44,6 @@ public class DatabaseCommands
         }
     }
 
-    // ── Restore ───────────────────────────────────────────────────────────────
-
     public async Task RestoreStructureAsync(string sqlFilePath)
     {
         try
@@ -56,7 +52,7 @@ public class DatabaseCommands
             {
                 using var connection = new MySqlConnection(ConnString);
                 using var command = new MySqlCommand {
-                    Connection = connection 
+                    Connection = connection
                 };
                 using var backup     = new MySqlBackup(command);
                 connection.Open();
@@ -68,8 +64,6 @@ public class DatabaseCommands
             throw new DatabaseException("Ошибка при восстановлении базы данных.", ex);
         }
     }
-
-    // ── Fetch table ───────────────────────────────────────────────────────────
 
     public async Task<DataTable> FetchTableAsync(string tableName)
     {
@@ -83,7 +77,6 @@ public class DatabaseCommands
                 using var connection = new MySqlConnection(ConnString);
                 connection.Open();
 
-                // Получаем список колонок, исключая MEDIUMBLOB (изображения)
                 var columnsQuery = @"
                 SELECT COLUMN_NAME
                 FROM INFORMATION_SCHEMA.COLUMNS

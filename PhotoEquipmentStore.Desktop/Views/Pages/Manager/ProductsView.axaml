@@ -12,11 +12,11 @@
     <Design.DataContext>
         <vm:ProductsViewModel/>
     </Design.DataContext>
-    
+
     <UserControl.Resources>
         <conv:ListToProductShowCollectionConverter x:Key="ListToProductShowCollectionConverter"/>
     </UserControl.Resources>
-    
+
     <Border Background="{DynamicResource main_background}" Padding="20">
         <Grid RowSpacing="15" RowDefinitions="Auto *">
             <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
@@ -105,7 +105,7 @@
                                                                                     StrokeJoin="Round"
                                                                                     StrokeLineCap="Round"/>
                                                                         </Viewbox>
-                                                                    
+
                                                                         <Image Source="{Binding Image}" HorizontalAlignment="Stretch"
                                                                                VerticalAlignment="Stretch"
                                                                                Stretch="UniformToFill"/>
@@ -115,7 +115,7 @@
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTemplateColumn Header="Название техники"
                                                         Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -127,7 +127,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTemplateColumn Header="Категория"
                                                         Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -140,7 +140,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTextColumn
                                     Header="Цена"
                                     Foreground="{DynamicResource accent}"

@@ -1,13 +1,12 @@
-<!-- Корневой контейнер стилей Avalonia -->
+
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
-    <!-- Превью в дизайнере -->
     <Design.PreviewWith>
-        <!-- Обертка с отступом -->
+
         <Border Padding="20"  Background="{DynamicResource main_background}">
-            <!-- Пример TextBox -->
+
             <StackPanel Spacing="10" Orientation="Horizontal">
               <StackPanel Spacing="15">
                 <TextBox VerticalAlignment="Center" Watermark="123">123</TextBox>
@@ -33,111 +32,110 @@
             </StackPanel>
         </Border>
     </Design.PreviewWith>
-    
-    <Style Selector="TextBox"> <!-- Определение темы для TextBox -->
-        
-        <Setter Property="Foreground" Value="{DynamicResource main_text}" /> <!-- Цвет текста -->
-        <Setter Property="FontFamily" Value="{DynamicResource Geologica}"/> <!-- Шрифт текта -->
-        <Setter Property="Background" Value="{DynamicResource secondary_background}" /> <!-- Фон -->
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource primary}" /> <!-- Цвет курсора -->
-        <Setter Property="BorderBrush" Value="{DynamicResource border}" /> <!-- Цвет границы -->
-        <Setter Property="SelectionBrush" Value="{DynamicResource secondary_text}" /> <!-- Цвет выделения -->
-        <Setter Property="BorderThickness" Value="1" /> <!-- Толщина границы -->
-        <Setter Property="CornerRadius" Value="6" /> <!-- Скругление углов -->
-        <Setter Property="MinHeight" Value="30" /> <!-- Минимальная высота -->
-        <Setter Property="MinWidth" Value="100" /> <!-- Минимальная ширина -->
-        <Setter Property="Padding" Value="6" /> <!-- Внутренние отступы -->
-        <Setter Property="FocusAdorner" Value="{x:Null}" /> <!-- Убирает стандартную рамку фокуса -->
-        <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" /> <!-- Включает цепочку скроллинга -->
-        
-        <Setter Property="ContextFlyout" Value="{OnFormFactor Desktop={StaticResource DefaultTextBoxContextFlyout}, Mobile={StaticResource HorizontalTextBoxContextFlyout}}" /> <!-- Контекстное меню для разных устройств -->
 
-        <Setter Property="Template"> <!-- Шаблон контрола -->
+    <Style Selector="TextBox">
+
+        <Setter Property="Foreground" Value="{DynamicResource main_text}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Geologica}"/>
+        <Setter Property="Background" Value="{DynamicResource secondary_background}" />
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource primary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource border}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource secondary_text}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="Padding" Value="6" />
+        <Setter Property="FocusAdorner" Value="{x:Null}" />
+        <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+
+        <Setter Property="ContextFlyout" Value="{OnFormFactor Desktop={StaticResource DefaultTextBoxContextFlyout}, Mobile={StaticResource HorizontalTextBoxContextFlyout}}" />
+
+        <Setter Property="Template">
           <ControlTemplate>
-            <DataValidationErrors> <!-- Обработка ошибок валидации -->
-              <Panel> <!-- Корневой контейнер -->
+            <DataValidationErrors>
+              <Panel>
 
                 <Border
-                  Name="PART_BorderElement" 
+                  Name="PART_BorderElement"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   MinWidth="{TemplateBinding MinWidth}"
-                  MinHeight="{TemplateBinding MinHeight}"> 
+                  MinHeight="{TemplateBinding MinHeight}">
                 </Border>
 
                 <Border
-                  Margin="{TemplateBinding BorderThickness}"> <!-- Внутренний контейнер с отступом -->
-                  
-                  <Grid ColumnDefinitions="Auto,*,Auto" > <!-- Сетка: слева, центр, справа -->
-                    
+                  Margin="{TemplateBinding BorderThickness}">
+
+                  <Grid ColumnDefinitions="Auto,*,Auto" >
+
                     <ContentPresenter Grid.Column="0"
                                       Grid.ColumnSpan="1"
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Content="{TemplateBinding InnerLeftContent}"/> <!-- Контент слева -->
-                    
+                                      Content="{TemplateBinding InnerLeftContent}"/>
+
                     <DockPanel x:Name="PART_InnerDockPanel"
                                Grid.Column="1"
                                Grid.ColumnSpan="1"
-                               Margin="{TemplateBinding Padding}"> <!-- Основная область текста -->
-                      
+                               Margin="{TemplateBinding Padding}">
+
                       <TextBlock Name="PART_FloatingWatermark"
-                                 Foreground="{DynamicResource SystemAccentColor}" 
-                                 IsVisible="False" 
+                                 Foreground="{DynamicResource SystemAccentColor}"
+                                 IsVisible="False"
                                  Text="{TemplateBinding Watermark}"
                                  DockPanel.Dock="Top" />
-                      
+
                       <ScrollViewer Name="PART_ScrollViewer"
                                     HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                     VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                                     IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
                                     AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
-                                    BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"> <!-- Область прокрутки -->
-                        
-                        <Panel> <!-- Контейнер содержимого -->
-                          
-                          <!-- Прозрачность placeholder -->
+                                    BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+
+                        <Panel>
+
                           <TextBlock Name="PART_Watermark"
-                                  Opacity="{DynamicResource TextControlPlaceholderOpacity}" 
+                                  Opacity="{DynamicResource TextControlPlaceholderOpacity}"
                                   Text="{TemplateBinding Watermark}"
                                   TextAlignment="{TemplateBinding TextAlignment}"
                                   TextWrapping="{TemplateBinding TextWrapping}"
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            
-                            <TextBlock.IsVisible> <!-- Логика отображения watermark -->
+
+                            <TextBlock.IsVisible>
                               <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                <Binding ElementName="PART_TextPresenter" Path="PreeditText" Converter="{x:Static StringConverters.IsNullOrEmpty}"/> <!-- Проверка ввода -->
-                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Text" Converter="{x:Static StringConverters.IsNullOrEmpty}"/> <!-- Проверка текста -->
+                                <Binding ElementName="PART_TextPresenter" Path="PreeditText" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Text" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
                               </MultiBinding>
                             </TextBlock.IsVisible>
                           </TextBlock>
 
                           <TextPresenter Name="PART_TextPresenter"
                                         Text="{TemplateBinding Text, Mode=TwoWay}"
-                                        CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}" 
-                                        CaretIndex="{TemplateBinding CaretIndex}" 
-                                        SelectionStart="{TemplateBinding SelectionStart}" 
+                                        CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                        CaretIndex="{TemplateBinding CaretIndex}"
+                                        SelectionStart="{TemplateBinding SelectionStart}"
                                         SelectionEnd="{TemplateBinding SelectionEnd}"
                                         TextAlignment="{TemplateBinding TextAlignment}"
                                         TextWrapping="{TemplateBinding TextWrapping}"
                                         LineHeight="{TemplateBinding LineHeight}"
                                         LetterSpacing="{TemplateBinding LetterSpacing}"
-                                        PasswordChar="{TemplateBinding PasswordChar}" 
-                                        RevealPassword="{TemplateBinding RevealPassword}" 
+                                        PasswordChar="{TemplateBinding PasswordChar}"
+                                        RevealPassword="{TemplateBinding RevealPassword}"
                                         SelectionBrush="{TemplateBinding SelectionBrush}"
                                         SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
                                         CaretBrush="{TemplateBinding CaretBrush}"
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        
+
                         </Panel>
 
-                        <ScrollViewer.Styles> <!-- Стили для ScrollViewer -->
+                        <ScrollViewer.Styles>
                           <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
-                            <Setter Property="Cursor" Value="IBeam" /> <!-- Курсор как текстовый -->
+                            <Setter Property="Cursor" Value="IBeam" />
                           </Style>
                         </ScrollViewer.Styles>
 
@@ -147,8 +145,8 @@
                     <ContentPresenter Grid.Column="2"
                                       Grid.ColumnSpan="1"
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Content="{TemplateBinding InnerRightContent}"/> <!-- Контент справа -->
-                  
+                                      Content="{TemplateBinding InnerRightContent}"/>
+
                   </Grid>
                 </Border>
               </Panel>
@@ -156,11 +154,10 @@
           </ControlTemplate>
         </Setter>
 
-        <!-- Disabled State -->
-        <Style Selector="^:disabled"> <!-- Состояние отключено -->
+        <Style Selector="^:disabled">
           <Setter Property="Foreground" Value="{DynamicResource muted_text}" />
           <Setter Property="Opacity" Value="0.85"/>
-          
+
           <Style Selector="^ /template/ Border#PART_BorderElement">
             <Setter Property="Background" Value="{DynamicResource main_background}" />
             <Setter Property="BorderBrush" Value="{DynamicResource border}" />
@@ -171,8 +168,7 @@
           </Style>
         </Style>
 
-        <!-- PointerOver State-->
-        <Style Selector="^:pointerover"> <!-- Наведение мыши -->
+        <Style Selector="^:pointerover">
           <Setter Property="Foreground" Value="{DynamicResource main_text}" />
           <Setter Property="Opacity" Value="0.8" />
 
@@ -186,8 +182,7 @@
           </Style>
         </Style>
 
-        <!-- Focused State -->
-        <Style Selector="^:focus"> <!-- Фокус -->
+        <Style Selector="^:focus">
           <Setter Property="Foreground" Value="{DynamicResource main_text}" />
           <Style Selector="^ /template/ TextBlock#PART_Watermark">
             <Setter Property="Foreground" Value="{DynamicResource secondary_text}" />
@@ -201,15 +196,15 @@
         </Style>
 
         <Style Selector="^:error /template/ Border#PART_BorderElement">
-          <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/> <!-- Ошибка -->
+          <Setter Property="BorderBrush" Value="{DynamicResource error_border}"/>
         </Style>
 
         <Style Selector="^ /template/ TextBlock#PART_FloatingWatermark">
-          <Setter Property="Cursor" Value="IBeam"/> <!-- Курсор для плавающего текста -->
+          <Setter Property="Cursor" Value="IBeam"/>
         </Style>
-        
+
         <Style Selector="^[UseFloatingWatermark=true]:not(:empty) /template/ TextBlock#PART_FloatingWatermark">
-          <Setter Property="IsVisible" Value="True" /> <!-- Показывать плавающий watermark -->
+          <Setter Property="IsVisible" Value="True" />
         </Style>
 
         <Style Selector="^.revealPasswordButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
@@ -221,7 +216,7 @@
                           BorderThickness="0"
                           Padding="6">
                 <ToggleButton.Styles>
-                    <!-- Переопределяем фон для всех состояний ToggleButton -->
+
                     <Style Selector="ToggleButton">
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="BorderThickness" Value="0" />
@@ -260,5 +255,5 @@
     </Setter>
 </Style>
     </Style>
-    
+
 </Styles>
