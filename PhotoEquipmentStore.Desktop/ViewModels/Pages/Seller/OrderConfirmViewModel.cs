@@ -223,7 +223,9 @@ public class OrderConfirmViewModel : ViewModelBase, IStorageProviderReceiver
                     ProductId       = i.ProductId,
                     Quantity        = i.CartQuantity,
                     Price           = i.Price,
-                    DiscountPercent = i.Discount
+                    DiscountPercent = i.Price > 0
+                        ? Math.Round((decimal)i.Discount / i.Price * 100, 2)
+                        : 0
                 }).ToList()
             };
 
