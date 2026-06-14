@@ -43,7 +43,13 @@ public class ClientShow : ReactiveObject
     public string TotalPurchases
     {
         get => _totalPurchases;
-        set => this.RaiseAndSetIfChanged(ref _totalPurchases, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _totalPurchases, value);
+            this.RaisePropertyChanged(nameof(TotalPurchasesAmount));
+            this.RaisePropertyChanged(nameof(ClientDiscountPercent));
+            this.RaisePropertyChanged(nameof(ClientDiscountLabel));
+        }
     }
 
     public int CountOrders
@@ -62,13 +68,35 @@ public class ClientShow : ReactiveObject
             this.RaisePropertyChanged(nameof(PhoneNumberShow));
         }
     }
-    
+
     private bool _isSelected;
     public bool IsSelected
     {
         get => _isSelected;
         set => this.RaiseAndSetIfChanged(ref _isSelected, value);
     }
+
+    // ── Накопительная скидка ──────────────────────────────────────────────────
+
+    /// <summary>Числовое значение суммы покупок для расчёта скидки.</summary>
+    public int TotalPurchasesAmount =>
+        int.TryParse(TotalPurchases?.Replace(" ", "").Replace(",", ""), out var v) ? v : 0;
+
+    public int ClientDiscountPercent => TotalPurchasesAmount switch
+    {
+        >= 500_000 => 15,
+        >= 250_000 => 10,
+        >= 100_000 => 5,
+        _          => 0
+    };
+
+    public string ClientDiscountLabel => ClientDiscountPercent switch
+    {
+        0 => "нет",
+        _ => $"{ClientDiscountPercent}% (накопительная)"
+    };
+
+    // ── Отображение ───────────────────────────────────────────────────────────
 
     public string TotalPurchasesShow => TotalPurchases + " ₽";
     public string CountOrdersShow    => CountOrders + " шт.";
@@ -80,7 +108,7 @@ public class ClientShow : ReactiveObject
     public string NameShow => IsRevealed
         ? Name
         : MaskClientsData.MaskFullName(Name);
-    
+
     public string DisplayLabel
     {
         get

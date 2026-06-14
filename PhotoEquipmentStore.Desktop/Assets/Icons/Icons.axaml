@@ -199,4 +199,8 @@
     <StreamGeometry x:Key="Calendar">
         M8,2 v4 M16,2 v4 M5,4 H19 A2,2 0 0,1 21,6 V20 A2,2 0 0,1 19,22 H5 A2,2 0 0,1 3,20 V6 A2,2 0 0,1 5,4 Z M3,10 h18 M8,14 h0.01 M12,14 h0.01 M16,14 h0.01 M8,18 h0.01 M12,18 h0.01 M16,18 h0.01
     </StreamGeometry>
+    
+    <StreamGeometry x:Key="FileDown">
+        M6,22 A2,2 0 0,1 4,20 V4 A2,2 0 0,1 6,2 h8 A2.4,2.4 0 0,1 15.704,2.706 l3.588,3.588 A2.4,2.4 0 0,1 20,8 v12 A2,2 0 0,1 18,22 z M14,2 v5 A1,1 0 0,0 15,8 h5 M12,18 v-6 M9,15 l3,3 3,-3
+    </StreamGeometry>
 </ResourceDictionary>

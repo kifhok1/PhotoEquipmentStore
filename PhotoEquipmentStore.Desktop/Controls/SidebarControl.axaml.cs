@@ -92,7 +92,7 @@ public partial class SidebarControl : UserControl
                 new NavigationMenuItem( "Заказы", "Order"),
             ];
 
-            Username = new UserInfo("Иван Макаровouhpiuh phpihpyugpiuy",
+            Username = new UserInfo(0, "Иван Макаровouhpiuh phpihpyugpiuy",
                 "Админстратор",
                 new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
             

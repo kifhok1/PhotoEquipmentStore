@@ -5,10 +5,26 @@
              xmlns:viewModels="clr-namespace:PhotoEquipmentStore.ViewModels"
              xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels"
              xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.SellerView"
              x:DataType="vm:SellerViewModel">
-            <Design.DataContext>
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="PointerMoved">
+            <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
+        </ia:EventTriggerBehavior>
+        
+        <ia:EventTriggerBehavior EventName="PointerPressed">
+            <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
+        </ia:EventTriggerBehavior>
+
+        <ia:EventTriggerBehavior EventName="KeyDown">
+            <ia:CallMethodAction TargetObject="{Binding}" MethodName="ResetInactivityTimer" />
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    
+    <Design.DataContext>
                 <viewModels:SellerViewModel/>
             </Design.DataContext>
             <Border>

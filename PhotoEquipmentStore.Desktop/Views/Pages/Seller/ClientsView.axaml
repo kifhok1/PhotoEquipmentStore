@@ -135,18 +135,18 @@
                             <TextBlock Classes="Body"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Text="{Binding CountClients}"/>
+                                       Text="{Binding #ClientsPaginator.PageCountText}"/>
 
                             <controls:PaginationButtons
+                                x:Name="ClientsPaginator"
                                 Items="{Binding Clients}"
                                 CurrentPageItems="{Binding CurrentClients,
-                                    Converter={StaticResource ListToClientsConverter},
-                                    Mode=OneWayToSource}"
+                                Converter={StaticResource ListToClientsConverter},
+                                Mode=OneWayToSource}"
                                 PageSize="20"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"/>
                         </Panel>
-
                     </Grid>
                 </Border>
             </Border>

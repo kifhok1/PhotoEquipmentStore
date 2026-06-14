@@ -55,10 +55,8 @@ public class ManagerViewModel : ViewModelBase
             new NavigationMenuItem("Товары", "Product", goToProductsCommand),
             new NavigationMenuItem("Создание товара", "ProductAdd", goToProductAddCommand),
         };
-        
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new ReportsViewModel();
         _currentUser = userInfo;
+        _currentViewModel = new ManagerWelcomeViewModel(_currentUser);
     }
     
      // Конструктор для дизайнера
@@ -82,7 +80,7 @@ public class ManagerViewModel : ViewModelBase
         
         _selectedNavigationMenuItem = NavigationMenuItems[0];
         _currentViewModel = new ReportsViewModel();
-        _currentUser = new UserInfo("Ианов Иван", "Админ",
+        _currentUser = new UserInfo(0, "Ианов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
     

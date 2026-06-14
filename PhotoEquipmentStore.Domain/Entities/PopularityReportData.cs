@@ -9,10 +9,11 @@ public class PopularityReportData
     public int    Price        { get; }
     public int    TotalSold    { get; }
     public int    OrdersCount  { get; }
-
+    public string ManufacturerName { get; }
+    
     public PopularityReportData(
-        int rank, int productId, string productName,
-        string categoryName, int price, int totalSold, int ordersCount)
+        int rank, int productId, string productName, string categoryName,
+        string manufacturerName, int price, int totalSold, int ordersCount)
     {
         Rank         = rank;
         ProductId    = productId;
@@ -21,5 +22,6 @@ public class PopularityReportData
         Price        = price;
         TotalSold    = totalSold;
         OrdersCount  = ordersCount;
+        ManufacturerName = manufacturerName;
     }
 }

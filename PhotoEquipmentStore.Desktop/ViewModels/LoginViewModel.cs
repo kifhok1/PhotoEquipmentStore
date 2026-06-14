@@ -94,7 +94,26 @@ public partial class LoginViewModel : ViewModelBase
         LoginCommand = ReactiveCommand.Create(Login);
         
         // Команда для закрытия окна авторизации
-        CloseCommand = ReactiveCommand.CreateFromTask(async () => await Close.Handle(Unit.Default));
+        CloseCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            // Бэкап перед выходом
+            try
+            {
+                var folder   = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    "ФотоМагазин", "Файлы базы данных");
+                var fileName = $"backup_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.sql";
+                var filePath = Path.Combine(folder, fileName);
+
+                var service = new DatabaseService();
+                await service.CreateBackupAsync(filePath);
+            }
+            catch
+            {
+                // Не блокируем выход если бэкап не удался
+            }   
+            return await Close.Handle(Unit.Default);
+        });
         
         ShowSettingsCommand = ReactiveCommand.Create(ShowSettings);
         CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
@@ -131,7 +150,7 @@ public partial class LoginViewModel : ViewModelBase
     {
         if (LoginText == "root" && PasswordText == "root")
         {
-            UserInfo userRoot = new UserInfo("Системный пользователь", "Администратор", null);
+            UserInfo userRoot = new UserInfo(0, "Системный пользователь", "Администратор", null);
             mainViewModel.CurrentUser = userRoot;
             mainViewModel.GoToRootCommand.Execute().Subscribe();
             return;
@@ -156,11 +175,12 @@ public partial class LoginViewModel : ViewModelBase
                 return;
             }
         }
-        
+
+        int userID = result.User.Id;
         string name = result.User.Name;
         string role = result.User.RoleName;
         Bitmap userImage = BitmapHelper.FromBytes(result.User.UserImage);
-        UserInfo userInfo = new UserInfo(name, role, userImage);
+        UserInfo userInfo = new UserInfo(userID, name, role, userImage);
         mainViewModel.CurrentUser = userInfo;  
         switch (result.User!.RoleId)
         {

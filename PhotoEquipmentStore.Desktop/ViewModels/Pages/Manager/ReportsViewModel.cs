@@ -6,12 +6,13 @@ using Avalonia.Platform.Storage;
 using ReactiveUI;
 using PhotoEquipmentStore.Application.DTO;
 using PhotoEquipmentStore.Application.Services;
+using PhotoEquipmentStore.Behaviors;
 using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Domain.Enums;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Manager;
 
-public class ReportsViewModel : ViewModelBase
+public class ReportsViewModel : ViewModelBase, IStorageProviderReceiver
 {
     private readonly ReportService    _reportService    = new();
     private readonly ReferenceService _referenceService = new();

@@ -1,120 +1,141 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive;
 using PhotoEquipmentStore.Application.Services;
-using PhotoEquipmentStore.Domain.Entities;
 using PhotoEquipmentStore.Helper;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class OrderItemsViewModel : ViewModelBase
 {
-    private OrderShow order;
-    private string countOrderItems = "";
+    private readonly OrderService _orderService = new();
 
+    private OrderShow _order;
     public OrderShow Order
     {
-        get => order;
-        set => this.RaiseAndSetIfChanged(ref order, value);
+        get => _order;
+        set => this.RaiseAndSetIfChanged(ref _order, value);
     }
 
-    public ObservableCollection<OrderItemShow> OrderItems
-    {
-        get;
-        private set;
-    } = new();
-    
-    public string CountOrderItems
-    {
-        get => countOrderItems;
-        set => this.RaiseAndSetIfChanged(ref countOrderItems, value);
-    }
+    public ObservableCollection<OrderItemShow> OrderItems { get; } = new();
 
-    public string ClientNameShow
-    {
-        get => $"Клинет: {order.ClientName}";
-    }
-    
-    public string UserNameShow
-    {
-        get => $"Продавец: {order.UserName}";
-    }
-    
-    public string OrderDateShow
-    {
-        get => $"Дата заказа: {order.OrderDate}";
-    }
+    // ── Команды ───────────────────────────────────────────────────────────────
 
-    public string OrderTotalShow
+    public ReactiveCommand<Unit, Unit> GoBackCommand      { get; }
+    public ReactiveCommand<Unit, Unit> ReturnOrderCommand { get; }
+
+    // ── Вычисляемые итоги ─────────────────────────────────────────────────────
+
+    public decimal Subtotal =>
+        OrderItems.Sum(i => i.Price * i.Quantity);
+
+    public decimal ProductDiscount =>
+        OrderItems.Sum(i => i.Price * i.Discount / 100m * i.Quantity);
+
+    public decimal AfterProductDiscount => Subtotal - ProductDiscount;
+
+    public decimal ClientDiscount =>
+        AfterProductDiscount * Order.DiscountClient / 100m;
+
+    public decimal Total => AfterProductDiscount - ClientDiscount;
+
+    public bool HasProductDiscount => ProductDiscount > 0;
+
+    public bool HasClientDiscount  => Order.DiscountClient > 0;
+
+    /// <summary>Статус «Оформлен» (id == "1") — активный заказ.</summary>
+    public bool IsStatusActive => Order.StatusId == "1";
+
+    public string ItemCountLabel
     {
         get
         {
-            decimal total = 0;
-            foreach (OrderItemShow orderItem in OrderItems)
-            {
-                total += orderItem.Price * orderItem.Quantity;
-            }
-
-            return $"Общая цена: {total}";
-        }
-    }
-    
-    public string OrderTotalDiscountShow
-    {
-        get
-        {
-            decimal total = 0;
-            foreach (OrderItemShow orderItem in OrderItems)
-            {
-                total += (orderItem.Price - orderItem.Price * orderItem.Discount / 100) * orderItem.Quantity;
-            }
-            return $"Общая цена cо скидкой: {total}";
-        }
-    }
-    
-    public string OrderClientDiscountShow
-    {
-        get => $"Скидка клиента: {order.DiscountClient}%";
-    }
-    
-    public string OrderTotalAndShow
-    {
-        get
-        {
-            decimal total = 0;
-            foreach (OrderItemShow orderItem in OrderItems)
-            {
-                total += (orderItem.Price - orderItem.Price * orderItem.Discount / 100) * orderItem.Quantity;
-            }
-
-            if (order.DiscountClient != 0)
-            {
-                total /= order.DiscountClient; 
-            }
-            return $"Итог: {total}";
+            int c = OrderItems.Count;
+            string word = c switch { 1 => "товар", 2 or 3 or 4 => "товара", _ => "товаров" };
+            return $"{c} {word}";
         }
     }
 
-    public OrderItemsViewModel(OrderShow order)
+    // ── Конструктор ───────────────────────────────────────────────────────────
+
+    public OrderItemsViewModel(OrderShow order, Action goBack)
     {
-        Order = order;
-        var orderItems = OrderService.GetOrder(order.Id);
-        foreach (var orderItem in orderItems)
+        _order = order;
+
+        GoBackCommand = ReactiveCommand.Create(goBack);
+
+        ReturnOrderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            OrderItems.Add(new OrderItemShow(orderItem.ProductId, orderItem.ProductName, orderItem.Quantity, 
-                orderItem.Price, orderItem.Discount, BitmapHelper.FromBytes(orderItem.ProductImage)));
-        }
-        CountOrderItems = $"Количество элементов на форме {OrderItems.Count}";
+            bool confirmed = await NotificationService.Instance.ShowWarningAsync(
+                "Оформить возврат?",
+                $"Вы уверены, что хотите оформить возврат по заказу №{Order.Id}? Это действие нельзя будет отменить.");
+
+            if (!confirmed) return;
+
+            var result = _orderService.UpdateOrderStatus(Order.Id.ToString());
+            if (result.IsSuccess)
+            {
+                await NotificationService.Instance.ShowInfoAsync(
+                    "Успешно", $"Возврат по заказу №{Order.Id} успешно оформлен.");
+
+                // Обновляем статус локально, чтобы кнопка сразу скрылась
+                Order.StatusId   = "2";
+                Order.StatusName = "Возврат";
+                this.RaisePropertyChanged(nameof(IsStatusActive));
+                this.RaisePropertyChanged(nameof(Order));
+            }
+            else
+            {
+                await NotificationService.Instance.ShowErrorAsync(
+                    "Ошибка", $"Не удалось оформить возврат по заказу №{Order.Id}.");
+            }
+        });
+
+        LoadItems(order.Id.ToString());
     }
-    
+
+    [Obsolete("Design-time only")]
     public OrderItemsViewModel()
     {
-        var orderItems = OrderService.GetOrder("72963458");
-        foreach (var orderItem in orderItems)
+        _order = new OrderShow("2", "2", "Иванова Марина Сергеевна", "+7(905)777-88-99",
+                               5, 0, "Иванов И.И.", "1", "Оформлен",
+                               DateTime.Now, 0);
+        GoBackCommand      = ReactiveCommand.Create(() => { });
+        ReturnOrderCommand = ReactiveCommand.Create(() => { });
+        LoadItems("72963458");
+    }
+
+    // ── Загрузка ──────────────────────────────────────────────────────────────
+
+    private async void LoadItems(string orderId)
+    {
+        var result = _orderService.GetOrderItems(orderId);
+        if (result.IsSuccess)
         {
-            OrderItems.Add(new OrderItemShow(orderItem.ProductId, orderItem.ProductName, orderItem.Quantity, 
-                orderItem.Price, orderItem.Discount, BitmapHelper.FromBytes(orderItem.ProductImage)));
+            foreach (var i in result.OrderItems)
+                OrderItems.Add(new OrderItemShow(
+                    i.ProductId, i.ProductName, i.Quantity,
+                    i.Price, i.Discount,
+                    BitmapHelper.FromBytes(i.ProductImage)));
         }
-        CountOrderItems = $"Количество элементов на форме {OrderItems.Count}";
+        else
+        {
+            await NotificationService.Instance.ShowErrorAsync(
+                "Ошибка", "Не удалось загрузить позиции заказа.");
+        }
+
+        this.RaisePropertyChanged(nameof(Subtotal));
+        this.RaisePropertyChanged(nameof(ProductDiscount));
+        this.RaisePropertyChanged(nameof(AfterProductDiscount));
+        this.RaisePropertyChanged(nameof(ClientDiscount));
+        this.RaisePropertyChanged(nameof(Total));
+        this.RaisePropertyChanged(nameof(HasProductDiscount));
+        this.RaisePropertyChanged(nameof(HasClientDiscount));
+        this.RaisePropertyChanged(nameof(IsStatusActive));
+        this.RaisePropertyChanged(nameof(ItemCountLabel));
     }
 }

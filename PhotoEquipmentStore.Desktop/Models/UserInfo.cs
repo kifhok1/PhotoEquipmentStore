@@ -42,8 +42,9 @@ public class UserInfo
     }
     
     
-    public UserInfo(string userName, string userRole, Bitmap userImage)
+    public UserInfo(int userID, string userName, string userRole, Bitmap userImage)
     {
+        this.userId = userID;
         this.userName = userName;
         this.userRole = userRole;
         this.userImage = userImage;

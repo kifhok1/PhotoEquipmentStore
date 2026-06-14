@@ -56,10 +56,8 @@ public class AdminViewModel : ViewModelBase
             new NavigationMenuItem("Работа с базой данных", "DataBase",             goToDataBaseCommand),
             new NavigationMenuItem("Справочники",           "Reference",            goToReferenceCommand),
         };
-
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel           = new UserAddViewModel();
         _currentUser                = userInfo;
+        _currentViewModel = new AdminWelcomeViewModel(_currentUser);
     }
 
     [Obsolete("Design-time only")]
@@ -82,7 +80,7 @@ public class AdminViewModel : ViewModelBase
 
         _selectedNavigationMenuItem = NavigationMenuItems[0];
         _currentViewModel = new UserAddViewModel(GoToUsers);
-        _currentUser                = new UserInfo("Иванов Иван", "Админ",
+        _currentUser                = new UserInfo(0, "Иванов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
     }
     
@@ -100,7 +98,7 @@ public class AdminViewModel : ViewModelBase
 
     private void GoToUsers()
     {
-        CurrentViewModel = new UsersViewModel(GoToEditUser);
+        CurrentViewModel = new UsersViewModel(GoToEditUser, _currentUser.UserId);
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Пользователи");
     }
 

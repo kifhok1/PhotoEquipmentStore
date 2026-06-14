@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
+             xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Manager"
+             x:DataType="vm:ManagerWelcomeViewModel"
+             x:Class="PhotoEquipmentStore.Views.Pages.Manager.ManagerWelcomeView">
+    <Border Background="{DynamicResource main_background}" >
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="20">
+            <Panel>
+                <Border Height="150"
+                        Width="150"
+                        Opacity="0.3"
+                        CornerRadius="75"
+                        Background="{DynamicResource primary}"/>
+                <Border Height="150"
+                        Width="150"
+                        CornerRadius="75">
+                    <Viewbox Height="75" Width="750"
+                             ClipToBounds="False"
+                             Margin="-16 -9 0 0">
+                        <Path Stroke="{DynamicResource primary}"
+                              StrokeJoin="Round" StrokeLineCap="Round"
+                              StrokeThickness="1.8"
+                              Data="{DynamicResource User}"/>
+                    </Viewbox>
+                </Border>
+            </Panel>
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Classes="H1" HorizontalAlignment="Center">
+                    Добро пожаловать
+                </TextBlock>
+                <TextBlock Classes="H2" Text="{Binding CurrentUser.UserName}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

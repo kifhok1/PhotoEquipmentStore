@@ -2,15 +2,17 @@ using System;
 using System.Collections.ObjectModel;
 using MySql.Data.MySqlClient;
 using PhotoEquipmentStore.Domain.Entities;
+using PhotoEquipmentStore.Infrastructure.Connection;
 using PhotoEquipmentStore.Infrastructure.Exceptions;
 using PhotoEquipmentStore.Infrastructure.Helpers;
-using PhotoEquipmentStore.Infrastructure.Connection;
 
 namespace PhotoEquipmentStore.Infrastructure.Commands;
 
 public class OrderCommands
 {
     private static readonly string ConnString = ConnectionSettingsParser.Load().ToString();
+
+    // ── Read ──────────────────────────────────────────────────────────────────
 
     public static ObservableCollection<Order> GetOrders()
     {
@@ -20,25 +22,26 @@ public class OrderCommands
 
             const string query = @"
                 SELECT
-                    o.article                                                        AS orderId,
-                    CAST(o.client_id AS CHAR)                                        AS clientId,
-                    c.full_name                                                      AS clientName,
-                    c.phone                                                          AS clientPhoneNumber,
-                    CAST(o.discount_percent AS UNSIGNED)                             AS discountClient,
-                    o.employee_id                                                    AS userId,
-                    u.full_name                                                      AS userName,
-                    CAST(o.status_id AS CHAR)                                        AS statusId,
-                    os.name                                                          AS statusName,
-                    o.created_at                                                     AS orderDate,
+                    o.article                                                              AS orderId,
+                    CAST(o.client_id AS CHAR)                                             AS clientId,
+                    c.full_name                                                           AS clientName,
+                    c.phone                                                               AS clientPhoneNumber,
+                    CAST(o.discount_percent AS UNSIGNED)                                  AS discountClient,
+                    o.employee_id                                                         AS userId,
+                    u.full_name                                                           AS userName,
+                    CAST(o.status_id AS CHAR)                                             AS statusId,
+                    os.name                                                               AS statusName,
+                    o.created_at                                                          AS orderDate,
                     COALESCE(SUM(oi.quantity * oi.price * (1 - oi.discount_percent / 100)), 0) AS totalSum
                 FROM orders o
-                JOIN clients       c  ON o.client_id   = c.id
-                JOIN users         u  ON o.employee_id = u.id
+                JOIN clients        c  ON o.client_id   = c.id
+                JOIN users          u  ON o.employee_id = u.id
                 JOIN order_statuses os ON o.status_id   = os.id
-                LEFT JOIN order_items oi ON o.article  = oi.order_article
+                LEFT JOIN order_items oi ON o.article   = oi.order_article
                 GROUP BY o.article, o.client_id, c.full_name, c.phone,
                          o.discount_percent, o.employee_id, u.full_name,
-                         o.status_id, os.name, o.created_at;";
+                         o.status_id, os.name, o.created_at
+                ORDER BY o.created_at DESC;";
 
             using var connection = new MySqlConnection(ConnString);
             connection.Open();
@@ -83,11 +86,11 @@ public class OrderCommands
 
             const string query = @"
                 SELECT
-                    oi.product_id                        AS productId,
-                    p.name                               AS productName,
+                    oi.product_id                         AS productId,
+                    p.name                                AS productName,
                     oi.quantity,
                     oi.price,
-                    p.image                              AS productImage,
+                    p.image                               AS productImage,
                     CAST(oi.discount_percent AS UNSIGNED) AS discount
                 FROM order_items oi
                 JOIN products p ON oi.product_id = p.id
@@ -122,6 +125,162 @@ public class OrderCommands
         catch (Exception ex)
         {
             throw new DatabaseException("Непредвиденная ошибка при получении позиций заказа.", ex);
+        }
+    }
+
+    // ── Update ────────────────────────────────────────────────────────────────
+
+    public bool UpdateOrderStatus(string orderArticle)
+    {
+        try
+        {
+            const string query = @"
+                UPDATE orders
+                SET status_id = 2
+                WHERE article = @orderArticle;";
+
+            using var connection = new MySqlConnection(ConnString);
+            connection.Open();
+
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@orderArticle", orderArticle);
+
+            return command.ExecuteNonQuery() > 0;
+        }
+        catch (MySqlException ex)
+        {
+            throw new DatabaseException("Ошибка при обновлении статуса заказа.", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new DatabaseException("Непредвиденная ошибка при обновлении статуса заказа.", ex);
+        }
+    }
+
+    // ── Create ────────────────────────────────────────────────────────────────
+
+    public bool ArticleExists(string article)
+    {
+        try
+        {
+            const string query = "SELECT COUNT(*) FROM orders WHERE article = @article;";
+
+            using var connection = new MySqlConnection(ConnString);
+            connection.Open();
+
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@article", article);
+
+            return Convert.ToInt32(command.ExecuteScalar()) > 0;
+        }
+        catch (MySqlException ex)
+        {
+            throw new DatabaseException("Ошибка при проверке артикула заказа.", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new DatabaseException("Непредвиденная ошибка при проверке артикула заказа.", ex);
+        }
+    }
+
+    /// <param name="orderArticle">Артикул заказа (CHAR 8)</param>
+    /// <param name="clientId">ID клиента</param>
+    /// <param name="employeeId">ID сотрудника</param>
+    /// <param name="discountPercent">Скидка клиента %</param>
+    /// <param name="totalAmount">Итоговая сумма заказа для зачисления клиенту</param>
+    /// <param name="items">Позиции заказа: (productId, quantity, price, discountPercent)</param>
+    public bool CreateOrder(
+        string orderArticle,
+        int clientId,
+        int employeeId,
+        int discountPercent,
+        decimal totalAmount,
+        List<(int productId, int quantity, decimal price, decimal discountPercent)> items)
+    {
+        try
+        {
+            using var connection = new MySqlConnection(ConnString);
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                // ── Шаг 1: списать со склада ──────────────────────────
+                const string stockSql = @"
+                    UPDATE products
+                    SET stock_quantity = stock_quantity - @qty
+                    WHERE id = @id AND stock_quantity >= @qty;";
+
+                foreach (var item in items)
+                {
+                    using var stockCmd = new MySqlCommand(stockSql, connection, transaction);
+                    stockCmd.Parameters.AddWithValue("@qty", item.quantity);
+                    stockCmd.Parameters.AddWithValue("@id",  item.productId);
+
+                    if (stockCmd.ExecuteNonQuery() == 0)
+                        throw new DatabaseException(
+                            $"Недостаточно товара на складе (product_id={item.productId}).");
+                }
+
+                // ── Шаг 2: создать заказ ──────────────────────────────
+                const string orderSql = @"
+                    INSERT INTO orders (article, status_id, client_id, discount_percent, employee_id, created_at)
+                    VALUES (@article, 1, @clientId, @discount, @employeeId, NOW());";
+
+                using var orderCmd = new MySqlCommand(orderSql, connection, transaction);
+                orderCmd.Parameters.AddWithValue("@article",    orderArticle);
+                orderCmd.Parameters.AddWithValue("@clientId",   clientId);
+                orderCmd.Parameters.AddWithValue("@discount",   discountPercent);
+                orderCmd.Parameters.AddWithValue("@employeeId", employeeId);
+                orderCmd.ExecuteNonQuery();
+
+                // ── Шаг 3: позиции заказа ─────────────────────────────
+                const string itemSql = @"
+                    INSERT INTO order_items (order_article, product_id, quantity, price, discount_percent)
+                    VALUES (@article, @productId, @qty, @price, @discount);";
+
+                foreach (var item in items)
+                {
+                    using var itemCmd = new MySqlCommand(itemSql, connection, transaction);
+                    itemCmd.Parameters.AddWithValue("@article",   orderArticle);
+                    itemCmd.Parameters.AddWithValue("@productId", item.productId);
+                    itemCmd.Parameters.AddWithValue("@qty",       item.quantity);
+                    itemCmd.Parameters.AddWithValue("@price",     item.price);
+                    itemCmd.Parameters.AddWithValue("@discount",  item.discountPercent);
+                    itemCmd.ExecuteNonQuery();
+                }
+
+                // ── Шаг 4: прибавить сумму клиенту ───────────────────
+                const string clientSql = @"
+                    UPDATE clients
+                    SET total_purchases = total_purchases + @amount
+                    WHERE id = @clientId;";
+
+                using var clientCmd = new MySqlCommand(clientSql, connection, transaction);
+                clientCmd.Parameters.AddWithValue("@amount",   totalAmount);
+                clientCmd.Parameters.AddWithValue("@clientId", clientId);
+                clientCmd.ExecuteNonQuery();
+
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+        catch (DatabaseException)
+        {
+            throw;
+        }
+        catch (MySqlException ex)
+        {
+            throw new DatabaseException("Ошибка при создании заказа.", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new DatabaseException("Непредвиденная ошибка при создании заказа.", ex);
         }
     }
 }

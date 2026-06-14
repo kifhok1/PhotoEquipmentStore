@@ -1,6 +1,4 @@
-// Application/Services/ReportService.cs
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using PhotoEquipmentStore.Application.DTO;
@@ -18,10 +16,7 @@ public class ReportService
     // ── Диапазон дат заказов ──────────────────────────────────────────────────
 
     public (DateTime Min, DateTime Max) GetOrderDateRange()
-    {
-        var result = _commands.GetOrderDateRange();
-        return result;
-    }
+        => _commands.GetOrderDateRange();
 
     // ── Статистика ────────────────────────────────────────────────────────────
 
@@ -102,9 +97,11 @@ public class ReportService
         try
         {
             var data = _commands.GetPopularityReport(categoryId, mode);
-
             if (data.Count == 0)
                 return ReportResultDto.Failure("Нет данных по выбранной категории.");
+
+            // ← allCategories = true когда фильтр не задан (все товары)
+            bool allCategories = categoryId is null;
 
             string modeTag = mode switch
             {
@@ -119,7 +116,7 @@ public class ReportService
                 $"Популярность_{modeTag}_{categoryName}_{DateTime.Now:ddMMyyyy}.xlsx");
             string path = await ResolveSavePath(defaultPath, pickSavePath);
 
-            ReportBuilder.BuildPopularityReport(path, data, categoryName, mode);
+            ReportBuilder.BuildPopularityReport(path, data, categoryName, mode, allCategories);
             return ReportResultDto.Success(path);
         }
         catch (DatabaseException)

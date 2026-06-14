@@ -40,6 +40,20 @@ public partial class PaginationButtons : UserControl
             o => o.CurrentPageItems,
             (o, v) => o.CurrentPageItems = v);
 
+    private string _pageCountText = string.Empty;
+
+    public static readonly DirectProperty<PaginationButtons, string> PageCountTextProperty =
+        AvaloniaProperty.RegisterDirect<PaginationButtons, string>(
+            nameof(PageCountText),
+            o => o.PageCountText,
+            (o, v) => o.PageCountText = v);
+
+    public string PageCountText
+    {
+        get => _pageCountText;
+        set => SetAndRaise(PageCountTextProperty, ref _pageCountText, value);
+    }
+
     public IList Items
     {
         get => GetValue(ItemsProperty);
@@ -77,9 +91,6 @@ public partial class PaginationButtons : UserControl
 
     public PaginationButtons()
     {
-        // ⚠️ Команды должны быть созданы ДО InitializeComponent(),
-        // иначе compiled bindings прочитают их как null и кнопки не будут работать.
-
         var anyChange = Observable.Merge(
             this.GetObservable(ItemsProperty).Select(_ => Unit.Default),
             this.GetObservable(PageSizeProperty).Select(_ => Unit.Default),
@@ -153,6 +164,11 @@ public partial class PaginationButtons : UserControl
             .Skip((CurrentPage - 1) * PageSize)
             .Take(PageSize)
             .ToList();
+
+        var total = Items?.Count ?? 0;
+        var offset = (CurrentPage - 1) * PageSize;
+        var to = offset + CurrentPageItems.Count;
+        PageCountText = $"Количество записей на форме {to} из {total}";
 
         var buttons = GenerateButtons(ComputeTotalPages(), CurrentPage);
         PageButtons.Clear();

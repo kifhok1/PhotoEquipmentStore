@@ -94,9 +94,9 @@
       <Setter Property="Stretch" Value="Uniform"/>
     </Style>
 
-    <!-- Наведение -->
+    <!-- Наведение — берём Background у самой кнопки через TemplateBinding -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource primary}" />
+      <Setter Property="Background" Value="{TemplateBinding Background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" />
       <Setter Property="Foreground" Value="{DynamicResource white}" />
       <Setter Property="Opacity" Value="0.9"/>
@@ -108,7 +108,7 @@
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource primary}" />
+      <Setter Property="Background" Value="{TemplateBinding Background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" />
       <Setter Property="Foreground" Value="{DynamicResource white}" />
       <Setter Property="Opacity" Value="0.9"/>
@@ -116,7 +116,7 @@
 
     <!-- Отключено -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource primary}"/>
+      <Setter Property="Background" Value="{TemplateBinding Background}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlTransparentBrush}" />
       <Setter Property="Foreground" Value="{DynamicResource white}"/>
       <Setter Property="Opacity" Value="0.5"/>

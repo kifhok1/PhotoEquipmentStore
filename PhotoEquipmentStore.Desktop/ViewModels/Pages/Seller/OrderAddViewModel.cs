@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
 using ReactiveUI;
 using System.Windows.Input;
 using Avalonia;
+using PhotoEquipmentStore.Application.Interfaces; // Добавлено для IReceiptPdfService
+using PhotoEquipmentStore.Application.DTO;
+using PhotoEquipmentStore.Infrastructure.Services; // Добавлено для ReceiptData
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
@@ -19,6 +23,13 @@ public class OrderAddViewModel : ViewModelBase
     private readonly ProductsService  _productsService  = new();
     private readonly ClientsService   _clientsService   = new();
     private readonly ReferenceService _referenceService = new();
+    private readonly Action<OrderConfirmViewModel> _goToConfirm;
+    private readonly Action _goBackToAdd;
+    /// <summary>Скрывает поле поиска когда клиент уже выбран.</summary>
+    public bool IsClientSearchVisible => _selectedClient == null;
+
+    // ── Делегат сохранения чека (внедряется через Behavior как в отчётах) ─────────
+    public Func<string, Task<string?>>? SaveReceiptDelegate { get; set; }
 
     // ── Каталог ───────────────────────────────────────────────────────────────
 
@@ -32,6 +43,7 @@ public class OrderAddViewModel : ViewModelBase
     }
 
     public ObservableCollection<string> Categories    { get; } = new();
+    public UserInfo Seller { get; }
     public ObservableCollection<string> Manufacturers { get; } = new();
 
     private string _searchText = string.Empty;
@@ -51,8 +63,6 @@ public class OrderAddViewModel : ViewModelBase
         get => _clientDropDownCornerRadius;
         private set => this.RaiseAndSetIfChanged(ref _clientDropDownCornerRadius, value);
     }
-
-    
 
     private string? _selectedCategory;
     public string? SelectedCategory
@@ -142,18 +152,17 @@ public class OrderAddViewModel : ViewModelBase
         get => _selectedClient;
         set
         {
-            // Снимаем выделение с предыдущего
             if (_selectedClient != null)
                 _selectedClient.IsSelected = false;
 
             this.RaiseAndSetIfChanged(ref _selectedClient, value);
 
-            // Ставим выделение новому
             if (_selectedClient != null)
                 _selectedClient.IsSelected = true;
 
             _clientSearchText = value?.DisplayLabel ?? string.Empty;
             this.RaisePropertyChanged(nameof(ClientSearchText));
+            this.RaisePropertyChanged(nameof(IsClientSearchVisible));
             IsClientDropDownOpen = false;
         }
     }
@@ -165,7 +174,6 @@ public class OrderAddViewModel : ViewModelBase
         set
         {
             this.RaiseAndSetIfChanged(ref _clientSearchText, value);
-            // Ручной ввод — сбрасываем выбор, открываем список, фильтруем
             _selectedClient = null;
             this.RaisePropertyChanged(nameof(SelectedClient));
             IsClientDropDownOpen = true;
@@ -219,8 +227,12 @@ public class OrderAddViewModel : ViewModelBase
 
     // ── Конструктор ───────────────────────────────────────────────────────────
 
-    public OrderAddViewModel()
+    public OrderAddViewModel(Action<OrderConfirmViewModel> goToConfirm, Action goBackToAdd, UserInfo seller)
     {
+        _goToConfirm  = goToConfirm;
+        _goBackToAdd  = goBackToAdd;
+        Seller = seller;
+        
         SelectProductCommand = ReactiveCommand.Create<OrderProductShow>(p =>
         {
             SelectedProduct = p;
@@ -297,8 +309,8 @@ public class OrderAddViewModel : ViewModelBase
                 c.Id,
                 c.FullName,
                 c.Phone,
-                "0",
-                0))
+                c.TotalPurchases.ToString() ?? "0",
+                c.CountOrders))
             .ToList();
 
         ApplyClientFilter();
@@ -468,20 +480,6 @@ public class OrderAddViewModel : ViewModelBase
     
     // ── Модалка подтверждения ─────────────────────────────────────────────────
 
-    private OrderConfirmViewModel? _confirmViewModel;
-    public OrderConfirmViewModel? ConfirmViewModel
-    {
-        get => _confirmViewModel;
-        private set
-        {
-            this.RaiseAndSetIfChanged(ref _confirmViewModel, value);
-            this.RaisePropertyChanged(nameof(IsConfirmVisible));
-        }
-    }
-
-    public bool IsConfirmVisible => _confirmViewModel != null;
-
-    // В ConfirmOrder() заменяем TODO:
     private void ConfirmOrder()
     {
         ErrorMessage = null;
@@ -497,22 +495,27 @@ public class OrderAddViewModel : ViewModelBase
             ErrorMessage = "Корзина пуста.";
             return;
         }
+        
 
-        ConfirmViewModel = new OrderConfirmViewModel(
-            client: SelectedClient,
-            cartItems: CartItems,
-            delivery: 0,
-            onConfirm: OnOrderConfirmed,
-            onCancel: () => ConfirmViewModel = null);
+        var vm = new OrderConfirmViewModel(
+            client:            SelectedClient,
+            cartItems:         CartItems,
+            delivery:          0,
+            seller:            Seller,
+            onConfirm:         OnOrderConfirmed,
+            goBack:            _goBackToAdd,
+            receiptPdfService: new ReceiptPdfService() // Правильное имя параметра и типа!
+        );
+
+        _goToConfirm(vm);
     }
 
     private void OnOrderConfirmed()
     {
-        // Сброс после успешного заказа
         ClearCart();
-        SelectedClient = null;
         _clientSearchText = string.Empty;
         this.RaisePropertyChanged(nameof(ClientSearchText));
-        ConfirmViewModel = null;
+        this.RaisePropertyChanged(nameof(IsClientSearchVisible));
+        SelectedClient = null;
     }
 }

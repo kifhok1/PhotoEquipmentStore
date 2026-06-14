@@ -34,13 +34,17 @@ public static class ReportBuilder
         uint mStyle2    = sf.Money();
         uint altStyle   = sf.AltRow();
         uint totalStyle = sf.TotalRow();
+        uint redStyle   = sf.RedText();           // ← для строк-возвратов
+
+        // Считаем итог без возвратов
+        var nonReturnData = data.Where(r => !r.IsReturn).ToList();
 
         int row = 1;
         AppendMeta(sheetData, ref row, mStyle,
             "ФотоМагазин — Фотооборудование",
             "ОТЧЁТ ПО ПРОДАЖАМ",
             $"Период: {from:dd.MM.yyyy} — {to:dd.MM.yyyy}",
-            $"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}",
+            $"Дата формирования: {DateTime.Now:dd.MM.yyyy}",        // ← без времени
             $"Количество заказов: {data.Count}");
 
         string[] headers =
@@ -52,47 +56,51 @@ public static class ReportBuilder
 
         for (int i = 0; i < data.Count; i++)
         {
-            var r   = data[i];
-            uint cs = i % 2 == 0 ? altStyle : 0u;
+            var r    = data[i];
+            bool ret = r.IsReturn;                                    // ← флаг возврата
+            uint cs  = ret ? redStyle : (i % 2 == 0 ? altStyle : 0u);
             sheetData.AppendChild(NewRow(row++, new List<Cell>
             {
-                Num(i + 1, cs),
-                Str(r.OrderId, cs),
-                Str(r.OrderDate.ToString("dd.MM.yyyy HH:mm"), cs),
-                Str(r.ClientName, cs),
+                Num(i + 1,  cs),
+                Str(r.OrderId,     cs),
+                Str(r.OrderDate.ToString("dd.MM.yyyy"), cs),          // ← без времени
+                Str(r.ClientName,  cs),
                 Str(r.ClientPhone, cs),
                 Str(r.EmployeeName, cs),
-                Str(r.StatusName, cs),
-                Num(r.Discount, cs),
-                Num(r.ItemsCount, cs),
+                Str(r.StatusName,  cs),
+                Num(r.Discount,    cs),
+                Num(r.ItemsCount,  cs),
                 Num(r.TotalQuantity, cs),
-                Money(r.TotalSum, mStyle2)
+                Money(r.TotalSum,  ret ? redStyle : mStyle2)          // ← деньги тоже красные
             }));
         }
 
+        // Итог — только не-возвраты
         sheetData.AppendChild(NewRow(row, new List<Cell>
         {
             Str("ИТОГО", totalStyle), Str("", totalStyle), Str("", totalStyle),
             Str("", totalStyle),      Str("", totalStyle), Str("", totalStyle),
             Str("", totalStyle),      Str("", totalStyle),
-            Num(data.Sum(r => r.ItemsCount),    totalStyle),
-            Num(data.Sum(r => r.TotalQuantity), totalStyle),
-            Money(data.Sum(r => r.TotalSum),    totalStyle)
+            Num(nonReturnData.Sum(r => r.ItemsCount),    totalStyle),
+            Num(nonReturnData.Sum(r => r.TotalQuantity), totalStyle),
+            Money(nonReturnData.Sum(r => r.TotalSum),    totalStyle)   // ← без возвратов
         }));
 
-        SetColumnWidths(wsPart, 6, 22, 18, 28, 18, 24, 18, 14, 10, 14, 14);
+        SetColumnWidths(wsPart, 6, 22, 16, 28, 18, 24, 18, 14, 10, 14, 14);
 
-        var byDay = data
-            .GroupBy(r => r.OrderDate.Date)
-            .OrderBy(g => g.Key)
+        // График только по не-возвратам
+        var byMonth = nonReturnData
+            .GroupBy(r => new { r.OrderDate.Year, r.OrderDate.Month })
+            .OrderBy(g => g.Key.Year).ThenBy(g => g.Key.Month)
             .ToList();
 
-        if (byDay.Count > 1)
+        if (byMonth.Count > 1)
         {
-            var labels = byDay.Select(g => g.Key.ToString("dd.MM")).ToList();
-            var values = byDay.Select(g => (double)g.Sum(r => r.TotalSum)).ToList();
-            AddChartSheet(doc, wb, "График продаж", "Выручка по дням",
-                          labels, values, ChartKind.Bar, "4E6EF5");
+            var labels = byMonth.Select(g =>
+                new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMM yyyy")).ToList();
+            var values = byMonth.Select(g => (double)g.Sum(r => r.TotalSum)).ToList();
+            AddChartSheet(doc, wb, "График продаж", "Выручка по месяцам",
+                labels, values, ChartKind.Bar, "4E6EF5");
         }
 
         doc.Save();
@@ -121,7 +129,7 @@ public static class ReportBuilder
             "ФотоМагазин — Фотооборудование",
             "ОСТАТКИ ТОВАРОВ НА СКЛАДЕ",
             $"Категория: {categoryFilter}",
-            $"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}",
+            $"Дата формирования: {DateTime.Now:dd.MM.yyyy}",         // ← без времени
             $"Позиций: {data.Count}");
 
         string[] headers =
@@ -177,7 +185,8 @@ public static class ReportBuilder
         string path,
         List<PopularityReportData> data,
         string categoryFilter,
-        PopularityMode mode)
+        PopularityMode mode,
+        bool allCategories)   // ← новый параметр: true когда выбраны «Все категории»
     {
         using var doc = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook);
         var wb = CreateWorkbook(doc);
@@ -207,7 +216,7 @@ public static class ReportBuilder
             "ФотоМагазин — Фотооборудование",
             title,
             $"Категория: {categoryFilter}",
-            $"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}",
+            $"Дата формирования: {DateTime.Now:dd.MM.yyyy}",         // ← без времени
             $"Позиций: {data.Count}");
 
         string[] headers = { "Место", "Наименование", "Категория", "Цена, ₽", "Продано, шт.", "Заказов" };
@@ -244,23 +253,69 @@ public static class ReportBuilder
 
         SetColumnWidths(wsPart, 8, 34, 22, 14, 14, 12);
 
-        // График: топ-15 из выборки
-        var chartData = data.Take(15).ToList();
-        if (chartData.Count > 0)
+        // ── График / Диаграмма ────────────────────────────────────────────────
+        if (allCategories)
         {
-            var labels = chartData.Select(x =>
-                x.ProductName.Length > 20 ? x.ProductName[..20] + "…" : x.ProductName).ToList();
-            var values = chartData.Select(x => (double)x.TotalSold).ToList();
-            string chartTitle = mode switch
+            // Режим «все категории»:
+            //   • диаграмма самых продаваемых категорий
+            //   • диаграмма брендов (топ или антитоп в зависимости от mode)
+            bool isTopMode = mode is PopularityMode.AllDesc or PopularityMode.Top30;
+
+            // 1. Категории — pie
+            var byCategory = data
+                .GroupBy(x => x.CategoryName)
+                .Select(g => (Name: g.Key, Sold: g.Sum(x => x.TotalSold)))
+                .OrderByDescending(x => x.Sold)
+                .ToList();
+
+            if (byCategory.Count > 0)
             {
-                PopularityMode.AllDesc  => "Топ-15 самых продаваемых",
-                PopularityMode.AllAsc   => "Топ-15 наименее продаваемых",
-                PopularityMode.Top30    => "30 самых популярных товаров",
-                PopularityMode.Bottom30 => "30 наименее популярных товаров",
-                _                       => "Популярность"
-            };
-            AddChartSheet(doc, wb, "График популярности", chartTitle,
-                          labels, values, ChartKind.Bar, "F5A623");
+                AddChartSheet(doc, wb, "Диаграмма категорий", "Продажи по категориям",
+                    byCategory.Select(x => x.Name).ToList(),
+                    byCategory.Select(x => (double)x.Sold).ToList(),
+                    ChartKind.Pie, "F5A623");
+            }
+
+            // 2. Бренды — bar
+            var byBrand = data
+                .GroupBy(x => x.ManufacturerName)
+                .Select(g => (Name: g.Key, Sold: g.Sum(x => x.TotalSold)))
+                .OrderByDescending(x => x.Sold)
+                .ToList();
+
+            if (!isTopMode)
+                byBrand = byBrand.OrderBy(x => x.Sold).ToList();   // антитоп — по возрастанию
+
+            string brandTitle = isTopMode ? "Самые популярные бренды" : "Наименее популярные бренды";
+
+            if (byBrand.Count > 0)
+            {
+                AddChartSheet(doc, wb, "Диаграмма брендов", brandTitle,
+                    byBrand.Select(x => x.Name).ToList(),
+                    byBrand.Select(x => (double)x.Sold).ToList(),
+                    ChartKind.Bar, "F5A623");
+            }
+        }
+        else
+        {
+            // Режим конкретной категории — оригинальный bar по товарам (топ-15)
+            var chartData = data.Take(15).ToList();
+            if (chartData.Count > 0)
+            {
+                var labels = chartData.Select(x =>
+                    x.ProductName.Length > 20 ? x.ProductName[..20] + "…" : x.ProductName).ToList();
+                var values = chartData.Select(x => (double)x.TotalSold).ToList();
+                string chartTitle = mode switch
+                {
+                    PopularityMode.AllDesc  => "Топ-15 самых продаваемых",
+                    PopularityMode.AllAsc   => "Топ-15 наименее продаваемых",
+                    PopularityMode.Top30    => "30 самых популярных товаров",
+                    PopularityMode.Bottom30 => "30 наименее популярных товаров",
+                    _                       => "Популярность"
+                };
+                AddChartSheet(doc, wb, "График популярности", chartTitle,
+                              labels, values, ChartKind.Bar, "F5A623");
+            }
         }
 
         doc.Save();
@@ -283,9 +338,9 @@ public static class ReportBuilder
         var wbPart = doc.WorkbookPart!;
         var sheets = wb.GetFirstChild<Sheets>()!;
 
-        // 1. Скрытый лист с данными для графика
-        var dataPart     = wbPart.AddNewPart<WorksheetPart>();
-        var dataSd       = new SheetData();
+        // 1. Скрытый лист с данными
+        var dataPart       = wbPart.AddNewPart<WorksheetPart>();
+        var dataSd         = new SheetData();
         dataPart.Worksheet = new Worksheet(dataSd);
         string dataSheetName = sheetName + "_data";
 
@@ -309,9 +364,9 @@ public static class ReportBuilder
             dataSd.AppendChild(r);
         }
 
-        // 2. Видимый лист (пустой — только Drawing с диаграммой)
-        var chartWsPart = wbPart.AddNewPart<WorksheetPart>();
-        var chartSd     = new SheetData();   // ячеек нет
+        // 2. Видимый лист — только диаграмма, ячеек нет
+        var chartWsPart       = wbPart.AddNewPart<WorksheetPart>();
+        var chartSd           = new SheetData();
         chartWsPart.Worksheet = new Worksheet(chartSd);
 
         sheets.AppendChild(new Sheet
@@ -321,7 +376,7 @@ public static class ReportBuilder
             Name    = sheetName
         });
 
-        // 3. DrawingsPart → ChartPart (один, не два!)
+        // 3. DrawingsPart → ChartPart
         var drawingPart = chartWsPart.AddNewPart<DrawingsPart>();
         chartWsPart.Worksheet.Append(new Drawing
         {
@@ -333,7 +388,7 @@ public static class ReportBuilder
             ? BuildPieChartSpace(chartTitle, dataSheetName, labels.Count)
             : BuildBarChartSpace(chartTitle, hexColor, dataSheetName, labels.Count);
 
-        // 4. AbsoluteAnchor — диаграмма на весь лист (~24×18 см в EMU)
+        // 4. AbsoluteAnchor — на весь лист (~24×18 см в EMU)
         drawingPart.WorksheetDrawing = new Xdr.WorksheetDrawing();
 
         var anchor = new Xdr.AbsoluteAnchor(

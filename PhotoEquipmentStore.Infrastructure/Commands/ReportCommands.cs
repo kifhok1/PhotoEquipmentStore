@@ -1,4 +1,3 @@
-// ReportCommands.cs
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
@@ -124,6 +123,7 @@ public class ReportCommands
                     c.phone                                                                     AS clientPhone,
                     u.full_name                                                                 AS employeeName,
                     os.name                                                                     AS statusName,
+                    o.status_id                                                                 AS statusId,
                     CAST(o.discount_percent AS UNSIGNED)                                        AS discountPercent,
                     COUNT(oi.product_id)                                                        AS itemsCount,
                     COALESCE(SUM(oi.quantity), 0)                                               AS totalQuantity,
@@ -135,7 +135,7 @@ public class ReportCommands
                 LEFT JOIN order_items oi ON o.article   = oi.order_article
                 WHERE DATE(o.created_at) BETWEEN @from AND @to
                 GROUP BY o.article, o.created_at, c.full_name, c.phone,
-                         u.full_name, os.name, o.discount_percent
+                         u.full_name, os.name, o.status_id, o.discount_percent
                 ORDER BY o.created_at;";
 
             using var connection = new MySqlConnection(ConnString);
@@ -160,7 +160,8 @@ public class ReportCommands
                     reader.GetInt32("discountPercent"),
                     reader.GetInt32("itemsCount"),
                     reader.GetInt32("totalQuantity"),
-                    decimal.Round(reader.GetDecimal("totalSum"), 2)
+                    decimal.Round(reader.GetDecimal("totalSum"), 2),
+                    reader.GetInt32("statusId") == 2          // ← IsReturn
                 ));
             }
 
@@ -234,7 +235,6 @@ public class ReportCommands
 
     // ── Отчёт 3: Популярность товаров ────────────────────────────────────────
 
-    // Только изменённый метод GetPopularityReport
     public List<PopularityReportData> GetPopularityReport(int? categoryId, PopularityMode mode)
     {
         try
@@ -247,15 +247,17 @@ public class ReportCommands
                     p.id                             AS productId,
                     p.name                           AS productName,
                     cat.name                         AS categoryName,
+                    m.name                           AS manufacturerName,
                     CAST(p.price AS UNSIGNED)        AS price,
                     COALESCE(SUM(oi.quantity), 0)    AS totalSold,
                     COUNT(DISTINCT oi.order_article) AS ordersCount
                 FROM products p
-                JOIN categories cat ON p.category_id = cat.id
+                JOIN categories    cat ON p.category_id     = cat.id
+                JOIN manufacturers   m ON p.manufacturer_id = m.id
                 LEFT JOIN order_items oi ON p.id = oi.product_id
                 WHERE p.is_deleted = 0"
                 + (categoryId.HasValue ? " AND p.category_id = @categoryId" : "")
-                + " GROUP BY p.id, p.name, cat.name, p.price"
+                + " GROUP BY p.id, p.name, cat.name, m.name, p.price"
                 + " ORDER BY totalSold " + (descending ? "DESC" : "ASC")
                 + (hasLimit ? " LIMIT 30" : "") + ";";
 
@@ -277,6 +279,7 @@ public class ReportCommands
                     reader.GetInt32("productId"),
                     reader.GetString("productName"),
                     reader.GetString("categoryName"),
+                    reader.GetString("manufacturerName"),
                     reader.GetInt32("price"),
                     reader.GetInt32("totalSold"),
                     reader.GetInt32("ordersCount")

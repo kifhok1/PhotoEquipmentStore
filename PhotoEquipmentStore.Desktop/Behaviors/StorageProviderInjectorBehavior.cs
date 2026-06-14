@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Xaml.Interactivity;
-using PhotoEquipmentStore.ViewModels.Pages.Manager;
 
 namespace PhotoEquipmentStore.Behaviors;
 
@@ -20,7 +19,7 @@ public class StorageProviderInjectorBehavior : Behavior<UserControl>
 
     private void OnLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (AssociatedObject?.DataContext is ReportsViewModel vm)
+        if (AssociatedObject?.DataContext is IStorageProviderReceiver vm)
         {
             var topLevel = TopLevel.GetTopLevel(AssociatedObject);
             vm.StorageProvider = topLevel?.StorageProvider;

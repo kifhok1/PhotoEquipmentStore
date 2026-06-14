@@ -43,6 +43,9 @@ public class OrderItemShow
         get { return productImage; }
         set { productImage = value; }
     }
+    
+    public decimal LineTotal => (Price - Price * Discount / 100m) * Quantity;
+    public bool HasImage => ProductImage != null;
 
     public OrderItemShow(
         int productId,

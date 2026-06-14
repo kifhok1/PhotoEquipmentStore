@@ -6,38 +6,22 @@ using System.Reactive;
 using System.Reactive.Linq;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
 namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
 
 public class OrdersViewModel : ViewModelBase
 {
+    private readonly OrderService _orderService = new();
     private readonly List<OrderShow> _allOrders = new();
     public ObservableCollection<OrderShow> Orders { get; } = new();
-
+    
     private ObservableCollection<OrderShow> _currentOrders = new();
     public ObservableCollection<OrderShow> CurrentOrders
     {
         get => _currentOrders;
         set => this.RaiseAndSetIfChanged(ref _currentOrders, value);
-    }
-
-    private OrderShow? _selectedOrder;
-    public OrderShow? SelectedOrder
-    {
-        get => _selectedOrder;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedOrder, value);
-
-            if (value is null || value.IsRevealed) return;
-
-            value.IsRevealed = true;
-
-            Observable.Timer(TimeSpan.FromSeconds(15))
-                      .ObserveOn(RxApp.MainThreadScheduler)
-                      .Subscribe(_ => value.IsRevealed = false);
-        }
     }
 
     private string _countOrders = string.Empty;
@@ -58,13 +42,31 @@ public class OrdersViewModel : ViewModelBase
         }
     }
 
+    private OrderShow? _selectedOrder;
+    public OrderShow? SelectedOrder
+    {
+        get => _selectedOrder;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedOrder, value);
+
+            if (value is null || value.IsRevealed) return;
+
+            value.IsRevealed = true;
+
+            Observable.Timer(TimeSpan.FromSeconds(15))
+                      .ObserveOn(RxApp.MainThreadScheduler)
+                      .Subscribe(_ => value.IsRevealed = false);
+        }
+    }
+
     public ReactiveCommand<OrderShow, Unit> ViewOrderItemsCommand { get; }
-    public ReactiveCommand<Unit, Unit> ResetSearchCommand         { get; }
+    public ReactiveCommand<Unit, Unit>      ResetSearchCommand    { get; }
 
     public OrdersViewModel(Action<OrderShow> onViewOrderItems)
     {
         ViewOrderItemsCommand = ReactiveCommand.Create<OrderShow>(onViewOrderItems);
-        ResetSearchCommand = ReactiveCommand.Create(() => { SearchText = string.Empty; });
+        ResetSearchCommand    = ReactiveCommand.Create(() => { SearchText = string.Empty; });
         LoadOrders();
     }
 
@@ -72,22 +74,33 @@ public class OrdersViewModel : ViewModelBase
     public OrdersViewModel()
     {
         ViewOrderItemsCommand = ReactiveCommand.Create<OrderShow>(_ => { });
-        ResetSearchCommand = ReactiveCommand.Create(() => { SearchText = string.Empty; });
+        ResetSearchCommand    = ReactiveCommand.Create(() => { SearchText = string.Empty; });
         LoadOrders();
     }
 
-    private void LoadOrders()
+    private async void LoadOrders()
     {
-        var ordersDB = OrderService.GetOrders();
-        foreach (var order in ordersDB)
-        {
-            var show = new OrderShow(
-                order.OrderId, order.ClientId, order.ClientName,
-                order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
-                order.StatusId, order.StatusName, order.OrderDate, order.TotalSum);
+        _allOrders.Clear();
+        Orders.Clear();
 
-            _allOrders.Add(show);
-            Orders.Add(show);
+        var result = _orderService.GetOrders();
+        if (result.IsSuccess)
+        {
+            foreach (var order in result.Orders)
+            {
+                var show = new OrderShow(
+                    order.OrderId, order.ClientId, order.ClientName,
+                    order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
+                    order.StatusId, order.StatusName, order.OrderDate, order.TotalSum);
+
+                _allOrders.Add(show);
+                Orders.Add(show);
+            }
+        }
+        else
+        {
+            await NotificationService.Instance.ShowErrorAsync(
+                "Ошибка", "Не удалось загрузить список заказов.");
         }
 
         UpdateCountOrders(Orders.Count);
@@ -97,7 +110,10 @@ public class OrdersViewModel : ViewModelBase
     {
         var result = string.IsNullOrWhiteSpace(query)
             ? _allOrders
-            : _allOrders.Where(o => o.Id.ToString().Contains(query.Trim())).ToList();
+            : _allOrders.Where(o =>
+                o.Id.ToString().Contains(query.Trim()) ||
+                o.ClientName.Contains(query.Trim(), StringComparison.OrdinalIgnoreCase))
+              .ToList();
 
         Orders.Clear();
         foreach (var o in result) Orders.Add(o);
@@ -105,6 +121,9 @@ public class OrdersViewModel : ViewModelBase
         UpdateCountOrders(Orders.Count);
     }
 
-    private void UpdateCountOrders(int count) =>
-        CountOrders = $"Количество элементов на форме: {count}";
+    private void UpdateCountOrders(int count)
+    {
+        string word = count switch { 1 => "заказ", 2 or 3 or 4 => "заказа", _ => "заказов" };
+        CountOrders = $"{count} {word}";
+    }
 }

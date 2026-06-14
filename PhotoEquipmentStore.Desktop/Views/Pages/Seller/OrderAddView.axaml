@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Seller"
              xmlns:models="clr-namespace:PhotoEquipmentStore.Models"
              xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
-             mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+             mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.OrderAddView"
              xmlns:views="clr-namespace:PhotoEquipmentStore.Views.Pages.Seller"
              x:DataType="vm:OrderAddViewModel">
@@ -23,12 +23,6 @@
 
     <!-- ── КОЛОНКА 0 — Каталог ── -->
     <DockPanel Grid.Column="0" Margin="16,16,8,16">
-
-        <!-- <TextBlock DockPanel.Dock="Top" -->
-        <!--            Classes="H1" -->
-        <!--            Text="Создание заказа" -->
-        <!--            Margin="0,0,0,14"/> -->
-
         <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,14">
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                 <TextBox Grid.Column="0"
@@ -57,12 +51,19 @@
             </Grid>
         </StackPanel>
 
-        <controls:PaginationButtons DockPanel.Dock="Bottom"
-                                    HorizontalAlignment="Center"
-                                    x:Name="Paginator"
-                                    Items="{Binding FilteredProducts}"
-                                    PageSize="20"
-                                    Margin="0,12,0,0"/>
+        <Panel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+            <TextBlock Classes="Body"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Text="{Binding #Paginator.PageCountText}"/>
+
+            <controls:PaginationButtons
+                x:Name="Paginator"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Items="{Binding FilteredProducts}"
+                PageSize="20"/>
+        </Panel>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
@@ -352,9 +353,10 @@
                         VerticalAlignment="Center"/>
             </Grid>
 
-            <!-- Поиск клиента с выпадающим списком -->
-            <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
-                <TextBox Grid.Column="0" CornerRadius="{Binding ClientDropDownCornerRadius}"
+            <!-- Поиск клиента — скрывается когда клиент выбран -->
+            <Grid DockPanel.Dock="Top" Margin="0,0,0,10"
+                  IsVisible="{Binding IsClientSearchVisible}">
+                <TextBox CornerRadius="{Binding ClientDropDownCornerRadius}"
                          Text="{Binding ClientSearchText}"
                          Watermark="Выберите клиента..."
                          BorderThickness="0"
@@ -362,7 +364,6 @@
                          FontSize="13"
                          Foreground="{DynamicResource main_text}"
                          VerticalContentAlignment="Center"/>
-                         
 
                 <Popup IsOpen="{Binding IsClientDropDownOpen}"
                        PlacementMode="Bottom"
@@ -396,7 +397,6 @@
                                                            FontSize="13"
                                                            Foreground="{DynamicResource main_text}"
                                                            VerticalAlignment="Center"/>
-                                                <!-- Галочка — просто биндится на IsSelected клиента -->
                                                 <Viewbox Grid.Column="1"
                                                          Width="14" Height="14"
                                                          ClipToBounds="False"
@@ -419,7 +419,7 @@
                     </Border>
                 </Popup>
             </Grid>
-
+            
             <!-- Выбранный клиент — краткая плашка -->
             <Border DockPanel.Dock="Top"
                     Background="{DynamicResource elevated}"
@@ -527,12 +527,6 @@
         </DockPanel>
     </Border>
 </Grid>
-
-
-                <!-- Оверлей подтверждения -->
-                <Border IsVisible="{Binding IsConfirmVisible}">
-                    <views:OrderConfirmView DataContext="{Binding ConfirmViewModel}"/>
-                </Border>
             </Panel>
         </Border>
     </Border>

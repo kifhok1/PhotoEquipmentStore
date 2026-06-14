@@ -10,7 +10,10 @@ public class OrderProductShow : ReactiveObject
     public string Name { get; set; }
     public string Description { get; set; }
     public int Price { get; set; }
-    public int Discount { get; set; }
+
+    /// <summary>Скидка на товар в процентах (из БД).</summary>
+    public int DiscountPercent { get; set; }
+
     public int Quantity { get; set; }
     public int CategoryId { get; set; }
     public string CategoryName { get; set; }
@@ -21,9 +24,16 @@ public class OrderProductShow : ReactiveObject
     public Bitmap? Image { get; set; }
 
     public bool HasImage => Image != null;
-    public int FinalPrice => Discount > 0 ? Price - Discount : Price;
 
-    // Сколько этого товара уже в корзине — обновляется из ViewModel
+    /// <summary>Скидка в рублях за единицу товара.</summary>
+    public int DiscountAmount => Price * DiscountPercent / 100;
+
+    /// <summary>Итоговая цена за единицу после скидки.</summary>
+    public int FinalPrice => Price - DiscountAmount;
+
+    /// <summary>Для обратной совместимости с местами где используется Discount.</summary>
+    public int Discount => DiscountAmount;
+
     private int _cartQuantity;
     public int CartQuantity
     {
@@ -35,25 +45,24 @@ public class OrderProductShow : ReactiveObject
         }
     }
 
-    // True когда в корзине столько же сколько на складе
     public bool IsMaxReached => CartQuantity >= Quantity;
 
     public OrderProductShow() { }
 
     public OrderProductShow(Product product, Bitmap? image = null)
     {
-        Id = product.Id;
-        Name = product.Name;
-        Description = product.Description;
-        Price = product.Price;
-        Discount = product.Discount;
-        Quantity = product.Quantity;
-        CategoryId = product.CategoryId;
-        CategoryName = product.CategoryName;
-        ManufacturerId = product.ManufacturerId;
+        Id              = product.Id;
+        Name            = product.Name;
+        Description     = product.Description;
+        Price           = product.Price;
+        DiscountPercent = product.Discount; // в БД — проценты
+        Quantity        = product.Quantity;
+        CategoryId      = product.CategoryId;
+        CategoryName    = product.CategoryName;
+        ManufacturerId  = product.ManufacturerId;
         ManufacturerName = product.ManufacturerName;
-        SupplierId = product.SupplierId;
-        SupplierName = product.SupplierName;
-        Image = image;
+        SupplierId      = product.SupplierId;
+        SupplierName    = product.SupplierName;
+        Image           = image;
     }
 }

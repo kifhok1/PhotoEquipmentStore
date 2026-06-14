@@ -107,13 +107,13 @@
                                                                 <Button Classes="Ghost"
                                                                         ToolTip.Tip="Удалить"
                                                                         Padding="0" ClipToBounds="False"
+                                                                        IsEnabled="{Binding !IsSelf}"
                                                                         Command="{Binding $parent[UserControl].((vm:UsersViewModel)DataContext).DeleteCommand}"
                                                                         CommandParameter="{Binding}">
                                                                     <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                                         <Path Data="{DynamicResource Delete}"/>
                                                                     </Viewbox>
                                                                 </Button>
-
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>

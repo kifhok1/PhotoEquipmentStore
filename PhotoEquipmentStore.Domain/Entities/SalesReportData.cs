@@ -14,11 +14,12 @@ public class SalesReportData
     public int      ItemsCount    { get; }
     public int      TotalQuantity { get; }
     public decimal  TotalSum      { get; }
+    public bool IsReturn { get; }
 
     public SalesReportData(
         string orderId, DateTime orderDate, string clientName,
         string clientPhone, string employeeName, string statusName,
-        int discount, int itemsCount, int totalQuantity, decimal totalSum)
+        int discount, int itemsCount, int totalQuantity, decimal totalSum,  bool isReturn)
     {
         OrderId       = orderId;
         OrderDate     = orderDate;
@@ -30,5 +31,6 @@ public class SalesReportData
         ItemsCount    = itemsCount;
         TotalQuantity = totalQuantity;
         TotalSum      = totalSum;
+        IsReturn = isReturn;
     }
 }

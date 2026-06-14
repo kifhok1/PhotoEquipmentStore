@@ -46,7 +46,7 @@ public partial class ProductCard : UserControl
                 Id = 1,
                 Name = "Sony Alpha 7 IV Body",
                 Price = 224820,
-                Discount = 0,
+                DiscountPercent = 0,
                 Quantity = 12,
                 CategoryName = "Cameras",
                 ManufacturerName = "Sony",

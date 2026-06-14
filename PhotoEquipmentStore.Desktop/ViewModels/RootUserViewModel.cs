@@ -53,9 +53,8 @@ public class RootUserViewModel : ViewModelBase
             new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand)
         };
         
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
         _currentUser = userInfo;
+        _currentViewModel = new RootWelcomeViewModel(_currentUser);
     }
     
      // Конструктор для дизайнера
@@ -72,12 +71,11 @@ public class RootUserViewModel : ViewModelBase
         {
             new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
             new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand)
-        };
+        }; 
         
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
-        _currentUser = new UserInfo("Ианов Иван", "Админ",
+        _currentUser = new UserInfo(0, "Ианов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
+        _currentViewModel = new RootWelcomeViewModel(_currentUser);
     }
     
     

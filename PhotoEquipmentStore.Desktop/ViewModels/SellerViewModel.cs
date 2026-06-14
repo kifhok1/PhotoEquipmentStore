@@ -76,10 +76,9 @@ public class SellerViewModel : ViewModelBase
             new NavigationMenuItem("Заказы",             "Order",     goToOrderCommand),
             new NavigationMenuItem("Создание заказа",    "AddOrder",  goToOrderAddCommand),
         };
-
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new ClientsViewModel(GoToEditClient);
+        
         _currentUser = userInfo;
+        _currentViewModel = new SellerWelcomeViewModel(_currentUser);
 
         // Запускаем таймер сразу при входе
         _inactivityTimer = new Timer(InactivityTimeout) { AutoReset = false };
@@ -119,12 +118,22 @@ public class SellerViewModel : ViewModelBase
 
     private void GoToAddOrder()
     {
-        CurrentViewModel = new OrderAddViewModel();
+        CurrentViewModel = new OrderAddViewModel(
+            goToConfirm: GoToOrderConfirm,
+            goBackToAdd: GoToAddOrder,
+            seller: _currentUser);        // кнопка "Назад" в confirm вернёт сюда же
         SelectedNavigationMenuItem = NavigationMenuItems.First(item => item.Title == "Создание заказа");
     }
 
     private void GoToOrderItems(OrderShow order)
     {
-        CurrentViewModel = new OrderItemsViewModel(order);
+        CurrentViewModel = new OrderItemsViewModel(
+            order,
+            goBack: GoToOrders); // ← кнопка "Выйти" вернёт на список заказов
+    }
+    
+    private void GoToOrderConfirm(OrderConfirmViewModel confirmVm)
+    {
+        CurrentViewModel = confirmVm;
     }
 }

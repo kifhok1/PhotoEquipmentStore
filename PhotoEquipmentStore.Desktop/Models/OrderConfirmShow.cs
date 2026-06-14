@@ -20,6 +20,8 @@ public class OrderConfirmShow
         ? $"{Quantity} × {FinalPrice:N0} ₽"
         : $"{FinalPrice:N0} ₽";
 
+    
+        
     public static OrderConfirmShow FromCartItem(OrderCartItem item) => new()
     {
         ProductId    = item.ProductId,

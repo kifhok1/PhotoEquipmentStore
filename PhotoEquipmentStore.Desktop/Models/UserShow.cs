@@ -58,6 +58,8 @@ public class UserShow
     {
         get => image != null;
     }
+    
+    public bool IsSelf { get; }
 
     public UserShow(
         int id,
@@ -66,7 +68,8 @@ public class UserShow
         string phoneNumber,
         string role,
         int roleID,
-        Bitmap image)
+        Bitmap image,
+        bool isSelf = false)
     {
         Id = id;
         Name = name;
@@ -75,22 +78,6 @@ public class UserShow
         Role = role;
         RoleID = roleID;
         Image = image;
-        
-    }
-    
-    public UserShow(
-        int id,
-        string name,
-        string login,
-        string phoneNumber,
-        string role,
-        int roleID)
-    {
-        Id = id;
-        Name = name;
-        Login = login;
-        PhoneNumber = phoneNumber;
-        Role = role;
-        RoleID = roleID;
+        IsSelf = isSelf;
     }
 }
