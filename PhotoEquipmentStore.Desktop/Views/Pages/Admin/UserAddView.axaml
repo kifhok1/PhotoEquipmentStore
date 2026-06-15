@@ -58,6 +58,7 @@
                             <TextBlock Classes="Body">ФИО</TextBlock>
                             <TextBox x:Name="UserNameBox"
                                      Watermark="Иванов Иван Иванович"
+                                     MaxLength="150"
                                      Text="{Binding UserName}"
                                      Classes.invalid="{Binding #UserNameBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
@@ -136,6 +137,7 @@
                             <TextBlock Classes="Body">Логин</TextBlock>
                             <TextBox x:Name="LoginBox"
                                      Watermark="ivanov_ivan"
+                                     MaxLength="50"
                                      Text="{Binding Login}"
                                      Classes.invalid="{Binding #LoginBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
