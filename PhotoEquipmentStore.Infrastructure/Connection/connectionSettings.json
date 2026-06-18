@@ -1,6 +1,6 @@
 {
-  "host": "localhost",
-  "user": "root",
-  "password": "root1234",
-  "database": "PhotoEquipmentStore"
+  "host": "-",
+  "user": "-",
+  "password": "-",
+  "database": "-"
 }

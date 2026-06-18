@@ -11,7 +11,7 @@ namespace PhotoEquipmentStore.Infrastructure.Connection;
 public static class ConnectionSettingsEditor
 {
     private static readonly string DefaultPath =
-        Directory.GetCurrentDirectory() + "/Connection/connectionSettings.json";
+        Path.Combine(AppContext.BaseDirectory, "Connection", "connectionSettings.json");
 
     private static readonly JsonSerializerOptions WriteOptions = new()
     {

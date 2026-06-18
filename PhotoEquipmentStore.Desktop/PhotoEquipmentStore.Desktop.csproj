@@ -6,10 +6,12 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <RootNamespace>PhotoEquipmentStore</RootNamespace>
+        <ApplicationIcon>prilico.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
+        <Content Include="prilico.ico" />
         <None Update="Assets/login-background-light.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

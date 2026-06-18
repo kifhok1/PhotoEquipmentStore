@@ -10,7 +10,8 @@ namespace PhotoEquipmentStore.SettingsUI;/// <summary>
 
 public class SettingsUIFileParser
 {
-    private static readonly string _filePath = Directory.GetCurrentDirectory() + "/SettingsUI/settings.json";
+    private static readonly string _filePath =
+        Path.Combine(AppContext.BaseDirectory, "SettingsUI", "settings.json");
 
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {

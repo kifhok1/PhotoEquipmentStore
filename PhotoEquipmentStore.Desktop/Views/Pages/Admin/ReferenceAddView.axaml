@@ -46,6 +46,7 @@
                         <TextBlock Classes="Body" Text="{Binding FieldLabel}"/>
                         <TextBox x:Name="TitleBox"
                                  Watermark="Название"
+								 MaxLength="50"
                                  Text="{Binding Title}"
                                  Classes.invalid="{Binding #TitleBox.(helpers:InputValidation.InputError),
                                      Converter={x:Static StringConverters.IsNotNullOrEmpty}}">

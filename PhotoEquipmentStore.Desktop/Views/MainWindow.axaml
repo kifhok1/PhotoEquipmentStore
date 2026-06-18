@@ -30,9 +30,7 @@
 
     <!-- Внешняя рамка окна: скругление 12px, тень, фон ApplicationBackground -->
     <Border CornerRadius="12"
-            ClipToBounds="False"
-            Background="{DynamicResource ApplicationBackground}"
-            BoxShadow="0 8 32 0 #40000000">
+            ClipToBounds="False">
         <Panel>
 
             <Border CornerRadius="12" ClipToBounds="True">
