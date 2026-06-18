@@ -1,18 +1,19 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: Анимация появления Panel.Popup (fade-in 0.25s). -->
     <Design.PreviewWith>
         <Panel Height="800" Width="1280" Background="{DynamicResource main_background}">
             <Panel Classes="Popup">
-                <!-- Рамка -->
+
                 <Border Background="{DynamicResource secondary_background}"
                         Opacity="0.9"/>
-                <!-- Контент -->
-                <Border Height="200" Width="400" 
+
+                <Border Height="200" Width="400"
                         Background="{DynamicResource main_background}"
                         BorderThickness="2"
                         CornerRadius="12"
                         BorderBrush="{DynamicResource border}">
-                    
+
                 </Border>
             </Panel>
         </Panel>

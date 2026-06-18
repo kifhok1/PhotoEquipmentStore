@@ -2,52 +2,87 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Admin"
+             xmlns:behaviors="clr-namespace:PhotoEquipmentStore.Behaviors"
+             xmlns:helpers="clr-namespace:PhotoEquipmentStore.Helper"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
-             x:Class="PhotoEquipmentStore.Views.Pages.Admin.ReferenceAddView">
-    <Border Padding="10"
-            Background="{DynamicResource main_background}" >
+             x:Class="PhotoEquipmentStore.Views.Pages.Admin.ReferenceAddView"
+             x:DataType="viewModels:ReferenceAddViewModel">
+    <!-- Файл: Форма добавления/редактирования записи справочника с валидацией. -->
+
+    <UserControl.Styles>
+        <Style Selector="TextBox.invalid">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Padding="10" Background="{DynamicResource main_background}">
         <StackPanel Spacing="10"
                     Width="400"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center">
-                <Border Background="{DynamicResource surface}"
-                        CornerRadius="10"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1"
-                        Padding="15 15 15 15">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Основная информация
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Foreground="{DynamicResource secondary_text}" Margin="0 2 0 20">
-                            Введите данные
-                        </TextBlock>
-                        <StackPanel Spacing="20">
-                            <StackPanel Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Наименование
-                                </TextBlock>
-                                <TextBox Watermark="Название"/>
-                            </StackPanel>
-                        </StackPanel>
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <Border Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="15">
+                <StackPanel>
+                    <TextBlock Classes="H3" Text="{Binding PageTitle}"/>
+                    <TextBlock Classes="Body"
+                               Foreground="{DynamicResource secondary_text}"
+                               Margin="0 2 0 20">
+                        Введите данные
+                    </TextBlock>
+
+                    <StackPanel Spacing="2">
+                        <TextBlock Classes="Body" Text="{Binding FieldLabel}"/>
+                        <TextBox x:Name="TitleBox"
+                                 Watermark="Название"
+								 MaxLength="50"
+                                 Text="{Binding Title}"
+                                 Classes.invalid="{Binding #TitleBox.(helpers:InputValidation.InputError),
+                                     Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                            <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
+                            <i:Interaction.Behaviors>
+                                <behaviors:ReferenceNameInputBehavior/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Classes="Caption"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource error}"
+                                   IsVisible="{Binding #TitleBox.(helpers:InputValidation.InputError),
+                                       Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                   Text="{Binding #TitleBox.(helpers:InputValidation.InputError)}"/>
                     </StackPanel>
-                </Border>
-                <Border Background="{DynamicResource surface}" 
-                        CornerRadius="10"
-                        Padding="14 15 14 15"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1">
-                    <StackPanel Spacing="10">
-                        <Button HorizontalAlignment="Stretch">
-                            Сохранить
-                        </Button>
-                        <Button HorizontalAlignment="Stretch"
-                                Classes="Secondary">
-                            Сбросить
-                        </Button>
-                    </StackPanel>
-                </Border>
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="14 15">
+                <StackPanel Spacing="10">
+                    <Button HorizontalAlignment="Stretch"
+                            Command="{Binding SaveCommand}">
+                        Сохранить
+                    </Button>
+                    <Button HorizontalAlignment="Stretch"
+                            Classes="Secondary"
+                            Command="{Binding ResetCommand}">
+                        Сбросить
+                    </Button>
+                </StackPanel>
+            </Border>
+
         </StackPanel>
     </Border>
 </UserControl>

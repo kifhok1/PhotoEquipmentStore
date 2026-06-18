@@ -1,5 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: Типографика: классы H1, H2, H3, Body, Caption для TextBlock. -->
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource main_background}">
             <StackPanel Spacing="15">

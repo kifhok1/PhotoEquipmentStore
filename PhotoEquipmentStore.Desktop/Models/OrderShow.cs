@@ -1,103 +1,146 @@
 using System;
 using Avalonia.Media;
 using PhotoEquipmentStore.Helper;
+using ReactiveUI;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Модель заказа для списка продавца.
+/// </summary>
 
-public class OrderShow
+
+public class OrderShow : ReactiveObject
 {
-    private string id;
-    private string clientId;
-    private string clientName;
-    private string clientPhoneNumber;
-    private int discountClient;
-    private int userId;
-    private string userName;
-    private string statusId;
-    private string statusName;
-    private DateTime orderDate;
-    private decimal totalSum;
+    private string _id;
+    private string _clientId;
+    private string _clientName;
+    private string _clientPhoneNumber;
+    private int _discountClient;
+    private int _userId;
+    private string _userName;
+    private string _statusId;
+    private string _statusName;
+    private DateTime _orderDate;
+    private decimal _totalSum;
+    private bool _isRevealed;
+
+    /// <summary>
+
+    /// Уникальный идентификатор записи.
+
+    /// </summary>
 
     public string Id
     {
-        get => id;
-        set => id = value;
+        get => _id;
+        set => this.RaiseAndSetIfChanged(ref _id, value);
     }
 
     public string ClientId
     {
-        get => clientId;
-        set => clientId = value;
+        get => _clientId;
+        set => this.RaiseAndSetIfChanged(ref _clientId, value);
     }
+
+    /// <summary>
+
+    /// Имя клиента заказа.
+
+    /// </summary>
 
     public string ClientName
     {
-        get => clientName;
-        set => clientName = value;
+        get => _clientName;
+        set => this.RaiseAndSetIfChanged(ref _clientName, value);
     }
 
     public string ClientPhoneNumber
     {
-        get => clientPhoneNumber;
-        set => clientPhoneNumber = value;
+        get => _clientPhoneNumber;
+        set => this.RaiseAndSetIfChanged(ref _clientPhoneNumber, value);
     }
 
     public int DiscountClient
     {
-        get => discountClient;
-        set => discountClient = value;
+        get => _discountClient;
+        set => this.RaiseAndSetIfChanged(ref _discountClient, value);
     }
-    
-    public string DiscountClientShow
-    {
-        get => $"{discountClient}%";
-    }
+
+    public string DiscountClientShow => $"{_discountClient}%";
+
+    /// <summary>
+
+    /// Идентификатор пользователя.
+
+    /// </summary>
 
     public int UserId
     {
-        get => userId;
-        set => userId = value;
+        get => _userId;
+        set => this.RaiseAndSetIfChanged(ref _userId, value);
     }
+
+    /// <summary>
+
+    /// ФИО пользователя.
+
+    /// </summary>
 
     public string UserName
     {
-        get => userName;
-        set => userName = value;
+        get => _userName;
+        set => this.RaiseAndSetIfChanged(ref _userName, value);
     }
 
     public string StatusId
     {
-        get => statusId;
-        set => statusId = value;
+        get => _statusId;
+        set => this.RaiseAndSetIfChanged(ref _statusId, value);
     }
 
     public string StatusName
     {
-        get => statusName;
-        set => statusName = value;
+        get => _statusName;
+        set => this.RaiseAndSetIfChanged(ref _statusName, value);
     }
 
     public DateTime OrderDate
     {
-        get => orderDate;
-        set => orderDate = value;
+        get => _orderDate;
+        set => this.RaiseAndSetIfChanged(ref _orderDate, value);
     }
-    
+
     public decimal TotalSum
     {
-        get => totalSum;
-        set => totalSum = value;
+        get => _totalSum;
+        set => this.RaiseAndSetIfChanged(ref _totalSum, value);
     }
 
-    public string ClientNameShow
+    /// <summary>
+
+    /// Признак раскрытия персональных данных клиента.
+
+    /// </summary>
+
+    public bool IsRevealed
     {
-        get => MaskClientsData.MaskFullName(ClientName);
+        get => _isRevealed;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isRevealed, value);
+            this.RaisePropertyChanged(nameof(ClientNameShow));
+            this.RaisePropertyChanged(nameof(ClientPhoneNumberShow));
+        }
     }
 
-    public string ClientPhoneNumberShow
-    {
-        get => MaskClientsData.MaskPhoneNumber(ClientPhoneNumber);
-    }
+    public bool IsReturnStatus => StatusId == "2";
+
+    public string ClientNameShow => IsRevealed
+        ? ClientName
+        : MaskClientsData.MaskFullName(ClientName);
+
+    public string ClientPhoneNumberShow => IsRevealed
+        ? ClientPhoneNumber
+        : MaskClientsData.MaskPhoneNumber(ClientPhoneNumber);
 
     public IBrush PriceColor
     {
@@ -113,7 +156,7 @@ public class OrderShow
             return ColorProvider.GetBrush("secondary_text", Colors.White);
         }
     }
-    
+
     public OrderShow(
         string orderId,
         string clientId,
@@ -127,16 +170,16 @@ public class OrderShow
         DateTime orderDate,
         decimal totalSum)
     {
-        Id = orderId;
-        ClientId = clientId;
-        ClientName = clientName;
-        ClientPhoneNumber = clientPhoneNumber;
-        DiscountClient = discountClient;
-        UserId = userId;
-        UserName = userName;
-        StatusId = statusId;
-        StatusName = statusName;
-        OrderDate = orderDate;
-        TotalSum = totalSum;
+        _id                 = orderId;
+        _clientId           = clientId;
+        _clientName         = clientName;
+        _clientPhoneNumber  = clientPhoneNumber;
+        _discountClient     = discountClient;
+        _userId             = userId;
+        _userName           = userName;
+        _statusId           = statusId;
+        _statusName         = statusName;
+        _orderDate          = orderDate;
+        _totalSum           = totalSum;
     }
 }

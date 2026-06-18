@@ -1,62 +1,153 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using PhotoEquipmentStore.Application.Services;
 using PhotoEquipmentStore.Models;
+using PhotoEquipmentStore.Notification;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels.Pages.Seller;
+namespace PhotoEquipmentStore.ViewModels.Pages.Seller;/// <summary>
+/// ViewModel списка заказов с поиском.
+/// </summary>
+
 
 public class OrdersViewModel : ViewModelBase
 {
-    public ObservableCollection<OrderShow> Orders { get; private set; } = new();
+    private readonly OrderService _orderService = new();
+    private readonly List<OrderShow> _allOrders = new();
+    /// <summary>
+    /// Список заказов.
+    /// </summary>
+    public ObservableCollection<OrderShow> Orders { get; } = new();
 
-    private string _countOrders = string.Empty;
     private ObservableCollection<OrderShow> _currentOrders = new();
-
     public ObservableCollection<OrderShow> CurrentOrders
     {
         get => _currentOrders;
         set => this.RaiseAndSetIfChanged(ref _currentOrders, value);
     }
 
+    private string _countOrders = string.Empty;
+    /// <summary>
+    /// Количество заказов клиента.
+    /// </summary>
     public string CountOrders
     {
         get => _countOrders;
         set => this.RaiseAndSetIfChanged(ref _countOrders, value);
     }
 
-    // Команда принимает выбранный заказ и вызывает колбэк навигации
+    private string _searchText = string.Empty;
+    /// <summary>
+    /// Строка поиска по названию товара.
+    /// </summary>
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _searchText, value);
+            ApplySearch(value);
+        }
+    }
+
+    private OrderShow? _selectedOrder;
+    /// <summary>
+    /// Выбранный заказ в списке.
+    /// </summary>
+    public OrderShow? SelectedOrder
+    {
+        get => _selectedOrder;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedOrder, value);
+
+            if (value is null || value.IsRevealed) return;
+
+            value.IsRevealed = true;
+
+            Observable.Timer(TimeSpan.FromSeconds(15))
+                      .ObserveOn(RxApp.MainThreadScheduler)
+                      .Subscribe(_ => value.IsRevealed = false);
+        }
+    }
+
+    /// <summary>
+
+    /// Команда просмотра состава заказа.
+
+    /// </summary>
+
     public ReactiveCommand<OrderShow, Unit> ViewOrderItemsCommand { get; }
+    /// <summary>
+    /// Команда сброса строки поиска.
+    /// </summary>
+    public ReactiveCommand<Unit, Unit>      ResetSearchCommand    { get; }
 
     public OrdersViewModel(Action<OrderShow> onViewOrderItems)
     {
         ViewOrderItemsCommand = ReactiveCommand.Create<OrderShow>(onViewOrderItems);
-
-        var ordersDB = OrderService.GetOrders();
-        foreach (var order in ordersDB)
-        {
-            Orders.Add(new OrderShow(order.OrderId, order.ClientId, order.ClientName,
-                order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
-                order.StatusId, order.StatusName, order.OrderDate, order.TotalSum));
-        }
-
-        CountOrders = $"Количество элементов на форме: {Orders.Count}";
+        ResetSearchCommand    = ReactiveCommand.Create(() => { SearchText = string.Empty; });
+        LoadOrders();
     }
-    
+
     [Obsolete("Design-time only")]
     public OrdersViewModel()
     {
         ViewOrderItemsCommand = ReactiveCommand.Create<OrderShow>(_ => { });
+        ResetSearchCommand    = ReactiveCommand.Create(() => { SearchText = string.Empty; });
+        LoadOrders();
+    }
 
-        var ordersDB = OrderService.GetOrders();
-        foreach (var order in ordersDB)
+    private async void LoadOrders()
+    {
+        _allOrders.Clear();
+        Orders.Clear();
+
+        var result = _orderService.GetOrders();
+        if (result.IsSuccess)
         {
-            Orders.Add(new OrderShow(order.OrderId, order.ClientId, order.ClientName,
-                order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
-                order.StatusId, order.StatusName, order.OrderDate, order.TotalSum));
+            foreach (var order in result.Orders)
+            {
+                var show = new OrderShow(
+                    order.OrderId, order.ClientId, order.ClientName,
+                    order.ClientPhoneNumber, order.DiscountClient, order.UserId, order.UserName,
+                    order.StatusId, order.StatusName, order.OrderDate, order.TotalSum);
+
+                _allOrders.Add(show);
+                Orders.Add(show);
+            }
+        }
+        else
+        {
+            await NotificationService.Instance.ShowErrorAsync(
+                "Ошибка", "Не удалось загрузить список заказов.");
         }
 
-        CountOrders = $"Количество элементов на форме: {Orders.Count}";
+        UpdateCountOrders(Orders.Count);
+    }
+
+    private void ApplySearch(string query)
+    {
+        var result = string.IsNullOrWhiteSpace(query)
+            ? _allOrders
+            : _allOrders.Where(o =>
+                o.Id.ToString().Contains(query.Trim()) ||
+                o.ClientName.Contains(query.Trim(), StringComparison.OrdinalIgnoreCase))
+              .ToList();
+
+        Orders.Clear();
+        foreach (var o in result) Orders.Add(o);
+
+        UpdateCountOrders(Orders.Count);
+    }
+
+    private void UpdateCountOrders(int count)
+    {
+        string word = count switch { 1 => "заказ", 2 or 3 or 4 => "заказа", _ => "заказов" };
+        CountOrders = $"{count} {word}";
     }
 }

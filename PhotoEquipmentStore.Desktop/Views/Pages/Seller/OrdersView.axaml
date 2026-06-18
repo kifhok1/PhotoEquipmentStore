@@ -8,168 +8,206 @@
              x:DataType="vm:OrdersViewModel"
              xmlns:controls="using:PhotoEquipmentStore.Controls"
              xmlns:conv="using:PhotoEquipmentStore.Converters">
+    <!-- Файл: Список заказов с поиском, DataGrid, пагинацией и легендой цветов суммы. -->
+
     <Design.DataContext>
         <vm:OrdersViewModel/>
     </Design.DataContext>
-    
+
+    <!-- Локальные ресурсы и конвертеры представления -->
     <UserControl.Resources>
         <conv:ListToOrdersShowCollectionConverter x:Key="ListToOrdersConverter"/>
     </UserControl.Resources>
+
     <Border Background="{DynamicResource main_background}" Padding="20">
-                    <Grid RowSpacing="15" RowDefinitions="Auto * Auto">
-                        <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
-                                Padding="10" Background="{DynamicResource surface}"
-                                CornerRadius="10">
-                            <Grid ColumnDefinitions="* Auto">
-                                <StackPanel Grid.Column="0" Spacing="4">
-                                    <TextBlock Classes="Body">
-                                        Поиск заказа по номеру
-                                    </TextBlock>
-                                    <TextBox Watermark="Найти заказ..." Width="350" HorizontalAlignment="Left"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" Spacing="4">
-                                    <TextBlock Classes="Body">
-                                    </TextBlock>
-                                    <Button Padding="15 6">
-                                        Сбросить
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                        
-                        <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
-                                            CornerRadius="10"
-                                            BorderThickness="1"
-                                            ClipToBounds="True">
-                                <Border ClipToBounds="True"
-                                        CornerRadius="10"
-                                        BorderThickness="0"
-                                        Background="{DynamicResource secondary_background}"
-                                        BorderBrush="{DynamicResource border}">
-                                    <Grid RowDefinitions="* Auto" RowSpacing="10">
-                                        <DataGrid IsReadOnly="True"
-                                                  AutoGenerateColumns="False"
-                                                  ItemsSource="{Binding CurrentOrders}"
-                                                  CanUserSortColumns="False"
-                                                  BorderBrush="{DynamicResource border}"
-                                                  BorderThickness="0 0 0 1">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn
-                                                    Header="Номер заказа"
-                                                    Binding="{Binding Id}"
-                                                    Width="*"/>
-                                                <DataGridTemplateColumn Header="Информация о клиенте"
-                                                                        Width="Auto">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Vertical" Spacing="5"
-                                                                        Margin=" 18 0 50 0">
-                                                                <TextBlock Text="{Binding ClientNameShow}"/>
-                                                                <TextBlock Foreground="{DynamicResource secondary_text}"
-                                                                    Text="{Binding ClientPhoneNumberShow}"/>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                                
-                                                <DataGridTextColumn
-                                                    Header="Продавец"
-                                                    Width="*"
-                                                    Binding="{Binding UserName}"/>
-                                                <DataGridTemplateColumn Header="Cтоимость покупки">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding TotalSum}"
-                                                                       Foreground="{Binding PriceColor}"
-                                                                       HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"/>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                        
-                                                <DataGridTemplateColumn Header="Скидка клиента">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Label Classes="ShowFile"
-                                                                   Margin="15 0"
-                                                                   Padding="10 4"
-                                                                   Width="50" Height="30"
-                                                                   VerticalContentAlignment="Center"
-                                                                   HorizontalContentAlignment="Center"
-                                                                   HorizontalAlignment="Center"
-                                                                   Content="{Binding DiscountClientShow}"/>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                        
-                                                <DataGridTemplateColumn Header="Действия">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Horizontal" Spacing="18"
-                                                                        Margin=" 18 0 50 0">
-                                                                <Button Classes="Ghost"
-                                                                        ToolTip.Tip="Информация о заказе"
-                                                                        Padding="0" ClipToBounds="False"
-                                                                        Command="{Binding $parent[DataGrid].DataContext.ViewOrderItemsCommand}"
-                                                                        CommandParameter="{Binding}">
-                                                                    <Viewbox Width="14"
-                                                                             Height="14"
-                                                                             ClipToBounds="False">
-                                                                        <Path Data="{DynamicResource Сheque}"/>
-                                                                    </Viewbox>
-                                                                </Button>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                        
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                        <Panel Grid.Row="1"
-                                               Margin="10 0  10 8">
-                                            <TextBlock  Classes="Body"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding CountOrders}">
-                                            </TextBlock>
-                                            <controls:PaginationButtons  Items="{Binding Orders}"
-                                                                         CurrentPageItems="{Binding CurrentOrders,
-                                                                            Converter={StaticResource ListToOrdersConverter}, 
-                                                                            Mode=OneWayToSource}"
-                                                                         PageSize="20"
-                                                                         HorizontalAlignment="Right"
-                                                                         VerticalAlignment="Center"/>
-                                        </Panel>
-                                    </Grid>
-                                </Border>
-                        </Border>
-                        <Border Grid.Row="2" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
-                                Padding="10 3" Background="{DynamicResource surface}"
-                                CornerRadius="6">
-                            <Grid ColumnDefinitions="* * *">
-                                <StackPanel Grid.Column="0" Orientation="Horizontal"
-                                            Spacing="6" HorizontalAlignment="Center">
-                                    <Ellipse Fill="{DynamicResource info}" Height="14" Width="14"/>
-                                    <TextBlock Classes="Body">
-                                        – цена заказа больше 100000
-                                    </TextBlock>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" Orientation="Horizontal"
-                                            Spacing="6" HorizontalAlignment="Center">
-                                    <Ellipse Fill="{DynamicResource success}" Height="14" Width="14"/>
-                                    <TextBlock Classes="Body">
-                                        – цена заказа больше 200000
-                                    </TextBlock>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2" Orientation="Horizontal"
-                                            Spacing="6" HorizontalAlignment="Center">
-                                    <Ellipse Fill="{DynamicResource accent}" Height="14" Width="14"/>
-                                    <TextBlock Classes="Body">
-                                        – цена заказа больше 400000
-                                    </TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
+            <Grid RowSpacing="15" RowDefinitions="Auto * Auto">
+
+                <Border Grid.Row="0"
+                        BorderThickness="1.5"
+                        BorderBrush="{DynamicResource border}"
+                        Padding="10"
+                        Background="{DynamicResource surface}"
+                        CornerRadius="10">
+                    <Grid ColumnDefinitions="* Auto">
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock Classes="Body">Поиск заказа по номеру</TextBlock>
+                            <TextBox Watermark="Найти заказ..."
+                                     Width="350"
+                                     HorizontalAlignment="Left"
+                                     Text="{Binding SearchText}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock Classes="Body"/>
+                            <Button Padding="15 6"
+                                    Command="{Binding ResetSearchCommand}">
+                                Сбросить
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </Border>
+
+                <Border Grid.Row="1"
+                        BorderBrush="{DynamicResource border}"
+                        CornerRadius="10"
+                        BorderThickness="1"
+                        ClipToBounds="True">
+                    <Border ClipToBounds="True"
+                            CornerRadius="10"
+                            BorderThickness="0"
+                            Background="{DynamicResource secondary_background}"
+                            BorderBrush="{DynamicResource border}">
+                        <Grid RowDefinitions="* Auto" RowSpacing="10">
+
+                            <!-- Таблица данных (только чтение) -->
+                            <DataGrid Grid.Row="0"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False"
+                                      ItemsSource="{Binding CurrentOrders}"
+                                      SelectedItem="{Binding SelectedOrder}"
+                                      CanUserSortColumns="False"
+                                      BorderBrush="{DynamicResource border}"
+                                      BorderThickness="0 0 0 1">
+                                <!-- Определение колонок таблицы -->
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Номер заказа" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Spacing="3" Margin="12,0,0,0"
+                                                            VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Id, StringFormat='#{0}'}"
+                                                               FontSize="13" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource main_text}"/>
+                                                    <TextBlock Text="{Binding StatusName}"
+                                                               FontSize="11" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource primary}"
+                                                               IsVisible="{Binding !IsReturnStatus}"/>
+                                                    <TextBlock Text="{Binding StatusName}"
+                                                               FontSize="11" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource error}"
+                                                               IsVisible="{Binding IsReturnStatus}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Информация о клиенте" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Vertical" Spacing="5"
+                                                            Margin="18 0 50 0">
+                                                    <TextBlock Text="{Binding ClientNameShow}"/>
+                                                    <TextBlock Foreground="{DynamicResource secondary_text}"
+                                                               Text="{Binding ClientPhoneNumberShow}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Продавец" Width="250">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding UserName}"
+                                                           TextWrapping="Wrap"
+                                                           Margin="12,0,0,0"
+                                                           VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Стоимость покупки">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TotalSum}"
+                                                           Foreground="{Binding PriceColor}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Скидка клиента">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Classes="ShowFile"
+                                                       Margin="15 0"
+                                                       Padding="10 4"
+                                                       Width="50" Height="30"
+                                                       VerticalContentAlignment="Center"
+                                                       HorizontalContentAlignment="Center"
+                                                       HorizontalAlignment="Center"
+                                                       Content="{Binding DiscountClientShow}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Действия">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="18"
+                                                            Margin="18 0 50 0">
+                                                    <Button Classes="Ghost"
+                                                            ToolTip.Tip="Информация о заказе"
+                                                            Padding="0" ClipToBounds="False"
+                                                            Command="{Binding $parent[DataGrid].((vm:OrdersViewModel)DataContext).ViewOrderItemsCommand}"
+                                                            CommandParameter="{Binding}">
+                                                        <Viewbox Width="14" Height="14" ClipToBounds="False">
+                                                            <Path Data="{DynamicResource Сheque}"/>
+                                                        </Viewbox>
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Panel Grid.Row="1" Margin="10 0 10 8">
+                                <TextBlock Classes="Body"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding #OrdersPaginator.PageCountText}"/>
+
+                                <!-- Компонент постраничной навигации -->
+                                <controls:PaginationButtons
+                                    x:Name="OrdersPaginator"
+                                    Items="{Binding Orders}"
+                                    CurrentPageItems="{Binding CurrentOrders,
+                                    Converter={StaticResource ListToOrdersConverter},
+                                    Mode=OneWayToSource}"
+                                    PageSize="20"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"/>
+                            </Panel>
+
+                        </Grid>
+                    </Border>
+                </Border>
+
+                <Border Grid.Row="2"
+                        BorderThickness="1.5"
+                        BorderBrush="{DynamicResource border}"
+                        Padding="10 3"
+                        Background="{DynamicResource surface}"
+                        CornerRadius="6">
+                    <Grid ColumnDefinitions="* * *">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal"
+                                    Spacing="6" HorizontalAlignment="Center">
+                            <Ellipse Fill="{DynamicResource info}" Height="14" Width="14"/>
+                            <TextBlock Classes="Body">– цена заказа больше 100000</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                    Spacing="6" HorizontalAlignment="Center">
+                            <Ellipse Fill="{DynamicResource success}" Height="14" Width="14"/>
+                            <TextBlock Classes="Body">– цена заказа больше 200000</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal"
+                                    Spacing="6" HorizontalAlignment="Center">
+                            <Ellipse Fill="{DynamicResource accent}" Height="14" Width="14"/>
+                            <TextBlock Classes="Body">– цена заказа больше 400000</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+    </Border>
 </UserControl>

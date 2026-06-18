@@ -3,17 +3,27 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace PhotoEquipmentStore.SettingsUI;
+namespace PhotoEquipmentStore.SettingsUI;/// <summary>
+/// Чтение и запись настроек интерфейса (тема) из JSON-файла.
+/// </summary>
+
 
 public class SettingsUIFileParser
 {
-    private static readonly string _filePath = Directory.GetCurrentDirectory() + "/SettingsUI/settings.json";
+    private static readonly string _filePath =
+        Path.Combine(AppContext.BaseDirectory, "SettingsUI", "settings.json");
 
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
         WriteIndented = true
     };
-    
+
+    /// <summary>
+
+    /// Читает название темы из файла настроек.
+
+    /// </summary>
+
     public static string? GetTheme()
     {
         if (!File.Exists(_filePath))
@@ -24,7 +34,13 @@ public class SettingsUIFileParser
 
         return root?["theme"]?.GetValue<string>();
     }
-    
+
+    /// <summary>
+
+    /// Записывает название темы в файл настроек.
+
+    /// </summary>
+
     public static void SetTheme(string theme)
     {
         if (theme == null) throw new ArgumentNullException(nameof(theme));

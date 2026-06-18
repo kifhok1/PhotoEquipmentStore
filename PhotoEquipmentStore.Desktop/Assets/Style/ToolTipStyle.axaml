@@ -1,8 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: Стиль всплывающих подсказок с плавным появлением (opacity transition). -->
     <Design.PreviewWith>
         <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
+
         </Border>
     </Design.PreviewWith>
     <Style Selector="ToolTip">

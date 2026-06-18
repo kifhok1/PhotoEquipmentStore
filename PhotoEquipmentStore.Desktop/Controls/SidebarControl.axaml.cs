@@ -8,34 +8,47 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Боковая панель навигации с меню и информацией о пользователе.
+/// </summary>
+
+
 public partial class SidebarControl : UserControl
 {
-    
-    // Коллекция пунктов меню
+
     public static readonly StyledProperty<ObservableCollection<NavigationMenuItem>> MenuItemsProperty =
         AvaloniaProperty.Register<SidebarControl, ObservableCollection<NavigationMenuItem>>(
             nameof(MenuItems));
 
-    // Выбранный пункт
     public static readonly StyledProperty<NavigationMenuItem> SelectedMenuItemProperty =
         AvaloniaProperty.Register<SidebarControl, NavigationMenuItem>(
             nameof(SelectedMenuItem));
-    
-    // Имя пользователя
+
     public static readonly StyledProperty<UserInfo> UsernameProperty =
         AvaloniaProperty.Register<SidebarControl, UserInfo>(
             nameof(Username));
-    
-    // Команда выхода
+
     public static readonly StyledProperty<ReactiveCommand<Unit, Unit>> LogoutCommandProperty =
         AvaloniaProperty.Register<SidebarControl, ReactiveCommand<Unit, Unit>>(
             nameof(LogoutCommand));
-    
+
+    /// <summary>
+
+    /// Пункты меню боковой панели.
+
+    /// </summary>
+
     public ObservableCollection<NavigationMenuItem> MenuItems
     {
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
     }
+
+    /// <summary>
+
+    /// Выбранный пункт меню.
+
+    /// </summary>
 
     public NavigationMenuItem SelectedMenuItem
     {
@@ -49,12 +62,24 @@ public partial class SidebarControl : UserControl
         }
     }
 
+    /// <summary>
+
+    /// Информация о текущем пользователе.
+
+    /// </summary>
+
     public UserInfo Username
     {
         get => GetValue(UsernameProperty);
         set => SetValue(UsernameProperty, value);
     }
-    
+
+    /// <summary>
+
+    /// Команда выхода из системы.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> LogoutCommand
     {
         get => GetValue(LogoutCommandProperty);
@@ -64,7 +89,7 @@ public partial class SidebarControl : UserControl
     public SidebarControl()
     {
         InitializeComponent();
-        
+
         if (Design.IsDesignMode)
         {
             MenuItems =
@@ -92,13 +117,13 @@ public partial class SidebarControl : UserControl
                 new NavigationMenuItem( "Заказы", "Order"),
             ];
 
-            Username = new UserInfo("Иван Макаровouhpiuh phpihpyugpiuy",
+            Username = new UserInfo(0, "Иван Макаровouhpiuh phpihpyugpiuy",
                 "Админстратор",
                 new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
-            
+
             LogoutCommand = ReactiveCommand.Create(() => { });
         }
-        
+
         if (MenuItems != null)
         {
             SelectedMenuItem = MenuItems[0];

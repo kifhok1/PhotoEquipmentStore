@@ -2,6 +2,9 @@ using PhotoEquipmentStore.Domain.Entities;
 
 namespace PhotoEquipmentStore.Application.DTO;
 
+/// <summary>
+/// Результат операции аутентификации пользователя.
+/// </summary>
 public class AuthResultDto
 {
     public bool IsSuccess       { get; init; }

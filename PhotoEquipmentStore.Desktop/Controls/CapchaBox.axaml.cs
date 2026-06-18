@@ -9,6 +9,11 @@ using ReactiveUI;
 
 namespace PhotoEquipmentStore.Controls;
 
+/// <summary>
+/// Пользовательский элемент ввода и проверки CAPTCHA при неудачной авторизации.
+/// </summary>
+
+
 public partial class CapchaBox : UserControl
 {
     private const string Alphabet = "ABCDEFGHJKLMNPQRTUVWXYZ2346789";
@@ -20,11 +25,16 @@ public partial class CapchaBox : UserControl
     private DispatcherTimer? _cooldownTimer;
     private double _cooldownRemaining;
 
-    // --- ErrorMessage ---
     public static readonly StyledProperty<string> ErrorMessageProperty =
         AvaloniaProperty.Register<CapchaBox, string>(
             nameof(ErrorMessage),
             defaultBindingMode: BindingMode.TwoWay);
+
+    /// <summary>
+
+    /// Текст ошибки CAPTCHA.
+
+    /// </summary>
 
     public string ErrorMessage
     {
@@ -32,9 +42,14 @@ public partial class CapchaBox : UserControl
         set => SetValue(ErrorMessageProperty, value);
     }
 
-    // --- ErrorVisible ---
     public static readonly StyledProperty<bool> ErrorVisibleProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(nameof(ErrorVisible));
+
+    /// <summary>
+
+    /// Признак видимости сообщения об ошибке.
+
+    /// </summary>
 
     public bool ErrorVisible
     {
@@ -45,18 +60,28 @@ public partial class CapchaBox : UserControl
     public static readonly StyledProperty<double> CooldownProgressProperty =
         AvaloniaProperty.Register<CapchaBox, double>(nameof(CooldownProgress));
 
+    /// <summary>
+
+    /// Прогресс таймера блокировки после неверной CAPTCHA.
+
+    /// </summary>
+
     public double CooldownProgress
     {
         get => GetValue(CooldownProgressProperty);
         set => SetValue(CooldownProgressProperty, value);
     }
 
-    // --- Блокировка окна --- 
-    
     public static readonly StyledProperty<bool> WindowBlockedProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(
             nameof(WindowBlocked),
             defaultBindingMode: BindingMode.TwoWay);
+
+    /// <summary>
+
+    /// Блокировка окна на время ожидания.
+
+    /// </summary>
 
     public bool WindowBlocked
     {
@@ -64,12 +89,16 @@ public partial class CapchaBox : UserControl
         set => SetValue(WindowBlockedProperty, value);
     }
 
-    // --- Отображение окна с капчей --- 
-    
     public static readonly StyledProperty<bool> ShowCapchaBlockProperty =
         AvaloniaProperty.Register<CapchaBox, bool>(
             nameof(ShowCapchaBlock),
             defaultBindingMode: BindingMode.TwoWay);
+
+    /// <summary>
+
+    /// Признак отображения блока CAPTCHA.
+
+    /// </summary>
 
     public bool ShowCapchaBlock
     {
@@ -77,10 +106,14 @@ public partial class CapchaBox : UserControl
         set => SetValue(ShowCapchaBlockProperty, value);
     }
 
-    // --- CanConfirm ---
-
     private bool canConfirm;
-    
+
+    /// <summary>
+
+    /// Разрешено ли подтверждение CAPTCHA.
+
+    /// </summary>
+
     public bool CanConfirm
     {
         get => canConfirm;
@@ -163,7 +196,6 @@ public partial class CapchaBox : UserControl
     {
         _cooldownRemaining -= TickMs / 1000.0;
 
-        // Значение прогресса пропорционально оставшемуся времени
         CooldownProgress = Math.Max(0, _cooldownRemaining / CooldownSeconds * 10000);
 
         if (_cooldownRemaining <= 0)
@@ -176,7 +208,7 @@ public partial class CapchaBox : UserControl
 
             CooldownProgress = 0;
             CanConfirm = true;
-            
+
             WindowBlocked = false;
         }
     }

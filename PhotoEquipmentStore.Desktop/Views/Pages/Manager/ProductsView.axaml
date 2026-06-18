@@ -7,49 +7,59 @@
              xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Manager"
              x:DataType="vm:ProductsViewModel"
              xmlns:controls="using:PhotoEquipmentStore.Controls"
-             xmlns:conv="using:PhotoEquipmentStore.Converters">
-    
+             xmlns:conv="using:PhotoEquipmentStore.Converters"
+             xmlns:models="using:PhotoEquipmentStore.Models">
+    <!-- Файл: Каталог товаров: фильтры, DataGrid, PaginationButtons. -->
     <Design.DataContext>
         <vm:ProductsViewModel/>
     </Design.DataContext>
-    
+
+    <!-- Локальные ресурсы и конвертеры представления -->
     <UserControl.Resources>
         <conv:ListToProductShowCollectionConverter x:Key="ListToProductShowCollectionConverter"/>
     </UserControl.Resources>
-    
+
     <Border Background="{DynamicResource main_background}" Padding="20">
         <Grid RowSpacing="15" RowDefinitions="Auto *">
             <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
                     Padding="10" Background="{DynamicResource surface}"
                     CornerRadius="10">
-                <Grid ColumnDefinitions="350 200 * Auto" ColumnSpacing="10">
+                <Grid ColumnDefinitions="350 200 250 * Auto" ColumnSpacing="10">
+
                     <StackPanel Grid.Column="0" Spacing="4">
-                        <TextBlock Classes="Body">
-                            Поиск товара по названию
-                        </TextBlock>
-                        <TextBox Watermark="Найти товар..." Width="350" HorizontalAlignment="Left"/>
+                        <TextBlock Classes="Body">Поиск товара по названию</TextBlock>
+                        <TextBox Watermark="Найти товар..."
+                                 Width="350"
+                                 HorizontalAlignment="Left"
+                                 Text="{Binding SearchText}"/>
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Column="1" Spacing="4">
-                        <TextBlock Classes="Body">
-                            Сортировка по цене
-                        </TextBlock>
-                        <ComboBox PlaceholderText="Отсортировать" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Classes="Body">Сортировка по цене</TextBlock>
+                        <ComboBox PlaceholderText="Отсортировать"
+                                  Width="200"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding SortOptions}"
+                                  SelectedItem="{Binding SelectedSortOption}"/>
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Column="2" Spacing="4">
-                        <TextBlock Classes="Body">
-                            Фильтрация по категории
-                        </TextBlock>
-                        <ComboBox PlaceholderText="Отфильтровать" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Classes="Body">Фильтрация по категории</TextBlock>
+                        <ComboBox PlaceholderText="Отфильтровать"
+                                  Width="250"
+                                  HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Categories}"
+                                  SelectedItem="{Binding SelectedCategory}"/>
                     </StackPanel>
-                    
-                    <StackPanel Grid.Column="3" Spacing="4">
+
+                    <StackPanel Grid.Column="4" Spacing="4">
                         <TextBlock Classes="Body"/>
-                        <Button Padding="15 6">
+                        <Button Padding="15 6"
+                                Command="{Binding ResetCommand}">
                             Сбросить
                         </Button>
                     </StackPanel>
+
                 </Grid>
             </Border>
             <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
@@ -62,12 +72,14 @@
                         Background="{DynamicResource secondary_background}"
                         BorderBrush="{DynamicResource border}">
                     <Grid RowDefinitions="* Auto" RowSpacing="10">
+                        <!-- Таблица данных (только чтение) -->
                         <DataGrid IsReadOnly="True"
                                   AutoGenerateColumns="False"
                                   ItemsSource="{Binding CurrentProducts}"
                                   CanUserSortColumns="False"
                                   BorderBrush="{DynamicResource border}"
                                   BorderThickness="0 0 0 1">
+                            <!-- Определение колонок таблицы -->
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Фото" Width="Auto" >
                                                     <DataGridTemplateColumn.CellTemplate>
@@ -97,7 +109,7 @@
                                                                                     StrokeJoin="Round"
                                                                                     StrokeLineCap="Round"/>
                                                                         </Viewbox>
-                                                                    
+
                                                                         <Image Source="{Binding Image}" HorizontalAlignment="Stretch"
                                                                                VerticalAlignment="Stretch"
                                                                                Stretch="UniformToFill"/>
@@ -107,7 +119,7 @@
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTemplateColumn Header="Название техники"
                                                         Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -119,7 +131,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTemplateColumn Header="Категория"
                                                         Width="150">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -132,7 +144,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                                 <DataGridTextColumn
                                     Header="Цена"
                                     Foreground="{DynamicResource accent}"
@@ -155,46 +167,51 @@
                                     Width="Auto"/>
                                 <DataGridTemplateColumn Header="Действия" Width="Auto">
                                     <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="18"
-                                                        Margin=" 12 0 20 0">
+                                        <DataTemplate x:DataType="models:ProductsShow">
+                                            <StackPanel Orientation="Horizontal" Spacing="18" Margin="12 0 20 0">
+
                                                 <Button Classes="Ghost"
                                                         ToolTip.Tip="Редактировать"
-                                                        Padding="0" ClipToBounds="False">
-                                                    <Viewbox Width="14"
-                                                             Height="14"
-                                                             ClipToBounds="False">
+                                                        Padding="0" ClipToBounds="False"
+                                                        Command="{Binding $parent[UserControl].((vm:ProductsViewModel)DataContext).EditCommand}"
+                                                        CommandParameter="{Binding}">
+                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                         <Path Data="{DynamicResource Edit}"/>
                                                     </Viewbox>
                                                 </Button>
+
                                                 <Button Classes="Ghost"
                                                         ToolTip.Tip="Удалить"
-                                                        Padding="0">
-                                                    <Viewbox Width="14"
-                                                             Height="14"
-                                                             ClipToBounds="False">
+                                                        Padding="0" ClipToBounds="False"
+                                                        Command="{Binding $parent[UserControl].((vm:ProductsViewModel)DataContext).DeleteCommand}"
+                                                        CommandParameter="{Binding}">
+                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
                                                         <Path Data="{DynamicResource Delete}"/>
                                                     </Viewbox>
                                                 </Button>
+
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Panel Grid.Row="1"
-                               Margin="10 0  10 8">
-                            <TextBlock  Classes="Body"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding CountProducts}"/>
-                            <controls:PaginationButtons Items="{Binding Products}"
-                                                        CurrentPageItems="{Binding CurrentProducts,
-                                                        Converter={StaticResource ListToProductShowCollectionConverter}, 
-                                                        Mode=OneWayToSource}"
-                                                        PageSize="20"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Center"/>
+                        <Panel Grid.Row="1" Margin="10 0 10 8">
+                            <TextBlock Classes="Body"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding #ProductsPaginator.PageCountText}"/>
+
+                            <!-- Компонент постраничной навигации -->
+                            <controls:PaginationButtons
+                                x:Name="ProductsPaginator"
+                                Items="{Binding Products}"
+                                CurrentPageItems="{Binding CurrentProducts,
+                                Converter={StaticResource ListToProductShowCollectionConverter},
+                                Mode=OneWayToSource}"
+                                PageSize="20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"/>
                         </Panel>
                     </Grid>
                 </Border>

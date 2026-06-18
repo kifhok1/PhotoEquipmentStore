@@ -6,17 +6,19 @@
              mc:Ignorable="d" d:DesignWidth="240" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Controls.SidebarControl"
              x:Name="This">
+    <!-- Файл: Боковая панель: логотип, ListBox меню навигации, блок пользователя и кнопка выхода. -->
     <Border Background="{DynamicResource secondary_background}"
             BorderBrush="{DynamicResource border}"
             BorderThickness="0 0 1 0">
         <DockPanel>
-            <!-- Логотип -->
+
+            <!-- Шапка сайдбара: логотип и название -->
             <Border DockPanel.Dock="Top"
                     Padding="0 0 0 10"
                     Margin="0"
                     BorderThickness="0 0 0 1"
                     BorderBrush="{DynamicResource border}">
-                <StackPanel Height="45" 
+                <StackPanel Height="45"
                             Orientation="Horizontal"
                             Spacing="6"
                             Margin="14 16 0 0">
@@ -33,16 +35,16 @@
                             <Path Classes="Logo"/>
                         </Viewbox>
                     </Border>
-                    <TextBlock Classes="H3" Foreground="{DynamicResource main_text}" 
+                    <TextBlock Classes="H3" Foreground="{DynamicResource main_text}"
                                FontSize="18" FontWeight="SemiBold"
-                               HorizontalAlignment="Center" 
+                               HorizontalAlignment="Center"
                                TextWrapping="Wrap">
                         Магазин<LineBreak/>фототехники
                     </TextBlock>
                 </StackPanel>
             </Border>
-            
-            <!-- Пользователь (прижат к низу) -->
+
+            <!-- Подвал сайдбара: аватар, имя, роль, выход -->
             <Border DockPanel.Dock="Bottom"
                     Padding="10 16 8 16"
                     BorderThickness=" 0 1 0 0"
@@ -79,8 +81,8 @@
                             </Border>
                         </Border>
 
-
                         <StackPanel VerticalAlignment="Center">
+                            <!-- Имя текущего пользователя из Username -->
                             <TextBlock Text="{Binding #This.Username.UserName}"
                                        Classes="Caption"
                                        FontWeight="SemiBold"
@@ -88,6 +90,7 @@
                                        Width="140"
                                        TextWrapping="Wrap"
                                        Foreground="{DynamicResource main_text}"/>
+                            <!-- Роль текущего пользователя -->
                             <TextBlock Text="{Binding #This.Username.UserRole}"
                                        Classes="Caption"
                                        FontSize="10"
@@ -103,24 +106,25 @@
                             ToolTip.Tip="Выйти"
                             Command="{Binding #This.LogoutCommand}">
                         <Button.Content>
-                            <Path Width="16" 
-                                  Height="14" 
+                            <Path Width="16"
+                                  Height="14"
                                   StrokeThickness="1.5"
                                   Data="{DynamicResource Logout}"/>
                         </Button.Content>
                     </Button>
                 </Panel>
             </Border>
-            
-            <!-- Меню -->
+
+            <!-- Список пунктов навигационного меню -->
             <ListBox Classes="SidebarMenu"
                      ItemsSource="{Binding #This.MenuItems}"
                      SelectedItem="{Binding #This.SelectedMenuItem, Mode=TwoWay}"
                      Margin="0, 5 0 0">
 
+                <!-- Шаблон пункта меню: иконка, текст, индикатор выбора -->
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="models:NavigationMenuItem">
-                            <!-- Кнопка пункта меню -->
+
                             <Button Classes="SidebarMenuItem"
                                     Command="{Binding NavigateCommand}">
                                 <Panel>
@@ -130,21 +134,21 @@
                                             IsVisible="{Binding $parent[ListBoxItem].IsSelected}"/>
                                     <StackPanel Orientation="Horizontal"
                                                 Spacing="8" Margin=" 0 6 8 6">
-                                        
+
                                         <Border CornerRadius="0,3,3,0"
                                                 Background="{DynamicResource primary}"
                                                 IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                                 Height="24"
                                                 Width="3"
                                                 Margin="0 0 0 0"/>
-                                        
+
                                         <Border CornerRadius="0,3,3,0"
                                                 Background="Transparent"
                                                 IsVisible="{Binding !$parent[ListBoxItem].IsSelected}"
                                                 Height="24"
                                                 Width="3"
                                                 Margin="0 0 0 0"/>
-                                        
+
                                         <Path x:Name="Icon"
                                               Data="{Binding Icon}"/>
 

@@ -5,13 +5,13 @@
              x:Class="PhotoEquipmentStore.Controls.PaginationButtons"
              x:DataType="local:PaginationButtons"
              x:Name="This">
+    <!-- Файл: Горизонтальная панель пагинации: «назад», номера страниц, «вперёд». -->
 
     <StackPanel Orientation="Horizontal"
                 Spacing="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
-        <!-- #This работает здесь — вне DataTemplate -->
         <Button Classes="Secondary"
                 Command="{Binding #This.PreviousCommand}"
                 Padding="13 11 9 11">
@@ -33,7 +33,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="models:PageButton">
                     <Panel>
-                        <!-- Внутри DataTemplate #This не виден — используем $parent -->
+
                         <Button IsVisible="{Binding IsCurrent}"
                                 Command="{Binding $parent[local:PaginationButtons].GoToPageCommand}"
                                 CommandParameter="{Binding PageNumber}">

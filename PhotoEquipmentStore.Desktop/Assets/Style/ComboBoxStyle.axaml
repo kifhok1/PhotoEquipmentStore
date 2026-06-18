@@ -3,6 +3,7 @@
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:behaviors="clr-namespace:PhotoEquipmentStore.Behaviors">
+    <!-- Файл: Шаблон ComboBox с chevron, popup и поведением скругления при открытии. -->
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource main_background}">
             <StackPanel Spacing="10" Width="160">
@@ -17,7 +18,7 @@
                     <ComboBoxItem>123</ComboBoxItem>
                     <ComboBoxItem>231</ComboBoxItem>
                 </ComboBox>
-        
+
                 <ComboBox PlaceholderText="Error"  Width="160">
                     <DataValidationErrors.Error>
                         <system:Exception>
@@ -32,56 +33,41 @@
     </Design.PreviewWith>
 
     <Style Selector="ComboBox">
-      
-      <!-- Внутренние отступы контента -->
+
       <Setter Property="Padding" Value="6" />
-      
-      <!-- Убираем стандартную рамку фокуса -->
+
       <Setter Property="FocusAdorner" Value="{x:Null}" />
-      
-      <!-- Максимальная высота выпадающего списка -->
+
       <Setter Property="MaxDropDownHeight" Value="650" />
-      
-      <!-- Основные цвета -->
+
       <Setter Property="Foreground" Value="{DynamicResource main_text}" />
       <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       <Setter Property="BorderBrush" Value="{DynamicResource border}" />
-      
-      <!-- Толщина рамки -->
+
       <Setter Property="BorderThickness" Value="1" />
-      
-      <!-- Скругление углов -->
+
       <Setter Property="CornerRadius" Value="6" />
-      
-      <!-- Отключаем горизонтальный скролл -->
+
       <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-      
-      <!-- Вертикальный скролл появляется автоматически -->
+
       <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-      
-      <!-- Минимальная высота -->
+
       <Setter Property="MinHeight" Value="{DynamicResource ComboBoxMinHeight}" />
-      
-      <!-- Выравнивание содержимого -->
+
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="VerticalContentAlignment" Value="Stretch" />
-      
-      <!-- Позиция самого контрола -->
+
       <Setter Property="HorizontalAlignment" Value="Stretch" />
       <Setter Property="VerticalAlignment" Value="Top" />
-      
-      <!-- Цвет текста placeholder -->
+
       <Setter Property="PlaceholderForeground" Value="{DynamicResource secondary_text}" />
 
-      <!-- Основной шаблон -->
       <Setter Property="Template">
         <ControlTemplate>
 
-          <!-- Контейнер для отображения ошибок валидации -->
           <DataValidationErrors>
             <Grid ColumnDefinitions="*,32">
 
-              <!-- Фон и рамка -->
               <Border x:Name="Background"
                       Grid.ColumnSpan="2"
                       Background="{TemplateBinding Background}"
@@ -89,13 +75,11 @@
                       BorderThickness="{TemplateBinding BorderThickness}"
                       CornerRadius="{TemplateBinding CornerRadius}" />
 
-              <!-- Подсветка при фокусе -->
               <Border x:Name="HighlightBackground"
                       Grid.ColumnSpan="2"
                       Background="{DynamicResource ComboBoxBackgroundUnfocused}"
                       IsVisible="False"/>
 
-              <!-- Placeholder (когда ничего не выбрано) -->
               <TextBlock x:Name="PlaceholderTextBlock"
                          Margin="{TemplateBinding Padding}"
                          Text="{TemplateBinding PlaceholderText}"
@@ -104,7 +88,6 @@
                          Padding="4 0 0 0"
                          IsVisible="{Binding $parent[ComboBox].SelectionBoxItem, Converter={x:Static ObjectConverters.IsNull}}" />
 
-              <!-- Отображение выбранного элемента -->
               <ContentControl x:Name="ContentPresenter"
                               Content="{TemplateBinding SelectionBoxItem}"
                               Margin="{TemplateBinding Padding}"
@@ -112,7 +95,6 @@
                               Padding="4 0 0 0"
                               IsVisible="{Binding $parent[ComboBox].SelectionBoxItem, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-              <!-- Редактируемое поле -->
               <TextBox Name="PART_EditableTextBox"
                        Padding="{TemplateBinding Padding}"
                        Background="Transparent"
@@ -120,7 +102,6 @@
                        BorderThickness="0"
                        IsVisible="{TemplateBinding IsEditable}" />
 
-              <!-- Иконка стрелки -->
               <Viewbox Grid.Column="1" Width="14" Height="14">
                   <Path x:Name="DropDownGlyph"
                         StrokeLineCap="Round"
@@ -132,9 +113,7 @@
                         Stroke="{DynamicResource secondary_text}"
                         Data="{DynamicResource ChevronDown}"/>
               </Viewbox>
-              
 
-              <!-- Выпадающий список -->
               <Popup Grid.Column="0" Name="PART_Popup"
                      IsOpen="{TemplateBinding IsDropDownOpen}"
                      PlacementTarget="Background"
@@ -154,7 +133,7 @@
 
         </ControlTemplate>
       </Setter>
-      
+
       <Setter Property="i:Interaction.Behaviors">
           <BehaviorCollectionTemplate>
               <BehaviorCollection>
@@ -163,18 +142,16 @@
           </BehaviorCollectionTemplate>
       </Setter>
 
-      <!-- Состояние: наведение мыши -->
       <Style Selector="^:pointerover /template/ Border#Background">
         <Setter Property="Background" Value="{DynamicResource secondary_background}" />
         <Setter Property="BorderBrush" Value="{DynamicResource border}" />
       </Style>
 
-      <!-- Состояние: нажатие -->
       <Style Selector="^:pressed /template/ Border#Background">
         <Setter Property="Background" Value="{DynamicResource secondary_background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource border}"/>
       </Style>
-      
+
       <Style Selector="^:pressed /template/ ContentControl#ContentPresenter">
         <Setter Property="Foreground" Value="{DynamicResource main_text}"/>
       </Style>
@@ -182,34 +159,31 @@
         <Setter Property="Foreground" Value="{DynamicResource secondary_text}"/>
       </Style>
 
-      <!-- Состояние: ошибка -->
       <Style Selector="^:error /template/ Border#Background">
         <Setter Property="BorderBrush" Value="{DynamicResource error}" />
       </Style>
 
-      <!-- Состояние: фокус -->
       <Style Selector="^:focus-visible /template/ Border#HighlightBackground">
               <Setter Property="IsVisible" Value="True" />
       </Style>
-      
+
       <Style Selector="^:dropdownopen">
           <Setter Property="BorderThickness" Value="1 1 1 0"/>
           <Setter Property="CornerRadius" Value="6 6 0 0"/>
       </Style>
-      
-      <!-- Состояние: отключено -->
+
       <Style Selector="^:disabled">
           <Style Selector="^ /template/ ContentControl#ContentPresenter">
               <Setter Property="Foreground" Value="{DynamicResource muted_text}"/>
               <Setter Property="Opacity" Value="1"/>
           </Style>
-          
+
           <Style Selector="^ /template/ Border#Background">
             <Setter Property="Opacity" Value="0.4"/>
             <Setter Property="Background" Value="{DynamicResource main_background}" />
             <Setter Property="BorderBrush" Value="{DynamicResource border}" />
         </Style>
-          
+
           <Style Selector="^ /template/ Path#DropDownGlyph">
               <Setter Property="Opacity" Value="0.4"/>
           </Style>

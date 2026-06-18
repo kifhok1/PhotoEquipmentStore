@@ -5,107 +5,119 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
              x:Class="PhotoEquipmentStore.Controls.ImageBox"
              Background="Transparent">
+    <!-- Файл: Drop-zone загрузки изображения 300×300: превью, drag-and-drop, кнопка очистки. -->
 
-    <Grid Height="300" Width="300">
+    <StackPanel Spacing="6">
 
-        <!-- 1. Фон -->
-        <Rectangle RadiusX="12" RadiusY="12"
-                   Fill="{DynamicResource secondary_background}"
-                   Margin="3"/>
+        <Grid Height="300" Width="300">
 
-        <!-- 2. Превью + лейбл с именем файла -->
-        <Border x:Name="ImageLayer"
-                CornerRadius="12"
-                ClipToBounds="True"
-                Margin="3"
-                IsVisible="False">
-            <Grid>
-                <Image x:Name="PreviewImage"
-                       Stretch="UniformToFill">
-                </Image>
+            <Rectangle RadiusX="12" RadiusY="12"
+                       Fill="{DynamicResource secondary_background}"
+                       Margin="3"/>
 
-                <!-- Лейбл внизу поверх изображения -->
-                <Border VerticalAlignment="Bottom"
-                        Background="#CC000000"
-                        Padding="10,7">
-                    <TextBlock x:Name="FileInfoText"
-                               Foreground="White"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               TextAlignment="Center"
-                               TextTrimming="CharacterEllipsis"/>
-                </Border>
-            </Grid>
-        </Border>
+            <Border x:Name="ImageLayer"
+                    CornerRadius="12"
+                    ClipToBounds="True"
+                    Margin="3"
+                    IsVisible="False">
+                <Grid>
+                    <Image x:Name="PreviewImage"
+                           Stretch="UniformToFill">
+                    </Image>
 
-        <!-- 3. Рамка поверх всего -->
-        <Rectangle x:Name="DropBorderRect"
-                   RadiusX="14" RadiusY="14"
-                   Fill="Transparent"
-                   IsHitTestVisible="False"
-                   Stroke="{DynamicResource border}"
-                   StrokeThickness="3"
-                   StrokeDashArray="2, 1"/>
-
-        <!-- 4. Контент зоны дропа -->
-        <StackPanel x:Name="DropContent"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Spacing="14"
-                    Margin="36,28">
-
-            <Border x:Name="IconCircleBorder"
-                    Width="62" Height="62"
-                    CornerRadius="31"
-                    BorderBrush="{DynamicResource border}"
-                    BorderThickness="1.5"
-                    Background="{DynamicResource elevated}"
-                    HorizontalAlignment="Center">
-                <Viewbox Width="24" Height="24" ClipToBounds="False">
-                    <Path x:Name="IconPath"
-                          Data="{DynamicResource AddImage}"
-                          Stroke="{DynamicResource secondary_text}"
-                          StrokeThickness="1.8"
-                          StrokeLineCap="Round"
-                          StrokeJoin="Round"
-                          Margin="-3,-2,0,0"/>
-                </Viewbox>
+                    <Border VerticalAlignment="Bottom"
+                            Background="#CC000000"
+                            Padding="10,7">
+                        <TextBlock x:Name="FileInfoText"
+                                   Foreground="White"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   TextAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Border>
+                </Grid>
             </Border>
 
-            <TextBlock Text="Перетащите фото или нажмите для выбора"
-                       TextAlignment="Center"
-                       HorizontalAlignment="Center"
-                       TextWrapping="Wrap"
-                       FontWeight="SemiBold"
-                       FontSize="15"
-                       Foreground="{DynamicResource main_text}"
-                       MaxWidth="230"/>
+            <Rectangle x:Name="DropBorderRect"
+                       RadiusX="14" RadiusY="14"
+                       Fill="Transparent"
+                       IsHitTestVisible="False"
+                       Stroke="{DynamicResource border}"
+                       StrokeThickness="3"
+                       StrokeDashArray="2, 1"/>
 
-            <TextBlock Text="PNG, JPG до 2 МБ"
-                       TextAlignment="Center"
-                       FontSize="13"
-                       Foreground="{DynamicResource secondary_text}"/>
-        </StackPanel>
+            <StackPanel x:Name="DropContent"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="14"
+                        Margin="36,28">
 
-        <!-- 5. Кнопка сброса -->
-        <Button x:Name="ClearButton"
-                Classes="Secondary"
+                <Border x:Name="IconCircleBorder"
+                        Width="62" Height="62"
+                        CornerRadius="31"
+                        BorderBrush="{DynamicResource border}"
+                        BorderThickness="1.5"
+                        Background="{DynamicResource elevated}"
+                        HorizontalAlignment="Center">
+                    <Viewbox Width="24" Height="24" ClipToBounds="False">
+                        <Path x:Name="IconPath"
+                              Data="{DynamicResource AddImage}"
+                              Stroke="{DynamicResource secondary_text}"
+                              StrokeThickness="1.8"
+                              StrokeLineCap="Round"
+                              StrokeJoin="Round"
+                              Margin="-3,-2,0,0"/>
+                    </Viewbox>
+                </Border>
+
+                <TextBlock Text="Перетащите фото или нажмите для выбора"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           FontWeight="SemiBold"
+                           FontSize="15"
+                           Foreground="{DynamicResource main_text}"
+                           MaxWidth="230"/>
+
+                <TextBlock Text="PNG, JPG до 2 МБ"
+                           TextAlignment="Center"
+                           FontSize="13"
+                           Foreground="{DynamicResource secondary_text}"/>
+            </StackPanel>
+
+            <Button x:Name="ClearButton"
+                    Classes="Secondary"
+                    IsVisible="False"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Height="28" Width="28"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    CornerRadius="14"
+                    Click="OnClearButtonClick"
+                    Margin="0,6,6,0"
+                    ToolTip.Tip="Удалить изображение">
+                <Viewbox Width="10" Height="10" ClipToBounds="False"
+                         Margin="-6,-1,0,0">
+                    <Path Data="{DynamicResource Сross}"
+                          StrokeThickness="2.5"/>
+                </Viewbox>
+            </Button>
+
+        </Grid>
+
+        <Border x:Name="CompressionWarningText"
                 IsVisible="False"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Height="28" Width="28"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                CornerRadius="14"
-                Click="OnClearButtonClick"
-                Margin="0,6,6,0"
-                ToolTip.Tip="Удалить изображение">
-            <Viewbox Width="10" Height="10" ClipToBounds="False"
-                     Margin="-6,-1,0,0">
-                <Path Data="{DynamicResource Сross}"
-                      StrokeThickness="2.5"/>
-            </Viewbox>
-        </Button>
+                Background="{DynamicResource elevated}"
+                CornerRadius="8"
+                Padding="10,7">
+            <TextBlock Text="Файл превышает 2 МБ — при сохранении будет сжат до 500 КБ"
+                       FontSize="13"
+                       Foreground="{DynamicResource warning}"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"/>
+        </Border>
 
-    </Grid>
+    </StackPanel>
+
 </UserControl>

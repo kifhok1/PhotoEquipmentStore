@@ -3,17 +3,114 @@
         xmlns:vm="using:PhotoEquipmentStore.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:behaviors="using:PhotoEquipmentStore.Behaviors"
         mc:Ignorable="d"
+        MinWidth="1280" MinHeight="800"
+        MaxWidth="1680" MaxHeight="1050"
         Width="1280" Height="800"
         x:Class="PhotoEquipmentStore.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Title="PhotoEquipmentStore"
-        IsEnabled="{Binding !IsBlocked}">
+        IsEnabled="{Binding !IsBlocked}"
+        xmlns:dialogVm="using:PhotoEquipmentStore.ViewModels.Notification"
+        xmlns:dialogViews="using:PhotoEquipmentStore.Views.Notification"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
+    <!-- Файл: Главное окно: кастомная рамка без системного декора, перетаскивание, изменение размера, область контента и уведомления. -->
 
+    <!-- Контекст данных для предпросмотра в дизайнере Avalonia -->
     <Design.DataContext>
         <vm:MainViewModel/>
     </Design.DataContext>
 
-    <!-- ContentControl для отображения текущего представления -->
-    <ContentControl Content="{Binding CurrentViewModel}" />
+    <!-- Внешняя рамка окна: скругление 12px, тень, фон ApplicationBackground -->
+    <Border CornerRadius="12"
+            ClipToBounds="False">
+        <Panel>
+
+            <Border CornerRadius="12" ClipToBounds="True">
+                <Panel>
+
+                    <!-- Невидимая полоса 20px сверху — зона перетаскивания окна (DragWindowBehavior) -->
+                    <Border Height="20" VerticalAlignment="Top"
+                            Background="#01000000" ZIndex="100">
+                        <i:Interaction.Behaviors>
+                            <behaviors:DragWindowBehavior/>
+                        </i:Interaction.Behaviors>
+                    </Border>
+
+                    <!-- Область контента: текущая страница по навигации ViewModel -->
+                    <ContentControl Content="{Binding CurrentViewModel}" />
+
+                    <!-- Оверлей модального уведомления -->
+                    <ContentControl Content="{Binding Notification}"
+                                    IsVisible="{Binding IsNotificationVisible}">
+                        <ContentControl.DataTemplates>
+                            <DataTemplate DataType="dialogVm:NotificationViewModel">
+                                <dialogViews:NotificationView/>
+                            </DataTemplate>
+                        </ContentControl.DataTemplates>
+                    </ContentControl>
+                </Panel>
+            </Border>
+
+            <!-- Невидимые зоны изменения размера окна по краям (WindowResizeBehavior) -->
+            <Border Height="8" VerticalAlignment="Top" Background="#01000000" ZIndex="200">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="North"/>
+                </i:Interaction.Behaviors>
+            </Border>
+            <Border Height="8" VerticalAlignment="Bottom" Background="#01000000" ZIndex="200">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="South"/>
+                </i:Interaction.Behaviors>
+            </Border>
+            <Border Width="8" HorizontalAlignment="Left" Background="#01000000" ZIndex="200">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="West"/>
+                </i:Interaction.Behaviors>
+            </Border>
+            <Border Width="8" HorizontalAlignment="Right" Background="#01000000" ZIndex="200">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="East"/>
+                </i:Interaction.Behaviors>
+            </Border>
+
+            <!-- Угловые зоны изменения размера (диагональное масштабирование) -->
+            <Border Width="16" Height="16"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Background="#01000000" ZIndex="201">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="NorthWest"/>
+                </i:Interaction.Behaviors>
+            </Border>
+            <Border Width="16" Height="16"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Background="#01000000" ZIndex="201">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="NorthEast"/>
+                </i:Interaction.Behaviors>
+            </Border>
+            <Border Width="16" Height="16"
+                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Background="#01000000" ZIndex="201">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="SouthWest"/>
+                </i:Interaction.Behaviors>
+            </Border>
+            <Border Width="16" Height="16"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Background="#01000000" ZIndex="201">
+                <i:Interaction.Behaviors>
+                    <behaviors:WindowResizeBehavior Edge="SouthEast"/>
+                </i:Interaction.Behaviors>
+            </Border>
+
+        </Panel>
+    </Border>
 </Window>

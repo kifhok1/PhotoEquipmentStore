@@ -1,6 +1,9 @@
 using Avalonia.Media.Imaging;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Модель товара для экрана управления каталогом.
+/// </summary>
+
 
 public class ProductsShow
 {
@@ -18,26 +21,44 @@ public class ProductsShow
     private string supplierName;
     private Bitmap image;
 
+    /// <summary>
+
+    /// Уникальный идентификатор записи.
+
+    /// </summary>
+
     public int Id
     {
         get => id;
         set => id = value;
     }
+    /// <summary>
+    /// Наименование или ФИО.
+    /// </summary>
     public string Name
     {
         get => name;
         set => name = value;
     }
+    /// <summary>
+    /// Цена товара.
+    /// </summary>
     public int Price
     {
         get => price;
         set => price = value;
     }
+    /// <summary>
+    /// Размер скидки.
+    /// </summary>
     public int Discount
     {
         get => discount;
         set => discount = value;
     }
+    /// <summary>
+    /// Количество на складе или в позиции.
+    /// </summary>
     public int Quantity
     {
         get => quantity;
@@ -83,12 +104,24 @@ public class ProductsShow
         set => image = value;
     }
 
+    /// <summary>
+
+    /// Описание товара.
+
+    /// </summary>
+
     public string Description
     {
         get => description;
         set => description = value;
     }
-    
+
+    /// <summary>
+
+    /// Признак наличия изображения.
+
+    /// </summary>
+
     public bool IsVisibleImage
     {
         get => image != null;
@@ -102,7 +135,7 @@ public class ProductsShow
         int quantity,
         int categoryId,
         string categoryName,
-        int manufacturerId, 
+        int manufacturerId,
         string manufacturerName,
         int supplierId,
         string supplierName,
@@ -123,7 +156,7 @@ public class ProductsShow
         Description = description;
         Image = image;
     }
-    
+
     public ProductsShow(
         int id,
         string name,
@@ -132,7 +165,7 @@ public class ProductsShow
         int quantity,
         int categoryId,
         string categoryName,
-        int manufacturerId, 
+        int manufacturerId,
         string manufacturerName,
         int supplierId,
         string supplierName,

@@ -6,6 +6,7 @@
              x:Class="PhotoEquipmentStore.Controls.LoginBox"
              x:Name="This"
              Background="{DynamicResource main_background}">
+    <!-- Файл: Карточка формы входа: заголовок, ошибка БД, поля логин/пароль, кнопка «Войти». -->
     <Border Background="{DynamicResource elevated}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -13,7 +14,7 @@
             Width="400"
             ClipToBounds="True">
         <Panel>
-            <Border Height="3" 
+            <Border Height="3"
                     Width="600"
                     CornerRadius="16"
                     Background="{DynamicResource line}"
@@ -56,7 +57,7 @@
                 <TextBlock Classes="Caption">Пароль</TextBlock>
                 <TextBox Watermark="qwerty12345" PasswordChar="*" Classes="revealPasswordButton" Text="{Binding #This.PasswordText, Mode=TwoWay}"/>
             </StackPanel>
-            <Button HorizontalAlignment="Stretch" 
+            <Button HorizontalAlignment="Stretch"
                     Content="Войти"
                     Command="{Binding #This.LoginCommand}"/>
         </StackPanel>

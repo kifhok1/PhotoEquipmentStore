@@ -2,147 +2,236 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:PhotoEquipmentStore.ViewModels.Pages.Admin"
+             xmlns:models="clr-namespace:PhotoEquipmentStore.Models"
+             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls"
+             xmlns:behaviors="clr-namespace:PhotoEquipmentStore.Behaviors"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Admin.UserAddView"
-             xmlns:controls="clr-namespace:PhotoEquipmentStore.Controls">
-    <Border Padding="10"
-            Background="{DynamicResource main_background}" >
-        <Grid ColumnDefinitions="* Auto" 
+             x:DataType="viewModels:UserAddViewModel"
+             xmlns:helpers="clr-namespace:PhotoEquipmentStore.Helper">
+    <!-- Файл: Форма пользователя: основные данные, учётные данные, фото, кнопки сохранения. -->
+
+    <Design.DataContext>
+        <viewModels:UserAddViewModel/>
+    </Design.DataContext>
+
+    <!-- Локальные стили представления (например, invalid TextBox) -->
+    <UserControl.Styles>
+
+        <Style Selector="TextBox.invalid">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+        <Style Selector="TextBox.invalid:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource error}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Padding="10" Background="{DynamicResource main_background}">
+        <Grid ColumnDefinitions="* Auto"
               RowDefinitions="Auto Auto Auto"
               ColumnSpacing="15"
               VerticalAlignment="Center">
-                <Border Grid.Column="0" Grid.Row="0"
-                        Background="{DynamicResource surface}"
-                        CornerRadius="10"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1"
-                        Padding="15 15 15 15">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Основная информация
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Foreground="{DynamicResource secondary_text}" Margin="0 2 0 20">
-                            Введите основные данные нового пользователя
-                        </TextBlock>
-                        <Grid RowDefinitions="Auto Auto" RowSpacing="20"
-                              ColumnDefinitions="* *" ColumnSpacing="10">
-                            <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Grid.ColumnSpan="2">
-                                <TextBlock Classes="Body">
-                                    ФИО
-                                </TextBlock>
-                                <TextBox Watermark="Иванов Иван Иванович" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Роль
-                                </TextBlock>
-                                <ComboBox PlaceholderText="Выберите роль пользователя"
-                                          HorizontalContentAlignment="Stretch">
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                    <ComboBoxItem>1231221312</ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Номер телефона
-                                </TextBlock>
-                               <TextBox Watermark="+7(999) 999-99-99"/>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="0" Grid.Row="1"
-                        Background="{DynamicResource surface}"
-                        CornerRadius="10"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1"
-                        Padding="15 20 15 15"
-                        Margin="0 20 0 0">
-                    <Panel>
-                        <TextBlock Classes="H3"
-                                   VerticalAlignment="Top"
-                                   HorizontalAlignment="Left">
-                            Учётные данные
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Foreground="{DynamicResource secondary_text}"
-                                   Margin="0 22 0 20"
-                                   VerticalAlignment="Top"
-                                   HorizontalAlignment="Left">
-                            Введите информацию о учётных данных пользователя
-                        </TextBlock>
-                        <Grid ColumnDefinitions="* * Auto" ColumnSpacing="10"
-                              VerticalAlignment="Bottom" Margin="0 0 0 25">
-                            <StackPanel Grid.Column="0" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Логин
-                                </TextBlock>
-                                <TextBox Watermark="ivanov_ivan" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock Classes="Body">
-                                    Пароль
-                                </TextBlock>
-                                <TextBox Watermark="qwerty1234" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" Spacing="2">
-                                <TextBlock Classes="Body" Foreground="{DynamicResource surface}">
-                                    3232
-                                </TextBlock>
-                                <Button Classes="Secondary"
-                                        Padding="8 8"
-                                        ToolTip.Tip="Генерация пароля">
-                                    <Viewbox Height="14"
-                                             Width="14"
-                                             ClipToBounds="False">
-                                        <Path StrokeThickness="1.5"
-                                              Data="{DynamicResource Random}"/>
-                                    </Viewbox>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Panel>
-                </Border>
-        
-                <Border Grid.Column="1" Grid.Row="0"  Grid.RowSpan="2"
-                        Background="{DynamicResource surface}" 
-                        CornerRadius="10"
-                        Padding="14 15 14 15"
-                        Width="330"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1">
-                    <StackPanel>
-                        <TextBlock Classes="H3">
-                            Изображение пользователя
-                        </TextBlock>
-                        <TextBlock Classes="Body"
-                                   Margin="0 5 0 20"
-                                   Foreground="{DynamicResource secondary_text}" 
-                                   TextWrapping="Wrap">
-                            Фото для отображения пользователя в системе
-                        </TextBlock>
-                        <controls:ImageBox/>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="1" Grid.Row="2" Background="{DynamicResource surface}" 
-                        CornerRadius="10"
-                        Padding="14 15 14 15"
-                        Width="330"
-                        Margin="0 30 0 0"
-                        BorderBrush="{DynamicResource border}"
-                        BorderThickness="1">
-                    <StackPanel Spacing="10">
-                        <Button HorizontalAlignment="Stretch">
-                            Сохранить
-                        </Button>
-                        <Button HorizontalAlignment="Stretch"
-                                Classes="Secondary">
-                            Сбросить
-                        </Button>
-                    </StackPanel>
-                </Border>
+
+            <Border Grid.Column="0" Grid.Row="0"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="15">
+                <StackPanel>
+                    <TextBlock Classes="H3">Основная информация</TextBlock>
+                    <TextBlock Classes="Body"
+                               Foreground="{DynamicResource secondary_text}"
+                               Margin="0 2 0 20">
+                        Введите основные данные нового пользователя
+                    </TextBlock>
+
+                    <Grid RowDefinitions="Auto Auto" RowSpacing="12"
+                          ColumnDefinitions="* *" ColumnSpacing="10">
+
+                        <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Spacing="2">
+                            <TextBlock Classes="Body">ФИО</TextBlock>
+                            <TextBox x:Name="UserNameBox"
+                                     Watermark="Иванов Иван Иванович"
+                                     MaxLength="150"
+                                     Text="{Binding UserName}"
+                                     Classes.invalid="{Binding #UserNameBox.(helpers:InputValidation.InputError),
+                                     Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
+                                <i:Interaction.Behaviors>
+                                    <behaviors:RussianNameInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #UserNameBox.(helpers:InputValidation.InputError),
+                                       Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #UserNameBox.(helpers:InputValidation.InputError)}"/>
+
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding UserNameError,
+                                       Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding UserNameError}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2">
+                            <TextBlock Classes="Body">Роль</TextBlock>
+                            <ComboBox PlaceholderText="Выберите роль пользователя"
+                                      HorizontalContentAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Roles}"
+                                      SelectedItem="{Binding SelectedRole}"
+                                      DisplayMemberBinding="{Binding Title}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2">
+                            <TextBlock Classes="Body">Номер телефона</TextBlock>
+                            <TextBox x:Name="PhoneBox"
+                                     Watermark="+7(999) 999-99-99"
+                                     Text="{Binding PhoneNumber}"
+                                     Classes.invalid="{Binding #PhoneBox.(helpers:InputValidation.InputError),
+                                     Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
+                                <i:Interaction.Behaviors>
+                                    <behaviors:PhoneMaskBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #PhoneBox.(helpers:InputValidation.InputError),
+                                       Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #PhoneBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="0" Grid.Row="1"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="15"
+                    Margin="0 20 0 0">
+                <StackPanel>
+                    <TextBlock Classes="H3">Учётные данные</TextBlock>
+                    <TextBlock Classes="Body"
+                               Foreground="{DynamicResource secondary_text}"
+                               Margin="0 2 0 20">
+                        Введите информацию об учётных данных пользователя
+                    </TextBlock>
+
+                    <Grid ColumnDefinitions="* * Auto" ColumnSpacing="10">
+
+                        <StackPanel Grid.Column="0" Spacing="2">
+                            <TextBlock Classes="Body">Логин</TextBlock>
+                            <TextBox x:Name="LoginBox"
+                                     Watermark="ivanov_ivan"
+                                     MaxLength="50"
+                                     Text="{Binding Login}"
+                                     Classes.invalid="{Binding #LoginBox.(helpers:InputValidation.InputError),
+                                     Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
+                                <i:Interaction.Behaviors>
+                                    <behaviors:LatinInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #LoginBox.(helpers:InputValidation.InputError),
+                                       Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #LoginBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Spacing="2">
+                            <TextBlock Classes="Body">Пароль</TextBlock>
+                            <TextBox x:Name="PasswordBox"
+                                     Watermark="qwerty1234"
+                                     Text="{Binding Password}"
+                                     Classes.invalid="{Binding #PasswordBox.(helpers:InputValidation.InputError),
+                                     Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <!-- Поведения: отслеживание активности / инъекция StorageProvider -->
+                                <i:Interaction.Behaviors>
+                                    <behaviors:LatinInputBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBlock Classes="Caption"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource error}"
+                                       IsVisible="{Binding #PasswordBox.(helpers:InputValidation.InputError),
+                                       Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                       Text="{Binding #PasswordBox.(helpers:InputValidation.InputError)}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Spacing="2">
+                            <TextBlock Classes="Body" Opacity="0">_</TextBlock>
+                            <Button Classes="Secondary"
+                                    Padding="8"
+                                    ToolTip.Tip="Сгенерировать пароль"
+                                    Command="{Binding GeneratePasswordCommand}">
+                                <Viewbox Width="14" Height="14"
+                                         ClipToBounds="False">
+                                    <Path StrokeThickness="1.5" Data="{DynamicResource Random}"/>
+                                </Viewbox>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="14 15"
+                    Width="330">
+                <StackPanel>
+                    <TextBlock Classes="H3">Изображение пользователя</TextBlock>
+                    <TextBlock Classes="Body"
+                               Margin="0 5 0 20"
+                               Foreground="{DynamicResource secondary_text}"
+                               TextWrapping="Wrap">
+                        Фото для отображения пользователя в системе
+                    </TextBlock>
+                    <!-- Компонент загрузки изображения -->
+                    <controls:ImageBox ImageSource="{Binding UserImage, Mode=TwoWay}"
+                                       HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Grid.Row="2"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10"
+                    BorderBrush="{DynamicResource border}"
+                    BorderThickness="1"
+                    Padding="14 15"
+                    Width="330"
+                    Margin="0 20 0 0">
+                <StackPanel Spacing="10">
+                    <Button HorizontalAlignment="Stretch"
+                            Command="{Binding SaveCommand}">
+                        Сохранить
+                    </Button>
+                    <Button HorizontalAlignment="Stretch"
+                            Classes="Secondary"
+                            Command="{Binding ResetCommand}">
+                        Сбросить
+                    </Button>
+                </StackPanel>
+            </Border>
+
         </Grid>
     </Border>
 </UserControl>

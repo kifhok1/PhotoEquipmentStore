@@ -4,14 +4,24 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
-public class RussianNameInputBehavior: Behavior<TextBox>
+/// <summary>
+/// Поведение ввода ФИО: разрешает только русские буквы и пробелы, не более трёх слов.
+/// Обрабатывает событие <see cref="InputElement.TextInputEvent"/>.
+/// </summary>
+public class RussianNameInputBehavior : Behavior<TextBox>
 {
     private static readonly Regex RussianOrSpace =
         new(@"^[а-яёА-ЯЁ ]+$", RegexOptions.Compiled);
 
+    private const string ErrorText = "Только русские буквы";
+
+    /// <summary>
+    /// Подписывается на ввод текста в туннельном режиме.
+    /// </summary>
     protected override void OnAttached()
     {
         base.OnAttached();
@@ -19,40 +29,47 @@ public class RussianNameInputBehavior: Behavior<TextBox>
             InputElement.TextInputEvent, OnTextInput, RoutingStrategies.Tunnel);
     }
 
+    /// <summary>
+    /// Отписывается от обработчика ввода текста.
+    /// </summary>
     protected override void OnDetaching()
     {
         AssociatedObject!.RemoveHandler(InputElement.TextInputEvent, OnTextInput);
         base.OnDetaching();
     }
 
+    /// <summary>
+    /// Проверяет символы, ограничивает количество слов и выставляет сообщение об ошибке.
+    /// </summary>
     private void OnTextInput(object? sender, TextInputEventArgs e)
     {
         if (string.IsNullOrEmpty(e.Text)) return;
 
-        // Только русские буквы и пробел
         if (!RussianOrSpace.IsMatch(e.Text))
         {
             e.Handled = true;
+            InputValidation.SetInputError(AssociatedObject!, ErrorText);
             return;
         }
 
         var tb = AssociatedObject!;
         var current = tb.Text ?? "";
 
-        // Запрет двойного пробела
         if (e.Text == " " && (string.IsNullOrEmpty(current) || current.EndsWith(" ")))
         {
             e.Handled = true;
+            InputValidation.SetInputError(tb, ErrorText);
             return;
         }
 
-        // Не более 3 слов
         var future = current.Insert(Math.Clamp(tb.CaretIndex, 0, current.Length), e.Text);
-        var wordCount = future.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
-        if (wordCount > 3)
+        if (future.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries).Length > 3)
         {
             e.Handled = true;
+            InputValidation.SetInputError(tb, "Не более трёх слов");
+            return;
         }
-    }
 
+        InputValidation.SetInputError(tb, string.Empty);
+    }
 }

@@ -1,0 +1,96 @@
+using System.Reactive;
+using Avalonia;
+using Avalonia.Controls;
+using PhotoEquipmentStore.Models;
+using ReactiveUI;
+
+namespace PhotoEquipmentStore.Controls;
+
+/// <summary>
+/// Элемент строки корзины заказа с кнопками изменения количества.
+/// </summary>
+
+
+public partial class CartItem : UserControl
+{
+    public static readonly StyledProperty<OrderCartItem?> ItemProperty =
+        AvaloniaProperty.Register<CartItem, OrderCartItem?>(nameof(Item));
+
+    public static readonly StyledProperty<ReactiveCommand<OrderCartItem, Unit>> IncreaseCommandProperty =
+        AvaloniaProperty.Register<CartItem, ReactiveCommand<OrderCartItem, Unit>>(nameof(IncreaseCommand));
+
+    public static readonly StyledProperty<ReactiveCommand<OrderCartItem, Unit>> DecreaseCommandProperty =
+        AvaloniaProperty.Register<CartItem, ReactiveCommand<OrderCartItem, Unit>>(nameof(DecreaseCommand));
+
+    public static readonly StyledProperty<ReactiveCommand<OrderCartItem, Unit>> RemoveCommandProperty =
+        AvaloniaProperty.Register<CartItem, ReactiveCommand<OrderCartItem, Unit>>(nameof(RemoveCommand));
+
+    /// <summary>
+
+    /// Модель позиции корзины.
+
+    /// </summary>
+
+    public OrderCartItem? Item
+    {
+        get => GetValue(ItemProperty);
+        set => SetValue(ItemProperty, value);
+    }
+
+    /// <summary>
+
+    /// Команда увеличения количества в корзине.
+
+    /// </summary>
+
+    public ReactiveCommand<OrderCartItem, Unit> IncreaseCommand
+    {
+        get => GetValue(IncreaseCommandProperty);
+        set => SetValue(IncreaseCommandProperty, value);
+    }
+
+    /// <summary>
+
+    /// Команда уменьшения количества в корзине.
+
+    /// </summary>
+
+    public ReactiveCommand<OrderCartItem, Unit> DecreaseCommand
+    {
+        get => GetValue(DecreaseCommandProperty);
+        set => SetValue(DecreaseCommandProperty, value);
+    }
+
+    /// <summary>
+
+    /// Команда удаления позиции из корзины.
+
+    /// </summary>
+
+    public ReactiveCommand<OrderCartItem, Unit> RemoveCommand
+    {
+        get => GetValue(RemoveCommandProperty);
+        set => SetValue(RemoveCommandProperty, value);
+    }
+
+    public CartItem()
+    {
+        InitializeComponent();
+
+        if (Design.IsDesignMode)
+        {
+            Item = new OrderCartItem(new OrderProductShow
+            {
+                Id = 1,
+                Name = "Sony Alpha 7 IV Body",
+                Price = 224820,
+                DiscountPercent = 0,
+                Quantity = 12,
+                CategoryName = "Cameras",
+                ManufacturerName = "Sony",
+                SupplierName = "PhotoPro",
+                Description = "Полнокадровая беззеркальная камера."
+            });
+        }
+    }
+}

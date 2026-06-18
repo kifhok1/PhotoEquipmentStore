@@ -1,12 +1,13 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: Стиль RadioButton.SelectPage — переключатель вкладок справочников. -->
     <Design.PreviewWith>
       <Border Padding="20" Background="{DynamicResource main_background}">
         <Border BorderBrush="{DynamicResource border}"
                 BorderThickness="1.5"
                 CornerRadius="6"
                 Background="{DynamicResource secondary_background}">
-          <StackPanel Spacing="10" 
+          <StackPanel Spacing="10"
                       Orientation="Horizontal">
             <RadioButton Content="Роли" Classes="SelectPage" IsChecked="True"/>
             <RadioButton Content="Поставщики" Classes="SelectPage"/>
@@ -17,7 +18,7 @@
         </Border>
       </Border>
     </Design.PreviewWith>
-    
+
     <Style Selector="RadioButton.SelectPage">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{DynamicResource secondary_text}" />
@@ -42,14 +43,13 @@
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                 Text="{TemplateBinding Content}"
-                Foreground="{TemplateBinding Foreground}" 
+                Foreground="{TemplateBinding Foreground}"
                 />
             </Grid>
           </Border>
         </ControlTemplate>
       </Setter>
-      
-      <!--  PointerOver State  -->
+
       <Style Selector="^:pointerover /template/ TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource main_text}" />
       </Style>
@@ -58,8 +58,6 @@
         <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       </Style>
 
-
-      <!--  Pressed State  -->
       <Style Selector="^:pressed /template/ TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource main_text}" />
       </Style>
@@ -68,8 +66,6 @@
         <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       </Style>
 
-
-      <!--  Disabled State  -->
       <Style Selector="^:disabled /template/ TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource muted_text}" />
       </Style>
@@ -78,8 +74,6 @@
         <Setter Property="Background" Value="{DynamicResource secondary_background}" />
       </Style>
 
-
-      <!--  Checked State  -->
       <Style Selector="^:checked /template/ Border#RootBorder">
         <Setter Property="Background" Value="{DynamicResource primary}"/>
       </Style>

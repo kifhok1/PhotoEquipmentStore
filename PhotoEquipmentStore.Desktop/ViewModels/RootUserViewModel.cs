@@ -7,7 +7,10 @@ using PhotoEquipmentStore.Models;
 using PhotoEquipmentStore.ViewModels.Pages.Admin;
 using ReactiveUI;
 
-namespace PhotoEquipmentStore.ViewModels;
+namespace PhotoEquipmentStore.ViewModels;/// <summary>
+/// ViewModel системного пользователя root: ограниченное меню администрирования.
+/// </summary>
+
 
 public class RootUserViewModel : ViewModelBase
 {
@@ -16,15 +19,39 @@ public class RootUserViewModel : ViewModelBase
     private NavigationMenuItem _selectedNavigationMenuItem;
     private UserInfo _currentUser;
 
+    /// <summary>
+
+    /// Команда выхода из системы.
+
+    /// </summary>
+
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
-        
+
+    /// <summary>
+
+    /// Выбранный пункт бокового меню.
+
+    /// </summary>
+
     public NavigationMenuItem SelectedNavigationMenuItem
     {
         get => _selectedNavigationMenuItem;
         set => this.RaiseAndSetIfChanged(ref _selectedNavigationMenuItem, value);
     }
-    
+
+    /// <summary>
+
+    /// Коллекция пунктов навигационного меню.
+
+    /// </summary>
+
     public ObservableCollection<NavigationMenuItem> NavigationMenuItems { get; }
+
+    /// <summary>
+
+    /// Активная дочерняя ViewModel (экран входа или раздел роли).
+
+    /// </summary>
 
     public ViewModelBase CurrentViewModel
     {
@@ -32,55 +59,56 @@ public class RootUserViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _currentViewModel, value);
     }
 
+    /// <summary>
+
+    /// Информация о текущем пользователе раздела.
+
+    /// </summary>
+
     public UserInfo CurrentUser
     {
         get => _currentUser;
         set => this.RaiseAndSetIfChanged(ref _currentUser, value);
     }
-    
+
     public RootUserViewModel(MainViewModel mainViewModel, UserInfo userInfo)
     {
         _mainViewModel = mainViewModel;
         LogoutCommand = ReactiveCommand.Create(Logout);
-        
-        // Инициализация команд навигации
+
         ReactiveCommand<Unit, Unit> goToAddUserCommand = ReactiveCommand.Create(GoToAddUser);
         ReactiveCommand<Unit, Unit> goToDataBaseCommand = ReactiveCommand.Create(GoToDataBase);
-        
+
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
             new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
             new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand)
         };
-        
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
+
         _currentUser = userInfo;
+        _currentViewModel = new RootWelcomeViewModel(_currentUser);
     }
-    
-     // Конструктор для дизайнера
+
     [Obsolete("Design-time only")]
     public RootUserViewModel()
     {
-        // Инициализация для дизайна (без MainViewModel)
-        LogoutCommand = ReactiveCommand.Create(() => { }); // Пустая команда для дизайна
-        
+
+        LogoutCommand = ReactiveCommand.Create(() => { });
+
         ReactiveCommand<Unit, Unit> goToAddUserCommand = ReactiveCommand.Create(GoToAddUser);
         ReactiveCommand<Unit, Unit> goToDataBaseCommand = ReactiveCommand.Create(GoToDataBase);
-        
+
         NavigationMenuItems = new ObservableCollection<NavigationMenuItem>
         {
             new NavigationMenuItem("Создание пользователя", "UserAdd", goToAddUserCommand),
             new NavigationMenuItem("Работа с базой данных", "DataBase", goToDataBaseCommand)
         };
-        
-        _selectedNavigationMenuItem = NavigationMenuItems[0];
-        _currentViewModel = new UserAddViewModel();
-        _currentUser = new UserInfo("Ианов Иван", "Админ",
+
+        _currentUser = new UserInfo(0, "Ианов Иван", "Админ",
             new Bitmap("/Users/ivanbarysev/RiderProjects/PhotoEquipmentStore/PhotoEquipmentStore.Desktop/Assets/user-test.jpg"));
+        _currentViewModel = new RootWelcomeViewModel(_currentUser);
     }
-    
-    
+
     private void Logout()
     {
         _mainViewModel.GoToLoginCommand.Execute().Subscribe();

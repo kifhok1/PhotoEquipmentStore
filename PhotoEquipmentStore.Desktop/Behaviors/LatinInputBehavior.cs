@@ -3,13 +3,20 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
+using PhotoEquipmentStore.Helper;
 
 namespace PhotoEquipmentStore.Behaviors;
 
+/// <summary>
+/// Поведение латинского ввода: английские буквы, цифры и спецсимволы.
+/// Обрабатывает событие <see cref="InputElement.TextInputEvent"/>.
+/// </summary>
 public class LatinInputBehavior : Behavior<TextBox>
 {
     private static readonly Regex Allowed =
         new(@"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{};':"",./<>?\\|`~]+$", RegexOptions.Compiled);
+
+    private const string ErrorText = "Только английские буквы, цифры и спецсимволы";
 
     protected override void OnAttached()
     {
@@ -27,6 +34,13 @@ public class LatinInputBehavior : Behavior<TextBox>
     private void OnTextInput(object? sender, TextInputEventArgs e)
     {
         if (!string.IsNullOrEmpty(e.Text) && !Allowed.IsMatch(e.Text))
+        {
             e.Handled = true;
+            InputValidation.SetInputError(AssociatedObject!, ErrorText);
+        }
+        else
+        {
+            InputValidation.SetInputError(AssociatedObject!, string.Empty);
+        }
     }
 }

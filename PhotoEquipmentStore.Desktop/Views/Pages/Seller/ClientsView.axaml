@@ -7,128 +7,152 @@
              xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Seller"
              xmlns:controls="using:PhotoEquipmentStore.Controls"
              x:DataType="vm:ClientsViewModel"
+             xmlns:models="using:PhotoEquipmentStore.Models"
              xmlns:conv="using:PhotoEquipmentStore.Converters">
+    <!-- Файл: Список клиентов с поиском, DataGrid и пагинацией. -->
+
     <Design.DataContext>
         <vm:ClientsViewModel/>
     </Design.DataContext>
-    
+
+    <!-- Локальные ресурсы и конвертеры представления -->
     <UserControl.Resources>
         <conv:ListToClientShowCollectionConverter x:Key="ListToClientsConverter"/>
     </UserControl.Resources>
-    
+
     <Border Background="{DynamicResource main_background}" Padding="20">
-                    <Grid RowSpacing="15" RowDefinitions="Auto *">
-                        <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
-                                Padding="10" Background="{DynamicResource surface}"
-                                CornerRadius="10">
-                            <Grid ColumnDefinitions="* Auto">
-                                <StackPanel Grid.Column="0" Spacing="4">
-                                    <TextBlock Classes="Body">
-                                        Поиск клиента по ФИО
-                                    </TextBlock>
-                                    <TextBox Watermark="Найти клиента..." Width="350" HorizontalAlignment="Left"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" Spacing="4">
-                                    <TextBlock Classes="Body">
-                                    </TextBlock>
-                                    <Button Padding="15 6">
-                                        Сбросить
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                        
-                        <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
-                                            CornerRadius="10"
-                                            BorderThickness="1"
-                                            ClipToBounds="True">
-                                <Border ClipToBounds="True"
-                                        CornerRadius="10"
-                                        BorderThickness="0"
-                                        Background="{DynamicResource secondary_background}"
-                                        BorderBrush="{DynamicResource border}">
-                                    <Grid RowDefinitions="* Auto" RowSpacing="10">
-                                        <DataGrid IsReadOnly="True"
-                                                  AutoGenerateColumns="False"
-                                                  ItemsSource="{Binding CurrentClients}"
-                                                  CanUserSortColumns="False"
-                                                  BorderBrush="{DynamicResource border}"
-                                                  BorderThickness="0 0 0 1">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn
-                                                    Header="ФИО клиента"
-                                                    Binding="{Binding NameShow}"
-                                                    Width="*"/>
-                                                <DataGridTextColumn
-                                                    Header="Номер телефона клиента"
-                                                    Binding="{Binding PhoneNumberShow}"
-                                                    Foreground="{DynamicResource secondary_text}"
-                                                    Width="Auto"/>
-                                                <DataGridTextColumn
-                                                    Header="Общая сумма покупок клиентов"
-                                                    Binding="{Binding TotalPurchasesShow}"
-                                                    Foreground="{DynamicResource accent}"/>
-                                                
-                                                <DataGridTemplateColumn Header="Количетво покупок">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Label Classes="ShowFile" 
-                                                                   Margin="15 0"
-                                                                   Padding="10 4"
-                                                                   HorizontalAlignment="Left"
-                                                                   Content="{Binding CountOrdersShow}"/>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                                
-                                                <DataGridTemplateColumn Header="Действия">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Horizontal" Spacing="18"
-                                                                        Margin=" 18 0 18 0">
-                                                                <Button Classes="Ghost"
-                                                                        ToolTip.Tip="Редактировать"
-                                                                        Padding="0" ClipToBounds="False">
-                                                                    <Viewbox Width="14"
-                                                                             Height="14"
-                                                                             ClipToBounds="False">
-                                                                        <Path Data="{DynamicResource Edit}"/>
-                                                                    </Viewbox>
-                                                                </Button>
-                                                                <Button Classes="Ghost"
-                                                                        ToolTip.Tip="Удалить"
-                                                                        Padding="0">
-                                                                    <Viewbox Width="14"
-                                                                             Height="14"
-                                                                             ClipToBounds="False">
-                                                                        <Path Data="{DynamicResource Delete}"/>
-                                                                    </Viewbox>
-                                                                </Button>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                                
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                        <Panel Grid.Row="1"
-                                               Margin="10 0  10 8">
-                                            <TextBlock  Classes="Body"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding CountClients}"/>
-                                            
-                                            <controls:PaginationButtons Items="{Binding Clients}"
-                                                                        CurrentPageItems="{Binding CurrentClients,
-                                                                        Converter={StaticResource ListToClientsConverter}, 
-                                                                        Mode=OneWayToSource}"
-                                                                        PageSize="20"
-                                                                        HorizontalAlignment="Right"
-                                                                        VerticalAlignment="Center"/>
-                                        </Panel>
-                                    </Grid>
-                                </Border>
-                        </Border>
+        <Grid RowSpacing="15" RowDefinitions="Auto *">
+
+            <Border Grid.Row="0"
+                    BorderThickness="1.5"
+                    BorderBrush="{DynamicResource border}"
+                    Padding="10"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="10">
+                <Grid ColumnDefinitions="* Auto">
+                    <StackPanel Grid.Column="0" Spacing="4">
+                        <TextBlock Classes="Body">Поиск клиента по ФИО</TextBlock>
+                        <TextBox Watermark="Найти клиента..."
+                                 Width="350"
+                                 HorizontalAlignment="Left"
+                                 Text="{Binding SearchText}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="4">
+                        <TextBlock Classes="Body"/>
+                        <Button Padding="15 6"
+                                Command="{Binding ResetSearchCommand}">
+                            Сбросить
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    BorderBrush="{DynamicResource border}"
+                    CornerRadius="10"
+                    BorderThickness="1"
+                    ClipToBounds="True">
+                <Border ClipToBounds="True"
+                        CornerRadius="10"
+                        BorderThickness="0"
+                        Background="{DynamicResource secondary_background}"
+                        BorderBrush="{DynamicResource border}">
+                    <Grid RowDefinitions="* Auto" RowSpacing="10">
+
+                        <!-- Таблица данных (только чтение) -->
+                        <DataGrid Grid.Row="0"
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False"
+                                  ItemsSource="{Binding CurrentClients}"
+                                  SelectedItem="{Binding SelectedClient}"
+                                  CanUserSortColumns="False"
+                                  BorderBrush="{DynamicResource border}"
+                                  BorderThickness="0 0 0 1">
+                            <!-- Определение колонок таблицы -->
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn
+                                    Header="ФИО клиента"
+                                    Binding="{Binding NameShow}"
+                                    Width="*"/>
+
+                                <DataGridTextColumn
+                                    Header="Номер телефона клиента"
+                                    Binding="{Binding PhoneNumberShow}"
+                                    Foreground="{DynamicResource secondary_text}"
+                                    Width="Auto"/>
+
+                                <DataGridTextColumn
+                                    Header="Общая сумма покупок клиентов"
+                                    Binding="{Binding TotalPurchasesShow}"
+                                    Foreground="{DynamicResource accent}"/>
+
+                                <DataGridTemplateColumn Header="Количество покупок">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Classes="ShowFile"
+                                                   Margin="15 0"
+                                                   Padding="10 4"
+                                                   HorizontalAlignment="Left"
+                                                   Content="{Binding CountOrdersShow}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Действия">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate x:DataType="models:ClientShow">
+                                            <StackPanel Orientation="Horizontal" Spacing="18" Margin="18 0">
+
+                                                <Button Classes="Ghost"
+                                                        ToolTip.Tip="Редактировать"
+                                                        Padding="0" ClipToBounds="False"
+                                                        Command="{Binding $parent[UserControl].((vm:ClientsViewModel)DataContext).EditCommand}"
+                                                        CommandParameter="{Binding}">
+                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
+                                                        <Path Data="{DynamicResource Edit}"/>
+                                                    </Viewbox>
+                                                </Button>
+
+                                                <Button Classes="Ghost"
+                                                        ToolTip.Tip="Удалить"
+                                                        Padding="0" ClipToBounds="False"
+                                                        Command="{Binding $parent[UserControl].((vm:ClientsViewModel)DataContext).DeleteCommand}"
+                                                        CommandParameter="{Binding}">
+                                                    <Viewbox Width="14" Height="14" ClipToBounds="False">
+                                                        <Path Data="{DynamicResource Delete}"/>
+                                                    </Viewbox>
+                                                </Button>
+
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Panel Grid.Row="1" Margin="10 0 10 8">
+                            <TextBlock Classes="Body"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding #ClientsPaginator.PageCountText}"/>
+
+                            <!-- Компонент постраничной навигации -->
+                            <controls:PaginationButtons
+                                x:Name="ClientsPaginator"
+                                Items="{Binding Clients}"
+                                CurrentPageItems="{Binding CurrentClients,
+                                Converter={StaticResource ListToClientsConverter},
+                                Mode=OneWayToSource}"
+                                PageSize="20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"/>
+                        </Panel>
                     </Grid>
                 </Border>
+            </Border>
+
+        </Grid>
+    </Border>
 </UserControl>

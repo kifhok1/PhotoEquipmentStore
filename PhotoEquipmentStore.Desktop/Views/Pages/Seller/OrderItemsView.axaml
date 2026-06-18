@@ -5,142 +5,384 @@
              mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="800"
              x:Class="PhotoEquipmentStore.Views.Pages.Seller.OrderItemsView"
              xmlns:vm="using:PhotoEquipmentStore.ViewModels.Pages.Seller"
+             xmlns:models="clr-namespace:PhotoEquipmentStore.Models"
              x:DataType="vm:OrderItemsViewModel">
-    
+    <!-- Файл: Детали заказа: позиции, суммы, информация о клиенте/продавце, возврат. -->
+
     <Design.DataContext>
         <vm:OrderItemsViewModel/>
     </Design.DataContext>
+
     <Border Background="{DynamicResource main_background}" Padding="20">
-                    <Grid RowSpacing="15" RowDefinitions="Auto * Auto">
-                        <Border Grid.Row="0" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
-                                Padding="10" Background="{DynamicResource surface}"
-                                CornerRadius="10">
-                            <Grid ColumnDefinitions="* Auto">
-                                    <TextBlock Grid.Column="0" Classes="Body" VerticalAlignment="Center">
-                                        Номер заказа: 213232132412314
-                                    </TextBlock>
-                                    <ComboBox Grid.Column="1" PlaceholderText="Статус заказа" Width="200"/>
-                            </Grid>
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="12">
+
+            <Border Grid.Row="0"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="14"
+                    Padding="20,16">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal"
+                                Spacing="14" VerticalAlignment="Center">
+                        <Border Width="44" Height="44"
+                                CornerRadius="11"
+                                Background="{DynamicResource primary}">
+                            <Viewbox Width="22" Height="22"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     ClipToBounds="False">
+                                <Path Data="{DynamicResource Сheque}"
+                                      Stroke="{DynamicResource white}"
+                                      StrokeThickness="1.6"
+                                      StrokeLineCap="Round"
+                                      StrokeJoin="Round"
+                                      Stretch="Uniform"/>
+                            </Viewbox>
                         </Border>
-                        
-                        <Border Grid.Row="1" BorderBrush="{DynamicResource border}"
-                                            CornerRadius="10"
-                                            BorderThickness="1"
-                                            ClipToBounds="True">
-                                <Border ClipToBounds="True"
-                                        CornerRadius="10"
-                                        BorderThickness="0"
-                                        Background="{DynamicResource secondary_background}"
-                                        BorderBrush="{DynamicResource border}">
-                                    <Grid RowDefinitions="* Auto" RowSpacing="10">
-                                        <DataGrid IsReadOnly="True"
-                                                  AutoGenerateColumns="False"
-                                                  ItemsSource="{Binding OrderItems}"
-                                                  CanUserSortColumns="False"
-                                                  BorderBrush="{DynamicResource border}"
-                                                  BorderThickness="0 0 0 1">
-                                            <DataGrid.Columns>
-                                                <DataGridTemplateColumn Header="Фото" Width="Auto" >
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <Border BorderBrush="{DynamicResource border}"
-                                                                    BorderThickness="2"
-                                                                    Width="45"
-                                                                    Height="45"
-                                                                    CornerRadius="12"
-                                                                    Background="{DynamicResource secondary_background}"
-                                                                    Margin="10 0 0 0">
-                                                                <Border ClipToBounds="True"
-                                                                        Width="42"
-                                                                        Height="42"
-                                                                        CornerRadius="12">
-                                                                    <Panel ClipToBounds="True">
-                                                                        <Viewbox HorizontalAlignment="Center"
-                                                                                VerticalAlignment="Center"
-                                                                                Height="20"
-                                                                                Width="20"
-                                                                                ClipToBounds="False"
-                                                                                Margin="0 0 4 4">
-                                                                            <Path Data="{DynamicResource NoImage}"
-                                                                                    StrokeThickness="1.8"
-                                                                                    Stroke="{DynamicResource secondary_text}"
-                                                                                    StrokeJoin="Round"
-                                                                                    StrokeLineCap="Round"/>
-                                                                        </Viewbox>
-                                                                    
-                                                                        <Image Source="{Binding ProductImage}" HorizontalAlignment="Stretch"
-                                                                               VerticalAlignment="Stretch"
-                                                                               Stretch="UniformToFill"/>
-                                                                    </Panel>
-                                                                </Border>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-                                
-                                <DataGridTemplateColumn Header="Название техники"
-                                                        Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ProductName}"
-                                                       TextWrapping="Wrap"
-                                                       VerticalAlignment="Center"
-                                                       Margin="12 0 0 0"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                
-                                <DataGridTextColumn
-                                    Header="Цена"
-                                    Foreground="{DynamicResource accent}"
-                                    Binding="{Binding Price}"
-                                    Width="Auto"/>
-                                <DataGridTextColumn
-                                    Header="Скидка"
-                                    Foreground="{DynamicResource secondary_text}"
-                                    Binding="{Binding Discount}"
-                                    Width="Auto"/>
-                                <DataGridTextColumn
-                                    Header="Кол-во на складе"
-                                    Foreground="{DynamicResource secondary_text}"
-                                    Binding="{Binding Quantity}"
-                                    Width="Auto"/>
-                        </DataGrid.Columns>
-                        </DataGrid>
-                                        <Panel Grid.Row="1"
-                        
-                        
-                                               Margin="10 0  10 8">
-                                            <TextBlock  Classes="Body"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding CountOrderItems}">
-                                            </TextBlock>
-                                        </Panel>
-                                    </Grid>
+                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="Заказ"
+                                           FontSize="18" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource main_text}"/>
+                                <Border Background="{DynamicResource primary_transparent}"
+                                        CornerRadius="6" Padding="8,3"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Order.Id, StringFormat='#{0}'}"
+                                               FontSize="14" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource primary}"/>
                                 </Border>
-                        </Border>
-                        <Border Grid.Row="2" BorderThickness="1.5" BorderBrush="{DynamicResource border}"
-                                Padding="10 3" Background="{DynamicResource surface}"
-                                CornerRadius="6">
-                            <Grid ColumnDefinitions="Auto Auto *" ColumnSpacing="30"
-                                  RowDefinitions="Auto Auto Auto" Margin="0 0 30 0">
-                                <StackPanel Grid.Row="0" Grid.Column="2"
-                                            Grid.RowSpan="2" HorizontalAlignment="Right"
-                                            Spacing="10">
-                                    <TextBlock Text="{Binding OrderTotalShow}"/>
-                                    <TextBlock Text="{Binding OrderTotalDiscountShow}"/>
-                                    <TextBlock Text="{Binding OrderClientDiscountShow}"/>
-                                    <TextBlock Classes="H2" Text="{Binding OrderTotalAndShow}"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding Order.OrderDate, StringFormat='Дата: {0:dd.MM.yyyy}'}"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource secondary_text}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal"
+                                Spacing="12" VerticalAlignment="Center">
+
+                        <StackPanel Spacing="4" VerticalAlignment="Center">
+                            <TextBlock Text="СТАТУС"
+                                       FontSize="10" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource muted_text}"
+                                       LetterSpacing="1.2"/>
+
+                            <Border Background="{DynamicResource primary_transparent}"
+                                    CornerRadius="6" Padding="0 4 10 4"
+                                    HorizontalAlignment="Left"
+                                    IsVisible="{Binding IsStatusActive}">
+                                <TextBlock Text="{Binding Order.StatusName}"
+                                           FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource primary}"/>
+                            </Border>
+
+                            <Border Background="{DynamicResource error_transparent}"
+                                    CornerRadius="6" Padding="0 4 10 4"
+                                    HorizontalAlignment="Left"
+                                    IsVisible="{Binding !IsStatusActive}">
+                                <TextBlock Text="{Binding Order.StatusName}"
+                                           FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource error}"/>
+                            </Border>
+                        </StackPanel>
+
+                        <Button IsVisible="{Binding IsStatusActive}"
+                                Padding="16,10"
+                                CornerRadius="10"
+                                VerticalAlignment="Center"
+                                Command="{Binding ReturnOrderCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="Возврат заказа"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource white}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Classes="Secondary"
+                                Padding="16,10"
+                                CornerRadius="10"
+                                VerticalAlignment="Center"
+                                Command="{Binding GoBackCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Viewbox Width="14" Height="14"
+                                         VerticalAlignment="Center" ClipToBounds="False">
+                                    <Path Data="{DynamicResource ArrowLeft}"
+                                          Stroke="{DynamicResource secondary_text}"
+                                          StrokeThickness="2"
+                                          StrokeLineCap="Round"
+                                          StrokeJoin="Round"
+                                          Stretch="Uniform"/>
+                                </Viewbox>
+                                <TextBlock Text="К заказам"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource secondary_text}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="14"
+                    ClipToBounds="True">
+                <Grid RowDefinitions="Auto,*,Auto">
+
+                    <Border Grid.Row="0"
+                            Padding="20,14"
+                            BorderBrush="{DynamicResource border}"
+                            BorderThickness="0,0,0,1">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Viewbox Width="13" Height="13"
+                                     VerticalAlignment="Center" ClipToBounds="False">
+                                <Path Data="{DynamicResource Product}"
+                                      Stroke="{DynamicResource muted_text}"
+                                      StrokeThickness="1.5"
+                                      StrokeLineCap="Round"
+                                      Stretch="Uniform"/>
+                            </Viewbox>
+                            <TextBlock Text="{Binding ItemCountLabel,
+                                               StringFormat='ПОЗИЦИИ ЗАКАЗА · {0}'}"
+                                       FontSize="10" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource muted_text}"
+                                       LetterSpacing="1.5"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Прокручиваемая область содержимого -->
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding OrderItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:OrderItemShow">
+                                    <Border Padding="20,14"
+                                            BorderBrush="{DynamicResource border}"
+                                            BorderThickness="0,0,0,1">
+                                        <Grid ColumnDefinitions="52,*,Auto,Auto,Auto">
+
+                                            <Border Grid.Column="0"
+                                                    Width="44" Height="44"
+                                                    CornerRadius="10"
+                                                    ClipToBounds="True"
+                                                    Background="{DynamicResource elevated}">
+                                                <Panel>
+                                                    <Image Source="{Binding ProductImage}"
+                                                           Stretch="UniformToFill"
+                                                           IsVisible="{Binding HasImage}"/>
+                                                    <Viewbox IsVisible="{Binding !HasImage}"
+                                                             Width="20" Height="20"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"
+                                                             ClipToBounds="False">
+                                                        <Path Data="{DynamicResource NoImage}"
+                                                              Stroke="{DynamicResource border}"
+                                                              StrokeThickness="1.5"
+                                                              StrokeLineCap="Round"
+                                                              StrokeJoin="Round"
+                                                              Stretch="Uniform"/>
+                                                    </Viewbox>
+                                                </Panel>
+                                            </Border>
+
+                                            <StackPanel Grid.Column="1"
+                                                        Margin="14,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Spacing="3">
+                                                <TextBlock Text="{Binding ProductName}"
+                                                           FontSize="13" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource main_text}"
+                                                           TextWrapping="Wrap"/>
+                                                <TextBlock Text="{Binding Quantity, StringFormat='× {0} шт.'}"
+                                                           FontSize="12"
+                                                           Foreground="{DynamicResource muted_text}"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="2"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Right"
+                                                        Margin="0,0,32,0"
+                                                        Spacing="2">
+                                                <TextBlock Text="цена"
+                                                           FontSize="10"
+                                                           Foreground="{DynamicResource muted_text}"
+                                                           HorizontalAlignment="Right"/>
+                                                <TextBlock Text="{Binding Price, StringFormat='{}{0:N0} ₽'}"
+                                                           FontSize="13" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource main_text}"
+                                                           HorizontalAlignment="Right"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="3"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Right"
+                                                        Margin="0,0,32,0"
+                                                        Spacing="2">
+                                                <TextBlock Text="скидка"
+                                                           FontSize="10"
+                                                           Foreground="{DynamicResource muted_text}"
+                                                           HorizontalAlignment="Right"/>
+                                                <TextBlock Text="{Binding Discount, StringFormat='{}{0} %'}"
+                                                           FontSize="13" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource success}"
+                                                           HorizontalAlignment="Right"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="4"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Right"
+                                                        Spacing="2">
+                                                <TextBlock Text="итого"
+                                                           FontSize="10"
+                                                           Foreground="{DynamicResource muted_text}"
+                                                           HorizontalAlignment="Right"/>
+                                                <TextBlock Text="{Binding LineTotal, StringFormat='{}{0:N0} ₽'}"
+                                                           FontSize="14" FontWeight="Bold"
+                                                           Foreground="{DynamicResource accent}"
+                                                           HorizontalAlignment="Right"/>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="2"
+                            Padding="20,10"
+                            BorderBrush="{DynamicResource border}"
+                            BorderThickness="0,1,0,0">
+                        <TextBlock Text="{Binding ItemCountLabel}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource muted_text}"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="2"
+                    Background="{DynamicResource surface}"
+                    CornerRadius="14"
+                    Padding="20,16">
+                <Grid ColumnDefinitions="Auto *">
+
+                    <StackPanel Grid.Column="0" Spacing="6" MinWidth="260"
+                                VerticalAlignment="Center">
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0" Text="Товары"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource secondary_text}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Subtotal, StringFormat='{}{0:N0} ₽'}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource main_text}"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              IsVisible="{Binding HasProductDiscount}">
+                            <TextBlock Grid.Column="0" Text="Скидка на товары"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource secondary_text}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding ProductDiscount, StringFormat='-{0:N0} ₽'}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource success}"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              IsVisible="{Binding HasClientDiscount}">
+                            <StackPanel Grid.Column="0" Spacing="1">
+                                <TextBlock Text="Скидка клиента"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource secondary_text}"/>
+                                <TextBlock Text="{Binding Order.DiscountClient,
+                                                   StringFormat='{}{0}% (накопительная)'}"
+                                           FontSize="10"
+                                           Foreground="{DynamicResource muted_text}"/>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding ClientDiscount, StringFormat='-{0:N0} ₽'}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource success}"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Separator Background="{DynamicResource border}" Height="1" Margin="0,4"/>
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0" Text="К оплате"
+                                       FontSize="15" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource main_text}"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Total, StringFormat='{}{0:N0} ₽'}"
+                                       FontSize="22" FontWeight="Bold"
+                                       Foreground="{DynamicResource accent}"/>
+                        </Grid>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                Spacing="0" HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                        <StackPanel Spacing="10" Margin="32,0">
+
+                            <StackPanel Spacing="2">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Viewbox Width="11" Height="11"
+                                             VerticalAlignment="Center" ClipToBounds="False">
+                                        <Path Data="{DynamicResource User}"
+                                              Stroke="{DynamicResource muted_text}"
+                                              StrokeThickness="1.5"
+                                              StrokeLineCap="Round"
+                                              Stretch="Uniform"/>
+                                    </Viewbox>
+                                    <TextBlock Text="КЛИЕНТ"
+                                               FontSize="10" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource muted_text}"
+                                               LetterSpacing="1.2"
+                                               VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding ClientNameShow}"/>
-                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Order.ClientPhoneNumber}"/>
-                                <TextBlock Grid.Column="0"  Grid.Row="2" Text="{Binding UserNameShow}"/>
-                                <TextBlock Grid.Column="1"  Grid.Row="2" Text="{Binding OrderDateShow}"/>
-                                <Button Grid.Row="2" Grid.Column="2" Content="Выйти"
-                                        Classes="Secondary"  Width="100" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </Border>
-                    </Grid>
+                                <TextBlock Text="{Binding Order.ClientName}"
+                                           FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource main_text}"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Order.ClientPhoneNumber}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource secondary_text}"/>
+                            </StackPanel>
+
+                            <StackPanel Spacing="2">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Viewbox Width="11" Height="11"
+                                             VerticalAlignment="Center" ClipToBounds="False">
+                                        <Path Data="{DynamicResource User}"
+                                              Stroke="{DynamicResource muted_text}"
+                                              StrokeThickness="1.5"
+                                              StrokeLineCap="Round"
+                                              Stretch="Uniform"/>
+                                    </Viewbox>
+                                    <TextBlock Text="ПРОДАВЕЦ"
+                                               FontSize="10" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource muted_text}"
+                                               LetterSpacing="1.2"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Order.UserName}"
+                                           FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource main_text}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
     </Border>
 </UserControl>

@@ -1,12 +1,36 @@
 using Avalonia.Media.Imaging;
 
-namespace PhotoEquipmentStore.Models;
+namespace PhotoEquipmentStore.Models;/// <summary>
+/// Краткая информация об авторизованном пользователе для боковой панели.
+/// </summary>
+
 
 public class UserInfo
 {
     private string userName;
     private string userRole;
     private Bitmap userImage;
+    private int userId;
+
+    /// <summary>
+
+    /// Идентификатор пользователя.
+
+    /// </summary>
+
+    public int UserId
+    {
+        get
+        {
+            return userId;
+        }
+    }
+
+    /// <summary>
+
+    /// ФИО пользователя.
+
+    /// </summary>
 
     public string UserName
     {
@@ -16,6 +40,12 @@ public class UserInfo
         }
     }
 
+    /// <summary>
+
+    /// Роль пользователя.
+
+    /// </summary>
+
     public string UserRole
     {
         get
@@ -24,6 +54,12 @@ public class UserInfo
         }
     }
 
+    /// <summary>
+
+    /// Аватар пользователя.
+
+    /// </summary>
+
     public Bitmap UserImage
     {
         get
@@ -31,10 +67,10 @@ public class UserInfo
             return userImage;
         }
     }
-    
-    
-    public UserInfo(string userName, string userRole, Bitmap userImage)
+
+    public UserInfo(int userID, string userName, string userRole, Bitmap userImage)
     {
+        this.userId = userID;
         this.userName = userName;
         this.userRole = userRole;
         this.userImage = userImage;

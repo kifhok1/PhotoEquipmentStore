@@ -1,0 +1,207 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Файл: ControlTheme CalendarItem: шапка с навигацией и сетки дней/месяцев. -->
+
+    <Styles.Resources>
+        <ResourceDictionary>
+
+            <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
+                <Setter Property="Background"          Value="Transparent" />
+                <Setter Property="BorderBrush"         Value="Transparent" />
+                <Setter Property="BorderThickness"     Value="0" />
+                <Setter Property="CornerRadius"        Value="0" />
+                <Setter Property="Foreground"          Value="{DynamicResource main_text}" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment"   Value="Stretch" />
+
+                <Setter Property="DayTitleTemplate">
+                    <Template x:DataType="x:String">
+                        <TextBlock Text="{Binding}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource muted_text}" />
+                    </Template>
+                </Setter>
+
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Border Background="{TemplateBinding Background}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Padding="0">
+
+                            <Grid RowDefinitions="Auto,*" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                <Grid ColumnDefinitions="40,*,40"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Center"
+                                      Margin="0,4,0,12">
+
+                                    <Button Name="PART_PreviousButton"
+                                            Grid.Column="0"
+                                            Width="32" Height="32"
+                                            Cursor="Hand"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Padding="0">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border Name="BtnBorder"
+                                                        Width="32" Height="32"
+                                                        Background="{DynamicResource secondary_background}"
+                                                        BorderBrush="{DynamicResource border}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="8">
+                                                    <Viewbox Width="7" Height="10"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"
+                                                             Stretch="Uniform">
+                                                        <Path Stroke="{DynamicResource secondary_text}"
+                                                              StrokeThickness="2.5"
+                                                              StrokeLineCap="Round"
+                                                              StrokeJoin="Round"
+                                                              Data="M 6,0 L 0,5 L 6,10" />
+                                                    </Viewbox>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ Border#BtnBorder">
+                                                <Setter Property="Background"  Value="{DynamicResource main_background}" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource primary}" />
+                                            </Style>
+                                            <Style Selector="Button:pressed /template/ Border#BtnBorder">
+                                                <Setter Property="Opacity" Value="0.7" />
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+
+                                    <Button Name="PART_HeaderButton"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            FontFamily="{DynamicResource Geologica}"
+                                            Foreground="{TemplateBinding Foreground}"
+                                            Cursor="Hand"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Padding="0">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border Background="Transparent"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch">
+                                                    <TextBlock Text="{TemplateBinding Content}"
+                                                               Foreground="{TemplateBinding Foreground}"
+                                                               FontSize="{TemplateBinding FontSize}"
+                                                               FontWeight="{TemplateBinding FontWeight}"
+                                                               FontFamily="{TemplateBinding FontFamily}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <Button Name="PART_NextButton"
+                                            Grid.Column="2"
+                                            Width="32" Height="32"
+                                            Cursor="Hand"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Padding="0">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border Name="BtnBorder"
+                                                        Width="32" Height="32"
+                                                        Background="{DynamicResource secondary_background}"
+                                                        BorderBrush="{DynamicResource border}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="8">
+                                                    <Viewbox Width="7" Height="10"
+                                                             HorizontalAlignment="Center"
+                                                             VerticalAlignment="Center"
+                                                             Stretch="Uniform">
+                                                        <Path Stroke="{DynamicResource secondary_text}"
+                                                              StrokeThickness="2.5"
+                                                              StrokeLineCap="Round"
+                                                              StrokeJoin="Round"
+                                                              Data="M 0,0 L 6,5 L 0,10" />
+                                                    </Viewbox>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ Border#BtnBorder">
+                                                <Setter Property="Background"  Value="{DynamicResource main_background}" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource primary}" />
+                                            </Style>
+                                            <Style Selector="Button:pressed /template/ Border#BtnBorder">
+                                                <Setter Property="Opacity" Value="0.7" />
+                                            </Style>
+                                        </Button.Styles>
+                                    </Button>
+
+                                </Grid>
+
+                                <Grid Name="PART_MonthView"
+                                      Grid.Row="1"
+                                      IsVisible="False"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="32" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+
+                                <Grid Name="PART_YearView"
+                                      Grid.Row="1"
+                                      IsVisible="False"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter>
+
+            </ControlTheme>
+
+        </ResourceDictionary>
+    </Styles.Resources>
+</Styles>
